@@ -1,0 +1,93 @@
+{if empty($_COOKIE['uid'])}
+</head>
+<body>
+<center>
+<h4 style="float: left;margin-left: 50%;margin-top: 10%">登录</h4><a href="{:url('reg/index')}" data-ajax="false" style="float: right;margin-top: 10%"><h4>注册</h4></a>
+	<div style="clear: both;">
+	<hr>
+
+			<table cellspacing="20" style="margin-top: 30px">
+				<tr>
+					<td>手机号：</td>
+					<td><input style="clear: none;" type="text" value="" name="u_name"></td>
+				</tr>
+				<tr>
+					<td>密码：</td>
+					<td><input style="clear: none;" type="password" value="" name="password"></td>
+				</tr>
+			</table>
+        <p id="bug"></p>
+			<input data-inline="true"  type="button" id="but" value="登录">
+		<hr style="margin-top: 30px">
+		<input type="checkbox" name="checkbox_mini" id="checkbox-mini-0" data-mini="true" value="1">
+		<label for="checkbox-mini-0">记住我的密码</label>
+	</div>
+    <div data-role="content" style="margin-bottom:10%">
+</center>
+    <div class="btn3 clearfix">
+        <div class="menu">
+            <div class="bt-name"><a data-ajax="false" href="{:url('show')}">骨龄测试</a></div>
+        </div><!--menu-->
+        <div class="menu">
+            <div class="bt-name">开始测试</div>
+            <div class="sanjiao"></div>
+            <div class="new-sub">
+                <ul >
+                    <li><a href="javascript:;">现场测试</a></li>
+                    <li><a href="javascript:;" >在线测试</a></li>
+                </ul>
+                <div class="tiggle"></div>
+                <div class="innertiggle"></div>
+            </div>
+        </div><!--menu-->
+
+        <div class="menu" >
+            <div class="bt-name">我的测试</div>
+            <div class="{:url('/index/i')}"></div>
+            <div  class="new-sub">
+                <ul>
+                    <li><a href="javascript:;">运动处方</a></li>
+                    <li><a href="javascript:;" >营养均衡指导</a></li>
+                    <li><a href="javascript:;" >预测身高</a></li>
+                    <li><a href="javascript:;" >个人信息</a></li>
+                </ul>
+                <div class="tiggle"></div>
+                <div class="innertiggle"></div>
+            </div>
+        </div><!--menu-->
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    //弹出垂直菜单
+    $(".menu").click(function() {
+        if ($(this).hasClass("cura")) {
+            $(this).children(".new-sub").hide(); //当前菜单下的二级菜单隐藏
+            $(".menu").removeClass("cura"); //同一级的菜单项
+        } else {
+            $(".menu").removeClass("cura"); //移除所有的样式
+            $(this).addClass("cura"); //给当前菜单添加特定样式
+            $(".menu").children(".new-sub").slideUp("fast"); //隐藏所有的二级菜单
+            $(this).children(".new-sub").slideDown("fast"); //展示当前的二级菜单
+        }
+    });
+    $(function(){
+        $('#but').click(function(){
+            var u_name = $('input[name="u_name"]').val();
+            var password = $('input[name="password"]').val();
+            var checkbox_mini = $('input[name="checkbox_mini"]:checked').val();
+            $.post('login/login',{u_name:u_name,password:password,checkbox_mini:checkbox_mini},function(msg){
+                if(msg==1){
+                    location.href='add'
+                }else{
+                    $('#bug').html("<font color='red'>同户名或密码错误</font>");
+                }
+           })
+        })
+    })
+</script>
+{else}
+<script>location.href='add'</script>
+{/if}
