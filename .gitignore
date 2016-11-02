@@ -1,6 +1,5 @@
 application/config.php
 application/database.php
-admin/config.php
-admin/database.php
+admin
 .DS_Store
 .DS_Store?
