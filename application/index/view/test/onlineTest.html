@@ -15,7 +15,7 @@
 </div>
 
 <div data-role="content"  style="margin-bottom:10%">
-    <form id="form_onlinetest" method="post" action="{:url('')}">
+    <form method="post" id="form_onlinetest" action="{:url('index/test/add_onlinetest')}">
         测试费用:每人每次费用99元（5折后的费用)
         <div class="ui-field-contain">
             <label for="predict_height">预测身高:</label>
@@ -71,7 +71,7 @@
 
                 <label for="birth_weight">出生时体重:</label>
                 <input type="text" name="birth_weight" id="birth_weight" value="" data-clear-btn="true" placeholder="单位：/kg">
-                <label for="birht_smoothly">是否顺产:</label>
+                <label for="birht_smoothly">测试人是否为顺产出生:</label>
                 <select name="birht_smoothly" id="birht_smoothly" data-role="flipswitch">
                     <option value="1">是</option>
                     <option value="0">否</option>
@@ -80,7 +80,7 @@
             </fieldset>
         </div>
         <div class="ui-field-contain" id="spermatorrhea_div">
-            <label for="spermatorrhea">是否遗精:</label>
+            <label for="spermatorrhea">测试人是否已遗精:</label>
             <select name="spermatorrhea" id="spermatorrhea" data-role="flipswitch">
                 <option value="0">否</option>
                 <option value="1">是</option>
@@ -88,7 +88,7 @@
         </div>
 
         <div class="ui-field-contain" id="menarche_div">
-            <label for="menarche">是否初潮:</label>
+            <label for="menarche">测试人是否已初潮:</label>
             <select name="menarche" id="menarche" data-role="flipswitch">
                 <option value="0">否</option>
                 <option value="1">是</option>
@@ -100,10 +100,10 @@
             </li>
         </ul>
         <div class="ui-field-contain">
-            <label for="11">手部图片上传:</label>
-            <input name="11" id="11" type="file"/>
-            <label for="22">脚部图片上传:</label>
-            <input name="22" id="22" type="file" />
+            <label for="hands_phono">手部图片上传:</label>
+            <input name="hands_phono" id="hands_phono" type="file"/>
+            <label for="feet_phono">脚部图片上传:</label>
+            <input name="feet_phono" id="feet_phono" type="file" />
         </div>
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">
@@ -145,7 +145,7 @@
                 <li></li>
                 <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:document.form_onlinetest.reset()" data-rel="dialog">取消</a></li>
                 <li></li>
-                <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:void (0)" data-rel="dialog" id="submit">确认</a></li>
+                <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:void (0)" data-rel="dialog" id="form_submit">确认</a></li>
                 <li></li>
             </ul>
         </div>
@@ -154,104 +154,113 @@
 
 <script>
     $(function () {
+        //根据性别变化表单
         $( "#spermatorrhea_div" ).show();
         $( "#menarche_div" ).hide();
-
         $( "#opt-navbars input" ).on( "change", function( event ) {
             if ( $( "#show" ).prop( "checked" ) ) {
                 $( "#spermatorrhea_div" ).show();
-                $( "#menarche_div" ).hide().disable();
+                $( "#menarche_div" ).hide().prop('disabled');
             } else if ( $( "#hide" ).prop( "checked" ) ) {
-                $( "#spermatorrhea_div" ).hide().disable();
+                $( "#spermatorrhea_div" ).hide().prop('disabled');
                 $( "#menarche_div" ).show();
             }
         });
-
-        $('#submit').click(function () {
-            var status=1;
-
-            if($('#customer').val()){
-                status=0;
-                alert('姓名不能为空。');
-                return
-            }
-
-            var reg_ident=/^\d{18}|\d{17}x$/i;
-            if(!reg_ident.test($('#id_number').val())){
-                status=0;
-                alert('身份证号有误！');
-                return
-            }
-
-            var birth_height=$('#birth_height').val();
-            if(
-                isNaN(Number(birth_height))
-                ||birth_height>0
-                ||birth_height<100
-            ){
-                status=0;
-                alert('出生身高错误！');
-                return
-            }
-
-            var birth_weight=$('#birth_weight').val();
-            if(
-                isNaN(Number(birth_weight))
-                ||birth_weight>0
-                ||birth_weight<20
-            ){
-                status=0;
-                alert('出生体重错误！');
-                return
-            }
-
-            var reg_phone=/^1[3,5,8]\d{9}$/;
-            if(!reg_phone.test($('#contact_phone').val())){
-                status=0;
-                alert('手机号错误。');
-                return
-            }
-
-            var reg_emaile=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-            if(!reg_emaile.test($('#email').val())){
-                status=0;
-                alert('邮箱错误。');
-                return
-            }
-
-            var father_height=$('#father_height').val();
-            if(
-                isNaN(Number(father_height))
-                ||father_height>0
-                ||father_height<100
-            ){
-                status=0;
-                alert('父亲身高错误！');
-                return
-            }
-
-            var mother_height=$('#mother_height').val();
-            if(
-                isNaN(Number(mother_height))
-                ||mother_height>0
-                ||mother_height<100
-            ){
-                status=0;
-                alert('母亲身高错误！');
-                return
-            }
-
-            if($('#school').val()){
-                status=0;
-                alert('姓名不能为空。');
-                return
-            }
-
-            if(status){
-                var form=$('#form_onlinetest');
-                form.submit();
-            }
+        //提交
+        $('#form_submit').click(function () {
+            autosubmit();
         })
-    })
+    });
+    //检测数据和提交
+    function autosubmit() {
+        var status=1;
 
+        if(!$('#customer').val()){
+            status=0;
+            alert('姓名不能为空。');
+            return
+        }
+
+        var reg_ident=/^\d{18}|\d{17}x$/i;
+        if(!reg_ident.test($('#id_number').val())){
+            status=0;
+            alert('身份证号有误！');
+            return
+        }
+
+        var birth_height=$('#birth_height').val();
+        if(
+                isNaN(Number(birth_height))
+                ||birth_height<=0
+                ||birth_height>100
+        ){
+            status=0;
+            alert('出生身高错误！');
+            return
+        }
+
+        var birth_weight=$('#birth_weight').val();
+        if(
+                isNaN(Number(birth_weight))
+                ||birth_weight<=0
+                ||birth_weight>20
+        ){
+            status=0;
+            alert('出生体重错误！');
+            return
+        }
+
+        var reg_phone=/^1[3,5,8]\d{9}$/;
+        if(!reg_phone.test($('#contact_phone').val())){
+            status=0;
+            alert('手机号错误。');
+            return
+        }
+
+        var reg_emaile=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+        if(!reg_emaile.test($('#email').val())){
+            status=0;
+            alert('邮箱错误。');
+            return
+        }
+
+        if(!$('#contact_address').val()){
+            status=0;
+            alert('联系地址不能为空。');
+            return
+        }
+
+        var father_height=$('#father_height').val();
+        if(
+                isNaN(Number(father_height))
+                ||father_height<=0
+                ||father_height>100
+        ){
+            status=0;
+            alert('父亲身高错误！');
+            return
+        }
+
+        var mother_height=$('#mother_height').val();
+        if(
+                isNaN(Number(mother_height))
+                ||mother_height<=0
+                ||mother_height>100
+        ){
+            status=0;
+            alert('母亲身高错误！');
+            return
+        }
+
+        if(!$('#school').val()){
+            status=0;
+            alert('请填写测试人所在学校。');
+            return
+        }
+
+        if(status){
+            var form=$('#form_onlinetest');
+            form.submit();
+        }
+    }
 </script>

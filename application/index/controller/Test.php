@@ -11,8 +11,14 @@ namespace app\index\controller;
 
 class Test extends Common
 {
-    public function onlineTest()
+    public function onlinetest()
     {
         return view('onlineTest');
+    }
+
+
+    public function add_onlinetest()
+    {
+var_dump(input());
     }
 }
