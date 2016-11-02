@@ -12,11 +12,11 @@ class Reg extends Common
 		return view('login/reg');
 	}
 	//添加账号
-	public function add(Request $request){
-		$data = $_POST;
+	public function add(){
+        $data = Request::instance()->post();
 		$user = new Gl_users();
-    	$data = $user->add_one($data);
-    	return view('login/login');
+    	$user->add_one($data);
+        $this->redirect('Login/index');
 	}
 	//验证姓名唯一
 	public function check_only(Request $request){
