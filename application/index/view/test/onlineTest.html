@@ -15,7 +15,7 @@
 </div>
 
 <div data-role="content"  style="margin-bottom:10%">
-    <form id="form_onlinetest" method="post" action="{:url('')}">
+    <form id="form_onlinetest" method="post">
         测试费用:每人每次费用99元（5折后的费用)
         <div class="ui-field-contain">
             <label for="predict_height">预测身高:</label>
@@ -100,10 +100,10 @@
             </li>
         </ul>
         <div class="ui-field-contain">
-            <label for="11">手部图片上传:</label>
-            <input name="11" id="11" type="file"/>
-            <label for="22">脚部图片上传:</label>
-            <input name="22" id="22" type="file" />
+            <label for="hands_phono">手部图片上传:</label>
+            <input name="hands_phono" id="hands_phono" type="file"/>
+            <label for="feet_phono">脚部图片上传:</label>
+            <input name="feet_phono" id="feet_phono" type="file" />
         </div>
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">
@@ -249,6 +249,7 @@
 
             if(status){
                 var form=$('#form_onlinetest');
+                form.action="{:url('index/test/onlinetest')}";
                 form.submit();
             }
         })
