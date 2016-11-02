@@ -5,7 +5,9 @@ use think\Controller;
 class Common extends Controller
 {
 	function _initialize(){
-		
+		if(empty($_COOKIE['uid'])){
+            $this->redirect('login/index');
+        }
 	}
 
 }
