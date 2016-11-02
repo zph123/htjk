@@ -1,4 +1,13 @@
-
+<link href="__PUBLIC__/static/css/data/animate.css" type="text/css" rel="stylesheet"><!--动画库---css-->
+<script src="__PUBLIC__/static/css/data/mobiscroll_002.js" type="text/javascript"></script>
+<script src="__PUBLIC__/static/css/data/mobiscroll_004.js" type="text/javascript"></script>
+<link href="__PUBLIC__/static/css/data/mobiscroll_002.css" rel="stylesheet" type="text/css">
+<link href="__PUBLIC__/static/css/data/mobiscroll.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/static/css/data/mobiscroll.js" type="text/javascript"></script>
+<script src="__PUBLIC__/static/css/data/mobiscroll_003.js" type="text/javascript"></script>
+<script src="__PUBLIC__/static/css/data/mobiscroll_005.js" type="text/javascript"></script>
+<link href="__PUBLIC__/static/css/data/mobiscroll_003.css" rel="stylesheet" type="text/css">
+<script src="__PUBLIC__/static/css/data/data.js" type="text/javascript"></script>
 </head>
 <body>
     <div data-role="header">
@@ -8,55 +17,151 @@
     <div data-role="content" style="margin-bottom:10%">
        
         测试费用:每人每次费用99元（5折后的费用)
-        <div class="ui-field-contain">
-            <label for="name2">姓名:</label>
-            <input type="text" name="name2" id="name2" value="" data-clear-btn="true">
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                请先选择性别
+            </li>
+        </ul>
+        <div class="ui-field-contain" id="opt-navbars">
+            <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend>性别:</legend>
+                <label for="show">男</label>
+                <input type="radio" name="gender" id="show" checked>
+                <label for="hide">女</label>
+                <input type="radio" name="gender" id="hide">
+            </fieldset>
         </div>
-
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                请录入测试人信息
+            </li>
+        </ul>
         <div class="ui-field-contain">
-            <fieldset data-role="fieldcontain">
+            <fieldset data-role="fieldcontain" id="fieldcontain">
+
+                <label for="customer">测试人姓名:</label>
+                <input type="text" name="customer" id="customer" value="" data-clear-btn="true">
+
+                <label for="appDate">出生日期:</label>
+                <input name="appDate" id="appDate" value="2016-10-31" readonly="readonly" type="text">
+
+                <label for="id_number">身份证号:</label>
+                <input type="text" name="id_number" id="id_number" value="" data-clear-btn="true">
+
                 <label for="age" class="select">年龄:</label>
                 <select name="age" id="age" data-native-menu="false">
                     <optgroup label="年龄">
-                         {for start="1" end="90"  }
+                        {for start="1" end="90"  }
                         <option value="1">{$i}岁</option>
-                       {/for}
-                    </optgroup>
-                </select>
-                <label for="body_height" class="select">身高:</label>
-                <select name="body_height" id="body_height" data-native-menu="false">
-                    <optgroup label="身高">
-                        {for start="75" end="200"  }
-                        <option value="1">{$i}cm</option>
                         {/for}
                     </optgroup>
                 </select>
-                <label for="weight" class="select">体重:</label>
-                <select name="weight" id="weight" data-native-menu="false">
-                    <optgroup label="体重">
-                        {for start="10" end="100"   }
-                        <option value="1">{$i}kg</option>
-                        {/for}
-                    </optgroup>
+
+                <label for="birth_height">出生时身高:</label>
+                <input type="text" name="birth_height" id="birth_height" value="" data-clear-btn="true">
+
+                <label for="birth_weight">出生时体重:</label>
+                <input type="text" name="birth_weight" id="birth_weight" value="" data-clear-btn="true">
+                <label for="birht_smoothly">是否顺产:</label>
+                <select name="birht_smoothly" id="birht_smoothly" data-role="flipswitch">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
                 </select>
+
             </fieldset>
         </div>
+        <div class="ui-field-contain" id="spermatorrhea_div">
+            <label for="spermatorrhea">是否遗精:</label>
+            <select name="spermatorrhea" id="spermatorrhea" data-role="flipswitch">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+
+        <div class="ui-field-contain" id="menarche_div">
+            <label for="menarche">是否初潮:</label>
+            <select name="menarche" id="menarche" data-role="flipswitch">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                测试人图片
+            </li>
+        </ul>
         <div class="ui-field-contain">
-            <label for="name2">手部图片上传:</label>
-            <input type="file"/>
-            <label for="name2">脚部图片上传:</label>
-            <input type="file" />
+            <label for="11">手部图片上传:</label>
+            <input name="11" id="11" type="file"/>
+            <label for="22">脚部图片上传:</label>
+            <input name="22" id="22" type="file" />
+        </div>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                其他信息
+            </li>
+        </ul>
+        <div class="ui-field-contain">
+            <label for="contact_phone">联系电话:</label>
+            <input type="text" name="contact_phone" id="contact_phone" value="" data-clear-btn="true">
+            <label for="email">邮箱:</label>
+            <input type="text" name="email" id="email" value="" data-clear-btn="true">
+            <label for="contact_address">联系地址:</label>
+            <input type="text" name="contact_address" id="contact_address" value="" data-clear-btn="true">
+            <label for="mother_height">父亲身高:</label>
+            <input type="text" name="mother_height" id="mother_height" value="" data-clear-btn="true">
+            <label for="father_height">母亲身高:</label>
+            <input type="text" name="father_height" id="father_height" value="" data-clear-btn="true">
+        </div>
+
+        <div class="ui-field-contain">
+            <label for="need_report">纸质报告:</label>
+            <select name="need_report" id="need_report" data-role="flipswitch">
+                <option value="0">不要</option>
+                <option value="1">要</option>
+            </select>
+        </div>
+        <div class="ui-field-contain">
+            <label for="predict_height">预测身高:</label>
+            <select name="predict_height" id="predict_height" data-role="flipswitch">
+                <option value="0">不要</option>
+                <option value="1">要</option>
+            </select>
+        </div>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                学校
+            </li>
+        </ul>
+        <div class="ui-field-contain">
+            <label for="school">测试人所属学校:</label>
+            <input type="text" name="school" id="school" value="" data-clear-btn="true">
         </div>
         <div data-role="navbar" class="ui-content">
             <ul>
                 <li></li>
                 <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="#home" data-rel="dialog">取消</a></li>
                 <li></li>
-                <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="#home" data-rel="dialog">提交</a></li>
+                <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="#home" data-rel="dialog">确认</a></li>
                 <li></li>
             </ul>
         </div>
-
-
     </div>
 
+
+    <script>
+        $(function () {
+            $( "#spermatorrhea_div" ).show();
+            $( "#menarche_div" ).hide();
+
+            $( "#opt-navbars input" ).on( "change", function( event ) {
+                if ( $( "#show" ).prop( "checked" ) ) {
+                    $( "#spermatorrhea_div" ).show();
+                    $( "#menarche_div" ).hide();
+                } else if ( $( "#hide" ).prop( "checked" ) ) {
+                    $( "#spermatorrhea_div" ).hide();
+                    $( "#menarche_div" ).show();
+                }
+            });
+        })
+    </script>
