@@ -35,5 +35,31 @@ class Index extends Controller
     	return view('userCenter');
     }
     
+/**
+     * 什么是骨龄测试
+     */
+    public function whatBone()
+    {
+       return view('whatBone'); 
+    }
+    /**
+     * 什么年龄做骨龄测试
+     */
+    public function whatAge()
+    {
+       return view('whatAge'); 
+    }/**
+     * 为什么做骨龄测试
+     */
+    public function whyBone()
+    {
+       return view('whyBone'); 
+    }/**
+     * 怎么做骨龄测试
+     */
+    public function howBone()
+    {
+       return view('howBone'); 
+    }
 
 }
