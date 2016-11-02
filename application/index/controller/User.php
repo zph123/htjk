@@ -8,4 +8,10 @@ class User extends Common
     {
         return view('index');
     }
+    /**
+     * 加载营养均衡首页
+     */
+    function nutrition(){
+    	return view();
+    }
 }
