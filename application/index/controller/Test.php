@@ -19,6 +19,6 @@ class Test extends Common
 
     public function add_onlinetest()
     {
-var_dump(input());
+
     }
 }
