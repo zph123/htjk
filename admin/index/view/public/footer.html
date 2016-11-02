@@ -1,0 +1,55 @@
+<div class="btn3 clearfix">
+
+        <div class="menu">
+            <div class="bt-name"><a data-ajax="false" href="{:url('index/index/index')}">骨龄测试</a></div>
+        </div>
+        <div class="menu">
+            <div class="bt-name">开始测试</div>
+            <div class="sanjiao"></div>
+            <div class="new-sub">
+                <ul >
+                    <li><a data-ajax="false" href="{:url('index/index/nowtest')}">现场测试</a></li>
+                    <li><a data-ajax="false" href="{:url('index/index/onlinetest')}" >在线测试</a></li>
+                </ul>
+                <div class="tiggle"></div>
+                <div class="innertiggle"></div>
+            </div>
+
+        </div>
+
+
+        <div class="menu" >
+            <div class="bt-name">我的测试</div>
+            <div class="sanjiao"></div>
+            <div  class="new-sub">
+                <ul>
+                    <li><a data-ajax="false" href="{:url('index/index/sportaction')}">运动处方</a></li>
+                    <li><a data-ajax="false" href="{:url('index/index/nutrientBalance')}" >营养均衡指导</a></li>
+                    <li><a data-ajax="false" href="{:url('index/index/predictedheight')}" >预测身高</a></li>
+                    <li><a data-ajax="false" href="{:url('index/index/usercenter')}" >个人信息</a></li>
+                </ul>
+                <div class="tiggle"></div>
+                <div class="innertiggle"></div>
+            </div>
+        </div>
+
+</div>
+
+
+<script type="text/javascript">
+    //弹出垂直菜单
+    $(".menu").click(function() {
+        if ($(this).hasClass("cura")) {
+            $(this).children(".new-sub").hide(); //当前菜单下的二级菜单隐藏
+            $(".menu").removeClass("cura"); //同一级的菜单项
+        } else {
+            $(".menu").removeClass("cura"); //移除所有的样式
+            $(this).addClass("cura"); //给当前菜单添加特定样式
+            $(".menu").children(".new-sub").slideUp("fast"); //隐藏所有的二级菜单
+            $(this).children(".new-sub").slideDown("fast"); //展示当前的二级菜单
+        }
+    });
+</script>
+</body>
+</html>
+	

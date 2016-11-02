@@ -1,0 +1,49 @@
+    <link href="__PUBLIC__/static/css/data/animate.css" type="text/css" rel="stylesheet"><!--动画库---css-->
+    <script src="__PUBLIC__/static/css/data/mobiscroll_002.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/static/css/data/mobiscroll_004.js" type="text/javascript"></script>
+    <link href="__PUBLIC__/static/css/data/mobiscroll_002.css" rel="stylesheet" type="text/css">
+    <link href="__PUBLIC__/static/css/data/mobiscroll.css" rel="stylesheet" type="text/css">
+    <script src="__PUBLIC__/static/css/data/mobiscroll.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/static/css/data/mobiscroll_003.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/static/css/data/mobiscroll_005.js" type="text/javascript"></script>
+    <link href="__PUBLIC__/static/css/data/mobiscroll_003.css" rel="stylesheet" type="text/css">
+    <script src="__PUBLIC__/static/css/data/data.js" type="text/javascript"></script>
+</head>
+<body>
+    <div data-role="header">
+        <h1>现场测试</h1>
+    </div>
+    <div data-role="main" class="ui-content" style="margin-bottom:10%">
+        <div data-role="main" class="ui-content">
+        <h4>活动报名</h4>
+        <p>地点： 北京体育大学体育馆</p>
+        <p>时间： 10月30上午、10月30下午....</p>
+        <p>人数： 每场200人</p>
+        <p>费用： 每人每次99元（5折后价格）</p>
+            <form method="post" action="demo_form.php">
+                <div class="ui-field-contain">
+                    <label for="fullname">姓名：</label>
+                    <input type="text" name="fullname" id="fullname" placeholder="你的联系方式..">
+                    <label for="day">选择年龄：</label>
+                    <select name="day" id="day">
+                        <option value="mon">1</option>
+                        <option value="tue">2</option>
+                        <option value="wed">3</option>
+                        <option value="thu">4</option>
+                        <option value="fri">5</option>
+                        <option value="sat">6</option>
+                        <option value="sun">7</option>
+                    </select>
+                    
+                    <label for="email">联系方式:</label>
+                    <input type="email" name="email" id="email" placeholder="你的联系方式..">
+                    <label for="appDate">参加时间:</label>
+                    <input name="appDate" id="appDate" value="2016-10-31" readonly="readonly" type="text">
+
+                </div>
+                <input type="submit" data-inline="true" value="取消">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="submit" data-inline="true" value="报名">
+            </form>
+        </div>
+    </div>
