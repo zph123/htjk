@@ -40,7 +40,7 @@
             var password = $('input[name="password"]').val();
             var checkbox_mini = $('input[name="checkbox_mini"]:checked').val();
             $.post('login/login',{u_name:u_name,password:password,checkbox_mini:checkbox_mini},function(msg){
-                if(msg){
+                if(msg==1){
                     location.href='add'
                 }else{
                     $('#bug').html("<font color='red'>同户名或密码错误</font>");
