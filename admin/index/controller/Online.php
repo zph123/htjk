@@ -2,12 +2,8 @@
 namespace app\index\controller;
 use think\Controller;
 
-class Online extends Controller
+class Online extends Common
 {
-    public function _initialize()
-    {
-        //初始化，以后设计用
-    }
     //首页
     public function index()
     {
