@@ -170,7 +170,7 @@
                     $("#content a").removeAttr('onclick');
                     $('#content_bottom').hide();
                     alert('您还没有登录，请去登录！');
-                    $("div[data-role='content']").on("click",function () {
+                    $("#content").on("click",function () {
                         alert('您还没有登录，请去登录！');
                     })
                 }
