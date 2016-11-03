@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{foreach name="data" item="v" key="k" }
+<a href='{:url("index/diet/dietdetails?id=$v[an_id]")}'>{$v.u_date}</a><br>
+{/foreach}
+</body>
+</html>

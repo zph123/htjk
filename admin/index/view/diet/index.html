@@ -5,6 +5,8 @@
     <title></title>
 </head>
 <body>
-以此为展示页面
+{foreach name="user" item="v" key="k" }
+<a href='{:url("index/diet/getuserdiet?id=$v[id]")}'>{$v.name}</a><br>
+{/foreach}
 </body>
 </html>
