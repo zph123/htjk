@@ -184,6 +184,9 @@
                 if(status==0){
                     $('#content_bottom').hide();
                     $("#axxx").click();
+                    $('#myPopup').on('click',function () {
+                        login_confirm()
+                    });
                     setTimeout(login_confirm,1)
                 }
             }
@@ -210,7 +213,7 @@
         var r=confirm("您还没登录，请前往登录！")
         if (r==true)
             location.href="{:url('index/login/index')}"
-        else location.href="{:url('index/index/index')}"
+//        else location.href="{:url('index/index/index')}"
     }
 
     /**
