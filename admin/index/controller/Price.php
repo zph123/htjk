@@ -9,6 +9,9 @@ class Price extends Common
     //首页
     public function index()
     {
+        $model=new Price_class();
+        $data=$model->alls();
+        $this->assign('data',$data);
         return view('index');
     }
     //修改数据

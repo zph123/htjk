@@ -3,36 +3,45 @@
 <div class="easyui-panel" title="收费金额设置" style="width:100%;max-width:60%;padding:30px 60px;">
 
         <table id="table" cellpadding="0" cellspacing="20px;">
-            <tr id="1">
-                <td>线上测试费:</td><td><span>100</span></td>
+            {volist name="data" id="vo"}
+            <tr id="{$vo.p_id}">
+                <td>{$vo.p_name}:</td><td><span>{$vo.p_price}</span></td>
             </tr>
-            <tr id="2">
-                <td>现场测试报名费:</td><td><span>80</span></td>
-            </tr>
-            <tr id="3">
-                <td>预测身高附加费:</td><td><span>98</span></td>
+            {/volist}
+            <tr>
+                <td colspan="2" align="center"><span class="text" style="color: red"></span></td>
             </tr>
         </table>
 
 </div>
 <script>
+
 $(document).on('click','span',function(){
    var old_val=$(this).text();
     $(this).parent().html("<input type='text' value="+old_val+">");
     $('input').focus();
 });
-$(document).on('blur','input',function(){
-    var th=$(this);
-    var p_price=$(this).val();
-    var id=$(this).parents('tr').attr('id');
-
+$(document).on('blur', 'input', function () {
+    var th = $(this);
+    var p_price = $(this).val();
+    var id = $(this).parents('tr').attr('id');
+    if(!/^[0-9]+$/.test(p_price)){
+        $('.text').text('请输入纯数字');
+        return false;
+    }
+    if(p_price.length>5){
+        $('.text').text('请输入5位以内数字');
+        return false;
+    }
     $.post('save',{p_price:p_price,p_id:id},function(msg){
-        if(msg==1){
-            th.parent().html("<span>"+p_price+"</span>");
-        }else{
-            alert('');
-        }
-    });
-})
+     if(msg==1){
+         th.parent().html("<span>"+p_price+"</span>");
+         $('.text').text('');
+     }else{
+         th.parent().html("<span>"+p_price+"</span>");
+         $('.text').text('');
+     }
+     });
+});
 </script>
 
