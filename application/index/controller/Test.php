@@ -7,7 +7,7 @@
  */
 
 namespace app\index\controller;
-
+use think\Db;
 use app\index\model\onlinetest as onlinetestModel;
 
 class Test
