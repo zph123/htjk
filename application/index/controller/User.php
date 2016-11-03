@@ -1,6 +1,6 @@
 <?php
 namespace app\index\controller;
-
+use think\Session;
 
 class User extends Common
 {
@@ -13,5 +13,12 @@ class User extends Common
      */
     function nutrition(){
     	return view();
+    }
+    /**
+     * 退出登录
+     */
+    function quit(){
+        Session::set('uid',null);
+        $this->redirect('index/index');
     }
 }
