@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 use think\Session;
+use think\Cookie;
 
 class User extends Common
 {
@@ -18,6 +19,7 @@ class User extends Common
      * 退出登录
      */
     function quit(){
+        Cookie::set('uid',null);
         Session::set('uid',null);
         $this->redirect('index/index');
     }
