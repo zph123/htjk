@@ -211,7 +211,7 @@ class Nutrientbalance extends Controller
 		}
 		$firstday = date("Y-m-01",strtotime($date));
 		$lastday = date("Y-m-d",strtotime("$firstday 1 month -1 day"));
-		$res = Db::table('user_answer')->field('u_date,status')->where('u_date','between',[$firstday,$lastday])->select();
+		$res = Db::table('user_answer')->field('u_date,status')->where('u_date','between',[$firstday,$lastday])->where('u_id',1)->select();
 		$arr  = array();
 		foreach ($res as $k=>$v){
 			$arr[date('j',strtotime($v['u_date']))] = $v['status'];
