@@ -162,11 +162,17 @@
             url:"{:url('index/test/ajax_login_status')}",
             type:'get',
             success:function (status) {
-                $("input").attr("disabled","disabled");
-                $("select").attr("disabled","disabled");
-                $("a").attr("disabled","disabled");
-                $("a").removeAttr('href');
-                $("a").removeAttr('onclick');
+                if(status==0){
+                    $("input").attr("disabled","disabled");
+                    $("select").attr("disabled","disabled");
+                    $("a").attr("disabled","disabled");
+                    $("a").removeAttr('href');
+                    $("a").removeAttr('onclick');
+                    alert('您还没有登录，请去登录！');
+                    $("div[data-role='content']").on("click",function () {
+                        alert('您还没有登录，请去登录！');
+                    })
+                }
             }
         });
 
