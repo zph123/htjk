@@ -52,17 +52,21 @@ class Diet extends Controller
     	$str=rtrim($str,',');
     	$details = Db::field('q.q_id,q.q_content,a.a_content,GROUP_CONCAT(a.a_content) as a_content')->table('question_answer')->alias('qa')->join('question q','qa.q_id = q.q_id')->join('answer a','qa.a_id = a.a_id')->where('qa.qa_id','in',"$str")->group('q.q_id')->select();
     	//问答题
-    	$str ="";
-    	$desc = json_decode($data['u_desc'],true);
-    	foreach ($desc as $key => $val) {
-			$str .= $key.',';
-    	}
-    	$desc_question = Db::field('q_id,q_content')->table('question')->alias('q')->where('q.q_id','in',"$str")->select();
-    	foreach ($desc_question as $key => $val) {
-    		$desc_question[$key]['a_content'] = $desc[$val['q_id']];
-    	}
+    	if($data['u_desc']!="")
+        {
+            $desc = json_decode($data['u_desc'],true);
+            $str ="";
+            foreach ($desc as $key => $val) {
+                $str .= $key.',';
+            }
+            $desc_question = Db::field('q_id,q_content')->table('question')->alias('q')->where('q.q_id','in',"$str")->select();
+            foreach ($desc_question as $key => $val) {
+                $desc_question[$key]['a_content'] = $desc[$val['q_id']];
+            }
+            $this->assign("desc_question",$desc_question);
+        }
+    	
     	$this->assign("details",$details);
-    	$this->assign("desc_question",$desc_question);
     	return view('dietdetails');
     }
 
