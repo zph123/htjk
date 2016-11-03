@@ -6,7 +6,7 @@ class User extends Common
 {
     public function index()
     {
-        return view('index');
+        return view('index/userCenter');
     }
     /**
      * 加载营养均衡首页
