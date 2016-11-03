@@ -4,3 +4,4 @@ admin/database.php
 admin/config.php
 .DS_Store
 .DS_Store?
+.idea

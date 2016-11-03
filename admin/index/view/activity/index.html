@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-以此为展示页面
-</body>
-</html>
+
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">活动列表</div>    <br/>
+<a href="{:url('index/activity/activity_add')}" class="easyui-linkbutton">添加活动</a>
+<table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
+    <thead>
+
+    <tr>
+        <th field="name1" width="20%">活动ID</th>
+        <th field="name2" width="20%">活动地点</th>
+        <th field="name3" width="20%">开始时间</th>
+        <th field="name4" width="20%">结束时间</th>
+        <th field="name7" width="22%">设置</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Data 1</td>
+        <td>Data 2</td>
+        <td>Data 3</td>
+        <td>sdadas</td>
+        <td><a href="">删除</a> || <a href="">修改</a></td>
+    </tr>
+
+    </tbody>
+</table>

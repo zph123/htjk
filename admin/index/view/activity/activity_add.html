@@ -1,0 +1,35 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">活动添加</div>
+<br>
+<div class="easyui-panel" title="填写信息" style="width:100%;max-width:60%;padding:30px 60px;">
+    <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" name="name" style="width:70%" data-options="label:'活动地点填写:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <span>活动开始时间：</span>
+            <?php $data=date("Y-m-d H:i:s"); ?>
+            <input class="easyui-datetimebox" name="birthday"
+                   data-options="required:true,showSeconds:false"  value="{{$data}}" style="width:150px">
+        </div>
+        <div style="margin-bottom:20px">
+            <span>活动结束时间：</span>
+            <input class="easyui-datetimebox" name="birthday"
+                   data-options="required:true,showSeconds:false"  value="{{$data}}" style="width:150px">
+        </div>
+    </form>
+    <div style="text-align:center;padding:5px 0">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">提交</a>
+    </div>
+</div>
+<script>
+    function submitForm(){
+        $('#ff').form('submit',{
+            onSubmit:function(){
+                return $(this).form('enableValidation').form('validate');
+            }
+        });
+    }
+    function clearForm(){
+        $('#ff').form('clear');
+    }
+</script>

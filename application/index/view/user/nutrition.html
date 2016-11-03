@@ -4,13 +4,14 @@
         <h1>营养均衡指导</h1>
     </div>
 <div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
-        <p style="text-indent: 2em;line-height: 2em;font-size: 18px;">
-           
-        </p>
-        <hr>
-        <div style="text-align: center;">
-            
-            
-        </div>
-        <hr>
-    </div>
+    <ul data-role="listview" data-inset="true">
+    {foreach name='list' item='value'}
+      <li>
+        <a href="{:url('user/see')}?r={$value.id}" data-ajax="false">
+        <h2>{$value.title}{$value.time}</h2>
+        <p>{$value.content}</p>
+        </a>
+      </li>
+      {/foreach}
+    </ul>
+</div>
