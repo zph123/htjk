@@ -27,7 +27,7 @@ $(function () {
         var h=today.getFullYear();
         var m=today.getMonth()+1;
         var d=today.getDate();
-        return h+"-"+m+"-"+d;
+        return h+"-"+m+"-"+0+d;
     }
     document.getElementById("appDate").value = today();
 });

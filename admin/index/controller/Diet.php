@@ -4,12 +4,8 @@ use think\Controller;
 use think\Db;
 use \think\Request;
 
-class Diet extends Controller
+class Diet extends Common
 {
-    public function _initialize()
-    {
-        //初始化，以后设计用
-    }
     //首页
     public function index()
     {

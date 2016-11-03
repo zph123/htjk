@@ -1,10 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-以此为展示页面
-</body>
-</html>
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">收费设置</div>
+<br>
+<div class="easyui-panel" title="收费金额设置" style="width:100%;max-width:60%;padding:30px 60px;">
+
+        <table id="table" cellpadding="0" cellspacing="20px;">
+            {volist name="data" id="vo"}
+            <tr id="{$vo.p_id}">
+                <td>{$vo.p_name}:</td><td><span>{$vo.p_price}</span></td>
+            </tr>
+            {/volist}
+            <tr>
+                <td colspan="2" align="center"><span class="text" style="color: red"></span></td>
+            </tr>
+        </table>
+
+</div>
+<script>
+
+$(document).on('click','span',function(){
+   var old_val=$(this).text();
+    $(this).parent().html("<input type='text' value="+old_val+">");
+    $('input').focus();
+});
+$(document).on('blur', 'input', function () {
+    var th = $(this);
+    var p_price = $(this).val();
+    var id = $(this).parents('tr').attr('id');
+    if(!/^[0-9]+$/.test(p_price)){
+        $('.text').text('请输入纯数字');
+        return false;
+    }
+    if(p_price.length>5){
+        $('.text').text('请输入5位以内数字');
+        return false;
+    }
+    $.post('save',{p_price:p_price,p_id:id},function(msg){
+     if(msg==1){
+         th.parent().html("<span>"+p_price+"</span>");
+         $('.text').text('');
+     }else{
+         th.parent().html("<span>"+p_price+"</span>");
+         $('.text').text('');
+     }
+     });
+});
+</script>
+

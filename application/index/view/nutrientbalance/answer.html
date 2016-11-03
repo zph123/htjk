@@ -1,0 +1,35 @@
+</head>
+<body>
+<div data-role="header">
+    <h1>营养均衡测试题</h1>
+</div>
+
+<div data-role="content" style="margin-bottom: 15%">
+    <p style="line-height: 2em;font-size: 18px;">
+        <span style="float: left;">{$date}测试题</span><span style="float: right;">欢迎您：李智渊</span>
+    </p>
+    <div style="clear: both;"></div>
+    <div>
+
+        {foreach name="data" item="val" key="ke" }
+        <p>{$val.question}</p>
+        <br>
+        <p>
+            {foreach name="val.anwser" item="v" key="k" }
+            <span>{$v}</span>&nbsp;&nbsp;&nbsp;
+            {/foreach}
+            {present name="$text[$ke]"}
+                注：{$text[$ke]}
+            {/present}
+        </p>
+        <br>
+        {/foreach}
+    </div>
+    <hr>
+
+    <a href="javascript:void(0)" data-role="button" data-rel="back" data-corners="false" style="width: 100px;margin: 0 auto;"  >返回</a>
+
+</div>
+</form>
+
+
