@@ -182,11 +182,9 @@
             type:'get',
             success:function (status) {
                 if(status==0){
-
                     $('#content_bottom').hide();
-                    $('#axxx').click();
-                    disp_confirm();
-
+                    $("#axxx").click();
+                    setTimeout(login_confirm,1)
                 }
             }
         });
@@ -208,27 +206,12 @@
         })
     });
 
-    function disp_confirm()
-    {
+    function login_confirm(){
         var r=confirm("您还没登录，请前往登录！")
         if (r==true)
-        {
             location.href="{:url('index/login/index')}"
-        }
-        else
-        {
-            location.href="{:url('index/index/index')}"
-        }
+        else location.href="{:url('index/index/index')}"
     }
-
-
-
-
-
-
-
-
-
 
     /**
      * 检测数据和提交
