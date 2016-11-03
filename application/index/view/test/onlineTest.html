@@ -1,3 +1,4 @@
+<!--jQuery mobile时间控件支持-->
 <link href="__PUBLIC__/static/css/data/animate.css" type="text/css" rel="stylesheet"><!--动画库---css-->
 <script src="__PUBLIC__/static/css/data/mobiscroll_002.js" type="text/javascript"></script>
 <script src="__PUBLIC__/static/css/data/mobiscroll_004.js" type="text/javascript"></script>
@@ -8,13 +9,22 @@
 <script src="__PUBLIC__/static/css/data/mobiscroll_005.js" type="text/javascript"></script>
 <link href="__PUBLIC__/static/css/data/mobiscroll_003.css" rel="stylesheet" type="text/css">
 <script src="__PUBLIC__/static/css/data/data.js" type="text/javascript"></script>
+
+
+<!--上传图片支持-->
+<script src="__PUBLIC__/static/js/fileinput.js" type="text/javascript"></script>
+<script src="__PUBLIC__/static/js/fileinput_locale_zh.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/default.css">
+<link href="__PUBLIC__/static/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+
+
 </head>
 <body>
 <div data-role="header">
     <h1>在线测试</h1>
 </div>
 
-<div data-role="content"  style="margin-bottom:10%" id="content">
+<div data-role="content"  style="margin-bottom:10%;" id="content">
     <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/test/add_onlinetest')}">
         测试费用:每人每次费用99元（5折后的费用)
         <div class="ui-field-contain">
@@ -57,7 +67,7 @@
                 <label for="id_number"><font color="red">• </font>身份证号:</label>
                 <input type="text" name="id_number" id="id_number" value="" data-clear-btn="true">
 
-                <label for="age" class="select"><font color="red">• </font>年龄:</label>
+                <label for="age" class="select"><font color="red">• </font>测试人年龄:</label>
                 <select name="age" id="age" data-native-menu="false">
                     <optgroup label="年龄">
                         {for start="1" end="90"  }
@@ -101,9 +111,9 @@
         </ul>
         <div class="ui-field-contain">
             <label for="hands_photo"><font color="red">• </font>手部图片上传:</label>
-            <input name="hands_photo" id="hands_photo" type="file"/>
+            <input id="hands_photo" name="hands_photo" class="file" type="file" multiple data-min-file-count="1">
             <label for="feet_photo"><font color="red">• </font>脚部图片上传:</label>
-            <input name="feet_photo" id="feet_photo" type="file" />
+            <input id="feet_photo" name="feet_photo" class="file" type="file" multiple data-min-file-count="1">
         </div>
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">
@@ -130,7 +140,6 @@
                 <option value="1">要</option>
             </select>
         </div>
-
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">
                 学校
@@ -149,8 +158,18 @@
                 <li></li>
             </ul>
         </div>
+
+
+        <div data-role="main" class="ui-content" style="display: none;">
+            <!--触发器-->
+            <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" id="axxx"></a>
+
+            <div data-role="popup" id="myPopup" data-overlay-theme="b"  data-dismissible="false" data-position-to="window">
+            </div>
+        </div>
     </form>
 </div>
+
 
 <script>
     $(function () {
@@ -163,20 +182,16 @@
             type:'get',
             success:function (status) {
                 if(status==0){
-                    $("#content input").attr("disabled","disabled");
-                    $("#content select").attr("disabled","disabled");
-                    $("#content a").attr("disabled","disabled");
-                    $("#content a").removeAttr('href');
-                    $("#content a").removeAttr('onclick');
+
                     $('#content_bottom').hide();
-                    alert('您还没有登录，请去登录！');
-                    $("#content").on("click",function () {
-                        alert('您还没有登录，请去登录！');
-                    })
+                    $('#axxx').click();
+                    disp_confirm();
+
                 }
             }
         });
 
+        //根据性别变化
         $( "#opt-navbars input" ).on( "change", function( event ) {
             if ( $( "#show" ).prop( "checked" ) ) {
                 $( "#spermatorrhea_div" ).show();
@@ -192,6 +207,28 @@
             autosubmit();
         })
     });
+
+    function disp_confirm()
+    {
+        var r=confirm("您还没登录，请前往登录！")
+        if (r==true)
+        {
+            location.href="{:url('index/login/index')}"
+        }
+        else
+        {
+            location.href="{:url('index/index/index')}"
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * 检测数据和提交
