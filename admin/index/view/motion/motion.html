@@ -1,0 +1,139 @@
+<form action="log.php" method="post">
+	<table class="easyui-datagrid" title="运动处方" style="width:890px">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:100,halign:'center'">姓名</th>
+				<th data-options="field:'productid',width:120,halign:'center'">
+				<input class="easyui-validatebox" type="text" name="username" />
+				</th>
+				<th data-options="field:'listprice',width:100,align:'right',halign:'center'">性别</th>
+				<th data-options="field:'unitcost',width:120,align:'right',halign:'center'">
+				<input type="text" name="sex"/>
+				</th>
+				<th data-options="field:'attr1',width:100,halign:'center'">编号</th>
+				<th data-options="field:'status',width:120,align:'center',halign:'center'"><input type="text" name="number"/>
+				</th>
+				<th data-options="field:'attr1',width:100,halign:'center'">周数</th>
+				<th data-options="field:'status',width:120,align:'center',halign:'center'"><input type="text" name="week"/>
+				</th>
+			</tr>
+						<tr>
+				<th data-options="field:'itemid',width:100,halign:'center'">出生年月日</th>
+				<th data-options="field:'productid',width:120,halign:'center'">
+				<input type="text" name="birth"/>
+				</th>
+				<th data-options="field:'listprice',width:100,align:'right',halign:'center'">日历年龄</th>
+				<th data-options="field:'unitcost',width:120,align:'right',halign:'center'">
+				<input type="text" name="age"/>
+				</th>
+				<th data-options="field:'attr1',width:100,halign:'center'">骨龄</th>
+				<th data-options="field:'status',width:120,align:'center',halign:'center'"><input type="text" name="boneage"/>
+				</th>
+				<th data-options="field:'attr1',width:100,halign:'center'">生长发育类型</th>
+				<th data-options="field:'status',width:120,align:'center',halign:'center'"><input type="text" name="grow"/>
+				</th>
+			</tr>
+		</thead>
+	</table>
+		<table class="easyui-datagrid" title="运动负荷试验结果" style="width:890px">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:175,halign:'center'">试验中达到最高心率（次/min）</th>
+				<th data-options="field:'productid',width:150,halign:'center'">
+				<input type="text" name="heartrate"/>
+				</th>
+				<th data-options="field:'attr1',width:160,halign:'center'">靶心率（次/min）</th>
+				<th data-options="field:'status',width:120,align:'center',halign:'center'"><input type="text" name="blank"/>
+				</th>
+				<th data-options="field:'attr1',width:160,halign:'center'">血压</th>
+				<th data-options="field:'status',width:120,align:'center',halign:'center'"><input type="text" name="pressure"/>
+				</th>
+			</tr>
+		</thead>
+	</table>
+		<table class="easyui-datagrid" title="心率监护:活动时每5~10min由桡动脉和劲动脉测定一次脉搏，及时调整负荷强度，使其维持在低限和高限之间" style="width:890px">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">低限（次/10s）</th>
+				<th data-options="field:'productid',width:170,halign:'center'">
+				<input type="text" name="lowlimit"/>
+				</th>
+				<th data-options="field:'attr1',width:170,halign:'center'">高限（次/10s）</th>
+				<th data-options="field:'status',width:170,align:'center',halign:'center'"><input type="text" name="highlimit"/>
+			</tr>
+		</thead>
+	</table>
+	</table>
+		<table class="easyui-datagrid" title=" " style="width:890px">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">运动目的：</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'"><input style="width:720px" type="text" name="objective"/></th>
+			</tr>
+						<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">运动项目：</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'"><input style="width:720px" type="text" name="project"/></th>
+			</tr>
+						<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">运动强度：</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'"><input style="width:720px" type="text" value="60%~70%HRmax，相当于50%~60%Vo2max，或心率掌握在120~135次/min" name="exerciseintensity"/></th>
+			</tr>
+		</thead>
+	</table>
+		<table class="easyui-datagrid" title="运动内容" style="width:890px">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">准备运动：</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'"><input style="width:720px" type="text" name="readytoexercise"/></th>
+			</tr>
+						<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">基本运动：</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'"><input style="width:720px" type="text" name="basicmovement"/></th>
+			</tr>
+						<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">整理运动：</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'"><input style="width:720px" type="text" name="Finishing movement" /></th>
+			</tr>
+		</thead>
+	</table>
+		<table class="easyui-datagrid" title="运动时间和频率" style="width:890px">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">每次运动时间：</th>
+				<th data-options="field:'status',width:240,align:'center',halign:'center'"><input type="text" name="timeofmovement"/></th>
+				<th data-options="field:'itemid',width:170,halign:'center'">每周运动时间：</th>
+				<th data-options="field:'status',width:240,align:'center',halign:'center'"><input type="text" name="weeklyexercisetime"/></th>
+			</tr>
+		</thead>
+	</table>
+		<table class="easyui-datagrid" title="注意事项" style="width:890px">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">一、</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'">锻炼时感觉轻松或过于吃力时可稍微调节内容和次数</th>
+			</tr>
+			<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">二、</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'">以锻炼后第二天不感到疲劳为宜，可每周适当调节运动量</th>
+			</tr>
+			<tr>
+				<th data-options="field:'itemid',width:170,halign:'center'">三、</th>
+				<th data-options="field:'status',width:720,align:'center',halign:'center'">严寒、酷暑或身体不适是停止锻炼，不可蛮干</th>
+			</tr>
+		</thead>
+	</table>
+		<table class="easyui-datagrid" title="注意事项" style="width:890px">
+		<thead>
+			<tr>
+				<th data-options="field:'itemid',width:100,halign:'center'">专家签字</th>
+				<th data-options="field:'status',width:100,align:'center',halign:'center'"><input type="text" name="expertsignature"/></th>
+				<th data-options="field:'itemid',width:100,halign:'center'">年</th>
+				<th data-options="field:'status',width:100,align:'center',halign:'center'"><input type="text" name="year"/></th>
+				<th data-options="field:'itemid',width:100,halign:'center'">月</th>
+				<th data-options="field:'status',width:100,align:'center',halign:'center'"><input type="text" name="month"/></th>
+								<th data-options="field:'itemid',width:100,halign:'center'">日</th>
+				<th data-options="field:'status',width:100,align:'center',halign:'center'"><input type="text" name="day"/></th>
+			</tr>
+		</thead>
+	</table>    <input type="submit" value="保存"/>
+	</form>
