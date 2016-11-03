@@ -49,105 +49,103 @@
                 <td><input  placeholder="(6~12位字母或数字)" type="password" onblur="check_pass()" id="comfirm_password" name="comfirm_password"></td>
             </tr>
         <div data-role="navbar" class="ui-content">
-        <ul><li><input data-inline="true"  type="submit" value="注册"></li></ul>
+        <ul><li><input data-inline="true" id='sbmt' type="submit" value="注册"></li></ul>
         </div>
     </form>
+    <a href="{:url('login/index')}" data-ajax="false">去登陆</a>
     </div>
-    <div data-role="content" style="margin-bottom:10%">
-    <script type="text/javascript">
-        //验证姓名非空
-        function check_name(){
-            var name = document.getElementById('name');
-            var name_val = document.getElementById('name').value;
-            if(name.value==""){
+    <div data-role="content" style="margin-bottom:10%"></div>
+
+<script type="text/javascript">
+    //验证姓名非空
+    function check_name(){
+        var name = document.getElementById('name');
+        var name_val = document.getElementById('name').value;
+        if(name.value==""){
+            name.style.border="1px red dashed ";
+            document.getElementById("sbmt").disabled=true;
+        }else{
+            if(name_val.length<2 || name_val.length>8){
                 name.style.border="1px red dashed ";
-                return false;
+                document.getElementById("sbmt").disabled=true;
             }else{
-                if(name_val.length<2 || name_val.length>8){
-                    name.style.border="1px red dashed ";
-                    return false;
-                }else{
-                    //验证姓名唯一
-                    $.ajax({
-                        type: "POST",
-                        url: "{:url('reg/check_only')}",
-                        data: "name="+name_val,
-                        success: function(msg){
-                            if(msg=='0'){
-                                name.style.border="1px red dashed ";
-                                return false;
-                            }else if(msg=='1'){
-                                name.style.border="1px #dddddd dashed ";
-                                return true;
-                            }
+                //验证姓名唯一\
+                $.ajax({
+                    type: "GET",
+                    url: "{:url('reg/check_only')}",
+                    data: "name="+name_val,
+                    success: function(msg){
+                        if(msg=='0'){
+                            name.style.border="1px red dashed ";
+                            document.getElementById("sbmt").disabled=true;
+                        }else if(msg=='1'){
+                            name.style.border="1px #dddddd dashed ";
+                            document.getElementById("sbmt").disabled=false;
                         }
-                    });
-                    name.style.border="1px #dddddd dashed ";
-                    return true;
-                }
-                name.style.border="1px #dddddd dashed ";
-                return true;
+                    }
+                });
             }
         }
-        //验证密码非空
-        function check_password(){
-            var password = document.getElementById('password');
-            if(password.value==""){
+    }
+    //验证密码非空
+    function check_password(){
+        var password = document.getElementById('password');
+        if(password.value==""){
+            password.style.border="1px red dashed ";
+            return false;
+        }else{
+            //判断密码长度
+            if(password.value.length<6 || password.value.length>11 ){
                 password.style.border="1px red dashed ";
                 return false;
             }else{
-                //判断密码长度
-                if(password.value.length<6 || password.value.length>11 ){
-                    password.style.border="1px red dashed ";
-                    return false;
-                }else{
-                    password.style.border="1px #dddddd dashed ";
-                    return true;
-                }
                 password.style.border="1px #dddddd dashed ";
                 return true;
             }
+            password.style.border="1px #dddddd dashed ";
+            return true;
         }
-        //验证手机号
-        function check_phone(){
-            var phone=document.getElementById('phone')
-            if(phone.value==""){
-                phone.style.border="1px red dashed ";
-                return false;
-            }else{
-                phone.style.border="1px #dddddd dashed ";
-            }
-            var r_name=/^1[3,5,8]\d{9}$/
-            if(r_name.test(phone.value)){
-                phone.style.border="1px #dddddd dashed ";
-                return true;
-            }else{
-                phone.style.border="1px red dashed ";
-                return false;
-            }
+    }
+    //验证手机号
+    function check_phone(){
+        var phone=document.getElementById('phone')
+        if(phone.value==""){
+            phone.style.border="1px red dashed ";
+            return false;
+        }else{
+            phone.style.border="1px #dddddd dashed ";
         }
-        //验证确认密码 && 验证两次密码
-        function check_pass(){
-            var comfirm_password = document.getElementById('comfirm_password');
-            if(comfirm_password.value==""){
-                comfirm_password.style.border="1px red dashed ";
-                return false;
-            }
-            var password = document.getElementById('password');
-            if(comfirm_password.value!=password.value){
-                comfirm_password.style.border="1px red dashed ";
-                return false;
-            }else{
-                comfirm_password.style.border="1px #dddddd dashed ";
-                return true;
-            }
+        var r_name=/^1[3,5,8]\d{9}$/
+        if(r_name.test(phone.value)){
+            phone.style.border="1px #dddddd dashed ";
+            return true;
+        }else{
+            phone.style.border="1px red dashed ";
+            return false;
         }
-        //提交验证
-        function ti(){
-            if(check_name()&check_password()&check_phone()&check_pass()){
-                return true;
-            }else{
-                return false;
-            }
+    }
+    //验证确认密码 && 验证两次密码
+    function check_pass(){
+        var comfirm_password = document.getElementById('comfirm_password');
+        if(comfirm_password.value==""){
+            comfirm_password.style.border="1px red dashed ";
+            return false;
         }
-    </script>
+        var password = document.getElementById('password');
+        if(comfirm_password.value!=password.value){
+            comfirm_password.style.border="1px red dashed ";
+            return false;
+        }else{
+            comfirm_password.style.border="1px #dddddd dashed ";
+            return true;
+        }
+    }
+    //提交验证
+    function ti(){
+        if(check_password()&check_phone()&check_pass()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+</script>

@@ -10,10 +10,14 @@ class Login extends Controller
 {
 	//跳转到登录页面
 	public function index(){
+//        define('LOGIN_ACTION',$a);
+//        define('LOGIN_CONTROLLER',$c);
 		return view('login');
 	}
   //执行登录
     public function login(){
+
+           $today=strtotime(date("Y-m-d 23:59:59"));
            $u_name = Request::instance()->post('u_name');
            $checkbox_mini = Request::instance()->post('checkbox_mini');
            $password = md5(Request::instance()->post('password'));
@@ -21,12 +25,12 @@ class Login extends Controller
            if (!empty($arr)) {
                if (!empty($checkbox_mini)) {
 //                   //setcookie('uid', md5($arr['id']), time() + 3600 * 24);
-                   Cookie::set('uid', md5($arr['id']), 3600 * 24);
+                   Cookie::set('uid', md5($arr['id']), $today-time());
                    Session::set('uid', $arr['id']);
                } else {
                    Session::set('uid', $arr['id']);
              }
-                   echo 1;
+                  echo 1;
                } else {
                    echo 2;
                }
@@ -34,8 +38,9 @@ class Login extends Controller
     }
     //登录后跳转页面
     public function add(){
-        echo "登录成功";
-     //  echo Cookie::get('uid');
+        $controller=Cookie::get('controller');
+        $action=Cookie::get('action');
+        $this->redirect($controller.'/'.$action);
     }
     public function onlogin(){
         echo 10;

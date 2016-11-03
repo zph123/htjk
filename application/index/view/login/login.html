@@ -19,7 +19,7 @@
             <div data-role="navbar" class="ui-content">
                 <ul><li><input data-inline="true"  type="button" id="but" value="登录"></li></ul>
             </div>
-            <a href="{:url('reg/index')}" data-ajax="false"><h4>去注册</h4></a>
+            <a href="{:url('reg/index')}" data-ajax="false">去注册</a>
 	</div>
 <script type="text/javascript">
     //弹出垂直菜单
@@ -40,7 +40,7 @@
             var password = $('input[name="password"]').val();
             var checkbox_mini = $('input[name="checkbox_mini"]:checked').val();
             $.post('login/login',{u_name:u_name,password:password,checkbox_mini:checkbox_mini},function(msg){
-                if(msg==1){
+                if(msg){
                     location.href='add'
                 }else{
                     $('#bug').html("<font color='red'>同户名或密码错误</font>");

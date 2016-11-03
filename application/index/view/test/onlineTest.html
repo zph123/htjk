@@ -14,7 +14,7 @@
     <h1>在线测试</h1>
 </div>
 
-<div data-role="content"  style="margin-bottom:10%">
+<div data-role="content" style="margin-bottom:10%" id="content">
     <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/test/add_onlinetest')}">
         测试费用:每人每次费用99元（5折后的费用)
         <div class="ui-field-contain">
@@ -71,8 +71,8 @@
 
                 <label for="birth_weight"><font color="red">• </font>出生时体重:</label>
                 <input type="text" name="birth_weight" id="birth_weight" value="" data-clear-btn="true" placeholder="单位：/kg">
-                <label for="birht_smoothly"><font color="red">• </font>测试人是否为顺产出生:</label>
-                <select name="birht_smoothly" id="birht_smoothly" data-role="flipswitch">
+                <label for="birth_smoothly"><font color="red">• </font>测试人是否为顺产出生:</label>
+                <select name="birth_smoothly" id="birth_smoothly" data-role="flipswitch">
                     <option value="1">是</option>
                     <option value="0">否</option>
                 </select>
@@ -100,10 +100,10 @@
             </li>
         </ul>
         <div class="ui-field-contain">
-            <label for="hands_phono"><font color="red">• </font>手部图片上传:</label>
-            <input name="hands_phono" id="hands_phono" type="file"/>
-            <label for="feet_phono"><font color="red">• </font>脚部图片上传:</label>
-            <input name="feet_phono" id="feet_phono" type="file" />
+            <label for="hands_photo"><font color="red">• </font>手部图片上传:</label>
+            <input name="hands_photo" id="hands_photo" type="file"/>
+            <label for="feet_photo"><font color="red">• </font>脚部图片上传:</label>
+            <input name="feet_photo" id="feet_photo" type="file" />
         </div>
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">
@@ -157,15 +157,29 @@
         //根据性别变化表单
         $( "#spermatorrhea_div" ).show();
         $( "#menarche_div" ).hide();
+        //判断用户是否以及登录
+        $.ajax({
+            url:"{:url('index/test/ajax_login_status')}",
+            type:'get',
+            success:function (status) {
+                if(status==0){
+                    $("#content").attr("disabled","disabled");
+                    alert('您还没有登录!');
+                    location.href="{:url('index/login/index')}";
+                }
+            }
+        });
+
         $( "#opt-navbars input" ).on( "change", function( event ) {
             if ( $( "#show" ).prop( "checked" ) ) {
                 $( "#spermatorrhea_div" ).show();
-                $( "#menarche_div" ).hide().prop('disabled');
+                $( "#menarche_div" ).hide();
             } else if ( $( "#hide" ).prop( "checked" ) ) {
-                $( "#spermatorrhea_div" ).hide().prop('disabled');
+                $( "#spermatorrhea_div" ).hide();
                 $( "#menarche_div" ).show();
             }
         });
+
         //提交
         $('#form_submit').click(function () {
             autosubmit();
@@ -181,7 +195,7 @@
         //姓名
         if(!$('#customer').val()){
             status=0;
-            alert('姓名不能为空。');
+            alert('测试人姓名不能为空。');
             return
         }
         //身份证号
