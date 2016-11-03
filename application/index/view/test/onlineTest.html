@@ -140,7 +140,7 @@
             <label for="school"><font color="red">• </font>测试人所属学校:</label>
             <input type="text" name="school" id="school" value="" data-clear-btn="true">
         </div>
-        <div data-role="navbar" class="ui-content">
+        <div data-role="navbar" class="ui-content" id="content_bottom">
             <ul>
                 <li></li>
                 <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:document.form_onlinetest.reset()" data-rel="dialog">取消</a></li>
@@ -168,6 +168,7 @@
                     $("a").attr("disabled","disabled");
                     $("a").removeAttr('href');
                     $("a").removeAttr('onclick');
+                    $('#content_bottom').hide();
                     alert('您还没有登录，请去登录！');
                     $("div[data-role='content']").on("click",function () {
                         alert('您还没有登录，请去登录！');
