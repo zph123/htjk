@@ -163,11 +163,11 @@
             type:'get',
             success:function (status) {
                 if(status==0){
-                    $("input").attr("disabled","disabled");
-                    $("select").attr("disabled","disabled");
-                    $("a").attr("disabled","disabled");
-                    $("a").removeAttr('href');
-                    $("a").removeAttr('onclick');
+                    $("#content input").attr("disabled","disabled");
+                    $("#content select").attr("disabled","disabled");
+                    $("#content a").attr("disabled","disabled");
+                    $("#content a").removeAttr('href');
+                    $("#content a").removeAttr('onclick');
                     $('#content_bottom').hide();
                     alert('您还没有登录，请去登录！');
                     $("div[data-role='content']").on("click",function () {
