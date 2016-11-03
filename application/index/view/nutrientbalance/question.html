@@ -1,0 +1,109 @@
+</head>
+<body>
+<div data-role="header">
+        <h1>营养均衡测试题</h1>
+    </div>
+
+    <div data-role="content" style="margin-bottom: 15%">
+        <p style="line-height: 2em;font-size: 18px;">
+           <span style="float: left;">{$date}测试题</span><span style="float: right;">欢迎您：李智渊</span>
+        </p>
+        <div style="clear: both;"></div>
+        <div>
+            <!-- <p>网页内容为运动处方需填写的数据要求</p> -->
+<form action='{:url("index/nutrientbalance/add_do")}' method="post" data-ajax="false">
+    <input type="hidden" name="date" value="{$date}">
+{foreach name="data" item="val" key="ke" }
+    <fieldset data-role="controlgroup" data-type="horizontal"
+    {present name="val['dis']"} style="display: none" {/present}
+    f_id="f_{$ke}" >
+        <legend>{$val.question}</legend>
+        {if condition="$val['rc_type'] eq 1"} 
+            {foreach name="val['answer']" item="v" key="k" }
+                {if condition="$v['content'] eq '其他（请注明）'"} 
+                    <input type="radio" name="anwser[{$ke}]"
+                           {present name="$anwser[$ke]"}
+                           {if condition="$anwser[$ke] eq $k"}checked{/if}
+                            {/present}
+                           id="{$k}" value="{$k}" p_id="{$v.p_id}" class="click" >
+                    <label for="{$k}">{$v.content}</label>
+                      <input type="text" name="text[{$ke}]"
+                             {present name="$text[$ke]"}
+                             value="{$text[$ke]}"
+                            {/present}
+                             placeholder="{$v.content}"  >
+                {else /}
+                    <input type="radio" name="anwser[{$ke}]" {present name="$anwser[$ke]"}
+                           {if condition="$anwser[$ke] eq $k"}checked{/if}
+    {/present} id="{$k}" value="{$k}" p_id="{$v.p_id}" class="click">
+                    <label for="{$k}">{$v.content}</label>
+               {/if}
+            {/foreach}
+        {elseif condition="$val['rc_type'] eq 2"/}
+            {foreach name="val['answer']" item="v" key="k" }
+                {if condition="$v['content'] eq '其他（请注明）'"} 
+                    <input type="checkbox" name="anwser[{$ke}][]" {present name="$anwser[$ke]"}
+                           {php}if(in_array($k,$anwser[$ke])){echo 'checked';}{/php}
+    {/present} id="{$k}" value="{$k}" p_id="{$v.p_id}" class="click">
+                    <label for="{$k}">{$v.content}</label>
+                    <input type="text" name="text[{$ke}]"
+                           {present name="$text[$ke]"}
+                           value="{$text[$ke]}"
+                           {/present}
+                           placeholder="{$v.content}" >
+                {else /}    
+                    <input type="checkbox" name="anwser[{$ke}][]" {present name="$anwser[$ke]"}
+                           {php}if(in_array($k,$anwser[$ke])){echo 'checked';}{/php}
+    {/present} id="{$k}" value="{$k}" p_id="{$v.p_id}" class="click">
+                    <label for="{$k}">{$v.content}</label>
+                {/if}
+            {/foreach}
+        {/if}
+    </fieldset>
+{/foreach}
+     </div>
+        <hr>
+        {if condition="$status heq 0"}
+        <a href="javascript:void(0)" data-role="button" id="btn2" data-corners="false" style="width: 100px;margin: 0 auto;"  >修改</a>
+        {elseif condition="$status eq 1"/}
+        <a href="javascript:void(0)" data-role="button" data-rel="back" data-corners="false" style="width: 100px;margin: 0 auto;"  >返回</a>
+        {else /}
+        <a href="javascript:void(0)" data-role="button" id="btn" data-corners="false" style="width: 100px;margin: 0 auto;"  >提交</a>
+        {/if}
+
+    </div>
+</form>
+                        
+       
+<script>
+    $("#btn").click(function(){
+         $('form').submit();
+    })
+    $("#btn2").click(function(){
+        $('form').submit();
+    })
+    $(".click").on("change",function () {
+        var _this = $(this);
+        var thisname = _this.attr('name');
+        var p_id = _this.attr('p_id');
+        if(p_id==0){
+            //检测兄弟元素中是否有子级关系 如果有则隐藏
+            var objs = $("input[name='"+thisname+"']")
+            var length = objs.length;
+            for(var i=0;i<length;i++){
+                if(objs.eq(i).attr('p_id')!=0){
+                    var ids = objs.eq(i).attr('p_id');
+                    $.get("{:url('nutrientbalance/ajax')}",{son:ids},function (data) {
+                        $("fieldset[f_id='f_"+ids+"'").hide();
+                        for(i in data){
+                            $("fieldset[f_id='f_"+data[i]+"'").hide();
+                        }
+                    },'json');
+
+                }
+            }
+        }else{
+            $("fieldset[f_id='f_"+p_id+"'").show()
+        }
+    })
+</script>
