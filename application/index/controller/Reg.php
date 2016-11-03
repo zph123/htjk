@@ -5,7 +5,7 @@ use think\Db;
 use think\Request;
 use app\index\model\Gl_users;
 
-class Reg extends Common
+class Reg extends Controller
 {
 	//跳转到注册页面
 	public function index(){
