@@ -14,7 +14,7 @@
     <h1>在线测试</h1>
 </div>
 
-<div data-role="content" style="margin-bottom:10%" id="content">
+<div data-role="content"  style="margin-bottom:10%" id="content">
     <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/test/add_onlinetest')}">
         测试费用:每人每次费用99元（5折后的费用)
         <div class="ui-field-contain">
@@ -162,11 +162,11 @@
             url:"{:url('index/test/ajax_login_status')}",
             type:'get',
             success:function (status) {
-                if(status==0){
-                    $("#content").attr("disabled","disabled");
-                    alert('您还没有登录!');
-                    location.href="{:url('index/login/index')}";
-                }
+                $("input").attr("disabled","disabled");
+                $("select").attr("disabled","disabled");
+                $("a").attr("disabled","disabled");
+                $("a").removeAttr('href');
+                $("a").removeAttr('onclick');
             }
         });
 
