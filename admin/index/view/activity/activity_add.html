@@ -3,17 +3,17 @@
 <div class="easyui-panel" title="填写信息" style="width:100%;max-width:60%;padding:30px 60px;">
     <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
         <div style="margin-bottom:20px">
-            <input class="easyui-textbox" name="name" style="width:70%" data-options="label:'活动地点填写:',required:true">
+            <input class="easyui-textbox" id="l_place" name="l_place" style="width:70%" data-options="label:'活动地点填写:',required:true">
         </div>
         <div style="margin-bottom:20px">
             <span>活动开始时间：</span>
             <?php $data=date("Y-m-d H:i:s"); ?>
-            <input class="easyui-datetimebox" name="birthday"
+            <input class="easyui-datetimebox" name="l_stime" id="l_stime"
                    data-options="required:true,showSeconds:false"  value="{{$data}}" style="width:150px">
         </div>
         <div style="margin-bottom:20px">
             <span>活动结束时间：</span>
-            <input class="easyui-datetimebox" name="birthday"
+            <input class="easyui-datetimebox" name="l_etime" id="l_etime"
                    data-options="required:true,showSeconds:false"  value="{{$data}}" style="width:150px">
         </div>
     </form>
@@ -28,8 +28,23 @@
                 return $(this).form('enableValidation').form('validate');
             }
         });
+
+        var l_place=$('#l_place').val();
+        var l_stime=$('#_easyui_textbox_input2').val();
+        var l_etime=$('#_easyui_textbox_input4').val();
+        $.post('activity_insert',{l_place:l_place,l_stime:l_stime,l_etime:l_etime},function(msg){
+
+            if(msg==1){
+
+                alert('活动添加成功');location.href='index';
+
+            }else{
+
+                alert('活动添加失败');location.href='activity_add';
+            }
+        });
+
+
     }
-    function clearForm(){
-        $('#ff').form('clear');
-    }
+
 </script>
