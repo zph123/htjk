@@ -1,5 +1,11 @@
+.idea
+admin
 application/config.php
 application/database.php
-admin
 .DS_Store
 .DS_Store?
+.gitignore
+composer.lock
+LICENSE.txt
+phpunit.xml
+README.md
