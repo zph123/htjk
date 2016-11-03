@@ -87,3 +87,9 @@ img{max-width:100%;}
   .new-sub a{
     font-weight:normal;
   }
+ div[data-role=header]{
+    background-image: url(../img/a.png);
+  }
+h1{
+  font-weight:normal;
+}
