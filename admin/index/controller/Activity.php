@@ -14,4 +14,11 @@ class Activity extends Controller
         return view('index');
     }
 
+    //活动添加页面
+    public function activity_add()
+    {
+        return view('activity_add');
+    }
+
+
 }
