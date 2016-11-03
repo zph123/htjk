@@ -27,7 +27,7 @@ class Test
      *
      */
     public function ajax_login_status(){
-        if (session('?name'))
+        if (session('?uid'))
             echo 1;
         else echo 0;
     }

@@ -14,7 +14,7 @@ class Login extends Controller
 //        define('LOGIN_CONTROLLER',$c);
 		return view('login');
 	}
-  //执行登录
+    //执行登录
     public function login(){
 
            $today=strtotime(date("Y-m-d 23:59:59"));
