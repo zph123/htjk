@@ -3,6 +3,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
+use think\Session;
 
 class Nutrientbalance extends Controller
 {
@@ -17,10 +18,17 @@ class Nutrientbalance extends Controller
 	 * @return \think\response\View 视图 答题视图
 	 */
     public function question($date=0){
+		if(!Session::has('uid')){
+			$this->redirect("login/index");
+		}
+		$u_id = Session::get('uid');
     	if($date==0){
     		$this->error('参数错误');
     	}
 		$time = strtotime($date);
+		if($time===false){
+			$this->error('日期不正确');
+		}
 		if($time>time()){
 			$this->error('未来还没到哦~');
 		}
@@ -36,7 +44,7 @@ class Nutrientbalance extends Controller
 			$num = 1;
  		}
 		//查询用户填过的数据
-		$info = Db::table('user_answer')->where(['u_id'=>1,'u_date'=>$date])->find();
+		$info = Db::table('user_answer')->where(['u_id'=>$u_id,'u_date'=>$date])->find();
 		$anwser = json_decode($info['u_answer'],true);
 		$text = json_decode($info['u_desc'],true);
 		//用户已经选完 返回不可选择的页面
@@ -110,6 +118,9 @@ class Nutrientbalance extends Controller
 	 * @return array 所有子孙数组
 	 */
     public function recursion($son){
+		if(!is_numeric($son)){
+			return array();
+		}
     	$res = Db::table('question_answer')
     		->field('p_id')
 			->where('q_id',$son)
@@ -130,6 +141,9 @@ class Nutrientbalance extends Controller
 	 */
 	public function ajax($son)
 	{
+		if(!is_numeric($son)){
+			return array();
+		}
 		$arr = $this->recursion($son);
 		$data = array();
 		foreach ($arr as $k=>$v){
@@ -143,8 +157,23 @@ class Nutrientbalance extends Controller
 
 	}
 
+	/**
+	 * 添加 修改答卷 接收表单参数
+	 * @param Request $request
+	 * @throws \think\Exception
+	 */
     public function add_do(Request $request){
-
+		if(!Session::has('uid')){
+			$this->redirect("login/index");
+		}
+		$u_id = Session::get('uid');
+		$data = $request->post();
+		if(!is_array($data['anwser'])){
+			$this->redirect('index/nutrientbalance');
+		}
+		if(strtotime($data['date'])===false){
+			$this->redirect('index/nutrientbalance');
+		}
 		$res = Db::table('question_answer')
 			->field('q_id')
 			->where('p_id','neq',0)
@@ -160,7 +189,7 @@ class Nutrientbalance extends Controller
 			->where('q_id','in',$arr)
 			->group('q_id')
 			->select();
-		$data = $request->post();
+
 		$dates = array();
 		foreach ($data['anwser'] as $key=> $val){
 			foreach($res as $v){
@@ -178,7 +207,7 @@ class Nutrientbalance extends Controller
 		}
     	$mysql_data['u_answer'] = json_encode($data['anwser']);
 		//用户ID
-		$mysql_data['u_id'] = 1;
+		$mysql_data['u_id'] = $u_id;
 		$mysql_data['u_date'] = $data['date'];
 		if(isset($data['text'])){
 			$mysql_data['u_desc'] = json_encode($data['text']);
@@ -202,29 +231,41 @@ class Nutrientbalance extends Controller
 			$mysql_data['status'] = 1;
 		}
 		//用户ID
-		$map['u_id'] = 1;
+		$map['u_id'] = $u_id;
 		$map['u_date'] = $data['date'];
 		$info = Db::table('user_answer')->where($map)->find();
 		if($info){
 			$res = Db::table('user_answer')->where($map)->update($mysql_data);
+			if($res!==false){
+				$res = true;
+			}
 		}else {
 			$res = Db::table('user_answer')->insert($mysql_data);
 		}
 		if($res){
-			$this->success('成功','index/nutrientbalance');
+			$this->redirect('index/nutrientbalance');
+//			$this->success('成功','index/nutrientbalance');
 		}else{
 			$this->error('失败');
 		}
 
     }
 
+	/**
+	 * 获取当月答卷状态
+	 * @param string $date 日期
+	 */
 	public function getcolor($date=0) {
-		if($date==0){
+		if(!Session::has('uid')){
+			echo json_encode(array());die;
+		}
+		$u_id = Session::get('uid');
+		if($date==0 || strtotime($date)===false){
 			echo "error";
 		}
 		$firstday = date("Y-m-01",strtotime($date));
 		$lastday = date("Y-m-d",strtotime("$firstday 1 month -1 day"));
-		$res = Db::table('user_answer')->field('u_date,status')->where('u_date','between',[$firstday,$lastday])->where('u_id',1)->select();
+		$res = Db::table('user_answer')->field('u_date,status')->where('u_date','between',[$firstday,$lastday])->where('u_id',$u_id)->select();
 		$arr  = array();
 		foreach ($res as $k=>$v){
 			$arr[date('j',strtotime($v['u_date']))] = $v['status'];
@@ -232,21 +273,44 @@ class Nutrientbalance extends Controller
 		echo json_encode($arr);
 	}
 
-	public function getdays($s_time,$e_time){
+	/**
+	 * 获取两天之间的答卷数量
+	 * @param string $s_time 开始日期
+	 * @param string $e_time 结束日期
+	 */
+	public function getdays($s_time=0,$e_time=0){
+		if(!Session::has('uid')){
+			echo 0;die;
+		}
+		$u_id = Session::get('uid');
+		if($s_time==0 || $e_time==0 || strtotime($s_time)===false || strtotime($e_time)===false){
+			echo 0;die;
+		}
 		if($s_time>$e_time){
 			echo 0;die;
 		}
-		$res = Db::table('user_answer')->where('u_date','between',[$s_time,$e_time])->where('u_id',1)->where('status',1)->count();
+		$res = Db::table('user_answer')->where('u_date','between',[$s_time,$e_time])->where('u_id',$u_id)->where('status',1)->count();
 		echo $res;
 	}
 
+	/**
+	 * 生成营养处方
+	 * @param Request $request 接收参数 开始时间 结束时间
+	 */
 	public function generateorder(Request $request){
+		if(!Session::has('uid')){
+			echo 0;die;
+		}
+		$u_id = Session::get('uid');
 		$s_time = $request->post("s_time");
 		$e_time = $request->post("e_time");
+		if(strtotime($s_time)===false ||strtotime($e_time)===false){
+			echo 0;die;
+		}
 		$res = Db::table('user_answer')
 			->field('u_date,u_answer,u_desc')
 			->where('u_date','between',[$s_time,$e_time])
-			->where('u_id',1)
+			->where('u_id',$u_id)
 			->where('status',1)
 			->select();
 		foreach ($res as $ke=>$value) {
@@ -314,8 +378,27 @@ class Nutrientbalance extends Controller
 			}
 		}
 		//用户ID
-		$mysql_date['u_id'] = 1;
-		$mysql_date['o_desc'] = json_encode($detail);
+		$mysql_date['u_id'] = $u_id;
+		$mysql_date['desc'] = json_encode($detail);
 		$mysql_date['add_time'] = date("Y-m-d H:i;s",time());
+		$mysql_date['n_number'] = $this->createuniquenumber();
+
+		if(Db::table("nutrition_order")->insert($mysql_date)){
+			echo 1;
+		} else {
+			echo 0;
+		}
+	}
+
+	public function createuniquenumber()
+	{
+		$str = "YY".date("YmdHis",time()).rand(10000,99999);
+		$res = Db::table("nutrition_order")->where("n_number",$str)->find();
+		if($res){
+			return $this->createuniquenumber();
+		}else{
+			return $str;
+		}
+
 	}
 }
