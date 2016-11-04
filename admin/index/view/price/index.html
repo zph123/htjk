@@ -1,31 +1,39 @@
 <div style="padding:3px 2px;border-bottom:1px solid #ccc">收费设置</div>
 <br>
-<div class="easyui-panel" title="收费金额设置" style="width:100%;max-width:60%;padding:30px 60px;">
-
-        <table id="table" cellpadding="0" cellspacing="20px;">
+<div class="easyui-panel" title="收费金额设置" style="width:100%;max-width:60%;padding:10px 60px 60px 60px;">
+        <p><spa class="text" style="color: red">点击服务金额修改内容</spa></p>
+        <table id="table"  class="easyui-datagrid" cellpadding="0" cellspacing="20px;">
+            <thead>
+            <tr>
+                <th field="name1"   width="14%">服务ID</th>
+                <th field="name2" width="45%">服务名称</th>
+                <th field="name3" width="45%">服务金额(元)</th>
+            </tr>
+            </thead>
+            <tbody>
             {volist name="data" id="vo"}
-            <tr style="height: 25px;" id="{$vo.p_id}">
-                <td>{$vo.p_name}:</td><td style="width: 150px;"><span>{$vo.p_price}</span></td>
+            <tr>
+                <td>{$vo.p_id}</td>
+                <td>{$vo.p_name}</td>
+                <td style="width: 150px;"><span>{$vo.p_price}</span><input type="hidden" name="id" value="{$vo.p_id}"></td>
             </tr>
             {/volist}
-            <tr>
-                <td colspan="2" align="center"><spa class="text" style="color: red">点击数字修改内容</spa></td>
-            </tr>
+            </tbody>
         </table>
-
 </div>
 <script>
 
 $(document).on('click','span',function(){
    var old_val=$(this).text();
-    $(this).parent().html("<input type='text' value="+old_val+">");
+    var id=$(this).next().val();
+    $(this).parent().html("<input type='text' value="+old_val+"><input type='hidden' value="+id+">");
     $('.text').text('点击输入框外部完成修改');
     $('input').focus();
 });
 $(document).on('blur', 'input', function () {
     var th = $(this);
     var p_price = $(this).val();
-    var id = $(this).parents('tr').attr('id');
+    var id = $(this).next().val();
     if(!/^[1-9][0-9]+$/.test(p_price)){
         $('.text').text('请输入纯数字,且首位不能为零');
         return false;
@@ -36,11 +44,11 @@ $(document).on('blur', 'input', function () {
     }
     $.post('save',{p_price:p_price,p_id:id},function(msg){
      if(msg==1){
-         th.parent().html("<span>"+p_price+"</span>");
-         $('.text').text('点击数字修改内容');
+         th.parent().html("<span>"+p_price+"</span><input type='hidden' value="+id+">");
+         $('.text').text('点击服务金额修改内容');
      }else{
-         th.parent().html("<span>"+p_price+"</span>");
-         $('.text').text('点击数字修改内容');
+         th.parent().html("<span>"+p_price+"</span><input type='hidden' value="+id+">");
+         $('.text').text('点击服务金额修改内容');
      }
      });
 });
