@@ -1,3 +1,4 @@
+<script src="__PUBLIC__/static/js/md5.js" type="text/javascript"></script>
 {if empty($_COOKIE['uid'])}
 </head>
 <body>
@@ -37,10 +38,10 @@
     $(function(){
         $('#but').click(function(){
             var u_name = $('input[name="u_name"]').val();
-            var password = $('input[name="password"]').val();
+            var password = hex_md5($('input[name="password"]').val());
             var checkbox_mini = $('input[name="checkbox_mini"]:checked').val();
             $.post('login/login',{u_name:u_name,password:password,checkbox_mini:checkbox_mini},function(msg){
-                if(msg){
+                if(msg==1){
                     location.href='add'
                 }else{
                     $('#bug').html("<font color='red'>同户名或密码错误</font>");

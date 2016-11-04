@@ -20,11 +20,10 @@ class Login extends Controller
            $today=strtotime(date("Y-m-d 23:59:59"));
            $u_name = Request::instance()->post('u_name');
            $checkbox_mini = Request::instance()->post('checkbox_mini');
-           $password = md5(Request::instance()->post('password'));
+           $password = Request::instance()->post('password');
            $arr = Db::table('gl_users')->where('name', $u_name)->where('password', $password)->find();
            if (!empty($arr)) {
                if (!empty($checkbox_mini)) {
-//                   //setcookie('uid', md5($arr['id']), time() + 3600 * 24);
                    Cookie::set('uid', md5($arr['id']), $today-time());
                    Session::set('uid', $arr['id']);
                } else {
