@@ -10,8 +10,8 @@ class Login extends Controller
 {
     //跳转到登录页面
     public function index(){
-	   return view('login');
-	}
+       return view('login');
+    }
     //执行登录
     public function login(){
        $today=strtotime(date("Y-m-d 23:59:59"));
