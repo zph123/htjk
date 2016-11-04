@@ -26,22 +26,30 @@
 
 <div data-role="content"  style="margin-bottom:10%;" id="content">
     <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/test/add_onlinetest')}">
-        测试费用:每人每次费用99元（5折后的费用)
+        <p>测试费用</p>
+        <p>原价：
+            <font color="#696969"><s>￥<i id="original_price">111</i></s></font>
+            元/人次
+        </p>
+        <p>现价：
+            <font color="red">￥<i id="present_price">50</i><font color="#3cb371">（<span id="discount">5</span>折后的费用) </font></font>
+            <font style="color: red;display: none" name="premium">+<span name="add_price"></span></font>
+            元/人次
+        </p>
         <div class="ui-field-contain">
             <label for="predict_height">预测身高:</label>
             <select name="predict_height" id="predict_height" data-role="flipswitch">
                 <option value="0">不要</option>
                 <option value="1">要</option>
             </select>
+            <font style="color: red;display: none" name="premium">预测身高需要 <span name="add_price"></span>元</font>
         </div>
-
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                请先选择性别 <font color="red">• 必填</font>
+            </li>
+        </ul>
         <div class="ui-field-contain" id="opt-navbars">
-            <ul data-role="listview" data-inset="true">
-                <li data-role="list-divider">
-                    请先选择性别 <font color="red">• 必填</font>
-                </li>
-            </ul>
-
             <fieldset data-role="controlgroup" data-type="horizontal">
                 <legend></legend>
                 <label for="show">♂ 男</label>
@@ -160,13 +168,21 @@
         </div>
 
 
-        <!--<div data-role="main" class="ui-content" style="display: none;">-->
-            <!--&lt;!&ndash;触发器&ndash;&gt;-->
-            <!--<a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" id="axxx"></a>-->
-
-            <!--<div data-role="popup" id="myPopup" data-overlay-theme="b"  data-dismissible="false" data-position-to="window">-->
-            <!--</div>-->
+        <!--&lt;!&ndash;jQuery Mobile自带的双按钮遮罩-&#45;&#45;失败！不能用&#45;&#45;&ndash;&gt;-->
+        <!--<a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">Delete page...</a>-->
+        <!--<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">-->
+            <!--&lt;!&ndash;    <div data-role="header" data-theme="a">&ndash;&gt;-->
+            <!--&lt;!&ndash;    <h1>Delete Page?</h1>&ndash;&gt;-->
+            <!--&lt;!&ndash;    </div>&ndash;&gt;-->
+            <!--    <div role="main" class="ui-content">-->
+            <!--        <h3 class="ui-title">您还没有登录，请问要前往登录吗?</h3>-->
+            <!--&lt;!&ndash;    <p>This action cannot be undone.</p>&ndash;&gt;-->
+            <!--        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>-->
+            <!--        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Delete</a>-->
+            <!--    </div>-->
         <!--</div>-->
+
+
     </form>
 </div>
 
@@ -183,12 +199,23 @@
             success:function (status) {
                 if(status==0){
                     $('#content_bottom').hide();
-                    $("#content div").addClass("ui-state-disabled","mobile-flipswitch-disabled")
-                    $("#content").on("click",function () {
+
+                    $(".ui-field-contain div").addClass("ui-state-disabled","mobile-flipswitch-disabled");
+                    $(".ui-field-contain a").attr("disabled","disabled");
+                    $(".ui-field-contain input").attr("disabled","disabled");
+                    $(".ui-field-contain select").attr("disabled","disabled");
+                    $("#content div").on("click",function () {
                         login_confirm();
                     });
-                    login_confirm()
+                    login_confirm();
+
+//                    $("#content div").addClass("ui-state-disabled","mobile-flipswitch-disabled");
+                    //根据点击变化价格
+
                 }
+            },
+            error:function () {
+                alert('异常，连接失败！')
             }
         });
 
@@ -203,42 +230,38 @@
             }
         });
 
+        //根据 “预测身高” 变化
+        $('#predict_height').on('change',function() {
+            //获取select的值
+            var predict_height=$('#predict_height').val();
+            //筛选出 premium对象（加价）
+            var premium=$("font[name='premium']");
+
+            if(predict_height==1){
+                premium.show();
+                $.ajax({
+                    url:"{:url('index/test/ajax_add_price')}",
+                    type:"get",
+                    success:function (add_price) {
+                        $("span[name='add_price']").html(add_price);
+                    }
+                });
+            }else if(predict_height==0){
+                premium.hide();
+            }
+        });
+
         //提交
         $('#form_submit').click(function () {
             autosubmit();
         })
     });
 
-//    //带确认取消的遮罩
-//    function UpdateStatus() {
-//        var popupDialogId = 'popupDialog';
-//        var url_1="";
-//        $('<div data-role="popup" id="' + popupDialogId + '" data-confirmed="no" data-transition="pop" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:216px;max-width:500px;"> \
-//          \
-//          <div role="main" class="ui-content">\
-//            <h3 class="ui-title" style="color:#fff; text-align:center;margin-bottom:15px">确认关闭任务吗？</h3>\
-//            <a href="" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b optionConfirm" data-rel="back" style="background: #DBDBDB;width: 33%;border-radius: 5px;height: 30px;line-height: 30px;padding: 0;font-weight: 100;color: #333;font-size: .9em;margin: 0 0 0 12%;text-shadow: none;">确定</a>\
-//            <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b optionCancel" data-rel="back" data-transition="flow" style="background: #DBDBDB;width: 33%;border-radius: 5px;height: 30px;line-height: 30px;padding: 0;font-size: .9em;margin: 0 0 0 5%;font-weight: 100;color: #333;text-shadow: none;">取消</a>\
-//          </div>\
-//        </div>')
-//                .appendTo($.mobile.pageContainer);
-//        var popupDialogObj = $('#' + popupDialogId);
-//        popupDialogObj.trigger('create');
-//        popupDialogObj.popup({
-//            afterclose: function (event, ui) {
-//                popupDialogObj.find(".optionConfirm").first().off('click');
-//                var isConfirmed = popupDialogObj.attr('data-confirmed') === 'yes' ? true : false;
-//                $(event.target).remove();
-//                if (isConfirmed) {
-//                    location.href="{:url('index/login/index')}";
-//                }
-//            }
-//        });
-//        popupDialogObj.popup('open');
-//        popupDialogObj.find(".optionConfirm").first().on('click', function () {
-//            popupDialogObj.attr('data-confirmed', 'yes');
-//        });
-//    }
+    //jQuery Mobile  的confirm ----- #popupDialog
+    //引用入 on 时报错-----失败！
+    function jq_m_confirm() {
+        $("a[href='#popupDialog']").click()
+    }
     //确认取消
     function login_confirm(){
         var r=confirm("您还没登录，请前往登录！")
