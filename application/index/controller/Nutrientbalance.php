@@ -11,19 +11,24 @@ class Nutrientbalance extends Controller
         //初始化，以后设计用
     }
 
-    public function question($data=0){
-    	if($data==0){
+	/**
+	 * 答卷渲染
+	 * @param int $data string Y-m-d格式的日期
+	 * @return \think\response\View 视图 答题视图
+	 */
+    public function question($date=0){
+    	if($date==0){
     		$this->error('参数错误');
     	}
-		$time = strtotime($data);
+		$time = strtotime($date);
 		if($time>time()){
 			$this->error('未来还没到哦~');
 		}
 
-    	$week = date('w',strtotime($data));
-    	$firstday = date("Y-m-01",strtotime($data));
+    	$week = date('w',strtotime($date));
+    	$firstday = date("Y-m-01",strtotime($date));
  		$lastday = date("Y-m-d",strtotime("$firstday 1 month -1 day"));
- 		if($lastday==$data){
+ 		if($lastday==$date){
  			$num = 3;
  		}elseif($week==0){
  			$num = 2;
@@ -31,9 +36,10 @@ class Nutrientbalance extends Controller
 			$num = 1;
  		}
 		//查询用户填过的数据
-		$info = Db::table('user_answer')->where(['u_id'=>1,'u_date'=>$data])->find();
+		$info = Db::table('user_answer')->where(['u_id'=>1,'u_date'=>$date])->find();
 		$anwser = json_decode($info['u_answer'],true);
 		$text = json_decode($info['u_desc'],true);
+		//用户已经选完 返回不可选择的页面
 		if($info['status']==1) {
 			$map = array();
 			foreach ($anwser as $k => $v) {
@@ -57,7 +63,8 @@ class Nutrientbalance extends Controller
 				$tmp[$value['q_id']]['question'] = $value['q_content'];
 				$tmp[$value['q_id']]['anwser'][] = $value['a_content'];
 			}
-			return view("answer",['data'=>$tmp,'date'=>$data,'text'=>$text]);
+			//模板赋值 data 用户问题和答案 date 查询时间 text 用户注明文字
+			return view("answer",['data'=>$tmp,'date'=>$date,'text'=>$text]);
 		}
     	$res = Db::table('answer')
 			->alias('a')
@@ -66,8 +73,8 @@ class Nutrientbalance extends Controller
 			->join('question q','qa.q_id = q.q_id')
 			->where('q_type',$num)
 			->select();
-		$group = Db::table('question_answer')->alias('qa')->field('p_id')->join('question q','qa.q_id = q.q_id')->group('p_id')->where('q_type',$num)->select();
 
+		//处理数组成方便前台渲染的数据
 		$arr = array();
 		foreach ($res as $key => $value) {
 			$arr[$value['q_id']]['question'] = $res[$key]['q_content'];
@@ -93,15 +100,16 @@ class Nutrientbalance extends Controller
 				}
 			}
 		}
-    	return view('question',['data'=>$arr,'date'=>$data,'anwser'=>$anwser,'text'=>$text,'status'=>$info['status']]);
+		//模板赋值 data 问题 date 时间日期 anwser 用户选项 text 用户注明文字 status 答题状态：1已完成 0未完成
+    	return view('question',['data'=>$arr,'date'=>$date,'anwser'=>$anwser,'text'=>$text,'status'=>$info['status']]);
     }
 
 	/**
 	 * 递归查询出所有儿子
-	 * @param $son
-	 * @return array
+	 * @param $son integer 传入的问题ID
+	 * @return array 所有子孙数组
 	 */
-    public function digui($son){
+    public function recursion($son){
     	$res = Db::table('question_answer')
     		->field('p_id')
 			->where('q_id',$son)
@@ -110,14 +118,19 @@ class Nutrientbalance extends Controller
 			->select();
 		$newarr = array();
 		foreach ($res as $k=>$v){
-			$newarr = array_merge($res,$this->digui($v['p_id']));
+			$newarr = array_merge($res,$this->recursion($v['p_id']));
 		}
 		return $newarr;
     }
 
+	/**
+	 * 接口 请求返回p_id数组
+	 * @param $son integer 传入问题ID
+	 * @return array 所有子孙数组
+	 */
 	public function ajax($son)
 	{
-		$arr = $this->digui($son);
+		$arr = $this->recursion($son);
 		$data = array();
 		foreach ($arr as $k=>$v){
 			$data[] = $v['p_id'];
@@ -217,5 +230,92 @@ class Nutrientbalance extends Controller
 			$arr[date('j',strtotime($v['u_date']))] = $v['status'];
 		}
 		echo json_encode($arr);
+	}
+
+	public function getdays($s_time,$e_time){
+		if($s_time>$e_time){
+			echo 0;die;
+		}
+		$res = Db::table('user_answer')->where('u_date','between',[$s_time,$e_time])->where('u_id',1)->where('status',1)->count();
+		echo $res;
+	}
+
+	public function generateorder(Request $request){
+		$s_time = $request->post("s_time");
+		$e_time = $request->post("e_time");
+		$res = Db::table('user_answer')
+			->field('u_date,u_answer,u_desc')
+			->where('u_date','between',[$s_time,$e_time])
+			->where('u_id',1)
+			->where('status',1)
+			->select();
+		foreach ($res as $ke=>$value) {
+			$answer = json_decode($value['u_answer'], true);
+			$str = '';
+			foreach ($answer as $key => $val) {
+				if (is_array($val)) {
+					foreach ($val as $k => $v) {
+						$str .= $v . ',';
+					}
+				} else {
+					$str .= $val . ',';
+				}
+
+			}
+			$str = rtrim($str, ',');
+			$details[$value['u_date']] = Db::field('q.q_id,q.q_content,a.a_content,GROUP_CONCAT(a.a_content) as a_content')
+				->table('question_answer')
+				->alias('qa')
+				->join('question q','qa.q_id = q.q_id')
+				->join('answer a','qa.a_id = a.a_id')
+				->where('qa.qa_id','in',"$str")
+				->group('q.q_id')
+				->select();
+
+			//问答题
+			if($value['u_desc']!="")
+			{
+				$desc = json_decode($value['u_desc'],true);
+				$str ="";
+				foreach ($desc as $key => $val) {
+					$str .= $key.',';
+				}
+				$desc_question = Db::field('q_id')
+					->table('question')
+					->alias('q')
+					->where('q.q_id','in',"$str")
+					->select();
+				foreach ($desc_question as $key => $val) {
+					$desc_question[$key]['a_content'] = $desc[$val['q_id']];
+				}
+				$descs[$value['u_date']] = $desc_question;
+			}
+		}
+
+		$detail = array();
+		if(!isset($details)) {
+			echo 4;die;
+		}
+		foreach ($details as $key => $value) {
+			foreach ($value as $k => $v) {
+				$detail[$key][$v['q_id']] = array(
+					'question' => $v['q_content'],
+					'answer' => $v['a_content'],
+				);
+			}
+		}
+		if (isset($descs)) {
+			foreach ($descs as $key => $value) {
+				foreach ($value as $k => $v) {
+					if ($v['a_content'] != '') {
+						$detail[$key][$v['q_id']]['desc'] = $v['a_content'];
+					}
+				}
+			}
+		}
+		//用户ID
+		$mysql_date['u_id'] = 1;
+		$mysql_date['o_desc'] = json_encode($detail);
+		$mysql_date['add_time'] = date("Y-m-d H:i;s",time());
 	}
 }
