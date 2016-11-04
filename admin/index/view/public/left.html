@@ -1,7 +1,7 @@
 <div region="west" split="true" title="菜单" style="width:20%;">
 <div class="easyui-panel" style="padding:5px;">
     <ul class="easyui-tree">
-        <li><!--data-options="state:'closed'"-->
+        <li>
             <span>骨龄后台管理</span>
             <ul>
                 <li>
@@ -35,8 +35,39 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <span>个人设置</span>
+                    <ul>
+                        <li>
+                            <span><a href="{:url('index/personal/password')}" target="tt">密码设置</a></span>
+                        </li>
+                        <li>
+                            <span><a href="javascript:void(0)" onclick="return quit()" target="tt">退出</a></span>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </li>
     </ul>
 </div>
 </div>
+<script>
+    function quit()
+    {
+        if(confirm("确定要退出吗？"))
+        {
+            $.post("{:url('personal/quit')}",function(data)
+            {
+                if(data==1)
+                {
+                    location.href="login/login";
+                    location.reload()
+                }
+            })
+        }
+        else
+        {
+            return false;
+        }
+    }
+</script>

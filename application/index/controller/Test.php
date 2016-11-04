@@ -12,6 +12,7 @@ use think\Db;
 use think\Session;
 use app\index\model\Gl_test;
 use app\index\model\onlinetest as onlinetestModel;
+use app\index\model\price_class as price_classModel;
 
 class Test extends Controller
 {
@@ -26,13 +27,22 @@ class Test extends Controller
         return view('onlineTest');
     }
 
-    /**ajax判断用户是否已经登录
-     *
+    /**作者：李斌
+     * ajax判断用户是否已经登录
      */
     public function ajax_login_status(){
         if (session('?uid'))
             echo 1;
         else echo 0;
+    }
+
+    /**作者：李斌
+     * ajax获取 “预测身高” 的价格
+     */
+    public function ajax_add_price(){
+        $price_id=3;
+        $price=price_classModel::get($price_id);
+        echo $price['p_price'];
     }
     /**作者：李斌
      *
@@ -40,7 +50,9 @@ class Test extends Controller
     public function add_onlinetest()
     {
         /**添加一个测试人的信息入库
-         * 方案：
+         * 方案A：
+         * 0.直接入库
+         * 方案B：
          * 0.先判断用户是否已经提交过未处理的数据
          * 1.先将数据集存入session（设置超时时间）或MySQL
          * 2.首先判断用户是否登录
@@ -49,8 +61,17 @@ class Test extends Controller
          *
          * 如果没登录就调用登录和注册，登录或注册完毕后
          */
-        $infos=input();
 
+
+        /**
+         * 方案 A
+         */
+        $infos=input();
+        //状态：已提交，未付费
+        $infos['status']=0;
+        //APP用户ID
+        $infos['uid']=session('uid');
+        //预留：可以考虑为用户做一个重复判断
 //        if(isset()){
 //
 //        }else{
@@ -58,11 +79,12 @@ class Test extends Controller
 //        }
 //        var_dump($infos);die;
         if ($result = onlinetestModel::create($infos)) {
-            return '提交成功';
+
         } else {
             return $result->getError();
         }
     }
+
     /*作者：刘志祥
      * 2016-11-2 09:34:16
      * 活动列表
@@ -76,6 +98,7 @@ class Test extends Controller
         }
         return view('nowList',['below_list'=>$below_list]);
     }
+
     /*作者：刘志祥
      * 2016-11-1 10:50:12
      * 现场测试
