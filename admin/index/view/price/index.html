@@ -4,12 +4,12 @@
 
         <table id="table" cellpadding="0" cellspacing="20px;">
             {volist name="data" id="vo"}
-            <tr id="{$vo.p_id}">
-                <td>{$vo.p_name}:</td><td><span>{$vo.p_price}</span></td>
+            <tr style="height: 25px;" id="{$vo.p_id}">
+                <td>{$vo.p_name}:</td><td style="width: 150px;"><span>{$vo.p_price}</span></td>
             </tr>
             {/volist}
             <tr>
-                <td colspan="2" align="center"><span class="text" style="color: red"></span></td>
+                <td colspan="2" align="center"><spa class="text" style="color: red">点击数字修改内容</spa></td>
             </tr>
         </table>
 
@@ -19,14 +19,15 @@
 $(document).on('click','span',function(){
    var old_val=$(this).text();
     $(this).parent().html("<input type='text' value="+old_val+">");
+    $('.text').text('点击输入框外部完成修改');
     $('input').focus();
 });
 $(document).on('blur', 'input', function () {
     var th = $(this);
     var p_price = $(this).val();
     var id = $(this).parents('tr').attr('id');
-    if(!/^[0-9]+$/.test(p_price)){
-        $('.text').text('请输入纯数字');
+    if(!/^[1-9][0-9]+$/.test(p_price)){
+        $('.text').text('请输入纯数字,且首位不能为零');
         return false;
     }
     if(p_price.length>5){
@@ -36,10 +37,10 @@ $(document).on('blur', 'input', function () {
     $.post('save',{p_price:p_price,p_id:id},function(msg){
      if(msg==1){
          th.parent().html("<span>"+p_price+"</span>");
-         $('.text').text('');
+         $('.text').text('点击数字修改内容');
      }else{
          th.parent().html("<span>"+p_price+"</span>");
-         $('.text').text('');
+         $('.text').text('点击数字修改内容');
      }
      });
 });

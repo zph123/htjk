@@ -13,7 +13,7 @@ a{
 #title {
     width: 100%;
     height:30px;height:auto;min-height:40px;
-    background-color: #b9121b;
+    background-color: #cccccc;
 }
 .selectBtn {
     font-weight: 900;
@@ -86,7 +86,7 @@ a{
     color: #b9121b;
 }
 .currentItem>a {
-    background-color: #b9121b;
+    background-color: #ff5965;
     width: 25px;
     line-height: 25px;
     float: left;
@@ -106,7 +106,7 @@ a{
     color: #fff !important;
 }
 .selectnot>a {
-    background-color: yellow;
+    background-color: #ff4400;
     width: 25px;
     line-height: 25px;
     float: left;
@@ -221,18 +221,92 @@ a{
 
         </div>
         <hr>
-        <a href="#" data-role="button" data-corners="false" style="width: 200px;margin: 0 auto;"  >生成本月营养均衡报告</a>
+        <a  href="#myPopup" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="width: 200px;margin: 0 auto;"  >生成本月营养均衡报告</a>
         <p>注： 红色表示今天<br>
                 绿色表示已经答过问卷<br>
-                黄色表示还未打完</p>
+                橙色表示还未打完</p>
     </div>
         </div>
+    <div data-role="popup" id="myPopup" class="ui-content" data-overlay-theme="b">
+        {php}if(!think\Session::has('uid')){{/php}
+        <p align="center" style="color: red;">您还未登陆</p>
+        {php} }{/php}
+
+
+            <p style="color: red;">注：开始时间与结束时间之间填过的问卷必须要在30份以内</p>
+            开始时间：<input type="date" name="" id="s_time">
+            结束时间：<input type="date" name="" id="e_time">
+            <p id="desc"></p>
+            <input type="button" id="start" value="生成">
+    </div>
+    <a  href="#myalert" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="display: none;" id="alert" ></a>
+    <div data-role="popup" id="myalert" class="ui-content" data-overlay-theme="b">
+        <p style="color: red;" id="alertcontent"></p>
+    </div>
 <script type="text/javascript">
+
         $(document).ready(function(e) {
             CalendarHandler.initialize();
+            $("#start").on('click',function () {
+                var s_time = $("#s_time").val();
+                var e_time = $("#e_time").val();
+                if(s_time!='' && e_time !=''){
+                  $.post("{:url('index/nutrientbalance/generateorder')}",{s_time:s_time,e_time:e_time},function (data) {
+                     if(data==0){
+                         alert(0)
+                     }else{
+                         alert(1)
+                     }
+                  })
+                }
+            })
+            $("#s_time").on('change',function () {
+                var s_time = $("#s_time").val();
+                var e_time = $("#e_time").val();
+                if(s_time!='' && e_time !=''){
+                    $.get("{:url('index/nutrientbalance/getdays')}",{s_time:s_time,e_time:e_time},function (data) {
+                        if(parseInt(data)>30){
+                            $("#desc").html("<font color='red'>太多了！您选择的日期里面有"+data+"份问卷<font>")
+                            $("#start").attr({"disabled":"disabled"});
+                        }else if(parseInt(data)<=0){
+                            $("#desc").html("<font color='red'>您选择的日期里没有问卷<font>")
+                            $("#start").attr({"disabled":"disabled"});
+                        }else{
+                            $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
+                            $("#start").removeAttr("disabled");
+                        }
+
+                    })
+                }
+            })
+            $("#e_time").on('change',function () {
+                var s_time = $("#s_time").val();
+                var e_time = $("#e_time").val();
+                if(s_time!='' && e_time !=''){
+                    $.get("{:url('index/nutrientbalance/getdays')}",{s_time:s_time,e_time:e_time},function (data) {
+                        if(parseInt(data)>30){
+                            $("#desc").html("<font color='red'>太多了！您选择的日期里面有"+data+"份问卷<font>")
+                            $("#start").attr({"disabled":"disabled"});
+                        }else if(parseInt(data)<=0){
+                            $("#desc").html("<font color='red'>您选择的日期里没有问卷<font>")
+                            $("#start").attr({"disabled":"disabled"});
+                        }else{
+                            $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
+                            $("#start").removeAttr("disabled");
+                        }
+                    })
+                }
+            })
         });
-        function fun(data){
-            window.location.href="{:url('index/nutrientbalance/question')}"+'?data='+data
+        function fun(date){
+            var   d=new   Date(Date.parse(date.replace(/-/g,"/")));
+            var   curDate=new   Date();
+            if(d > curDate){
+                $("#alertcontent").text("未来还没来哦~")
+                $("#alert").click();
+            }else{
+                window.location.href="{:url('index/nutrientbalance/question')}"+'?date='+date
+            }
         }
         var CalendarHandler = {
             currentYear: 0,
@@ -427,9 +501,8 @@ a{
                 $.get('{:url("index/nutrientbalance/getcolor")}',{date:now_date},function (data) {
                     //生成当月的日期
                     for (var i = 0; i < nowDaysNub; i++) {
-
-                        if(typeof(data[i+1])!="undefined" && data[i+1]===1) $dayItem.append("<div class=\"item selectok\" onclick=\"fun(\'"+nowYear+"-"+nowMonth+"-"+(i + 1)+"\')\"><a>" + (i + 1) + "</a></div>");
-                        else if(typeof(data[i+1])!="undefined" && data[i+1]===0)$dayItem.append("<div class=\"item selectnot\" onclick=\"fun(\'"+nowYear+"-"+nowMonth+"-"+(i + 1)+"\')\"><a>" + (i + 1) + "</a></div>");
+                        if(typeof(data[i+1])!="undefined" && data[i+1]==1) $dayItem.append("<div class=\"item selectok\" onclick=\"fun(\'"+nowYear+"-"+nowMonth+"-"+(i + 1)+"\')\"><a>" + (i + 1) + "</a></div>");
+                        else if(typeof(data[i+1])!="undefined" && data[i+1]==0)$dayItem.append("<div class=\"item selectnot\" onclick=\"fun(\'"+nowYear+"-"+nowMonth+"-"+(i + 1)+"\')\"><a>" + (i + 1) + "</a></div>");
                         else if (i == (nowDay - 1)) $dayItem.append("<div class=\"item currentItem\" onclick=\"fun(\'"+nowYear+"-"+nowMonth+"-"+(i + 1)+"\')\"><a>" + (i + 1) + "</a></div>");
                         else $dayItem.append("<div class=\"item\" onclick=\"fun(\'"+nowYear+"-"+nowMonth+"-"+(i + 1)+"\')\"><a>" + (i + 1) + "</a></div>");
                     }

@@ -9,5 +9,10 @@ class Motion extends Common
     {
         return view('index');
     }
+    //
+    public function motion()
+    {
+        return view('motion');
+    }
 
 }
