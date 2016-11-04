@@ -160,13 +160,13 @@
         </div>
 
 
-        <div data-role="main" class="ui-content" style="display: none;">
-            <!--触发器-->
-            <a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" id="axxx"></a>
+        <!--<div data-role="main" class="ui-content" style="display: none;">-->
+            <!--&lt;!&ndash;触发器&ndash;&gt;-->
+            <!--<a href="#myPopup" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" id="axxx"></a>-->
 
-            <div data-role="popup" id="myPopup" data-overlay-theme="b"  data-dismissible="false" data-position-to="window">
-            </div>
-        </div>
+            <!--<div data-role="popup" id="myPopup" data-overlay-theme="b"  data-dismissible="false" data-position-to="window">-->
+            <!--</div>-->
+        <!--</div>-->
     </form>
 </div>
 
@@ -183,11 +183,11 @@
             success:function (status) {
                 if(status==0){
                     $('#content_bottom').hide();
-                    $("#axxx").click();
-                    $('#myPopup-screen').on('click',function () {
-                        login_confirm()
+                    $("#content div").addClass("ui-state-disabled","mobile-flipswitch-disabled")
+                    $("#content").on("click",function () {
+                        login_confirm();
                     });
-                    setTimeout(login_confirm,1)
+                    login_confirm()
                 }
             }
         });
@@ -209,6 +209,37 @@
         })
     });
 
+//    //带确认取消的遮罩
+//    function UpdateStatus() {
+//        var popupDialogId = 'popupDialog';
+//        var url_1="";
+//        $('<div data-role="popup" id="' + popupDialogId + '" data-confirmed="no" data-transition="pop" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="min-width:216px;max-width:500px;"> \
+//          \
+//          <div role="main" class="ui-content">\
+//            <h3 class="ui-title" style="color:#fff; text-align:center;margin-bottom:15px">确认关闭任务吗？</h3>\
+//            <a href="" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b optionConfirm" data-rel="back" style="background: #DBDBDB;width: 33%;border-radius: 5px;height: 30px;line-height: 30px;padding: 0;font-weight: 100;color: #333;font-size: .9em;margin: 0 0 0 12%;text-shadow: none;">确定</a>\
+//            <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b optionCancel" data-rel="back" data-transition="flow" style="background: #DBDBDB;width: 33%;border-radius: 5px;height: 30px;line-height: 30px;padding: 0;font-size: .9em;margin: 0 0 0 5%;font-weight: 100;color: #333;text-shadow: none;">取消</a>\
+//          </div>\
+//        </div>')
+//                .appendTo($.mobile.pageContainer);
+//        var popupDialogObj = $('#' + popupDialogId);
+//        popupDialogObj.trigger('create');
+//        popupDialogObj.popup({
+//            afterclose: function (event, ui) {
+//                popupDialogObj.find(".optionConfirm").first().off('click');
+//                var isConfirmed = popupDialogObj.attr('data-confirmed') === 'yes' ? true : false;
+//                $(event.target).remove();
+//                if (isConfirmed) {
+//                    location.href="{:url('index/login/index')}";
+//                }
+//            }
+//        });
+//        popupDialogObj.popup('open');
+//        popupDialogObj.find(".optionConfirm").first().on('click', function () {
+//            popupDialogObj.attr('data-confirmed', 'yes');
+//        });
+//    }
+    //确认取消
     function login_confirm(){
         var r=confirm("您还没登录，请前往登录！")
         if (r==true)
