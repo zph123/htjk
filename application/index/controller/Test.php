@@ -45,7 +45,7 @@ class Test extends Controller
         echo $price['p_price'];
     }
     /**作者：李斌
-     *
+     * 数据入库
      */
     public function add_onlinetest()
     {
@@ -62,7 +62,6 @@ class Test extends Controller
          * 如果没登录就调用登录和注册，登录或注册完毕后
          */
 
-
         /**
          * 方案 A
          */
@@ -71,7 +70,7 @@ class Test extends Controller
         $infos['status']=0;
         //APP用户ID
         $infos['uid']=session('uid');
-        //预留：可以考虑为用户做一个重复判断
+        //预留：可以考虑为用户做一个重复提交判断
 //        if(isset()){
 //
 //        }else{
@@ -79,7 +78,8 @@ class Test extends Controller
 //        }
 //        var_dump($infos);die;
         if ($result = onlinetestModel::create($infos)) {
-
+            return '提交成功';
+//            return redirect(":url('/')");
         } else {
             return $result->getError();
         }
@@ -98,7 +98,6 @@ class Test extends Controller
         }
         return view('nowList',['below_list'=>$below_list]);
     }
-
     /*作者：刘志祥
      * 2016-11-1 10:50:12
      * 现场测试
@@ -109,9 +108,8 @@ class Test extends Controller
         $id = Session::get('uid');
         header('content-type:text/html;charset=utf-8');
         $below_list = Db::table('below_list')->where('l_etime','>',date("Y-m-d H:i:s"))->order('l_stime','asc')->find();
-        $below_list['price'] = Db::table('price_class')->where('p_id','in','2,3')->select();
-
-        return view('nowTest',['below_list'=>$below_list,'id'=>$id]);
+        $price = Db::table('price_class')->where('p_id','in','2,3')->select();
+        return view('nowTest',['below_list'=>$below_list,'id'=>$id,'price'=>$price]);
     }
     /*
      * @作者：刘志祥
@@ -121,18 +119,22 @@ class Test extends Controller
         //获取登录人id
 
         $data = $_POST;
+        //后台验证  如果没有活动 而点击报名 。。则会提示“没有活动，暂时不能报名”
+        if(empty($data['l_id'])){
+            $this->redirect('index/test/nowTest');die;
+        }
         //后台验证  验证是否在当前时间
         $l_time = Db::table('below_list')->where('l_id','=',$data['l_id'])->find();
         $time1=date("Y-m-d H:i:s");
         if($time1<$l_time['l_stime'] || $time1>$l_time['l_etime']){
-            $this->error('还未到活动时间，请您耐心等待^_^');die;
+            $this->redirect('index/test/nowTest');die;
         }
         //后台验证  先验证唯一
         $time=date("Y-m-d");
         $data['n_time']=$time;
         $id_number = Db::table('nowtest')->where('n_idd','=',$data['id_number'])->where('n_time','=',$time)->find();
         if($id_number){
-            $this->error('新增失败,请确认您是否已经提交过了');die;
+            $this->redirect('index/test/nowTest');die;
         }
         // 需要 根据$data['l_id'] 联查 活动表 联查价格表   便于后期查询总价
         $prices = Db::table('price_class')->where('p_id','in','2,3')->select();
@@ -157,7 +159,7 @@ class Test extends Controller
         $res = $test -> add_one($data);
         if($res){
             //添加成功跳转到支付页面
-            $this->success('提交成功，正在跳转支付页面', 'index/test/nowTest');
+            $this->redirect('index/test/nowTest');
         }else{
             echo "This is error.";
         }
