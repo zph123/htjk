@@ -5,7 +5,7 @@ use think\Db;
 use think\Request;
 use app\index\model\Gl_users;
 
-class Reg extends Common
+class Reg extends Controller
 {
 	//跳转到注册页面
 	public function index(){
@@ -19,8 +19,10 @@ class Reg extends Common
         $this->redirect('Login/index');
 	}
 	//验证姓名唯一
-	public function check_only(Request $request){
-		$name = $_POST;
+	public function check_only(){
+        $name = $_GET;
+//		$name = Request::instance()->post();
+//        var_dump($name);die;
 		$user = new Gl_users();
 		$stauts = $user->check_one($name);
 		if($stauts){
