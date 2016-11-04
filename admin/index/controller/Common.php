@@ -9,7 +9,7 @@ class Common extends Controller
 {
 	function _initialize(){
        // var_dump(Session::has('username'));die;
-		if(empty(Session::has('username'))){
+		if(!Session::has('username')){
             $this->redirect("login/login");
         }
 	}
