@@ -8,9 +8,9 @@ use think\Cookie;
 
 class Login extends Controller
 {
-	//跳转到登录页面
-	public function index(){
-		return view('login');
+    //跳转到登录页面
+    public function index(){
+	   return view('login');
 	}
     //执行登录
     public function login(){
