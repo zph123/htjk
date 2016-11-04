@@ -8,7 +8,6 @@ use think\Cookie;
 class Common extends Controller
 {
 	function _initialize(){
-       // var_dump(Session::has('username'));die;
 		if(!Session::has('username')){
             $this->redirect("login/login");
         }
