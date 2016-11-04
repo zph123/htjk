@@ -13,7 +13,7 @@ class Common extends Controller
         Cookie::set('controller', $controller);
         Cookie::set('action', $action);
 //        var_dump(Session::get('uid'));die;
-		if(empty(Session::has('uid'))){
+		if(!Session::has('uid')){
             $this->redirect("login/index");
         }
 	}
