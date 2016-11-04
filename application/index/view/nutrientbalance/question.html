@@ -6,7 +6,7 @@
 
     <div data-role="content" style="margin-bottom: 15%">
         <p style="line-height: 2em;font-size: 18px;">
-           <span style="float: left;">{$date}测试题</span><span style="float: right;">欢迎您：李智渊</span>
+           <span style="float: left;">{$date}营养调查题</span><span style="float: right;">欢迎您：{present name="$username"}{$username}{/present}</span>
         </p>
         <div style="clear: both;"></div>
         <div>
@@ -17,7 +17,7 @@
     <fieldset data-role="controlgroup" data-type="horizontal"
     {present name="val['dis']"} style="display: none" {/present}
     f_id="f_{$ke}" >
-        <legend>{$val.question}</legend>
+        <legend style="font-weight: bold">{$val.question}</legend>
         {if condition="$val['rc_type'] eq 1"} 
             {foreach name="val['answer']" item="v" key="k" }
                 {if condition="$v['content'] eq '其他（请注明）'"} 
