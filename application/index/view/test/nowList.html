@@ -10,8 +10,13 @@
         <p>地点： {$val.l_place}</p>
         <p>开始时间： {$val.l_stime}</p>
         <p>结束时间： {$val.l_etime}</p>
-        <p>人数： 每场{$val.l_num}人</p>
-        <p>费用： 每人每次{$val.l_price}元</p>
+        <p>费用： 每人每次
+            {if condition="($val.price[0]['p_price']>$val.price[1]['p_price'])"}
+            {$val.price[0]['p_price']}
+            {else /}
+            {$val.price[1]['p_price']}
+            {/if}
+            元</p>
     </div>
     {/foreach}
 </div>
