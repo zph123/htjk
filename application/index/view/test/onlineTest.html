@@ -120,8 +120,6 @@
         <div class="ui-field-contain">
             <label for="hands_photo"><font color="red">• </font>手部图片上传:</label>
             <input id="hands_photo" name="hands_photo" class="file" type="file" multiple data-min-file-count="1">
-            <label for="feet_photo"><font color="red">• </font>脚部图片上传:</label>
-            <input id="feet_photo" name="feet_photo" class="file" type="file" multiple data-min-file-count="1">
         </div>
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">
@@ -244,6 +242,9 @@
                     type:"get",
                     success:function (add_price) {
                         $("span[name='add_price']").html(add_price);
+                    },
+                    error:function () {
+                        alert('异常，连接失败！')
                     }
                 });
             }else if(predict_height==0){
