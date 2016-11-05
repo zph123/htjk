@@ -2,11 +2,79 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>饮食记录卡</title>
 </head>
 <body>
-{foreach name="user" item="v" key="k" }
-<a href='{:url("index/diet/getuserdiet?id=$v[id]")}'>{$v.name}</a><br>
-{/foreach}
 </body>
 </html>
+
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">饮食记录</div>    <br/>
+<div id="tb" style="padding:3px">
+    <form action="{:url('diet/index')}" method="get">
+        <span>申请人:</span>
+        {if condition="isset($name)" }
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text" value="{$name}" name="name">
+        {else}
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="name">        
+        {/if}
+        <span>订单号:</span>
+        {if condition="isset($n_number)" }
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text" value="{$n_number}" name="n_number">
+        {else}
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="n_number">        
+        {/if}
+        <span>是否支付:</span>
+	        <select name="is_pay" id="">
+	        	<option value="" {if condition="empty($is_pay)" } selected {/if}>请选择</option>
+	        	<option value="1" {if condition="$is_pay == 1" } selected {/if}>已支付</option>
+	        	<option value="0" {if condition="$is_pay == 0 && $is_pay!==''" } selected {/if}>未支付</option>
+	        </select>
+        <span>是否生成报告:</span>
+       		<select name="stuatus" id="">
+       			<option value="" {if condition="empty($stuatus)" } selected {/if}>请选择</option>
+	        	<option value="1" {if condition="$stuatus == 1" } selected {/if}>已生成</option>
+	        	<option value="0" {if condition="$stuatus == 0 && $stuatus!==''" } selected {/if}>未生成</option>
+	        </select>
+        <input style="line-height:26px;border:1px solid #ccc" type="submit" value="搜索">
+    </form>
+    </div>  
+<table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
+    <thead>
+	
+    <tr>
+        <th field="name1"   width="20%">订单号</th>
+        <th field="name2" width="15%">申请人</th>
+        <th field="name3" width="15%">申请时间</th>
+        <th field="name4" width="15%">是否生成报告</th>
+        <th field="name5" width="15%">是否支付</th>
+        <th field="name6" width="20%">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+	{foreach $order as $v}
+	    <tr id="tr_{$v.n_id}">
+	        <td>{$v.n_number}</td>
+	        <td>{$v.name}</td>
+	        <td>{$v.add_time}</td>
+	        <td>
+				{if condition="$v.stuatus == 0"}
+				 <span style="color:red">未生成</span>
+				{elseif condition="$v.stuatus == 1"/}
+				 <span style="color:green">已生成</span>
+				{/if}
+	        </td>
+	        <td>
+				{if condition="$v.is_pay == 0"}
+				 <span style="color:red">未支付</span>
+				{elseif condition="$v.is_pay == 1"/}
+				 <span style="color:green">已支付</span>
+				{/if}
+	        </td>
+	        <td>
+	       		<a href="javascript:;" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
+	       		<a href="javascript:;" class="easyui-linkbutton"  iconCls="icon-cancel">删除</a><input type="hidden" value="">
+	        </td>
+	    </tr>
+    {/foreach}
+    </tbody>
+</table>

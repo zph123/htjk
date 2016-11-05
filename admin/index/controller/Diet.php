@@ -10,8 +10,28 @@ class Diet extends Common
     public function index()
     {
     	//查询填写答卷的用户
-    	$user = Db::field('g.name,g.id')->table('user_answer')->alias('u')->join('gl_users g ',' g.id = u.u_id')->group('u.u_id')->select();
-    	$this->assign("user",$user);
+    	// $user = Db::field('g.name,g.id')->table('user_answer')->alias('u')->join('gl_users g ',' g.id = u.u_id')->group('u.u_id')->select();
+    	// $this->assign("user",$user);
+        // 查询订单
+        $name= Request::instance()->get('name');
+        $n_number = Request::instance()->get('n_number');
+        $is_pay= Request::instance()->get('is_pay');
+        $stuatus = Request::instance()->get('stuatus');
+        $order = Db::table('nutrition_order')
+        ->alias('n')
+        ->join('gl_users g ','n.u_id = g.id ')
+        ->where('n_number','like',"%$n_number%")
+        ->where('name','like',"%$name%")
+        ->where('stuatus','like',"%$stuatus%")
+        ->where('is_pay','like',"%$is_pay%")
+        ->order("n.add_time desc")
+        ->field('n.n_id,n.n_number,n.stuatus,n.add_time,n.is_pay,g.name')
+        ->select();
+        $this->assign('name',$name);
+        $this->assign('n_number',$n_number);
+        $this->assign('is_pay',$is_pay);
+        $this->assign('stuatus',$stuatus);
+        $this->assign('order',$order);
         return view('index');
     }
 
