@@ -1,0 +1,99 @@
+<div class="easyui-panel" style="height:30px;width:960px; line-height:30px">
+    <a target="tt" href="{:url('/index/Online')}">返回</a>>>数据详情
+</div>
+<div width:960px;height:auto;>
+<table id="tt" class="easyui-datagrid" style="width:960px;height:auto;">
+   <thead>
+    <tr>
+        <th field="name1" width="51%">项目</th>
+        <th field="name2" width="51%">参数</th>
+    </tr>
+   </thead>
+
+   <tbody>
+    <tr>
+        <td>自增登记ID</td>
+        <td>{$data.register_id}</td>
+    </tr>
+    <tr>
+        <td>是否预测身高</td>
+        <td>{if $data.predict_height==1}是{elseif $data.predict_height==0}否{/if}</td>
+    </tr>
+    <tr>
+        <td>性别</td>
+        <td>{if $data.gender == 1}男{elseif $data.gender == 0}女{/if}</td>
+    </tr>
+    <tr>
+        <td>测试人姓名</td>
+        <td>{$data.customer}</td>
+    </tr>
+    <tr>
+        <td>出生日期</td>
+        <td>{$data.appDate}</td>
+    </tr>
+    <tr>
+        <td>身份证号</td>
+        <td>{$data.id_number}</td>
+    </tr>
+    <tr>
+        <td>测试人年龄</td>
+        <td>{$data.age}</td>
+    </tr>
+    <tr>
+        <td>出生时身高/cm</td>
+        <td>{$data.birth_height}</td>
+    </tr>
+    <tr>
+        <td>出生时体重/kg</td>
+        <td>{$data.birth_weight}</td>
+    </tr>
+    <tr>
+        <td>出生时是否顺产</td>
+        <td>{if $data.birth_smoothly == 1}是{elseif $data.birth_smoothly == 0}否{/if}</td>
+    </tr>
+    <tr>
+        <td>测试人是否已遗精/初潮</td>
+        <td>{if $data.spermatorrhea == 1}是{elseif $data.spermatorrhea == 0}否{/if}</td>
+    </tr>
+    <tr>
+        <td>手部图片路径</td>
+        <td>{$data.hands_photo}</td>
+    </tr>
+    <tr>
+        <td>手机号</td>
+        <td>{$data.contact_phone}</td>
+    </tr>
+    <tr>
+        <td>邮箱地</td>
+        <td>{$data.email}</td>
+    </tr>
+    <tr>
+        <td>联系地址</td>
+        <td>{$data.contact_address}</td>
+    </tr>
+    <tr>
+        <td>父亲身高/cm</td>
+        <td>{$data.father_height}</td>
+    </tr>
+    <tr>
+        <td>母亲身高/cm</td>
+        <td>{$data.mother_height}</td>
+    </tr>
+    <tr>
+        <td>是否要纸质报告</td>
+        <td>{if $data.need_report==1}是{elseif $data.need_report==0}否{/if}</td>
+    </tr>
+    <tr>
+        <td>所属学校</td>
+        <td>{$data.school}</td>
+    </tr>
+   </tbody> 
+  
+</table>
+ </div>
+ <div class="easyui-panel" style="height:auto;width:960px; line-height:auto;padding:5px;">
+ <a href="{:url('Online/report')}?id={$data.register_id}" class="easyui-linkbutton">生成测试报告</a>
+ </div>  
+</div>
+</body>
+</html>
