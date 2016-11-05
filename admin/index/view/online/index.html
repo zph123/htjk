@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-以此为展示页面
+<div id="tb" style="padding:3px">
+    <form action="{:url('/index/Online')}" method="get">
+        <span>用户名:</span>
+        {if condition="isset($page.where)" }
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text" value="{$page.where}" name="user">
+        {else}
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="user">
+        {/if}
+        <input style="line-height:26px;border:1px solid #ccc" type="submit" value="搜索">
+    </form>
+</div>
+<table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
+    <thead>
+
+    <tr>
+        <th field="name1" width="10%">自增登记ID</th>
+        <th field="name2" width="13.8%">姓名</th>
+        <th field="name3" width="15.8%">性别</th>
+        <th field="name4" width="16.8%">身份证号</th>
+        <th field="name5" width="16.8%">手机号</th>
+        <th field="name6" width="16.8%">邮箱</th>
+        <th field="name7" width="16.8%">操作</th>
+    </tr>
+    </thead>
+    {if condition="!empty($data)" }
+    <tbody>
+    {foreach($data as $val)}
+    <tr>
+        <td>{$val.register_id}</td>
+        <td>{$val.customer}</td>
+        <td>{if $val.gender == 1}男{elseif $val.gender == 0}女{/if}</td>
+        <td>{$val.id_number}</td>
+        <td>{$val.contact_phone}</td>
+        <td>{$val.email}</td>
+        <td><a href="{:url('Online/show')}?id={$val.register_id}">查看详情</a></td>
+    </tr>
+    {/foreach}
+    </tbody>
+    <tbody>
+    <tr>
+        <td>{if condition="isset($page.where)" }
+        <td><span>一共{$page.leaf}--页</span></td>
+        <td><span>当前第{$page.page}--页</span></td>
+        <td><a href="{:url('Online/index')}?page={$page.lastpage}&&user={$page.where}">上一页</a></td>
+        <td><a href="{:url('Online/index')}?page={$page.nextpage}&&user={$page.where}">下一页</a></td>
+        {else}
+        <td><span>一共{$page.leaf}--页</span></td>
+        <td><span>当前第{$page.page}--页</span></td>
+        <td><a href="{:url('Online/index')}?page={$page.lastpage}">上一页</a></td>
+        <td><a href="{:url('Online/index')}?page={$page.nextpage}">下一页</a></td>
+        {/if}</td>
+    </tr>
+    </tbody>
+    {/if}
+</table>
 </body>
 </html>

@@ -9,9 +9,11 @@
 问题：{$v.q_content} <br>
 答：{$v.a_content} <br>
 {/foreach}
-{foreach name="desc_question" item="v" key="k" }
-问题：{$v.q_content} <br>
-答：{$v.a_content} <br>
-{/foreach}
+{if condition="isset($desc_question)"}
+	{foreach name="desc_question" item="v" key="k" }
+	问题：{$v.q_content} <br>
+	答：{$v.a_content} <br>
+	{/foreach}
+{/if}
 </body>
 </html>
