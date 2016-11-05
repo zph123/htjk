@@ -34,13 +34,15 @@
             {/foreach}
             </span>元</p>
         <p>未来几天活动详情：<a data-ajax="false" href="{:url('index/Test/nowList')}">查看</a></p>
-
-        <input type="hidden" value="{$id}" name="id" id="id">
-        <input type="hidden" value="{$below_list['l_stime']}" name="l_stime" id="l_stime">
-        <input type="hidden" value="{$below_list['l_etime']}" name="l_etime" id="l_etime">
         {else /}
         <span style="color: green;">近期未发现任何活动痕迹</span>
         {/if}
+
+        <input type="hidden" value="{$below_list['l_stime']}" name="l_stime" id="l_stime">
+        <input type="hidden" value="{$below_list['l_etime']}" name="l_etime" id="l_etime">
+
+        <input type="hidden" value="{$id}" name="id" id="id">
+
         <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/test/nowTest_pro')}">
             <input type="hidden" value="{$below_list['l_id']}" name="l_id" id="l_id">
             <div class="ui-field-contain">
@@ -162,7 +164,7 @@
                 <label for="school"><font color="red">• </font>测试人所属学校:&nbsp;&nbsp;<span style="color:gray">学校不能为空</span></label>
                 <input type="text" name="school" id="school" value="" data-clear-btn="true" class="forms">
             </div>
-            <div data-role="navbar" class="ui-content">
+            <div data-role="navbar" class="ui-content" id="button">
                 <ul>
                     <li></li>
                     <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:document.form_onlinetest.reset()" data-rel="dialog">取消</a></li>
@@ -175,6 +177,31 @@
     </div>
 
     <script>
+        window.onload=function(){
+            var id = $("#id").val()
+            //获取活动开始时间的时间戳
+            var l_stime = $("#l_stime").val()
+            var date = new Date(l_stime);
+            var l_stime = Date.parse(date)
+            //获取结束时间的时间戳
+            var l_etime = $("#l_etime").val()
+            var date1 = new Date(l_etime);
+            var l_etime = Date.parse(date1)
+            //获取当前时间的时间戳
+            var time = Date.parse(new Date());
+            if(id==""){
+                if(confirm("您还没有登录，请先登录")){
+                    location.href="{:url('index/Login/index')}";
+                }else{
+                    $("#button").hide()
+                }
+            }
+
+            if(time<l_stime || time>l_etime || !l_stime){
+                alert('近期未发现任何活动痕迹');
+                $("#button").hide()
+            }
+        }
         function height(){
             var predict_height = document.getElementsByName('predict_height')[0].value
             if(predict_height == 1){
@@ -188,22 +215,21 @@
             $(".forms").click(function(){
                 var id = $("#id").val()
                 if(id==""){
-                    alert('请先登录，现在前往登录页面');location.href="{:url('index/Login/index')}";
-                }
+                    if(confirm("您还没有登录，请先登录")){
+                        location.href="{:url('index/Login/index')}";
+                    }
+                };
                 var l_etime = $("#l_etime").val()
                 var l_stime = $("#l_stime").val()
                 //获取活动开始时间的时间戳
                 var date = new Date(l_stime);
                 var l_stime = Date.parse(date)
-//                alert(l_stime)
                 //获取结束时间的时间戳
                 var date1 = new Date(l_etime);
                 var l_etime = Date.parse(date1)
-//                alert(l_etime)
                 //获取当前时间的时间戳
                 var time = Date.parse(new Date());
-//                alert(time)
-                if(time<l_stime || time>l_etime){
+                if(time<l_stime || time>l_etime || !l_stime){
                     alert('没有在活动时间内，暂时不能提交表单');
                 }
             })

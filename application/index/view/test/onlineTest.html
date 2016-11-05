@@ -25,14 +25,14 @@
 </div>
 
 <div data-role="content"  style="margin-bottom:10%;" id="content">
-    <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/test/add_onlinetest')}">
+    <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" enctype="multipart/form-data" action="{:url('index/test/add_onlinetest')}">
         <p>测试费用</p>
         <p>原价：
-            <font color="#696969"><s>￥<i id="original_price">111</i></s></font>
+            <font color="#696969"><s>￥<i id="original_price">{$original_price}</i></s></font>
             元/人次
         </p>
         <p>现价：
-            <font color="red">￥<i id="present_price">50</i><font color="#3cb371">（<span id="discount">5</span>折后的费用) </font></font>
+            <font color="red">￥<i id="present_price">{$discount_price}</i><font color="#3cb371">（<span id="discount">{$discount}</span>折后的费用) </font></font>
             <font style="color: red;display: none" name="premium">+<span name="add_price"></span></font>
             元/人次
         </p>
@@ -118,7 +118,7 @@
             </li>
         </ul>
         <div class="ui-field-contain">
-            <label for="hands_photo"><font color="red">• </font>手部图片上传:</label>
+            <label for="hands_photo"><font color="red">• </font>手部X光片上传:</label>
             <input id="hands_photo" name="hands_photo" class="file" type="file" multiple data-min-file-count="1">
         </div>
         <ul data-role="listview" data-inset="true">
@@ -277,89 +277,89 @@
     function autosubmit() {
         var status=1;
 
-        //姓名
-        if(!$('#customer').val()){
-            status=0;
-            alert('测试人姓名不能为空。');
-            return
-        }
-        //身份证号
-        var reg_ident=/^\d{18}|\d{17}x$/i;
-        if(!reg_ident.test($('#id_number').val())){
-            status=0;
-            alert('身份证号有误！');
-            return
-        }
-        //身高
-        var birth_height=$('#birth_height').val();
-        if(
-                isNaN(Number(birth_height))
-                ||birth_height<=0
-                ||birth_height>100
-        ){
-            status=0;
-            alert('出生身高错误！');
-            return
-        }
-        //体重
-        var birth_weight=$('#birth_weight').val();
-        if(
-                isNaN(Number(birth_weight))
-                ||birth_weight<=0
-                ||birth_weight>20
-        ){
-            status=0;
-            alert('出生体重错误！');
-            return
-        }
-        //手机号
-        var reg_phone=/^1[3,5,8]\d{9}$/;
-        if(!reg_phone.test($('#contact_phone').val())){
-            status=0;
-            alert('手机号错误。');
-            return
-        }
-        //邮箱
-        var reg_emaile=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-        if(!reg_emaile.test($('#email').val())){
-            status=0;
-            alert('邮箱错误。');
-            return
-        }
-        //联系地址
-        if(!$('#contact_address').val()){
-            status=0;
-            alert('联系地址不能为空。');
-            return
-        }
-        //父亲身高
-        var father_height=$('#father_height').val();
-        if(
-                isNaN(Number(father_height))
-                ||father_height<=0
-                ||father_height>100
-        ){
-            status=0;
-            alert('父亲身高错误！');
-            return
-        }
-        //母亲身高
-        var mother_height=$('#mother_height').val();
-        if(
-                isNaN(Number(mother_height))
-                ||mother_height<=0
-                ||mother_height>100
-        ){
-            status=0;
-            alert('母亲身高错误！');
-            return
-        }
-        //所在学校
-        if(!$('#school').val()){
-            status=0;
-            alert('请填写测试人所在学校。');
-            return
-        }
+//        //姓名
+//        if(!$('#customer').val()){
+//            status=0;
+//            alert('测试人姓名不能为空。');
+//            return
+//        }
+//        //身份证号
+//        var reg_ident=/^\d{18}|\d{17}x$/i;
+//        if(!reg_ident.test($('#id_number').val())){
+//            status=0;
+//            alert('身份证号有误！');
+//            return
+//        }
+//        //身高
+//        var birth_height=$('#birth_height').val();
+//        if(
+//                isNaN(Number(birth_height))
+//                ||birth_height<=0
+//                ||birth_height>100
+//        ){
+//            status=0;
+//            alert('出生身高错误！');
+//            return
+//        }
+//        //体重
+//        var birth_weight=$('#birth_weight').val();
+//        if(
+//                isNaN(Number(birth_weight))
+//                ||birth_weight<=0
+//                ||birth_weight>20
+//        ){
+//            status=0;
+//            alert('出生体重错误！');
+//            return
+//        }
+//        //手机号
+//        var reg_phone=/^1[3,5,8]\d{9}$/;
+//        if(!reg_phone.test($('#contact_phone').val())){
+//            status=0;
+//            alert('手机号错误。');
+//            return
+//        }
+//        //邮箱
+//        var reg_emaile=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+//        if(!reg_emaile.test($('#email').val())){
+//            status=0;
+//            alert('邮箱错误。');
+//            return
+//        }
+//        //联系地址
+//        if(!$('#contact_address').val()){
+//            status=0;
+//            alert('联系地址不能为空。');
+//            return
+//        }
+//        //父亲身高
+//        var father_height=$('#father_height').val();
+//        if(
+//                isNaN(Number(father_height))
+//                ||father_height<=0
+//                ||father_height>100
+//        ){
+//            status=0;
+//            alert('父亲身高错误！');
+//            return
+//        }
+//        //母亲身高
+//        var mother_height=$('#mother_height').val();
+//        if(
+//                isNaN(Number(mother_height))
+//                ||mother_height<=0
+//                ||mother_height>100
+//        ){
+//            status=0;
+//            alert('母亲身高错误！');
+//            return
+//        }
+//        //所在学校
+//        if(!$('#school').val()){
+//            status=0;
+//            alert('请填写测试人所在学校。');
+//            return
+//        }
 
         if(status){
             var form=$('#form_onlinetest');

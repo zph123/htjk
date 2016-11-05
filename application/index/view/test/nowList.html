@@ -5,18 +5,22 @@
     <h1>近期活动列表</h1>
 </div>
 <div data-role="main" class="ui-content" style="margin-bottom:10%">
+    {if condition="$below_list"}
     {foreach($below_list as $val)}
     <div data-role="main" class="ui-content">
         <p>地点： {$val.l_place}</p>
         <p>开始时间： {$val.l_stime}</p>
         <p>结束时间： {$val.l_etime}</p>
         <p>费用： 每人每次
-            {if condition="($val.price[0]['p_price']>$val.price[1]['p_price'])"}
-            {$val.price[0]['p_price']}
-            {else /}
-            {$val.price[1]['p_price']}
+            {foreach($price as $val)}
+            {if condition="($val['p_id']==2)"}
+            {$val['p_price']}
             {/if}
+            {/foreach}
             元</p>
     </div>
     {/foreach}
+    {else /}
+    <span style="color: green;">未来几天没有发现任何活动痕迹</span>
+    {/if}
 </div>

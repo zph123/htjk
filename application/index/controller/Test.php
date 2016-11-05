@@ -9,6 +9,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Db;
+use think\Request;
 use think\Session;
 use app\index\model\Gl_test;
 use app\index\model\onlinetest as onlinetestModel;
@@ -22,9 +23,22 @@ class Test extends Controller
     public function onlinetest()
     {
 
-        //从数据库获取 测试费用 、预测身高的费用
+        //从数据库获取 测试费用
+        $price_id=1;
+        $price=price_classModel::get($price_id);
+        $original_price=$price['p_price'];
 
-        return view('onlineTest');
+        //模拟暂定 折扣 及 折扣价
+        $discount=5;
+        $discount_price=0.1*$discount*$original_price;
+
+        return view('onlineTest',
+            [
+                'original_price'=>$original_price,
+                'discount'=>$discount,
+                'discount_price'=>$discount_price
+            ]
+        );
     }
 
     /**作者：李斌
@@ -47,7 +61,7 @@ class Test extends Controller
     /**作者：李斌
      * 数据入库
      */
-    public function add_onlinetest()
+    public function add_onlinetest(Request $request)
     {
         /**添加一个测试人的信息入库
          * 方案A：
@@ -62,24 +76,53 @@ class Test extends Controller
          * 如果没登录就调用登录和注册，登录或注册完毕后
          */
 
-        /**
-         * 方案 A
-         */
+    /**
+     * 方案 A
+     */
         $infos=input();
         //状态：已提交，未付费
         $infos['status']=0;
         //APP用户ID
         $infos['uid']=session('uid');
+
+        $file = $request->file('hands_photo');
+        $file_path=ROOT_PATH . 'public' . DS . 'customer_uploads';
+        if(!is_dir($file_path)) {
+            mkdir($file_path, 0777, true);
+        }
+        // 移动到框架应用根目录/public/uploads/ 目录下
+        $file_info = $file->move($file_path);
+        if ($file_info) {
+            $infos['hands_photo_path']=$file_info->getSaveName();
+        } else {
+            // 上传失败获取错误信息
+            $this->error($file->getError());
+        }
+
         //预留：可以考虑为用户做一个重复提交判断
 //        if(isset()){
 //
 //        }else{
 //
 //        }
-//        var_dump($infos);die;
+
         if ($result = onlinetestModel::create($infos)) {
-            return '提交成功';
-//            return redirect(":url('/')");
+
+            /**生成订单信息 向 支付接口发送订单信息 并附送订单信息
+             * body(商品名或订单描述),
+             * out_trade_no（一般为订单号）
+             * total_fee（订单金额，单位“分”，要注意单位问题）
+             */
+            $body='3';
+            $out_trade_no='1';
+            $total_fee='2';
+            $pay_array=array(
+                'body'=>$body,
+                'out_trade_no'=>$out_trade_no,
+                'total_fee'=>$total_fee,
+            );
+            return "数据已准备，等待连接支付接口！";
+//            return redirect("index/test/ajax_login_status",$pay_array);
         } else {
             return $result->getError();
         }
@@ -93,10 +136,8 @@ class Test extends Controller
     {
         header('content-type:text/html;charset=utf-8');
         $below_list = Db::table('below_list')->where('l_stime','>',date("Y-m-d H:i:s"))->order('l_stime','asc')->select();
-        foreach($below_list as $key=>$val){
-            $below_list[$key]['price'] = Db::table('price_class')->where('p_id','in','2,3')->select();
-        }
-        return view('nowList',['below_list'=>$below_list]);
+        $price = Db::table('price_class')->where('p_id','in','2,3')->select();
+        return view('nowList',['below_list'=>$below_list,'price'=>$price]);
     }
     /*作者：刘志祥
      * 2016-11-1 10:50:12
@@ -116,8 +157,6 @@ class Test extends Controller
      */
     public function nowTest_pro(){
         header('content-type:text/html;charset=utf-8');
-        //获取登录人id
-
         $data = $_POST;
         //后台验证  如果没有活动 而点击报名 。。则会提示“没有活动，暂时不能报名”
         if(empty($data['l_id'])){
