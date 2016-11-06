@@ -25,12 +25,12 @@
 申请时间：{$data['add_time']} <br>
 是否支付：{if condition="$data['is_pay'] == 0"}
 				 <span style="color:red">未支付</span>
-				{elseif condition="$v.is_pay == 1"/}
+				{elseif condition="$data['is_pay'] == 1"/}
 				 <span style="color:green">已支付</span>
 				{/if} <br>
 是否生成报告：{if condition="$data['stuatus'] == 0"}
 				 <span style="color:red">未生成</span>
-				{elseif condition="$v.stuatus == 1"/}
+				{elseif condition="$data['stuatus'] == 1"/}
 				 <span style="color:green">已生成</span>
 				{/if} <br>
 	<ul style="list-style:none">
@@ -55,8 +55,8 @@
 		$(this).addClass('red').siblings().removeClass('red');
 		var index = $(this).index();
 		// alert(index)
-		$(".desc").eq(index).addClass('show');
-		$(".desc not:"+index).addClass('hide');
+		$(".desc").eq(index).addClass('show').siblings().removeClass('show');;
+		//$(".desc not:"+index).addClass('hide');
 		//alert($(".desc").eq(index).html())
 	})
 </script>
