@@ -71,10 +71,11 @@
 				{/if}
 	        </td>
 	        <td>
-	       		<a href="javascript:;" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
+	       		<a href="{:url('dietdetails')}?id={$v.n_id}" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
 	       		<a href="javascript:;" class="easyui-linkbutton"  iconCls="icon-cancel">删除</a><input type="hidden" value="">
 	        </td>
 	    </tr>
     {/foreach}
     </tbody>
 </table>
+{$page}
