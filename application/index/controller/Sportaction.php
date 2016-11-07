@@ -7,12 +7,15 @@ use think\Db;
 use think\Request;
 use app\index\model\user_model;
 
-class Sportaction extends Controller
+class Sportaction extends Common
 {
 	/**
 	 * 加载运动处方首页
 	 */
 	function index(){
+        //查询单次价格
+        $price=Db::table('price_class')->where('p_id','4')->find();
+        $this->assign('price',$price['p_price']);
 		return view('index/sportAction');
 	}
 	/**
