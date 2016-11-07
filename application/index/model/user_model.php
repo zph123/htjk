@@ -19,8 +19,21 @@ class user_model extends Model
 		return $data;
 	}
 	// 查询单条详情
-	function user_find($table,$where){
-		$data = Db::table("$table")->where('id',$where)->find();
+	function user_find($table,$where,$uid){
+		$data = Db::table("$table")
+		->where('id',$where)
+		->where('uid',$uid)
+		->find();
+		return $data;
+	}
+	/**
+	 * 查询用户填写的运动数据
+	 */
+	function user_motion($table,$id,$field='*',$date){
+		$data = Db::table("$table")
+		->where('uid',$id)
+		->where('time','between',[$date,date('Y-m-d', strtotime("$date +1 month -1 day"))])
+		->column($field);
 		return $data;
 	}
 }

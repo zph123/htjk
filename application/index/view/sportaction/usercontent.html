@@ -1,0 +1,50 @@
+</head>
+<body>
+    <div data-role="header">
+        <h1>内容详情</h1>
+    </div>
+<div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
+     <span style="float: right;">
+     <a href="javascript:void" onClick="javascript:history.go(-1);" data-role="button">返回</a>
+     </span>
+	<table data-role="table" class="ui-responsive" id="myTable">
+      <thead>
+        <tr>
+          <th>时间</th>
+          <th>运动时间</th>
+          <th>运动内容</th>
+          <th>运动持续时间、次数</th>
+          <th>运动后的主观感觉</th>
+          <th>身体感觉</th>
+          <th>运动情绪</th>
+          <th>面色</th>
+          <th>睡眠</th>
+          <th>食欲</th>
+          <th>排汗量</th>
+          <th>呼吸</th>
+          <th>体重</th>
+          <th>肺活量</th>
+          <th>血压</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{$list.time}</td>
+          <td>{$list.m_time}</td>
+          <td>{$list.m_content}</td>
+          <td>{$list.m_continued}</td>
+          <td>{$list.feel}</td>
+          <td>{$list.m_feel}</td>
+          <td>{$list.emotion}</td>
+          <td>{$list.face}</td>
+          <td>{$list.sleep}</td>
+          <td>{$list.eat}</td>
+          <td>{$list.perspiration}</td>
+          <td>{$list.breathing}</td>
+          <td>{$list.weight}</td>
+          <td>{$list.lung}</td>
+          <td>{$list.blood}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

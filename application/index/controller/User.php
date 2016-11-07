@@ -39,7 +39,7 @@ class User extends Common
      */
     function motion(){
         $where=Session::get('uid');
-        $field='title,time,id,content';
+        $field='id,title,time,content';
         $model=new user_model();
         $data=$model->user_select('content',$where,$field);
         $this->assign('list', $data);
@@ -49,12 +49,15 @@ class User extends Common
      * 查看详情
      */
     function see(Request $request){
-        $data=$request->param();
-        $id=empty($data['r'])?"":$data['r'];
-        $model=new user_model();
-        $data=$model->user_find('content',$id);
-        $this->assign('list', $data);
-        return $this->fetch('content');
+        $uid=session::get('uid');
+        if(isset($uid)){
+            $data=$request->param();
+            $id=empty($data['r'])?"":$data['r'];
+            $model=new user_model();
+            $data=$model->user_find('content',$id,$uid);
+            $this->assign('list', $data);
+            return $this->fetch('content');
+        }        
     }
     /**
      * 退出登录

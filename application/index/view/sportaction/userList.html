@@ -1,0 +1,23 @@
+</head>
+<body>
+    <div data-role="header">
+        <h1>运动处方</h1>
+    </div>
+<div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
+  <p style="line-height: 2em;font-size: 18px;">
+     <span style="float: right;">
+     <a href="javascript:void" onClick="javascript:history.go(-1);" data-role="button">返回</a>
+     </span>
+  </p>
+        <div style="clear: both;"></div>
+    <ul data-role="listview" data-inset="true">
+    {foreach name='list' item='value'}
+      <li>
+        <a href="{:url('sportaction/userContent')}?r={$value.id}" data-ajax="false">
+        <h2>{$value.time}{$value.m_time}</h2>
+        <p>{$value.m_content}</p>
+        </a>
+      </li>
+      {/foreach}
+    </ul>
+</div>

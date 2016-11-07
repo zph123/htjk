@@ -1,0 +1,183 @@
+</head>
+<body>
+<div data-role="header">
+        <h1>{$time}</h1>
+    </div>
+
+    <div data-role="content" style="margin-bottom: 15%">
+        <p style="line-height: 2em;font-size: 18px;">
+           <span style="float: left;"><a href="javascript:void" onClick="javascript:history.go(-1);" data-role="button">返回</a></span>
+           <span style="float: right;">
+           <a href="{:url('index/sportaction/userList')}" data-role="button" data-ajax="false">列表</a>
+           </span>
+        </p>
+        <div style="clear: both;"></div>
+<form action="{:url('index/sportaction/motionAdd')}" method="post" data-ajax="false" id="formid">
+    <input type="hidden" name="date" value="{$time}">
+    <input type="hidden" name="num" value="1" id="test_num">
+      <fieldset data-role="fieldcontain">
+        <label>运动时间</label>
+        <select name="time" id="time">
+          <option value="早晨">早晨</option>
+          <option value="上午">上午</option>
+          <option value="中午">中午</option>
+          <option value="下午">下午</option>
+          <option value="傍晚">傍晚</option>
+          <option value="其他">其他</option>
+        </select>
+        <label>运动内容</label>
+        <select name="content" id="next">
+          <option value="篮球" class="next" num='1' selected="selected">篮球</option>
+          <option value="排球" class="next" num='1'>排球</option>
+          <option value="足球" class="next" num='1'>足球</option>
+          <option value="乒乓球" class="next" num='1'>乒乓球</option>
+          <option value="网球" class="next" num='1'>网球</option>
+          <option value="羽毛球" class="next" num='1'>羽毛球</option>
+          <option value="拍球" class="next" num='1'>拍球</option>
+          <option value="游戏" class="next" num='1'>游戏</option>
+          <option value="跑步" class="next" num='1'>跑步</option>
+          <option value="快步走" class="next" num='1'>快步走</option>
+          <option value="游泳" class="next" num='1'>游泳</option>
+          <option value="体操" class="next" num='1'>体操</option>
+          <option value="健美操" class="next" num='1'>健美操</option>
+          <option value="跆拳道" class="next" num='1'>跆拳道</option>
+          <option value="空手道" class="next" num='1'>空手道</option>
+          <option value="爬山" class="next" num='1'>爬山</option>
+          <option value="骑车" class="next" num='1'>骑车</option>
+          <option value="踢毽子" class="next" num='1'>踢毽子</option>
+          <option value="武术" class="next" num='1'>武术</option>
+          <option value="跳绳" class="next" num='2'>跳绳</option>
+          <option value="仰卧起坐" class="next" num='2'>仰卧起坐</option>
+          <option value="俯卧撑" class="next" num='2'>俯卧撑</option>
+          <option value="双杠臂屈伸" class="next" num='2'>双杠臂屈伸</option>
+          <option value="单杠悬垂" class="next" num='2'>单杠悬垂</option>
+          <option value="呼啦圈" class="next" num='2'>呼啦圈</option>
+          <option value="跳高" class="next" num='2'>跳高</option>
+          <option value="立定跳远" class="next" num='2'>立定跳远</option>
+          <option value="掷实心球" class="next" num='2'>掷实心球</option>
+          <option value="其他" class="next" num='2'>其他</option>
+          <option value="爬山" class="next" num='0'>爬山</option>
+          <option value="单杠悬垂" class="next" num='0'>单杠悬垂</option>
+          <option value="其他项目" class="next" num='0'>其他项目</option>
+        </select>
+        <label id="next_text">运动持续时间</label>
+        <div style="display:none" id="gp_ne" class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset">
+          <input type="text" name="continued[]" >
+        </div>
+        <div id="div_next">
+          <select name="continued[]" id="day">
+              {for start="10" end="60" step="5" name="i" }
+                <option value="{$i}分钟">{$i}分钟</option>
+              {/for}
+              <option value="60+分钟">60分钟以上</option>
+          </select>
+        </div>
+        <div style="display: none" id="div_group">
+          <select name="continued[]">
+            {for start="1" end="20" step="1" name="i" }
+              <option value="{$i}组">{$i}组</option>
+            {/for}
+            <option value="20+组">20组以上</option>
+          </select>
+        </div>
+        <label for="day">运动后主观感觉</label>
+        <select name="feel" id="day">
+          <option value="根本不费力">根本不费力</option>
+          <option value="极其轻松">极其轻松</option>
+          <option value="很轻松">很轻松</option>
+          <option value="轻松">轻松</option>
+          <option value="有点吃力">有点吃力</option>
+          <option value="吃力">吃力</option>
+          <option value="非常吃力">非常吃力</option>
+          <option value="极其吃力">极其吃力</option>
+          <option value="精疲力竭">精疲力竭</option>
+        </select>
+        <label for="day">身体感觉</label>
+        <select name="m_feel" id="day">
+          <option value="无任何不舒服">无任何不舒服</option>
+          <option value="疲劳、腿痛、心悸">疲劳、腿痛、心悸</option>
+          <option value="痛、胸痛、恶心甚至呕吐">痛、胸痛、恶心甚至呕吐</option>
+        </select>
+        <label for="day">运动情绪</label>
+        <select name="emotion" id="day">
+          <option value="精神饱满、精力充沛、自信心强">精神饱满、精力充沛、自信心强</option>
+          <option value="情绪低落、心情不佳">情绪低落、心情不佳</option>
+          <option value="怕练">怕练</option>
+        </select>
+        <label for="day">面色</label>
+        <select name="face" id="day">
+          <option value="稍红">稍红</option>
+          <option value="相当红">相当红</option>
+          <option value="十分红">十分红</option>
+          <option value="苍白、有时呈紫红色">苍白、有时呈紫红色</option>
+        </select>
+        <label for="day">睡眠</label>
+        <select name="sleep" id="day">
+          <option value="入睡快，睡眠深而少梦">入睡快，睡眠深而少梦</option>
+          <option value="入睡慢，容易做梦，睡中易醒">入睡慢，容易做梦，睡中易醒</option>
+        </select>
+        <label for="day">食欲</label>
+        <select name="eat" id="day">
+          <option value="想进食且食量大">想进食且食量大</option>
+          <option value="不想进食，食量减少">不想进食，食量减少</option>
+        </select>
+        <label for="day">排汗量</label>
+        <select name="perspiration" id="day">
+          <option value="不多">不多</option>
+          <option value="较多">较多</option>
+          <option value="非常多，尤其是整个躯干部分">非常多，尤其是整个躯干部分</option>
+        </select>
+        <label for="day">呼吸</label>
+        <select name="breathing" id="day">
+          <option value="中度加快">中度加快</option>
+          <option value="显著加快">显著加快</option>
+          <option value="显著加快，并且呼吸表浅有时会出现节律紊乱">显著加快，并且呼吸表浅有时会出现节律紊乱</option>
+        </select>
+        <label for="day">体重</label>
+        <select name="weight" id="day">
+          <option value="体重平稳">体重平稳</option>
+          <option value="体重下降">体重下降</option>
+          <option value="体重持续下降">体重持续下降</option>
+        </select>
+        <label for="fname">肺活量</label>
+        <input type="text" name="lung" id="fname">
+        <label for="fname">血压</label>
+        <input type="text" name="blood" id="fname">
+      </fieldset>
+      <hr>
+      <a href="javascript:void(0)" data-role="button" id="btn" data-corners="false" style="width: 100px;margin: 0 auto;"  >提交</a>
+
+    </div>
+</form>
+<script>
+  $(function(){
+    var i=$('#next').find("option:selected").attr('num');
+    fun(i);
+    $('#next').change(function(){
+      var i=$(this).find("option:selected").attr('num');
+      fun(i);
+    });
+    $('#btn').click(function(){
+      $("#formid").submit();
+    });
+  });
+  function fun(i){
+    if(i==1){
+        $('#next_text').html('运动持续时间');
+        $("#div_next").show();
+        $("#div_group").hide();
+        $("#gp_ne").hide();
+      }else if(i==2){
+        $('#next_text').html('运动持续次数');
+        $("#div_next").hide();
+        $("#div_group").show();
+        $("#gp_ne").hide();
+      }else if(i==0){
+        $('#next_text').html('运动持续时间或次数');
+        $("#div_next").hide();
+        $("#div_group").hide();
+        $("#gp_ne").show();
+      }
+    $("#test_num").val(i);
+  }
+</script>
