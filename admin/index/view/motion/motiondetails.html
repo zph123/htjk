@@ -1,0 +1,56 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">运动记录数据</div>    <br/>
+订单号：{$one[0]['m_number']} <br>
+申请人：{$one[0]['name']} <br>
+申请时间：{$one[0]['add_time']} <br>
+是否支付：{if condition="$one[0]['is_pay'] == 0"}
+<span style="color:red">未支付</span>
+{elseif condition="$one[0]['is_pay'] == 1"/}
+<span style="color:green">已支付</span>
+{/if} <br>
+是否生成报告：{if condition="$one[0]['state'] == 0"}
+<span style="color:red">未生成</span>
+{elseif condition="$one[0]['state'] == 1"/}
+<span style="color:green">已生成</span>
+{/if} <br>
+<table id="tt" class="easyui-datagrid" data-options="nowrap:false" style="width:100%;height:auto;">
+    <thead>
+    <tr>
+        <th field="name1"   width="4%">用户</th>
+        <th field="name2" width="7%">运动时间</th>
+        <th field="name3" width="7%">运动内容</th>
+        <th field="name4" width="8%">运动持续时间</th>
+        <th field="name5" width="14%">运动后主观能动性感觉</th>
+        <th field="name6" width="7%">运动情绪</th>
+        <th field="name7" width="6%">面色</th>
+        <th field="name8" width="7%">睡眠</th>
+        <th field="name9" width="7%">食欲</th>
+        <th field="name10" width="7%">排汗量</th>
+        <th field="name11" width="7%">呼吸</th>
+        <th field="name12" width="7%">体重</th>
+        <th field="name13" width="7%">肺活量</th>
+        <th field="name14" width="7%">血压</th>
+    </tr>
+    </thead>
+    {foreach $data as $val}
+    <tbody>
+    <tr>
+        <td>{$val.m_time}</td>
+        <td>{$val.m_content}</td>
+        <td>{$val.m_continued}</td>
+        <td>{$val.feel}</td>
+        <td>{$val.m_feel}</td>
+        <td>{$val.emotion}</td>
+        <td>{$val.face}</td>
+        <td>{$val.sleep}</td>
+        <td>{$val.eat}</td>
+        <td>{$val.perspiration}</td>
+        <td>{$val.breathing}</td>
+        <td>{$val.weight}</td>
+        <td>{$val.weight}</td>
+        <td>{$val.weight}</td>
+    </tr>
+    </tbody>
+    {/foreach}
+</table>
+<br>
+<a href="{:url('motion')}">生成处方</a>
