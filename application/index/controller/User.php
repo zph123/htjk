@@ -10,6 +10,9 @@ class User extends Common
 {
     public function index()
     {
+        $id=Session::get('uid');
+        $user=Db::table('gl_users')->where('id',$id)->find();
+        $this->assign('name',$user['name']);
         return view('index/userCenter');
     }
     /**
