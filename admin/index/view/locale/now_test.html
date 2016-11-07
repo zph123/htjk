@@ -1,17 +1,18 @@
-<div id="tb" style="padding:3px">
-    <form style="float:left;" action="{:url('Locale/index')}" method="get">
+ <div id="tb" style="padding:3px">
+    <form style="float:left;" action="{:url('Locale/nowtest_show')}" method="get">
         <span>用户名:</span>
         {if condition="isset($page.where)" }
         <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text" value="{$page.where}" name="user">
         {else}
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="user">
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="user">        
         {/if}
         <input style="line-height:26px;border:1px solid #ccc" type="submit" value="搜索">
     </form>
     <a href="{:url('Locale/nowtest_show')}" style="float:left;display:block;line-height:27px;border:1px solid #ccc;width:60px;padding-left:10px;margin-left:20px">测试报告</a>
-</div>
+</div>  
 <table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
     <thead>
+
     <tr>
         <th field="name1" width="10%">自增登记ID</th>
         <th field="name2" width="13.8%">姓名</th>
@@ -32,7 +33,7 @@
         <td>{$val.n_idd}</td>
         <td>{$val.n_phone}</td>
         <td>{$val.n_email}</td>
-        <td><a href="{:url('Locale/local_show')}?n_id={$val.n_id}">生成测试报告</a></td>
+        <td><a href="{:url('Locale/nowtest_look')}?n_id={$val.n_id}">查看测试报告</a></td>
     </tr>
     {/foreach}
     </tbody>
@@ -41,13 +42,13 @@
         <td>{if condition="isset($page.where)" }
         <td><span>一共{$page.leaf}--页</span></td>
         <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('Locale/index')}?page={$page.lastpage}&&user={$page.where}">上一页</a></td>
-        <td><a href="{:url('Locale/index')}?page={$page.nextpage}&&user={$page.where}">下一页</a></td>
+        <td><a href="{:url('Locale/nowtest_show')}?page={$page.lastpage}&&user={$page.where}">上一页</a></td>
+        <td><a href="{:url('Locale/nowtest_show')}?page={$page.nextpage}&&user={$page.where}">下一页</a></td>
         {else}
         <td><span>一共{$page.leaf}--页</span></td>
         <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('Locale/index')}?page={$page.lastpage}">上一页</a></td>
-        <td><a href="{:url('Locale/index')}?page={$page.nextpage}">下一页</a></td>
+        <td><a href="{:url('Locale/nowtest_show')}?page={$page.lastpage}">上一页</a></td>
+        <td><a href="{:url('Locale/nowtest_show')}?page={$page.nextpage}">下一页</a></td>
         {/if}</td>
     </tr>
     </tbody>
