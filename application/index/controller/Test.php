@@ -9,10 +9,15 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Db;
+use think\Config;
 use think\Request;
 use think\Session;
 use app\index\model\Gl_test;
 use app\index\model\onlinetest as onlinetestModel;
+use app\index\model\onlinetest as nowtestModel;
+//use app\index\model\onlinetest as onlinetestModel;
+//use app\index\model\onlinetest as onlinetestModel;
+//use app\index\model\onlinetest as onlinetestModel;
 use app\index\model\price_class as price_classModel;
 
 class Test extends Controller
@@ -26,17 +31,10 @@ class Test extends Controller
         //从数据库获取 测试费用
         $price_id=1;
         $price=price_classModel::get($price_id);
-        $original_price=$price['p_price'];
-
-        //模拟暂定 折扣 及 折扣价
-        $discount=5;
-        $discount_price=0.1*$discount*$original_price;
 
         return view('onlineTest',
             [
-                'original_price'=>$original_price,
-                'discount'=>$discount,
-                'discount_price'=>$discount_price
+                'price'=>$price,
             ]
         );
     }
@@ -53,10 +51,14 @@ class Test extends Controller
     /**作者：李斌
      * ajax获取 “预测身高” 的价格
      */
-    public function ajax_add_price(){
-        $price_id=3;
+    public function ajax_price(){
+        $status=input('predict_height');
+        if($status==1)
+            $price_id=1;
+        elseif($status==0)
+            $price_id=6;
         $price=price_classModel::get($price_id);
-        echo $price['p_price'];
+        echo json_encode($price);
     }
     /**作者：李斌
      * 数据入库
@@ -84,18 +86,32 @@ class Test extends Controller
         $infos['status']=0;
         //APP用户ID
         $infos['uid']=session('uid');
+        //获取当前付费项 总价
+        if($infos['predict_height']==1)
+            $price_id=3;
+        elseif($infos['predict_height']==0)
+            $price_id=1;
+        $price=price_classModel::get($price_id);
+        //付费项总价
+        $infos['price']=$price['p_price'];
+        //付费项名称
+        $infos['items']=$price['p_name'];
 
+        /**保存上传来的图片
+         */
         $file = $request->file('hands_photo');
-        $file_path=ROOT_PATH . 'public' . DS . 'customer_uploads';
+        //读取路径配置
+        $file_path=Config::get('uploads.customer_uploads');
+        //如果路径不存在，则生成
         if(!is_dir($file_path)) {
             mkdir($file_path, 0777, true);
         }
-        // 移动到框架应用根目录/public/uploads/ 目录下
+        // 移动到框架应用根目录/public/customer_uploads/ 目录下
         $file_info = $file->move($file_path);
         if ($file_info) {
             $infos['hands_photo_path']=$file_info->getSaveName();
         } else {
-            // 上传失败获取错误信息
+            // 上传失败获取错误信息，并显示
             $this->error($file->getError());
         }
 
@@ -113,13 +129,11 @@ class Test extends Controller
              * out_trade_no（一般为订单号）
              * total_fee（订单金额，单位“分”，要注意单位问题）
              */
-            $body='3';
             $out_trade_no='1';
-            $total_fee='2';
             $pay_array=array(
-                'body'=>$body,
+                'body'=>$infos['items'],
                 'out_trade_no'=>$out_trade_no,
-                'total_fee'=>$total_fee,
+                'total_fee'=>$infos['price'],
             );
             return "数据已准备，等待连接支付接口！";
 //            return redirect("index/test/ajax_login_status",$pay_array);
@@ -127,6 +141,31 @@ class Test extends Controller
             return $result->getError();
         }
     }
+
+    /**作者：李斌
+     * 为用户展示消费项（包括免费项）
+     */
+    public function spent_list(){
+        /**主体信息包括
+         * 测试人姓名、消费项名称、消费项金额、消费项生成时间、付费方式、
+         * 要求在点击简略信息后，展示详细信息
+         */
+        $uid=session('?uid');
+        //查询 现场测试 的消费记录
+        //查询 在线测试 的消费记录
+        //查询 预测身高 的消费记录
+        //查询 运动处方 的消费记录
+        //查询 营养处方 的消费记录
+
+    }
+
+    /**作者：李斌
+     * 为用户的消费项，展示单项内的详细信息，包括：
+     */
+    public function details_spent(){
+
+    }
+
 
     /*作者：刘志祥
      * 2016-11-2 09:34:16

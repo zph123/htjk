@@ -21,19 +21,17 @@
 </head>
 <body>
 <div data-role="header">
-    <h1>在线测试</h1>
+    <h1>在线测试（现处于测试阶段，正则验证已暂时禁用）</h1>
 </div>
 
 <div data-role="content"  style="margin-bottom:10%;" id="content">
     <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" enctype="multipart/form-data" action="{:url('index/test/add_onlinetest')}">
-        <p>测试费用</p>
-        <p>原价：
-            <font color="#696969"><s>￥<i id="original_price">{$original_price}</i></s></font>
-            元/人次
-        </p>
+        <p id="name_price">{$price.p_name}</p>
+
         <p>现价：
-            <font color="red">￥<i id="present_price">{$discount_price}</i><font color="#3cb371">（<span id="discount">{$discount}</span>折后的费用) </font></font>
-            <font style="color: red;display: none" name="premium">+<span name="add_price"></span></font>
+            <font color="red">￥
+                <i id="present_price">{$price.p_price}</i>
+            </font>
             元/人次
         </p>
         <div class="ui-field-contain">
@@ -134,9 +132,9 @@
             <label for="contact_address"><font color="red">• </font>联系地址:</label>
             <input type="text" name="contact_address" id="contact_address" value="" data-clear-btn="true">
             <label for="father_height"><font color="red">• </font>父亲身高:</label>
-            <input type="text" name="father_height" id="father_height" value="" data-clear-btn="true">
+            <input type="text" name="father_height" id="father_height" value="" data-clear-btn="true" placeholder="单位：/cm">
             <label for="mother_height"><font color="red">• </font>母亲身高:</label>
-            <input type="text" name="mother_height" id="mother_height" value="" data-clear-btn="true">
+            <input type="text" name="mother_height" id="mother_height" value="" data-clear-btn="true" placeholder="单位：/cm">
         </div>
 
         <div class="ui-field-contain">
@@ -164,21 +162,6 @@
                 <li></li>
             </ul>
         </div>
-
-
-        <!--&lt;!&ndash;jQuery Mobile自带的双按钮遮罩-&#45;&#45;失败！不能用&#45;&#45;&ndash;&gt;-->
-        <!--<a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">Delete page...</a>-->
-        <!--<div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">-->
-            <!--&lt;!&ndash;    <div data-role="header" data-theme="a">&ndash;&gt;-->
-            <!--&lt;!&ndash;    <h1>Delete Page?</h1>&ndash;&gt;-->
-            <!--&lt;!&ndash;    </div>&ndash;&gt;-->
-            <!--    <div role="main" class="ui-content">-->
-            <!--        <h3 class="ui-title">您还没有登录，请问要前往登录吗?</h3>-->
-            <!--&lt;!&ndash;    <p>This action cannot be undone.</p>&ndash;&gt;-->
-            <!--        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>-->
-            <!--        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back" data-transition="flow">Delete</a>-->
-            <!--    </div>-->
-        <!--</div>-->
 
 
     </form>
@@ -235,21 +218,19 @@
             //筛选出 premium对象（加价）
             var premium=$("font[name='premium']");
 
-            if(predict_height==1){
-                premium.show();
-                $.ajax({
-                    url:"{:url('index/test/ajax_add_price')}",
-                    type:"get",
-                    success:function (add_price) {
-                        $("span[name='add_price']").html(add_price);
-                    },
-                    error:function () {
-                        alert('异常，连接失败！')
-                    }
-                });
-            }else if(predict_height==0){
-                premium.hide();
-            }
+            $.ajax({
+                url:"{:url('index/test/ajax_price')}",
+                data:{predict_height:predict_height},
+                type:"get",
+                dataType:'json',
+                success:function (price_arr) {
+                    $("#name_price").html(price_arr.p_name);
+                    $("#present_price").html(price_arr.p_price);
+                },
+                error:function () {
+                    alert('异常，连接失败！')
+                }
+            });
         });
 
         //提交
