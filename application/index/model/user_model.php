@@ -36,4 +36,10 @@ class user_model extends Model
 		->column($field);
 		return $data;
 	}
+	/**
+	 * 添加数据入库
+	 */
+	function add_motion($table,$array){
+		return Db::table("$table")->insert($array);
+	}
 }

@@ -187,9 +187,10 @@ class Sportaction extends Common
             exit(json_encode($error));
         }
         $field='time,id';
-        for($i=0;$i<$count;$i++){
+        for($i=0;$i<count($array);$i++){
             $s=$array[$i];
-            $e=$array[$i+1];
+            $i++;
+            $e=$array[$i];
             $temp=Db::table("user_motion")
             ->where('uid',$id)
             ->where('time','between',[$s,$e])
@@ -200,7 +201,26 @@ class Sportaction extends Common
                 exit(json_encode($error));
             }
         }
-        exit(json_encode($array));
+        //生成订单
+        $number = "YY".date("YmdHis",time()).rand(10000,99999);
+        //拼接数据
+        $array=array(
+            'u_id'=>$id,
+            'm_number'=>$number,
+            'add_time'=>date('Y-m-d'),
+            'begin_time'=>$data['s'],
+            'end_time'=>$data['e']
+            );
+        $model=new user_model();
+        $re=$model->add_motion('motion_order',$array);
+        if($re){
+            $error['error']='1';
+            $error['content']='生成订单成功是否去支付';
+        }else{
+            $error['error']='0';
+            $error['content']='出现故障啦，请刷新试试';
+        }
+        exit(json_encode($error));
     }
     /**
      * 查询用户是否填写过运动处方
