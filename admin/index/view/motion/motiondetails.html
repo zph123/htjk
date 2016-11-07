@@ -15,25 +15,27 @@
 <table id="tt" class="easyui-datagrid" data-options="nowrap:false" style="width:100%;height:auto;">
     <thead>
     <tr>
-        <th field="name1"   width="4%">用户</th>
-        <th field="name2" width="7%">运动时间</th>
-        <th field="name3" width="7%">运动内容</th>
-        <th field="name4" width="8%">运动持续时间</th>
-        <th field="name5" width="14%">运动后主观能动性感觉</th>
-        <th field="name6" width="7%">运动情绪</th>
-        <th field="name7" width="6%">面色</th>
-        <th field="name8" width="7%">睡眠</th>
-        <th field="name9" width="7%">食欲</th>
-        <th field="name10" width="7%">排汗量</th>
-        <th field="name11" width="7%">呼吸</th>
-        <th field="name12" width="7%">体重</th>
-        <th field="name13" width="7%">肺活量</th>
-        <th field="name14" width="7%">血压</th>
+        <th field="name1"   width="9%">生成时间</th>
+        <th field="name2"   width="4%">用户</th>
+        <th field="name3" width="6%">运动时间</th>
+        <th field="name4" width="6%">运动内容</th>
+        <th field="name5" width="8%">运动持续时间</th>
+        <th field="name6" width="14%">运动后主观能动性感觉</th>
+        <th field="name7" width="7%">运动情绪</th>
+        <th field="name8" width="4%">面色</th>`
+        <th field="name9" width="7%">睡眠</th>
+        <th field="name10" width="7%">食欲</th>
+        <th field="name11" width="6%">排汗量</th>
+        <th field="name12" width="6%">呼吸</th>
+        <th field="name13" width="6%">体重</th>
+        <th field="name14" width="6%">肺活量</th>
+        <th field="name15" width="6%">血压</th>
     </tr>
     </thead>
     {foreach $data as $val}
     <tbody>
     <tr>
+        <td>{$val.time}</td>
         <td>{$val.m_time}</td>
         <td>{$val.m_content}</td>
         <td>{$val.m_continued}</td>
