@@ -1,150 +1,150 @@
 <style type="text/css">
-.xwtable {width: 100%;border-collapse: collapse;border: 1px solid #ccc;}                
-.xwtable thead td {font-size: 12px;color: #333333;text-align: center;border: 1px solid #ccc; font-weight:bold;}
-.xwtable tbody tr {background: #fff;font-size: 12px;color: #666666;}           
-.xwtable tbody tr.alt-row {background: #f2f7fc;}               
-.xwtable td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
+    .xwtable {width: 100%;border-collapse: collapse;border: 1px solid #ccc;}
+    .xwtable thead td {font-size: 12px;color: #333333;text-align: center;border: 1px solid #ccc; font-weight:bold;}
+    .xwtable tbody tr {background: #fff;font-size: 12px;color: #666666;}
+    .xwtable tbody tr.alt-row {background: #f2f7fc;}
+    .xwtable td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
 </style>
 </head>
 
 <body>
 <form action="{:url('Online/create')}" method="post">
-<table class="xwtable">
-			<thead>
-			  <tr>
-				<td>单位<input type="hidden" name="or_id" value="{$data.register_id}"></td>
-				<td>{$data.school}</td>
-				<td>年龄</td>
-				<td>{$data.age}</td>
-				<td>性别</td>
-				<td>{if $data.gender == 1}男{elseif $data.gender == 0}女{/if}</td>
-			  </tr>
-			  <tr>
-				<td>姓名</td>
-				<td>{$data.customer}</td>
-				<td>民族</td>
-				<td></td>
-				<td>出生日期</td>
-				<td>{$data.appDate}</td>
-			  </tr>
-			  <tr>
-				<td>籍贯</td>
-				<td colspan="2"></td>
-				<td>测试时间</td>
-				<td colspan="2"></td>
-			  </tr>	
-			  <tr>
-				<td>测试编号</td>
-				<td colspan="2"><input type="text" name="tdnumber"></td>
-				<td>骨龄片号</td>
-				<td colspan="2"><input type="text" name="glnumber"></td>
-			  </tr>				  			  			  
-			</thead>
-			<tbody>
-			<tr>
-				<td colspan="6"></td>
-			</tr>				
-			<tr>
-				<td>序号</td>
-				<td>指标</td>
-				<td>值</td>
-				<td>单位</td>
-				<td>评价</td>
-				<td>发育类型</td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>身高</td>
-				<td><input type="text" name="height[0][height]"></td>
-				<td>cm</td>
-				<td><input type="text" name="height[0][appraise]"></td>
-				<td><input type="text" name="height[0][development]"></td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td>体重</td>
-				<td><input type="text" name="weight[0][weight]"></td>
-				<td>kg</td>
-				<td><input type="text" name="weight[0][appraise]"></td>
-				<td><input type="text" name="weight[0][development]"></td>
-			</tr>
-			<tr>
-				<td>3</td>
-				<td>胸围</td>
-				<td><input type="text" name="chest[0][chest]"></td>
-				<td>cm</td>
-				<td><input type="text" name="chest[0][appraise]"></td>
-				<td><input type="text" name="chest[0][development]"></td>
-			</tr>
-			<tr>
-				<td>4</td>
-				<td>GP骨龄</td>
-				<td><input type="text" name="gpbone[0][gpbone]"></td>
-				<td>岁-月</td>
-				<td><input type="text" name="gpbone[0][appraise]"></td>
-				<td><input type="text" name="gpbone[0][development]"></td>
-			</tr>
-			<tr>
-				<td>5</td>
-				<td>CHN骨龄</td>
-				<td><input type="text" name="chnbone[0][chnbone]"></td>
-				<td>岁-月</td>
-				<td><input type="text" name="chnbone[0][appraise]"></td>
-				<td><input type="text" name="chnbone[0][development]"></td>
-			</tr>
-			<tr>
-				<td>6</td>
-				<td>CH05骨龄</td>
-				<td><input type="text" name="ch05bone[0][ch05bone]"></td>
-				<td></td>
-				<td><input type="text" name="ch05bone[0][appraise]"></td>
-				<td><input type="text" name="ch05bone[0][development]"></td>
-			</tr>										
-			<tr>
-				<td>7</td>
-				<td>TW3C</td>
-				<td><input type="text" name="tw3c[0][tw3c]"></td>
-				<td></td>
-				<td><input type="text" name="tw3c[0][appraise]"></td>
-				<td><input type="text" name="tw3c[0][development]"></td>
-			</tr>
-			<tr>
-				<td>8</td>
-				<td>TW3R</td>
-				<td><input type="text" name="tw3r[0][tw3r]"></td>
-				<td></td>
-				<td><input type="text" name="tw3r[0][appraise]"></td>
-				<td><input type="text" name="tw3r[0][development]"></td>
-			</tr>
-			<tr>
-				<td colspan="6"></td>
-			</tr>
-			<tr>
-				<td>遗传身高</td>
-				<td><input type="text" name="h_height"></td>
-				<td>CM</td>
-				<td>BUS-CHN预测身高</td>
-				<td><input type="text" name="chn_height"></td>
-				<td>CM</td>
-			</tr>
-			<tr>
-				<td>BUS-GP预测身高</td>
-				<td><input type="text" name="gp_height"></td>
-				<td>CM</td>
-				<td>BP预测身高</td>
-				<td><input type="text" name="bp_height"></td>
-				<td>CM</td>
-			</tr>
-			<tr>
-				<td>RWT预测身高</td>
-				<td><input type="text" name="rwt_height"></td>
-				<td>CM</td>
-			</tr>
-<tr><td colspan="6"></td></tr>
-<tr><td colspan="4">专家综合评测身高</td><td><input type="text" name="evaluating"></td><td>+-2CM</td></tr>
-<tr><td colspan="6"><input type="submit" value="保存"><a href="{:url('Online/index')}">返回</a></td></tr>							
-			</tbody>
-		  </table>
-</form>		  
+    <table class="xwtable">
+        <thead>
+        <tr>
+            <td>单位<input type="hidden" name="or_id" value="{$data.register_id}"></td>
+            <td>{$data.school}</td>
+            <td>年龄</td>
+            <td>{$data.age}</td>
+            <td>性别</td>
+            <td>{if $data.gender == 1}男{elseif $data.gender == 0}女{/if}</td>
+        </tr>
+        <tr>
+            <td>姓名</td>
+            <td>{$data.customer}</td>
+            <td>民族</td>
+            <td></td>
+            <td>出生日期</td>
+            <td>{$data.appDate}</td>
+        </tr>
+        <tr>
+            <td>籍贯</td>
+            <td colspan="2"></td>
+            <td>测试时间</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td>测试编号</td>
+            <td colspan="2"><input type="text" name="tdnumber"></td>
+            <td>骨龄片号</td>
+            <td colspan="2"><input type="text" name="glnumber"></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="6"></td>
+        </tr>
+        <tr>
+            <td>序号</td>
+            <td>指标</td>
+            <td>值</td>
+            <td>单位</td>
+            <td>评价</td>
+            <td>发育类型</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>身高</td>
+            <td><input type="text" name="height[0][height]"></td>
+            <td>cm</td>
+            <td><input type="text" name="height[0][appraise]"></td>
+            <td><input type="text" name="height[0][development]"></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>体重</td>
+            <td><input type="text" name="weight[0][weight]"></td>
+            <td>kg</td>
+            <td><input type="text" name="weight[0][appraise]"></td>
+            <td><input type="text" name="weight[0][development]"></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>胸围</td>
+            <td><input type="text" name="chest[0][chest]"></td>
+            <td>cm</td>
+            <td><input type="text" name="chest[0][appraise]"></td>
+            <td><input type="text" name="chest[0][development]"></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>GP骨龄</td>
+            <td><input type="text" name="gpbone[0][gpbone]"></td>
+            <td>岁-月</td>
+            <td><input type="text" name="gpbone[0][appraise]"></td>
+            <td><input type="text" name="gpbone[0][development]"></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>CHN骨龄</td>
+            <td><input type="text" name="chnbone[0][chnbone]"></td>
+            <td>岁-月</td>
+            <td><input type="text" name="chnbone[0][appraise]"></td>
+            <td><input type="text" name="chnbone[0][development]"></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>CH05骨龄</td>
+            <td><input type="text" name="ch05bone[0][ch05bone]"></td>
+            <td></td>
+            <td><input type="text" name="ch05bone[0][appraise]"></td>
+            <td><input type="text" name="ch05bone[0][development]"></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>TW3C</td>
+            <td><input type="text" name="tw3c[0][tw3c]"></td>
+            <td></td>
+            <td><input type="text" name="tw3c[0][appraise]"></td>
+            <td><input type="text" name="tw3c[0][development]"></td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>TW3R</td>
+            <td><input type="text" name="tw3r[0][tw3r]"></td>
+            <td></td>
+            <td><input type="text" name="tw3r[0][appraise]"></td>
+            <td><input type="text" name="tw3r[0][development]"></td>
+        </tr>
+        <tr>
+            <td colspan="6"></td>
+        </tr>
+        <tr>
+            <td>遗传身高</td>
+            <td><input type="text" name="h_height"></td>
+            <td>CM</td>
+            <td>BUS-CHN预测身高</td>
+            <td><input type="text" name="chn_height"></td>
+            <td>CM</td>
+        </tr>
+        <tr>
+            <td>BUS-GP预测身高</td>
+            <td><input type="text" name="gp_height"></td>
+            <td>CM</td>
+            <td>BP预测身高</td>
+            <td><input type="text" name="bp_height"></td>
+            <td>CM</td>
+        </tr>
+        <tr>
+            <td>RWT预测身高</td>
+            <td><input type="text" name="rwt_height"></td>
+            <td>CM</td>
+        </tr>
+        <tr><td colspan="6"></td></tr>
+        <tr><td colspan="4">专家综合评测身高</td><td><input type="text" name="evaluating"></td><td>+-2CM</td></tr>
+        <tr><td colspan="6"><input type="submit" value="保存"><a href="{:url('Online/index')}">返回</a></td></tr>
+        </tbody>
+    </table>
+</form>
 </body>
 </html>
