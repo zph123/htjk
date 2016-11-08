@@ -1,54 +1,89 @@
 <div id="tb" style="padding:3px">
     <form style="float:left;" action="{:url('Locale/index')}" method="get">
-        <span>用户名:</span>
-        {if condition="isset($page.where)" }
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text" value="{$page.where}" name="user">
+        <span>订单号:</span>
+        {if condition="isset($page.out_trade_no)" }
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no" value="{$page.out_trade_no}">
         {else}
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="user">
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no">
         {/if}
+        <span>支付状态:</span>
+        <select style="height:29px" name="is_pay">
+            <option value="">请选择</option>
+            <option value="0">未支付</option>
+            <option value="1">已支付</option>
+        </select>
+        <span>报告状态:</span>
+        <select style="height:29px" name="status">
+            <option value="">请选择</option>
+            <option value="0">未生成</option>
+            <option value="1">已生成</option>
+        </select>
         <input style="line-height:26px;border:1px solid #ccc" type="submit" value="搜索">
     </form>
-    <a href="{:url('Locale/nowtest_show')}" style="float:left;display:block;line-height:27px;border:1px solid #ccc;width:60px;padding-left:10px;margin-left:20px">测试报告</a>
 </div>
 <table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
     <thead>
     <tr>
-        <th field="name1" width="10%">自增登记ID</th>
-        <th field="name2" width="13.8%">姓名</th>
-        <th field="name3" width="15.8%">性别</th>
-        <th field="name4" width="16.8%">身份证号</th>
-        <th field="name5" width="16.8%">手机号</th>
-        <th field="name6" width="16.8%">邮箱</th>
-        <th field="name7" width="16.8%">操作</th>
+        <th field="name1" width="25%">订单编号</th>
+        <th field="name2" width="25%">支付状态</th>
+        <th field="name3" width="25%">报告生成状态</th>
+        <th field="name4" width="25%">操作</th>
     </tr>
     </thead>
     {if condition="!empty($data)" }
     <tbody>
     {foreach($data as $val)}
     <tr>
-        <td>{$val.n_id}</td>
-        <td>{$val.n_name}</td>
-        <td>{if $val.n_sex == 1}男{elseif $val.n_sex == 0}女{/if}</td>
-        <td>{$val.n_idd}</td>
-        <td>{$val.n_phone}</td>
-        <td>{$val.n_email}</td>
-        <td><a href="{:url('Locale/local_show')}?n_id={$val.n_id}">生成测试报告</a></td>
+        <td>{$val.out_trade_no}</td>
+        <td>
+            {if $val.is_pay == 1}
+            <span style="color:red">已支付</span>
+            {elseif $val.is_pay == 0}
+            <span style="color:red">未支付</span>
+            {/if}
+        </td>
+        <td>
+            {if $val.status == 1}
+            <span style="color:red">已生成</span>
+            {elseif $val.status == 0}
+            <span style="color:red">未生成</span>
+            {/if}
+        </td>
+        <td>
+            {if $val.is_pay == 1}
+            {if $val.status == 1}
+            <a href="{:url('Locale/nowtest_look')}?o_id={$val.o_id}">查看报告</a>
+            {elseif $val.status == 0}
+            <a href="{:url('Locale/local_show')}?o_id={$val.o_id}">生成报告</a>
+            {/if}
+            {elseif $val.is_pay == 0}
+            <span style="color:red">未支付</span>
+            {/if}
+        </td>
     </tr>
     {/foreach}
-    </tbody>
-    <tbody>
     <tr>
-        <td>{if condition="isset($page.where)" }
+        {if condition="isset($page.is_pay) && isset($page.status)" }
         <td><span>一共{$page.leaf}--页</span></td>
         <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('Locale/index')}?page={$page.lastpage}&&user={$page.where}">上一页</a></td>
-        <td><a href="{:url('Locale/index')}?page={$page.nextpage}&&user={$page.where}">下一页</a></td>
-        {else}
+        <td><a href="{:url('Locale/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}&&status={$page.status}">上一页</a></td>
+        <td><a href="{:url('Locale/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}&&status={$page.status}">下一页</a></td>
+        {elseif condition="isset($page.is_pay)" }
+        <td><span>一共{$page.leaf}--页</span></td>
+        <td><span>当前第{$page.page}--页</span></td>
+        <td><a href="{:url('Locale/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}">上一页</a></td>
+        <td><a href="{:url('Locale/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}">下一页</a></td>
+        {elseif condition="isset($page.status)" }
+        <td><span>一共{$page.leaf}--页</span></td>
+        <td><span>当前第{$page.page}--页</span></td>
+        <td><a href="{:url('Locale/index')}?page={$page.lastpage}&&status={$page.status}">上一页</a></td>
+        <td><a href="{:url('Locale/index')}?page={$page.nextpage}&&status={$page.status}">下一页</a></td>
+        {else /}
         <td><span>一共{$page.leaf}--页</span></td>
         <td><span>当前第{$page.page}--页</span></td>
         <td><a href="{:url('Locale/index')}?page={$page.lastpage}">上一页</a></td>
         <td><a href="{:url('Locale/index')}?page={$page.nextpage}">下一页</a></td>
-        {/if}</td>
+        {/if}
     </tr>
     </tbody>
     {/if}
