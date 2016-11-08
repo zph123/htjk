@@ -15,6 +15,7 @@ class Online extends Common
         $out_trade_no = Request::instance()->get('out_trade_no');
         $is_pay=Request::instance()->get('is_pay');
         $status=Request::instance()->get('status');
+        $name=Request::instance()->get('name');
         $page=Request::instance()->get('page');
         $parameter=array();
         $where=array();
@@ -27,6 +28,9 @@ class Online extends Common
         if(isset($status) && $status!==""){
             $where['status']=$status;
         }
+        if(!empty($name)){
+            $where['gl_users.name']=$name;
+        }         
         $online = new Onlinetest();
         $arr = $online->count_order($where);
         $number=count($arr);
@@ -42,16 +46,10 @@ class Online extends Common
         $parameter['nextpage']=$nextpage;
         $parameter['lastpage']=$lastpage;
         $parameter['leaf']    = $leaf;
-        if(!empty($out_trade_no)){
-            $parameter['out_trade_no']=$out_trade_no;
-        }
-        if(isset($is_pay) && $is_pay!=="" ){
-            $parameter['is_pay']=$is_pay;
-        }
-        if(isset($status) && $status!==""){
-            $parameter['status']=$status;
-        }
-
+        $this->assign('name',$name);
+        $this->assign('is_pay',$is_pay);
+        $this->assign('status',$status);
+        $this->assign('order',$out_trade_no);
         $this->assign('page',$parameter);
         $this->assign('data',$data);
         return $this->fetch('index');

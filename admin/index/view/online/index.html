@@ -1,33 +1,40 @@
 <div id="tb" style="padding:3px">
     <form style="float:left;" action="{:url('Online/index')}" method="get">
-        <span>订单号:</span>
-        {if condition="isset($page.out_trade_no)" }
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no" value="{$page.out_trade_no}">
+        <span>申请人:</span>
+        {if condition="isset($name)" }
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text" value="{$name}" name="name">
         {else}
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no">
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="name">        
         {/if}
-        <span>支付状态:</span>
-        <select style="height:29px" name="is_pay">
-            <option value="">请选择</option>
-            <option value="0">未支付</option>
-            <option value="1">已支付</option>
-        </select>
-        <span>报告状态:</span>
-        <select style="height:29px" name="status">
-            <option value="">请选择</option>
-            <option value="0">未生成</option>
-            <option value="1">已生成</option>
-        </select>
+        <span>订单号:</span>
+        {if condition="isset($order)" }
+        <input  style="line-height:26px;border:1px solid #ccc" type="text" value="{$order}" name="out_trade_no">
+        {else}
+        <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no">        
+        {/if}
+        <span>是否支付:</span>
+            <select name="is_pay" id="">
+                <option value="" {if condition="empty($is_pay)" } selected {/if}>请选择</option>
+                <option value="1" {if condition="$is_pay == 1" } selected {/if}>已支付</option>
+                <option value="0" {if condition="$is_pay == 0 && $is_pay!==''" } selected {/if}>未支付</option>
+            </select>
+        <span>是否生成报告:</span>
+            <select name="status" id="">
+                <option value="" {if condition="empty($status)" } selected {/if}>请选择</option>
+                <option value="1" {if condition="$status == 1" } selected {/if}>已生成</option>
+                <option value="0" {if condition="$status == 0 && $status!==''" } selected {/if}>未生成</option>
+            </select>
         <input style="line-height:26px;border:1px solid #ccc" type="submit" value="搜索">
     </form>
 </div>
 <table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
     <thead>
     <tr>
-        <th field="name1" width="25%">订单编号</th>
-        <th field="name2" width="25%">支付状态</th>
-        <th field="name3" width="25%">报告生成状态</th>
-        <th field="name4" width="25%">操作</th>
+        <th field="name1" width="20%">订单编号</th>
+        <th field="name6" width="20%">申请人</th>
+        <th field="name2" width="20%">支付状态</th>
+        <th field="name3" width="20%">报告生成状态</th>
+        <th field="name4" width="20%">操作</th>
     </tr>
     </thead>
     {if condition="!empty($data)" }
@@ -35,16 +42,17 @@
     {foreach($data as $val)}
     <tr>
         <td>{$val.out_trade_no}</td>
+        <td>{$val.name}</td>
         <td>
             {if $val.is_pay == 1}
-            <span style="color:red">已支付</span>
+            <span style="color:green">已支付</span>
             {elseif $val.is_pay == 0}
             <span style="color:red">未支付</span>
             {/if}
         </td>
         <td>
             {if $val.status == 1}
-            <span style="color:red">已生成</span>
+            <span style="color:green">已生成</span>
             {elseif $val.status == 0}
             <span style="color:red">未生成</span>
             {/if}
@@ -63,27 +71,11 @@
     </tr>
     {/foreach}
     <tr>
-        {if condition="isset($page.is_pay) && isset($page.status)" }
         <td><span>一共{$page.leaf}--页</span></td>
         <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('Online/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}&&status={$page.status}">上一页</a></td>
-        <td><a href="{:url('Online/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}&&status={$page.status}">下一页</a></td>
-        {elseif condition="isset($page.is_pay)" }
-        <td><span>一共{$page.leaf}--页</span></td>
-        <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('Online/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}">上一页</a></td>
-        <td><a href="{:url('Online/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}">下一页</a></td>
-        {elseif condition="isset($page.status)" }
-        <td><span>一共{$page.leaf}--页</span></td>
-        <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('Online/index')}?page={$page.lastpage}&&status={$page.status}">上一页</a></td>
-        <td><a href="{:url('Online/index')}?page={$page.nextpage}&&status={$page.status}">下一页</a></td>
-        {else /}
-        <td><span>一共{$page.leaf}--页</span></td>
-        <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('Online/index')}?page={$page.lastpage}">上一页</a></td>
-        <td><a href="{:url('Online/index')}?page={$page.nextpage}">下一页</a></td>
-        {/if}
+        <td>
+        <a href="{:url('Online/index')}?page={$page.lastpage}&&is_pay={$is_pay}&&status={$status}&&name={$name}&&out_trade_no={$order}">上一页</a></td>
+        <td><a href="{:url('Online/index')}?page={$page.nextpage}&&is_pay={$is_pay}&&status={$status}&&name={$name}&&out_trade_no={$order}">下一页</a></td>
     </tr>
     </tbody>
     {/if}

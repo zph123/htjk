@@ -11,7 +11,12 @@ class Onlinetest extends Model
      */
     public function online_search($where=1,$start)
     {
-        return Db::table('order')->where('type',3)->where($where)->limit($start,5)->select();
+        return Db::table('order')
+               ->join('gl_users u ','order.u_id = u.id ')
+               ->where('type',3)
+               ->where($where)
+               ->limit($start,5)
+               ->select();
     }
 
     /*
@@ -19,7 +24,11 @@ class Onlinetest extends Model
     */
     public function count_order($where)
     {
-        return Db::table('order')->where('type',3)->where($where)->select();
+        return Db::table('order')
+               ->join('gl_users u ','order.u_id = u.id ')
+               ->where('type',3)
+               ->where($where)
+               ->select();
     }
 
     /*
@@ -27,7 +36,9 @@ class Onlinetest extends Model
     */
     public function order_update($o_id)
     {
-        return Db::table('order')->where('o_id',$o_id)->setField('status',1);
+        return Db::table('order')
+               ->where('o_id',$o_id)
+               ->setField('status',1);
     }
 
 
