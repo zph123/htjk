@@ -45,11 +45,23 @@ class Motion_order extends Model
     {
         $data= Db::table('order')
             ->alias('o')
-            ->field('out_trade_no,name,addtime,is_pay,status')
+            ->field('out_trade_no,name,addtime,is_pay,status,o_id')
             ->join('gl_users g ','o.u_id = g.id ')
             ->where('type',2)
             ->where('u_id',$u_id)
             ->where('o_id',$order_id)
+            ->select();
+        return $data;
+    }
+    //查看处方身份
+    public function getUser($o_id)
+    {
+        $data= Db::table('order')
+            ->alias('o')
+            ->field('out_trade_no,addtime,is_pay,status,o_id,name,sex,year')
+            ->join('gl_users g ','o.u_id = g.id ')
+            ->where('type',2)
+            ->where('o_id',$o_id)
             ->select();
         return $data;
     }

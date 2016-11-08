@@ -26,11 +26,11 @@
 <table id="tt" class="easyui-datagrid"  style="width:100%;height:auto;">
     <thead>
     <tr>
-        <th field="name1"   width="20%">订单号</th>
+        <th field="name1" width="20%">订单号</th>
         <th field="name2" width="15%">申请人</th>
         <th field="name3" width="15%">申请时间</th>
-        <th field="name4" width="15%">是否生成报告</th>
         <th field="name5" width="15%">是否支付</th>
+        <th field="name4" width="15%">是否生成报告</th>
         <th field="name6" width="20%">操作</th>
     </tr>
     </thead>
@@ -42,17 +42,17 @@
         <td>{$vl.name}</td>
         <td>{$vl.add_time}</td>
         <td>
-            {if condition="$vl.status == 0"}
-            <span style="color:red">未生成</span>
-            {elseif condition="$vl.status == 1"/}
-            <span style="color:green">已生成</span>
-            {/if}
-        </td>
-        <td>
             {if condition="$vl.is_pay == 0"}
             <span style="color:red">未支付</span>
             {elseif condition="$vl.is_pay == 1"/}
             <span style="color:green">已支付</span>
+            {/if}
+        </td>
+        <td>
+            {if condition="$vl.status == 0"}
+            <span style="color:red">未生成</span>
+            {elseif condition="$vl.status == 1"/}
+            <span style="color:green"><a href="{:url('look')}?order_id={$vl.order_id}">查看报告</a></span>
             {/if}
         </td>
         <td>

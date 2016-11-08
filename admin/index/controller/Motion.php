@@ -27,7 +27,7 @@ class Motion extends Common
         $model = new Motion_order();
         $arr = $model->getAll($where);
         $number=count($arr);
-        $paging=2;
+        $paging=5;
         $leaf=ceil($number/$paging);
         $page=isset($_GET['page'])?$_GET['page']:1;
         $start=($page-1)*$paging;
@@ -67,10 +67,25 @@ class Motion extends Common
         $this->assign('one',$one);
         return view('motiondetails');
     }
-    //生成运动处方
+    //运动处方表单
     public function motion()
     {
+        $o_id=Request::instance()->param('o_id','','strip_tags,strtolower');
+        $model=new Motion_order();
+        $data=$model->getUser($o_id);
+        $this->assign('data',$data);
         return view('motion');
+    }
+    //生成运动处方
+    public function create()
+    {
+        echo '生成运动处方';
+    }
+    //查看处方
+    public function look()
+    {
+
+        return view('look');
     }
 
 }
