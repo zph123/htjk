@@ -45,14 +45,14 @@
         <td>{$val.name}</td>
         <td>
             {if $val.is_pay == 1}
-            <span style="color:red">已支付</span>
+            <span style="color:green">已支付</span>
             {elseif $val.is_pay == 0}
             <span style="color:red">未支付</span>
             {/if}
         </td>
         <td>
             {if $val.status == 1}
-            <span style="color:red">已生成</span>
+            <span style="color:green">已生成</span>
             {elseif $val.status == 0}
             <span style="color:red">未生成</span>
             {/if}
