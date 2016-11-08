@@ -10,7 +10,12 @@ class Localetest extends Model
      */
     public function online_search($where=1,$start)
     {
-        return Db::table('order')->where('type',4)->where($where)->limit($start,5)->select();
+        return Db::table('order')
+               ->join('gl_users u ','order.u_id = u.id ')
+               ->where('type',4)
+               ->where($where)
+               ->limit($start,5)
+               ->select();
     }
 
     /*
@@ -18,7 +23,11 @@ class Localetest extends Model
     */
     public function count_order($where)
     {
-        return Db::table('order')->where('type',4)->where($where)->select();
+        return Db::table('order')
+               ->join('gl_users u ','order.u_id = u.id ')
+               ->where('type',4)
+               ->where($where)
+               ->select();
     }
 
     /*
@@ -26,7 +35,9 @@ class Localetest extends Model
     */
     public function order_update($o_id)
     {
-        return Db::table('order')->where('o_id',$o_id)->setField('status',1);
+        return Db::table('order')
+               ->where('o_id',$o_id)
+               ->setField('status',1);
     }
 
     /**
@@ -34,7 +45,9 @@ class Localetest extends Model
      */
     public function one_select($id)
     {
-        return Db::table('nowtest')->where('o_id',$id)->find();
+        return Db::table('nowtest')
+               ->where('o_id',$id)
+               ->find();
 
     }
 

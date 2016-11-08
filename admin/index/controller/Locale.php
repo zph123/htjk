@@ -15,11 +15,15 @@ class Locale extends Common
         $is_pay=Request::instance()->get('is_pay');
         $status=Request::instance()->get('status');
         $page=Request::instance()->get('page');
+        $name=Request::instance()->get('name');
         $parameter=array();
         $where=array();
         if(!empty($out_trade_no)){
             $where['out_trade_no']=$out_trade_no;
         }
+        if(!empty($name)){
+            $where['gl_users.name']=$name;
+        }        
         if(isset($is_pay) && $is_pay!=="" ){
             $where['is_pay']=$is_pay;
         }
@@ -41,15 +45,10 @@ class Locale extends Common
         $parameter['nextpage']=$nextpage;
         $parameter['lastpage']=$lastpage;
         $parameter['leaf']    = $leaf;
-        if(!empty($out_trade_no)){
-            $parameter['out_trade_no']=$out_trade_no;
-        }
-        if(isset($is_pay) && $is_pay!=="" ){
-            $parameter['is_pay']=$is_pay;
-        }
-        if(isset($status) && $status!==""){
-            $parameter['status']=$status;
-        }
+        $this->assign('name',$name);
+        $this->assign('is_pay',$is_pay);
+        $this->assign('status',$status);
+        $this->assign('order',$out_trade_no);
         $this->assign('page',$parameter);
         $this->assign('data',$data);
         return $this->fetch('index');
