@@ -8,9 +8,9 @@
 				</th>
 				<th data-options="field:'listprice',width:100,align:'right',halign:'center'">性别</th>
 				<th data-options="field:'unitcost',width:120,align:'right',halign:'center'">
-                    {if condition="$data[0]['sex'] == 0"}
+                    {if condition="$data[0]['sex'] == 1"}
                     <input type="text" name="sex" value="男"/>
-                    {elseif condition="$data[0]['sex'] == 1"/}
+                    {elseif condition="$data[0]['sex'] == 0"/}
                     <input type="text" name="sex" value="女"/>
                     {/if}
 				</th>
