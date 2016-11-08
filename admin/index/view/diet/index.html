@@ -30,10 +30,10 @@
 	        	<option value="0" {if condition="$is_pay == 0 && $is_pay!==''" } selected {/if}>未支付</option>
 	        </select>
         <span>是否生成报告:</span>
-       		<select name="stuatus" id="">
-       			<option value="" {if condition="empty($stuatus)" } selected {/if}>请选择</option>
-	        	<option value="1" {if condition="$stuatus == 1" } selected {/if}>已生成</option>
-	        	<option value="0" {if condition="$stuatus == 0 && $stuatus!==''" } selected {/if}>未生成</option>
+       		<select name="status" id="">
+       			<option value="" {if condition="empty($status)" } selected {/if}>请选择</option>
+	        	<option value="1" {if condition="$status == 1" } selected {/if}>已生成</option>
+	        	<option value="0" {if condition="$status == 0 && $status!==''" } selected {/if}>未生成</option>
 	        </select>
         <input style="line-height:26px;border:1px solid #ccc" type="submit" value="搜索">
     </form>
@@ -80,6 +80,6 @@
 </table>
         <td><span>一共{$page.leaf}--页</span></td>
         <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('Diet/index')}?page={$page.lastpage}&is_pay={$is_pay}&stuatus={$stuatus}&n_number={$n_number}&name={$name}">上一页</a></td>
-        <td><a href="{:url('Diet/index')}?page={$page.nextpage}&is_pay={$is_pay}&stuatus={$stuatus}&n_number={$n_number}&name={$name}">下一页</a></td>
+        <td><a href="{:url('Diet/index')}?page={$page.lastpage}&is_pay={$is_pay}&status={$status}&n_number={$n_number}&name={$name}">上一页</a></td>
+        <td><a href="{:url('Diet/index')}?page={$page.nextpage}&is_pay={$is_pay}&status={$status}&n_number={$n_number}&name={$name}">下一页</a></td>
 

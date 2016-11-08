@@ -34,6 +34,10 @@ class Diet extends Common
         // }
 
         // $this->assign('page',$parameter);
+        $out_trade_no = Request::instance()->get('out_trade_no');
+        $is_pay=Request::instance()->get('is_pay');
+        $status=Request::instance()->get('status');
+        $page=Request::instance()->get('page');
         $where=array();
         if(!empty($out_trade_no)){
             $where['out_trade_no']=$out_trade_no;
@@ -52,7 +56,6 @@ class Diet extends Common
         $start=($page-1)*$paging;
         $lastpage=$page-1<1?1:$page-1;
         $nextpage=$page+1>$leaf?$leaf:$page+1;
-
         $parameter['page']    =$page;
         $parameter['nextpage']=$nextpage;
         $parameter['lastpage']=$lastpage;
@@ -62,7 +65,7 @@ class Diet extends Common
         $name= Request::instance()->get('name');
         $n_number = Request::instance()->get('n_number');
         $is_pay= Request::instance()->get('is_pay');
-        $stuatus = Request::instance()->get('stuatus');
+        $status = Request::instance()->get('status');
         $order = Db::table('nutrition_order')
         ->alias('n')
         ->join('order o','o.o_id = n.o_id')
@@ -70,7 +73,7 @@ class Diet extends Common
         ->where('o.type ','1')
         ->where('o.out_trade_no','like',"%$n_number%")
         ->where('g.name','like',"%$name%")
-        ->where('o.status','like',"%$stuatus%")
+        ->where('o.status','like',"%$status%")
         ->where('o.is_pay','like',"%$is_pay%")
         ->order("o.addtime desc")
         ->field('o.o_id,o.out_trade_no,o.status,o.addtime,o.is_pay,g.name')
@@ -81,7 +84,7 @@ class Diet extends Common
         $this->assign('name',$name);
         $this->assign('n_number',$n_number);
         $this->assign('is_pay',$is_pay);
-        $this->assign('stuatus',$stuatus);
+        $this->assign('status',$status);
         $this->assign('order',$order);
         return view('index');
     }
