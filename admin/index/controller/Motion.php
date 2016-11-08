@@ -9,6 +9,7 @@ class Motion extends Common
     //首页
     public function index()
     {
+        $name = Request::instance()->get('name');
         $out_trade_no = Request::instance()->get('out_trade_no');
         $is_pay=Request::instance()->get('is_pay');
         $status=Request::instance()->get('status');
@@ -17,6 +18,9 @@ class Motion extends Common
         $where=array();
         if(!empty($out_trade_no)){
             $where['out_trade_no']=$out_trade_no;
+        }
+        if(!empty($name)){
+            $where['name']=$name;
         }
         if(isset($is_pay) && $is_pay!=="" ){
             $where['is_pay']=$is_pay;
@@ -41,6 +45,9 @@ class Motion extends Common
         $parameter['leaf']    = $leaf;
         if(!empty($out_trade_no)){
             $parameter['out_trade_no']=$out_trade_no;
+        }
+        if(!empty($name)){
+            $parameter['name']=$name;
         }
         if(isset($is_pay) && $is_pay!=="" ){
             $parameter['is_pay']=$is_pay;

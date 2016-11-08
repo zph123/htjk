@@ -8,6 +8,12 @@
         {else}
         <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no">
         {/if}
+        <span>申请人:</span>
+        {if condition="isset($page.name)" }
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="name" value="{$page.name}">
+        {else}
+        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="name">
+        {/if}
         <span>支付状态:</span>
         <select style="height:29px" name="is_pay">
             <option value="">请选择</option>
