@@ -445,17 +445,22 @@ class Nutrientbalance extends Controller
 				}
 			}
 		}
-		//用户ID
-		$mysql_date['u_id'] = $u_id;
-		$mysql_date['desc'] = json_encode($detail);
-		$mysql_date['add_time'] = date("Y-m-d H:i;s",time());
-		$mysql_date['n_number'] = $this->createuniquenumber();
 
-		if(Db::table("nutrition_order")->insert($mysql_date)) {
+		//营养TYPE 1
+		$order_data['type'] = 1;
+		$order_data['u_id'] = $u_id;
+		$order_data['out_trade_no'] = $this->createuniquenumber();
+		$order_data['addtime'] = date("Y-m-d H:i;s",time());
+		$num = Db::name('order')->insertGetId($order_data);
+
+		$mysql_date['desc'] = json_encode($detail);
+		$mysql_date['o_id'] = $num;
+		if(Db::name('nutrition_order')->insert($mysql_date)){
 			echo 1;
-		} else {
+		}else{
 			echo 0;
 		}
+
 	}
 
 	/**
@@ -463,14 +468,14 @@ class Nutrientbalance extends Controller
 	 * @return string
 	 */
 	private function createuniquenumber() {
-
-		$str = "YY".date("YmdHis",time()).rand(10000,99999);
-
-		$res = Db::table("nutrition_order")
-			->where("n_number", $str)
+		//商户id
+		$num = "1280101701";
+		$str = $num.date("YmdHis",time());
+		$re = Db::table("order")
+			->where("out_trade_no", $str)
 			->find();
 
-		if($res){
+		if($re){
 			return $this->createuniquenumber();
 		}else{
 			return $str;
