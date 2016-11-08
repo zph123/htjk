@@ -19,10 +19,23 @@ class User extends Common
      * 加载营养均衡首页
      */
     function nutrition(){
-        $where=Session::get('uid');
-        $field='title,time,id,content';
+        $id=Session::get('uid');
+        $type='1';
+        $field='o_id,status,is_pay,out_trade_no,addtime';
         $model=new user_model();
-        $data=$model->user_select('content',$where,$field);
+        $data=$model->user_order($id,$type,$field);
+        foreach($data as $key=>$value){
+            if($value['is_pay']==0){
+                $data[$key]['is_pay']='未支付';
+            }else{
+                $data[$key]['is_pay']='已支付';
+            }
+            if($value['status']==0){
+                $data[$key]['status']='未生成';
+            }else{
+                $data[$key]['status']='已生成';
+            }
+        }
         $this->assign('list', $data);
     	return $this->fetch();
     }
@@ -30,10 +43,23 @@ class User extends Common
      * 测试报告
      */
     function report(){
-        $where=Session::get('uid');
-        $field='title,time,id,content';
+        $id=Session::get('uid');
+        $type='3';
+        $field='o_id,status,is_pay,out_trade_no,addtime';
         $model=new user_model();
-        $data=$model->user_select('content',$where,$field);
+        $data=$model->user_order($id,$type,$field);
+        foreach($data as $key=>$value){
+            if($value['is_pay']==0){
+                $data[$key]['is_pay']='未支付';
+            }else{
+                $data[$key]['is_pay']='已支付';
+            }
+            if($value['status']==0){
+                $data[$key]['status']='未生成';
+            }else{
+                $data[$key]['status']='已生成';
+            }
+        }
         $this->assign('list', $data);
         return $this->fetch('nutrition');
     }
@@ -41,10 +67,23 @@ class User extends Common
      *运动处方
      */
     function motion(){
-        $where=Session::get('uid');
-        $field='id,title,time,content';
+        $id=Session::get('uid');
+        $type='2';
+        $field='o_id,status,is_pay,out_trade_no,addtime';
         $model=new user_model();
-        $data=$model->user_select('content',$where,$field);
+        $data=$model->user_order($id,$type,$field);
+        foreach($data as $key=>$value){
+            if($value['is_pay']==0){
+                $data[$key]['is_pay']='未支付';
+            }else{
+                $data[$key]['is_pay']='已支付';
+            }
+            if($value['status']==0){
+                $data[$key]['status']='未生成';
+            }else{
+                $data[$key]['status']='已生成';
+            }
+        }
         $this->assign('list', $data);
         return $this->fetch('nutrition');
     }
@@ -56,9 +95,9 @@ class User extends Common
         if(isset($uid)){
             $data=$request->param();
             $id=empty($data['r'])?"":$data['r'];
-            $model=new user_model();
-            $data=$model->user_find('content',$id,$uid);
-            $this->assign('list', $data);
+            // $model=new user_model();
+            // $data=$model->user_find(,$id,$uid);
+            // $this->assign('list', $data);
             return $this->fetch('content');
         }        
     }

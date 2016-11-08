@@ -18,10 +18,17 @@ class user_model extends Model
 		->column($field);
 		return $data;
 	}
+	function user_order($id,$type,$field='*'){
+		$data = Db::table('order')
+		->where('u_id',$id)
+		->where('type',$type)
+		->column($field);
+		return $data;
+	}
 	// 查询单条详情
-	function user_find($table,$where,$uid){
+	function user_find($table,$id,$uid){
 		$data = Db::table("$table")
-		->where('id',$where)
+		->where('id',$id)
 		->where('uid',$uid)
 		->find();
 		return $data;
