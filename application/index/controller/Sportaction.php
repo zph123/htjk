@@ -182,7 +182,7 @@ class Sportaction extends Common
             $i=strtotime($ssday);
         }
         $count=count($array)/2;
-        if($count<12){
+        if($count<1){
             $error['error']='0';
             $error['content']='提交的时间少于12周';
             exit(json_encode($error));
@@ -222,6 +222,7 @@ class Sportaction extends Common
             if($re){
                 $error['error']='1';
                 $error['content']='生成订单成功是否去支付';
+                $error['r']=$order_id;
             }else{
                 Db::table('order')->where('o_id',$order_id)->delete();
                 $error['error']='0';

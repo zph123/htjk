@@ -21,22 +21,11 @@ class User extends Common
     function nutrition(){
         $id=Session::get('uid');
         $type='1';
-        $field='o_id,status,is_pay,out_trade_no,addtime';
+        $field='o_id,out_trade_no,addtime';
         $model=new user_model();
         $data=$model->user_order($id,$type,$field);
-        foreach($data as $key=>$value){
-            if($value['is_pay']==0){
-                $data[$key]['is_pay']='未支付';
-            }else{
-                $data[$key]['is_pay']='已支付';
-            }
-            if($value['status']==0){
-                $data[$key]['status']='未生成';
-            }else{
-                $data[$key]['status']='已生成';
-            }
-        }
         $this->assign('list', $data);
+        $this->assign('name','营养均衡');
     	return $this->fetch();
     }
     /**
@@ -45,22 +34,11 @@ class User extends Common
     function report(){
         $id=Session::get('uid');
         $type='3';
-        $field='o_id,status,is_pay,out_trade_no,addtime';
+        $field='o_id,out_trade_no,addtime';
         $model=new user_model();
         $data=$model->user_order($id,$type,$field);
-        foreach($data as $key=>$value){
-            if($value['is_pay']==0){
-                $data[$key]['is_pay']='未支付';
-            }else{
-                $data[$key]['is_pay']='已支付';
-            }
-            if($value['status']==0){
-                $data[$key]['status']='未生成';
-            }else{
-                $data[$key]['status']='已生成';
-            }
-        }
         $this->assign('list', $data);
+        $this->assign('name','测试报告');
         return $this->fetch('nutrition');
     }
     /**
@@ -69,22 +47,11 @@ class User extends Common
     function motion(){
         $id=Session::get('uid');
         $type='2';
-        $field='o_id,status,is_pay,out_trade_no,addtime';
+        $field='o_id,out_trade_no,addtime';
         $model=new user_model();
         $data=$model->user_order($id,$type,$field);
-        foreach($data as $key=>$value){
-            if($value['is_pay']==0){
-                $data[$key]['is_pay']='未支付';
-            }else{
-                $data[$key]['is_pay']='已支付';
-            }
-            if($value['status']==0){
-                $data[$key]['status']='未生成';
-            }else{
-                $data[$key]['status']='已生成';
-            }
-        }
         $this->assign('list', $data);
+        $this->assign('name','运动处方');
         return $this->fetch('nutrition');
     }
     /**
@@ -93,11 +60,25 @@ class User extends Common
     function see(Request $request){
         $uid=session::get('uid');
         if(isset($uid)){
-            $data=$request->param();
-            $id=empty($data['r'])?"":$data['r'];
-            // $model=new user_model();
-            // $data=$model->user_find(,$id,$uid);
-            // $this->assign('list', $data);
+            $arr=$request->param();
+            $id=empty($arr['r'])?"":$arr['r'];
+            $data=Db::table('order')
+            ->where('u_id',$uid)
+            ->where('o_id',$id)
+            ->find();
+            if($data){
+                if($data['is_pay']==0){
+                    $data['is_pay']='未支付';
+                }else{
+                    $data['is_pay']='以支付';
+                }
+                if($data['status']==0){
+                    $data['status']='未生成';
+                }else{
+                    $data['status']='已生成';
+                }
+            }
+            $this->assign('list', $data);
             return $this->fetch('content');
         }        
     }

@@ -4,8 +4,35 @@
         <h1>内容详情</h1>
     </div>
 <div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
-    <ul data-role="listview" data-inset="true">
-      <li>
-      </li>
-    </ul>
+	<p style="line-height: 2em;font-size: 18px;">
+        <span style="float: left;"><a href="javascript:void" onClick="javascript:history.go(-1);" data-role="button">返回</a></span>
+    </p> 
+    <div style="clear: both;"></div>  
+    <table data-role="table" class="ui-responsive">
+      <thead>
+        <tr>
+          <th>订单号</th>
+          <th>是否生成报告</th>
+          <th>是否支付</th>
+          <th>添加时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{$list.out_trade_no}</td>
+          <td>{$list.status}</td>
+          <td>{$list.is_pay}</td>
+          <td>{$list.addtime}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="line-height: 2em;font-size: 18px;">
+        <span style="float: left;">
+          <a href="javascript:void" data-role="button">取消订单</a>
+        </span>
+        <span style="float: right;">
+           <a href="http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php" data-role="button" data-ajax="false">去支付</a>
+        </span>
+    </p> 
+    <div style="clear: both;"></div>  
 </div>

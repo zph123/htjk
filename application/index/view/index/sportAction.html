@@ -253,6 +253,11 @@ a{
                   $.post("{:url('index/sportaction/generateorder')}",{s:s_time,e:e_time},function(data){
                     if(data.error===0){
                         alert(data.content);
+                    }else if(data.error==1){
+                        $('#myPopup').popup('close');
+                        if(confirm(data.content)){
+                            window.location.href="{:url('index/user/see')}"+'?r='+data.r;
+                        }
                     }else{
                         alert(data.content);
                     }
