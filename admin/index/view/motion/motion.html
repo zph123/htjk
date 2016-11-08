@@ -1,14 +1,18 @@
-<form action="log.php" method="post">
+<form action="{:url('Motion/create')}" method="post">
 	<table class="easyui-datagrid" title="运动处方" style="width:890px">
 		<thead>
 			<tr>
 				<th data-options="field:'itemid',width:100,halign:'center'">姓名</th>
 				<th data-options="field:'productid',width:120,halign:'center'">
-				<input class="easyui-validatebox" type="text" name="username" />
+				<input class="easyui-validatebox" type="text" name="username"  value="{$data[0]['name']}"/>
 				</th>
 				<th data-options="field:'listprice',width:100,align:'right',halign:'center'">性别</th>
 				<th data-options="field:'unitcost',width:120,align:'right',halign:'center'">
-				<input type="text" name="sex"/>
+                    {if condition="$data[0]['sex'] == 0"}
+                    <input type="text" name="sex" value="男"/>
+                    {elseif condition="$data[0]['sex'] == 1"/}
+                    <input type="text" name="sex" value="女"/>
+                    {/if}
 				</th>
 				<th data-options="field:'attr1',width:100,halign:'center'">编号</th>
 				<th data-options="field:'status',width:120,align:'center',halign:'center'"><input type="text" name="number"/>
@@ -20,7 +24,7 @@
 			<tr>
 				<th data-options="field:'itemid',width:100,halign:'center'">出生年月日</th>
 				<th data-options="field:'productid',width:120,halign:'center'">
-				<input type="text" name="birth"/>
+				<input type="text" name="birth" value="{$data[0]['year']}"/>
 				</th>
 				<th data-options="field:'listprice',width:100,align:'right',halign:'center'">日历年龄</th>
 				<th data-options="field:'unitcost',width:120,align:'right',halign:'center'">
@@ -151,5 +155,5 @@
 				<th data-options="field:'status',width:100,align:'center',halign:'center'"><input type="text" name="day"/></th>
 			</tr>
 		</thead>
-	</table>    <input type="submit" value="保存"/>
+	</table>    <input type="submit" value="保存"/><input type="button" name="button1"  value="返回" onclick="history.go(-1)">
 	</form>

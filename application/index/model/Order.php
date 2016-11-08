@@ -44,4 +44,18 @@ class Order extends Model
             return $result->getError();
         }
     }
+
+
+    /*
+     * 作者：刘志祥
+     * 板块：现场测试
+     */
+    public function nowTest($id){
+        $indent = self :: createuniquenumber();
+        $data['type'] = 4;
+        $data['out_trade_no'] = $indent;
+        $data['addtime'] = date("Y-m-d H:i:s");
+        $data['u_id'] = $id;
+        return Db::table('order')->insertGetId($data);
+    }
 }
