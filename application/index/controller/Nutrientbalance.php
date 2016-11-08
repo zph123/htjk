@@ -4,6 +4,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Session;
+use app\index\model\Order;
 
 class Nutrientbalance extends Controller
 {
@@ -446,10 +447,11 @@ class Nutrientbalance extends Controller
 			}
 		}
 
+
 		//营养TYPE 1
 		$order_data['type'] = 1;
 		$order_data['u_id'] = $u_id;
-		$order_data['out_trade_no'] = $this->createuniquenumber();
+		$order_data['out_trade_no'] = Order::createuniquenumber();
 		$order_data['addtime'] = date("Y-m-d H:i;s",time());
 		$num = Db::name('order')->insertGetId($order_data);
 
@@ -461,25 +463,6 @@ class Nutrientbalance extends Controller
 			echo 0;
 		}
 
-	}
-
-	/**
-	 * 生成唯一营养处方ID
-	 * @return string
-	 */
-	private function createuniquenumber() {
-		//商户id
-		$num = "1280101701";
-		$str = $num.date("YmdHis",time());
-		$re = Db::table("order")
-			->where("out_trade_no", $str)
-			->find();
-
-		if($re){
-			return $this->createuniquenumber();
-		}else{
-			return $str;
-		}
 	}
 
 	/**
