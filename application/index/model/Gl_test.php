@@ -7,10 +7,6 @@ class Gl_test extends Model
     //添加账号
     function add_one($data)
     {
-//        print_r($data);die;
-//        $data['password'] = md5($data['password']);
-//        $data['signuptime'] = date('Y-m-d H:i:s');
-//        $id = Db::table('gl_users')->insert($data);
         $dat['l_id'] = $data['l_id'];//关联活动列表id
         $dat['uid'] = $data['uid'];//登录人id
         $dat['n_price'] = $data['l_price'];//总价钱（初始价钱+预测身高的价钱）
@@ -31,6 +27,8 @@ class Gl_test extends Model
         $dat['n_paper'] = $data['need_report'];//纸质报告
         $dat['n_school'] = $data['school'];//测试人学校
         $dat['n_time'] = $data['n_time'];//测试时间
+        $dat['n_height'] = $data['predict_height'];//预测身高状态
+        $dat['o_id'] = $data['o_id'];//
         return $id = Db::table('nowtest')->insert($dat);
     }
 }

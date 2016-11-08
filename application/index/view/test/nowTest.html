@@ -86,8 +86,7 @@
                     <label for="customer"><font color="red">• </font>测试人姓名:&nbsp;&nbsp;<span style="color:gray">姓名不能为空</span></label>
                     <input type="text" name="customer" id="customer" value="" data-clear-btn="true" class="forms">
 
-                    <label for="appDate"><font color="red">• </font>出生日期:</label>
-                    <input name="appDate" id="appDate" value="2016-10-31" readonly="readonly" type="text">
+
 
                     <label for="id_number"><font color="red">• </font>身份证号:&nbsp;&nbsp;<span style="color:gray">身份证号不能为空</span></label>
                     <input type="text" name="id_number" id="id_number" value="" data-clear-btn="true" class="forms">
@@ -192,14 +191,17 @@
             if(id==""){
                 if(confirm("您还没有登录，请先登录")){
                     location.href="{:url('index/Login/index')}";
+                    return
                 }else{
                     $("#button").hide()
+                    return
                 }
             }
 
             if(time<l_stime || time>l_etime || !l_stime){
-                alert('近期未发现任何活动痕迹');
+                alert('没有在活动时间内，暂时不能提交表单');
                 $("#button").hide()
+                return
             }
         }
         function height(){
@@ -217,6 +219,10 @@
                 if(id==""){
                     if(confirm("您还没有登录，请先登录")){
                         location.href="{:url('index/Login/index')}";
+                        return
+                    }else{
+                        $("#button").hide()
+                        return
                     }
                 };
                 var l_etime = $("#l_etime").val()
@@ -231,6 +237,7 @@
                 var time = Date.parse(new Date());
                 if(time<l_stime || time>l_etime || !l_stime){
                     alert('没有在活动时间内，暂时不能提交表单');
+                    return
                 }
             })
         })
