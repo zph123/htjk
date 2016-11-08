@@ -45,15 +45,23 @@ class Motion extends Common
         $parameter['leaf']    = $leaf;
         if(!empty($out_trade_no)){
             $parameter['out_trade_no']=$out_trade_no;
+        }else{
+            $parameter['out_trade_no']='';
         }
         if(!empty($name)){
             $parameter['name']=$name;
+        }else{
+            $parameter['name']='';
         }
         if(isset($is_pay) && $is_pay!=="" ){
             $parameter['is_pay']=$is_pay;
+        }else{
+            $parameter['is_pay']='';
         }
         if(isset($status) && $status!==""){
             $parameter['status']=$status;
+        }else{
+            $parameter['status']='';
         }
 
         $this->assign('page',$parameter);

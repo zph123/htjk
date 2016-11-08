@@ -4,15 +4,15 @@
     <form style="float:left;" action="{:url('Motion/index')}" method="get">
         <span>订单号:</span>
         {if condition="isset($page.out_trade_no)" }
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no" value="{$page.out_trade_no}">
+        <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no" value="{$page.out_trade_no}">
         {else}
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no">
+        <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no">
         {/if}
         <span>申请人:</span>
         {if condition="isset($page.name)" }
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="name" value="{$page.name}">
+        <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="name" value="{$page.name}">
         {else}
-        <input id="itemid" style="line-height:26px;border:1px solid #ccc" type="text"  name="name">
+        <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="name">
         {/if}
         <span>支付状态:</span>
         <select style="height:29px" name="is_pay">
@@ -67,28 +67,12 @@
         </td>
     </tr>
     {/foreach}
-    {if condition="isset($page.is_pay) && isset($page.status)" }
+
     <td><span>一共{$page.leaf}--页</span></td>
     <td><span>当前第{$page.page}--页</span></td>
-    <td><a href="{:url('Motion/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}&&status={$page.status}">上一页</a></td>
-    <td><a href="{:url('Motion/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}&&status={$page.status}">下一页</a></td>
-    {elseif condition="isset($page.is_pay)" }
-    <td><span>一共{$page.leaf}--页</span></td>
-    <td><span>当前第{$page.page}--页</span></td>
-    <td><a href="{:url('Motion/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}">上一页</a></td>
-    <td><a href="{:url('Motion/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}">下一页</a></td>
-    {elseif condition="isset($page.status)" }
-    <td><span>一共{$page.leaf}--页</span></td>
-    <td><span>当前第{$page.page}--页</span></td>
-    <td><a href="{:url('Motion/index')}?page={$page.lastpage}&&status={$page.status}">上一页</a></td>
-    <td><a href="{:url('Motion/index')}?page={$page.nextpage}&&status={$page.status}">下一页</a></td>
-    {else /}
-    <td><span>一共{$page.leaf}--页</span></td>
-    <td><span>当前第{$page.page}--页</span></td>
-    <td><a href="{:url('Motion/index')}?page={$page.lastpage}">上一页</a></td>
-    <td><a href="{:url('Motion/index')}?page={$page.nextpage}">下一页</a></td>
-    {/if}
-    </tr>
+    <td><a href="{:url('Motion/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}" >上一页</a></td>
+    <td><a href="{:url('Motion/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}" >下一页</a></td>
+
     </tbody>
     {/if}
 </table>
