@@ -13,19 +13,45 @@ class Diet extends Common
     	// $user = Db::field('g.name,g.id')->table('user_answer')->alias('u')->join('gl_users g ',' g.id = u.u_id')->group('u.u_id')->select();
     	// $this->assign("user",$user);
         // 查询订单
+        // 
+        // 
+        // $arr = $user->two_select($where);
+        // $number=count($arr);
+        // $paging=5;
+        // $leaf=ceil($number/$paging);
+        // $page=isset($_GET['page'])?$_GET['page']:1;
+        // $start=($page-1)*$paging;
+        // $lastpage=$page-1<1?1:$page-1;
+        // $nextpage=$page+1>$leaf?$leaf:$page+1;
+        // $data = $user->on_select($where,$start);
+        // if(!empty($users))
+        // {
+        //     $parameter=array("where"=>$users,"page"=>$page,"nextpage"=>$nextpage,"lastpage"=>$lastpage,"leaf"=>$leaf);
+        // }
+        // else
+        // {
+        //     $parameter=array("page"=>$page,"nextpage"=>$nextpage,"lastpage"=>$lastpage,"leaf"=>$leaf);
+        // }
+
+        // $this->assign('page',$parameter);
+
+
+
         $name= Request::instance()->get('name');
         $n_number = Request::instance()->get('n_number');
         $is_pay= Request::instance()->get('is_pay');
         $stuatus = Request::instance()->get('stuatus');
         $order = Db::table('nutrition_order')
         ->alias('n')
-        ->join('gl_users g ','n.u_id = g.id ')
-        ->where('n_number','like',"%$n_number%")
-        ->where('name','like',"%$name%")
-        ->where('stuatus','like',"%$stuatus%")
-        ->where('is_pay','like',"%$is_pay%")
-        ->order("n.add_time desc")
-        ->field('n.n_id,n.n_number,n.stuatus,n.add_time,n.is_pay,g.name')
+        ->join('order o','o.o_id = n.o_id')
+        ->join('gl_users g ','o.u_id = g.id ')
+        ->where('o.type ','1')
+        ->where('o.out_trade_no','like',"%$n_number%")
+        ->where('g.name','like',"%$name%")
+        ->where('o.status','like',"%$stuatus%")
+        ->where('o.is_pay','like',"%$is_pay%")
+        ->order("o.addtime desc")
+        ->field('o.o_id,o.out_trade_no,o.status,o.addtime,o.is_pay,g.name')
         ->paginate(10);
         $page = $order->render();
         $this->assign('name',$name);
@@ -54,10 +80,10 @@ class Diet extends Common
         $id = Request::instance()->param('id','','strip_tags,strtolower');
         $data = Db::table('nutrition_order')
         ->alias('n')
-        ->join('gl_users g ','n.u_id = g.id ')
-        ->where('n_id',$id)
-        ->order("n.add_time desc")
-        ->field('n.n_id,n.n_number,n.stuatus,n.add_time,n.is_pay,n.desc,g.name')
+        ->join('order o','o.o_id = n.o_id')
+        ->join('gl_users g ','o.u_id = g.id ')
+        ->where('o.o_id ',$id)
+        ->field('n.n_id,o.out_trade_no,o.status,o.addtime,o.is_pay,n.desc,g.name')
         ->find();
         $data['desc'] = json_decode($data['desc'],true);
 
