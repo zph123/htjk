@@ -108,8 +108,8 @@ class Diet extends Common
         ->alias('n')
         ->join('order o','o.o_id = n.o_id')
         ->join('gl_users g ','o.u_id = g.id ')
-        ->where('o.o_id ',$id)
-        ->field('n.n_id,o.out_trade_no,o.status,o.addtime,g.phone,o.is_pay,n.desc,g.name')
+        ->where('o.o_id = '.$id)
+        ->field('o.o_id,o.out_trade_no,o.status,o.addtime,g.phone,o.is_pay,n.desc,g.name')
         ->find();
         $data['desc'] = json_decode($data['desc'],true);
 
