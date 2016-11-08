@@ -7,15 +7,28 @@ use think\Db;
 class Motion_order extends Model
 {
     //查看全部订单
-    public function getAll()
+    public function getAll($where)
     {
         $data= Db::table('order')
             ->alias('o')
             ->join('motion_order m ','o.o_id = m.order_id ')
             ->join('gl_users g ','o.u_id = g.id ')
             ->where('type',2)
+            ->where($where)
             ->select();
         return $data;
+    }
+    //运动订单查询
+    public function showAll($where,$start,$paging)
+    {
+        return Db::table('order')
+            ->alias('o')
+            ->join('motion_order m ','o.o_id = m.order_id ')
+            ->join('gl_users g ','o.u_id = g.id ')
+            ->where('type',2)
+            ->where($where)
+            ->limit($start,$paging)
+            ->select();
     }
     //分页查询订单
     public function pageAll($offset,$rows)

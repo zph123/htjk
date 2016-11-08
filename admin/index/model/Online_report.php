@@ -16,14 +16,14 @@ class Online_report extends Model
     *测试报告展示
     */
     public function report_show($where){
-        $sql="select * from online_report join onlinetest on onlinetest.register_id=online_report.or_id where $where";
+        $sql="select * from online_report join onlinetest on onlinetest.register_id=online_report.type_id where $where";
         return Db::query($sql);
     }
     /*
     *现场测试报告展示
     */
     public function now_show($where){
-        $sql="select * from online_report join nowtest on nowtest.n_id=online_report.n_id where $where";
+        $sql="select * from online_report join nowtest on nowtest.n_id=online_report.type_id where $where";
         return Db::query($sql);
     }
 }

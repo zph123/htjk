@@ -88,7 +88,7 @@ class Online extends Common
         $res=$model->report_add($arr);
         if($res)
         {
-            $update->order_update($arr['o_id']);
+            $update->order_update($arr['or_id']);
             $this->success('保存成功','Online/index',3);
         }
         else
