@@ -52,12 +52,12 @@
     </thead>
     <tbody>
 	{foreach $order as $v}
-	    <tr id="tr_{$v.n_id}">
-	        <td>{$v.n_number}</td>
+	    <tr id="tr_{$v.o_id}">
+	        <td>{$v.out_trade_no}</td>
 	        <td>{$v.name}</td>
-	        <td>{$v.add_time}</td>
+	        <td>{$v.addtime}</td>
 	        <td>
-				{if condition="$v.stuatus == 0"}
+				{if condition="$v.status == 0"}
 				 <span style="color:red">未生成</span>
 				{elseif condition="$v.stuatus == 1"/}
 				 <span style="color:green">已生成</span>
@@ -71,7 +71,7 @@
 				{/if}
 	        </td>
 	        <td>
-	       		<a href="{:url('dietdetails')}?id={$v.n_id}" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
+	       		<a href="{:url('dietdetails')}?id={$v.o_id}" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
 	       		<a href="javascript:;" class="easyui-linkbutton"  iconCls="icon-cancel">删除</a><input type="hidden" value="">
 	        </td>
 	    </tr>

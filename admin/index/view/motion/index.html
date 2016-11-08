@@ -1,7 +1,7 @@
 
 <div style="padding:3px 2px;border-bottom:1px solid #ccc">运动记录卡</div>    <br/>
 
-<table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
+<table id="tt" class="easyui-datagrid"  style="width:100%;height:auto;">
     <thead>
     <tr>
         <th field="name1"   width="20%">订单号</th>
@@ -12,19 +12,16 @@
         <th field="name6" width="20%">操作</th>
     </tr>
     </thead>
-
-
-
     {foreach $data as $vl}
     <tbody>
-    <tr id="tr_{$vl.m_id}">
-        <td>{$vl.m_number}</td>
+    <tr id="tr_{$vl.u_id}">
+        <td>{$vl.out_trade_no}</td>
         <td>{$vl.name}</td>
         <td>{$vl.add_time}</td>
         <td>
-            {if condition="$vl.state == 0"}
+            {if condition="$vl.status == 0"}
             <span style="color:red">未生成</span>
-            {elseif condition="$vl.state == 1"/}
+            {elseif condition="$vl.status == 1"/}
             <span style="color:green">已生成</span>
             {/if}
         </td>
@@ -36,19 +33,10 @@
             {/if}
         </td>
         <td>
-            <a href="{:url('motiondetails')}?u_id={$vl.u_id}&begin_time={$vl.begin_time}&end_time={$vl.end_time}&m_id={$vl.m_id}" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
+            <a href="{:url('motiondetails')}?u_id={$vl.u_id}&begin_time={$vl.begin_time}&end_time={$vl.end_time}&order_id={$vl.order_id}" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
             <a href="javascript:;" class="easyui-linkbutton"  iconCls="icon-cancel">删除</a><input type="hidden" value="">
         </td>
     </tr>
     </tbody>
     {/foreach}
-    <!--<tbody>
-    <tr>
-        <td></td>
-        <td><span>一共--页</span></td>
-        <td><span>当前第--页</span></td>
-        <td><a href="{:url('Motion/index')}">上一页</a></td>
-        <td><a href="{:url('Motion/index')}">下一页</a></td>
-    </tr>
-    </tbody>-->
 </table>
