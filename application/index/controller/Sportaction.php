@@ -6,6 +6,7 @@ use think\Cookie;
 use think\Db;
 use think\Request;
 use app\index\model\user_model;
+use app\index\model\Order;
 
 class Sportaction extends Common
 {
@@ -81,7 +82,7 @@ class Sportaction extends Common
     /**
      * 详情页
      */
-    function userContent(Request $request){
+    function usercontent(Request $request){
         $uid=Session::get('uid');
         if(isset($uid)){
             $data=$request->get();
@@ -97,7 +98,7 @@ class Sportaction extends Common
     /**
      * 用户添加过的列表
      */
-    function userList(Request $request){
+    function userlist(Request $request){
         $id=session::get('uid');
         if(isset($id)){
             $field="id,time,m_content,m_time";
@@ -151,8 +152,8 @@ class Sportaction extends Common
     function generateorder(Request $request){
         $id=Session::get('uid');
         $data=$request->post();
-        $s_time=$data['s'];
-        $e_time=$data['e'];
+        $s_time=isset($data['s'])?$data['s']:' ';
+        $e_time=isset($data['e'])?$data['e']:' ';
         if(strtotime($s_time)!==FALSE&&strtotime($e_time)!==FALSE){
             $patten = "/^(19|20)\d{2}-(0?\d|1[012])-(0?\d|[12]\d|3[01])$/";
             if(!preg_match($patten,$s_time)){
@@ -202,23 +203,33 @@ class Sportaction extends Common
             }
         }
         //生成订单
-        $number = "YY".date("YmdHis",time()).rand(10000,99999);
-        //拼接数据
-        $array=array(
-            'u_id'=>$id,
-            'm_number'=>$number,
-            'add_time'=>date('Y-m-d'),
-            'begin_time'=>$data['s'],
-            'end_time'=>$data['e']
+        $number=Order::createuniquenumber();
+        $num_order=array(
+                'u_id'=>$id,
+                'out_trade_no'=>$number,
+                'addtime'=>date('Y-m-d H:i:s'),
+                'type'=>'2',
             );
-        $model=new user_model();
-        $re=$model->add_motion('motion_order',$array);
-        if($re){
-            $error['error']='1';
-            $error['content']='生成订单成功是否去支付';
+        $order_id= Db::name('order')->insertGetId($num_order);
+        if($order_id){
+            $array=array(
+                'order_id'=>$order_id,
+                'begin_time'=>$data['s'],
+                'end_time'=>$data['e'],
+                'add_time'=>date('Y-m-d')
+                );
+            $re=Db::name('motion_order')->insert($array);
+            if($re){
+                $error['error']='1';
+                $error['content']='生成订单成功是否去支付';
+            }else{
+                Db::table('order')->where('o_id',$order_id)->delete();
+                $error['error']='0';
+                $error['content']='出现故障啦，请重新提交订单';
+            }
         }else{
             $error['error']='0';
-            $error['content']='出现故障啦，请刷新试试';
+            $error['content']='出现故障啦，请重新提交订单';
         }
         exit(json_encode($error));
     }
