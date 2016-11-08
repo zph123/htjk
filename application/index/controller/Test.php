@@ -170,7 +170,10 @@ class Test extends Controller
     public function nowList()
     {
         header('content-type:text/html;charset=utf-8');
-        $below_list = Db::table('below_list')->where('l_stime','>',date("Y-m-d H:i:s"))->order('l_stime','asc')->select();
+        $time=date("Y-m-d H:i:s");
+//        echo $time;die;
+        $below_list = Db::table('below_list')->where('l_stime','>',$time)->order('l_stime','asc')->select();
+//        print_r($below_list);die;
         $price = Db::table('price_class')->where('p_id','in','2,3')->select();
         return view('nowList',['below_list'=>$below_list,'price'=>$price]);
     }
@@ -227,8 +230,14 @@ class Test extends Controller
         if($data['gender']==1){
             $data['spermatorrhea'] = $data['menarche'];
         }
+        //获取用户id
         $id = Session::get('uid');
         $data['uid'] = $id;
+        //实例化Model层——》Order
+        $test = new Order();
+        $o_id = $test -> nowTest($id);
+        $data['o_id'] = $o_id;
+        //实例化Model层——》Gl_test
         $test = new Gl_test();
         $res = $test -> add_one($data);
         if($res){
