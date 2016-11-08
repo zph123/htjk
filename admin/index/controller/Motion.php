@@ -10,8 +10,7 @@ class Motion extends Common
     public function index()
     {
         $model=new Motion_order();
-        $data=$model->alls();
-
+        $data=$model->getAll();
         $this->assign('data',$data);
         return view('index');
     }
@@ -19,14 +18,13 @@ class Motion extends Common
     public function motiondetails()
     {
         $u_id=Request::instance()->param('u_id','','strip_tags,strtolower');
-        $m_id=Request::instance()->param('m_id','','strip_tags,strtolower');
+        $order_id=Request::instance()->param('order_id','','strip_tags,strtolower');
         $begin_time=Request::instance()->param('begin_time','','strip_tags,strtolower');
         $end_time=Request::instance()->param('end_time','','strip_tags,strtolower');
         $model=new Motion_order();
         $data=$model->details($u_id,$begin_time,$end_time);
-        //var_dump($data);
         $this->assign('data',$data);
-        $one=$model->getOne($u_id,$m_id);
+        $one=$model->getOne($u_id,$order_id);
         $this->assign('one',$one);
         return view('motiondetails');
     }
