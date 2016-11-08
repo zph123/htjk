@@ -9,23 +9,26 @@ use app\index\model\Online_report;
 
 class Online extends Common
 {
-    //在线测试数据 已支付未生成测试报告的数据
+    //在线测订单
     public function index()
     {
-        $users=Request::instance()->get('user');
+        $out_trade_no = Request::instance()->get('out_trade_no');
+        $is_pay=Request::instance()->get('is_pay');
+        $status=Request::instance()->get('status');
         $page=Request::instance()->get('page');
         $parameter=array();
-        if(!empty($users))
-        {
-            $parameter['where']=$users;
-            $where=array("customer"=>$users);
+        $where=array();
+        if(!empty($out_trade_no)){
+            $where['out_trade_no']=$out_trade_no;
         }
-        else
-        {
-            $where=1;
+        if(isset($is_pay) && $is_pay!=="" ){
+            $where['is_pay']=$is_pay;
         }
-        $user = new Onlinetest();
-        $arr = $user->two_select($where);
+        if(isset($status) && $status!==""){
+            $where['status']=$status;
+        }
+        $online = new Onlinetest();
+        $arr = $online->count_order($where);
         $number=count($arr);
         $paging=5;
         $leaf=ceil($number/$paging);
@@ -33,14 +36,20 @@ class Online extends Common
         $start=($page-1)*$paging;
         $lastpage=$page-1<1?1:$page-1;
         $nextpage=$page+1>$leaf?$leaf:$page+1;
-        $data = $user->on_select($where,$start);
-        if(!empty($users))
-        {
-            $parameter=array("where"=>$users,"page"=>$page,"nextpage"=>$nextpage,"lastpage"=>$lastpage,"leaf"=>$leaf);
+        $data = $online->online_search($where,$start);
+
+        $parameter['page']    =$page;
+        $parameter['nextpage']=$nextpage;
+        $parameter['lastpage']=$lastpage;
+        $parameter['leaf']    = $leaf;
+        if(!empty($out_trade_no)){
+            $parameter['out_trade_no']=$out_trade_no;
         }
-        else
-        {
-            $parameter=array("page"=>$page,"nextpage"=>$nextpage,"lastpage"=>$lastpage,"leaf"=>$leaf);
+        if(isset($is_pay) && $is_pay!=="" ){
+            $parameter['is_pay']=$is_pay;
+        }
+        if(isset($status) && $status!==""){
+            $parameter['status']=$status;
         }
 
         $this->assign('page',$parameter);
@@ -48,30 +57,16 @@ class Online extends Common
         return $this->fetch('index');
 
     }
-    /**
-     * 在线测试数据详情
-     * @return [type] [description]
-     */
-    public function show()
-    {
 
-        $id = Request::instance()->get('id');
+    //生成测试报告页面
+    public function report()
+    {
+        $id = Request::instance()->get('o_id');
         $user = new Onlinetest();
         $data = $user->one_select($id);
         $this->assign('data',$data);
         return $this->fetch('show');
     }
-
-    //测试报告页面
-    public function report()
-    {
-        $id = Request::instance()->get('id');
-        $user = new Onlinetest();
-        $data = $user->one_select($id);
-        $this->assign('data',$data);
-        return $this->fetch('report');
-    }
-
     /*
     *生成在线测试报告
     *$arr 接受数据 
@@ -79,7 +74,7 @@ class Online extends Common
     public function create()
     {
         $model = new Online_report();
-        $onl  = new Onlinetest();
+        $update = new Onlinetest();
         $arr=Request::instance()->post();
         $arr['height']   = json_encode($arr['height']);
         $arr['weight']   = json_encode($arr['weight']);
@@ -90,10 +85,10 @@ class Online extends Common
         $arr['tw3c']     = json_encode($arr['tw3c']);
         $arr['tw3r']     = json_encode($arr['tw3r']);
         $arr['add_time'] = date('Y-m-d H:i:s',time());
-        $onl->updates($arr['or_id']);
         $res=$model->report_add($arr);
         if($res)
         {
+            $update->order_update($arr['o_id']);
             $this->success('保存成功','Online/index',3);
         }
         else
@@ -103,51 +98,13 @@ class Online extends Common
     }
 
     /*
-    *已经生成测试报告的用户
-    */
-    public function report_show(){
-        $users=Request::instance()->get('user');
-        $page=Request::instance()->get('page');
-        $parameter=array();
-        if(!empty($users))
-        {
-            $parameter['where']=$users;
-            $where=array("customer"=>$users);
-        }
-        else
-        {
-            $where=1;
-        }
-        $user = new Onlinetest();
-        $arr = $user->tr_select($where);
-        $number=count($arr);
-        $paging=5;
-        $leaf=ceil($number/$paging);
-        $page=isset($_GET['page'])?$_GET['page']:1;
-        $start=($page-1)*$paging;
-        $lastpage=$page-1<1?1:$page-1;
-        $nextpage=$page+1>$leaf?$leaf:$page+1;
-        $data = $user->onl_test($where,$start);
-        if(!empty($users))
-        {
-            $parameter=array("where"=>$users,"page"=>$page,"nextpage"=>$nextpage,"lastpage"=>$lastpage,"leaf"=>$leaf);
-        }
-        else
-        {
-            $parameter=array("page"=>$page,"nextpage"=>$nextpage,"lastpage"=>$lastpage,"leaf"=>$leaf);
-        }
-
-        $this->assign('page',$parameter);
-        $this->assign('data',$data);
-        return $this->fetch('test');
-    }
-
-    /*
     *在线测试报告具体展示
     */
     public function test_show(){
-        $reg_id=Request::instance()->get('reg_id');
-        $where = "onlinetest.register_id=".$reg_id;
+        $o_id=Request::instance()->get('o_id');
+        $find=new Onlinetest();
+        $res=$find->one_select($o_id);
+        $where = "onlinetest.register_id=".$res['register_id'];
         $model = new Online_report();
         $arr=$model->report_show($where);
         $arr[0]['height']   = json_decode($arr[0]['height'],true);

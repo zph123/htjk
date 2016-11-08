@@ -9,47 +9,35 @@ class Onlinetest extends Model
     /**
      * 在线测试数据查询
      */
-    public function on_select($where,$start)
+    public function online_search($where=1,$start)
     {
-
-        return Db::table('onlinetest')->where($where)->where('status',1)->limit($start,5)->select();
+        return Db::table('order')->where('type',3)->where($where)->limit($start,5)->select();
     }
 
-    public function two_select($where)
+    /*
+    *统计在线测试数据的订单
+    */
+    public function count_order($where)
     {
-
-        return Db::table('onlinetest')->where($where)->where('status',1)->select();
+        return Db::table('order')->where('type',3)->where($where)->select();
     }
 
-    public function tr_select($where)
+    /*
+    *修改生成报告状态
+    */
+    public function order_update($o_id)
     {
-
-        return Db::table('onlinetest')->where($where)->where('status',2)->select();
+        return Db::table('order')->where('o_id',$o_id)->setField('status',1);
     }
+
 
     /**
      * 数据详情查询
      */
     public function one_select($id)
     {
-        return Db::table('onlinetest')->where('register_id',$id)->find();
+        return Db::table('onlinetest')->where('o_id',$id)->find();
 
     }
 
-    /**
-     * 在线测试报告
-     */
-    public function onl_test($where,$start)
-    {
-
-        return Db::table('onlinetest')->where($where)->where('status',2)->limit($start,5)->select();
-    }
-
-    /*
-    *修改测试报告状态为已生成
-    */
-    public function updates($reg_id)
-    {
-        return Db::table('onlinetest')->where('register_id',$reg_id)->setField('status',2);
-    }
 }
