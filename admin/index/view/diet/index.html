@@ -78,4 +78,8 @@
     {/foreach}
     </tbody>
 </table>
-{$page}
+        <td><span>一共{$page.leaf}--页</span></td>
+        <td><span>当前第{$page.page}--页</span></td>
+        <td><a href="{:url('Diet/index')}?page={$page.lastpage}&is_pay={$is_pay}&stuatus={$stuatus}&n_number={$n_number}&name={$name}">上一页</a></td>
+        <td><a href="{:url('Diet/index')}?page={$page.nextpage}&is_pay={$is_pay}&stuatus={$stuatus}&n_number={$n_number}&name={$name}">下一页</a></td>
+

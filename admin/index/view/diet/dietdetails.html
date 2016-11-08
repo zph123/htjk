@@ -23,6 +23,7 @@
 订单号：{$data['out_trade_no']} <br>
 申请人：{$data['name']} <br>
 申请时间：{$data['addtime']} <br>
+联系方式：{$data['phone']} <br>
 是否支付：{if condition="$data['is_pay'] == 0"}
 				 <span style="color:red">未支付</span>
 				{elseif condition="$data['is_pay'] == 1"/}
@@ -67,3 +68,6 @@
 		//alert($(".desc").eq(index).html())
 	})
 </script>
+
+
+<button>回复</button>

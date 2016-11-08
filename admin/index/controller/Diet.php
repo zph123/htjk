@@ -34,7 +34,29 @@ class Diet extends Common
         // }
 
         // $this->assign('page',$parameter);
+        $where=array();
+        if(!empty($out_trade_no)){
+            $where['out_trade_no']=$out_trade_no;
+        }
+        if(isset($is_pay) && $is_pay!=="" ){
+            $where['is_pay']=$is_pay;
+        }
+        if(isset($status) && $status!==""){
+            $where['status']=$status;
+        }
+        $where['type']=1;
+        $count = Db::table('order')->where($where)->count();
+        $paging=10;
+        $leaf=ceil($count/$paging);
+        $page=isset($_GET['page'])?$_GET['page']:1;
+        $start=($page-1)*$paging;
+        $lastpage=$page-1<1?1:$page-1;
+        $nextpage=$page+1>$leaf?$leaf:$page+1;
 
+        $parameter['page']    =$page;
+        $parameter['nextpage']=$nextpage;
+        $parameter['lastpage']=$lastpage;
+        $parameter['leaf']    = $leaf;
 
 
         $name= Request::instance()->get('name');
@@ -52,14 +74,15 @@ class Diet extends Common
         ->where('o.is_pay','like',"%$is_pay%")
         ->order("o.addtime desc")
         ->field('o.o_id,o.out_trade_no,o.status,o.addtime,o.is_pay,g.name')
-        ->paginate(10);
-        $page = $order->render();
+        ->limit("$start,10")
+        ->select();
+        // echo DB::getlastsql();die;
+        $this->assign('page',$parameter);
         $this->assign('name',$name);
         $this->assign('n_number',$n_number);
         $this->assign('is_pay',$is_pay);
         $this->assign('stuatus',$stuatus);
         $this->assign('order',$order);
-        $this->assign('page',$page);
         return view('index');
     }
 
@@ -83,7 +106,7 @@ class Diet extends Common
         ->join('order o','o.o_id = n.o_id')
         ->join('gl_users g ','o.u_id = g.id ')
         ->where('o.o_id ',$id)
-        ->field('n.n_id,o.out_trade_no,o.status,o.addtime,o.is_pay,n.desc,g.name')
+        ->field('n.n_id,o.out_trade_no,o.status,o.addtime,g.phone,o.is_pay,n.desc,g.name')
         ->find();
         $data['desc'] = json_decode($data['desc'],true);
 
