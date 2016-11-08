@@ -14,10 +14,7 @@ use think\Request;
 use think\Session;
 use app\index\model\Gl_test;
 use app\index\model\onlinetest as onlinetestModel;
-use app\index\model\onlinetest as nowtestModel;
-//use app\index\model\onlinetest as onlinetestModel;
-//use app\index\model\onlinetest as onlinetestModel;
-//use app\index\model\onlinetest as onlinetestModel;
+use app\index\model\Order as orderModel;
 use app\index\model\price_class as price_classModel;
 
 class Test extends Controller
@@ -27,7 +24,6 @@ class Test extends Controller
      */
     public function onlinetest()
     {
-
         //从数据库获取 测试费用
         $price_id=1;
         $price=price_classModel::get($price_id);
@@ -38,7 +34,6 @@ class Test extends Controller
             ]
         );
     }
-
     /**作者：李斌
      * ajax判断用户是否已经登录
      */
@@ -47,21 +42,20 @@ class Test extends Controller
             echo 1;
         else echo 0;
     }
-
     /**作者：李斌
      * ajax获取 “预测身高” 的价格
      */
     public function ajax_price(){
         $status=input('predict_height');
         if($status==1)
-            $price_id=1;
-        elseif($status==0)
             $price_id=6;
+        elseif($status==0)
+            $price_id=1;
         $price=price_classModel::get($price_id);
         echo json_encode($price);
     }
     /**作者：李斌
-     * 数据入库
+     * 数据入库，调用支付
      */
     public function add_onlinetest(Request $request)
     {
@@ -82,13 +76,9 @@ class Test extends Controller
      * 方案 A
      */
         $infos=input();
-        //状态：已提交，未付费
-        $infos['status']=0;
-        //APP用户ID
-        $infos['uid']=session('uid');
         //获取当前付费项 总价
         if($infos['predict_height']==1)
-            $price_id=3;
+            $price_id=6;
         elseif($infos['predict_height']==0)
             $price_id=1;
         $price=price_classModel::get($price_id);
@@ -99,6 +89,7 @@ class Test extends Controller
 
         /**保存上传来的图片
          */
+        //获取引子
         $file = $request->file('hands_photo');
         //读取路径配置
         $file_path=Config::get('uploads.customer_uploads');
@@ -117,10 +108,14 @@ class Test extends Controller
 
         //预留：可以考虑为用户做一个重复提交判断
 //        if(isset()){
-//
 //        }else{
-//
 //        }
+        //先在总订单表进行注册，并获取注册ID
+        if($res=orderModel::create_o_id(3,$infos['price'])){
+            $infos['o_id']=$res['o_id'];
+        } else {
+            return $res->getError();
+        }
 
         if ($result = onlinetestModel::create($infos)) {
 
@@ -129,14 +124,12 @@ class Test extends Controller
              * out_trade_no（一般为订单号）
              * total_fee（订单金额，单位“分”，要注意单位问题）
              */
-            $out_trade_no='1';
-            $pay_array=array(
+            $pay_data=array([
                 'body'=>$infos['items'],
-                'out_trade_no'=>$out_trade_no,
-                'total_fee'=>$infos['price'],
-            );
-            return "数据已准备，等待连接支付接口！";
-//            return redirect("index/test/ajax_login_status",$pay_array);
+                'out_trade_no'=>$res['out_trade_no'],
+                'total_fee'=>$infos['price']
+            ]);
+            return '数据已准备，等待支付接口！';
         } else {
             return $result->getError();
         }
@@ -150,19 +143,22 @@ class Test extends Controller
          * 测试人姓名、消费项名称、消费项金额、消费项生成时间、付费方式、
          * 要求在点击简略信息后，展示详细信息
          */
-        $uid=session('?uid');
+        $uid=session::get('uid');
         //查询 现场测试 的消费记录
         //查询 在线测试 的消费记录
         //查询 预测身高 的消费记录
         //查询 运动处方 的消费记录
         //查询 营养处方 的消费记录
-
+        $price=onlinetestModel::get($uid);
     }
 
     /**作者：李斌
-     * 为用户的消费项，展示单项内的详细信息，包括：
+     * 为用户的消费项，展示单项内的详细信息
      */
     public function details_spent(){
+        /**
+         * 测试人姓名、测试项名称、图片、价格、消费时间
+         */
 
     }
 
