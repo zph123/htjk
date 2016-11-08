@@ -111,7 +111,7 @@ class Test extends Controller
 //        }else{
 //        }
         //先在总订单表进行注册，并获取注册ID
-        if($res=orderModel::create_o_id(3,$infos['price'])){
+        if($res=orderModel::create_o_id(3)){
             $infos['o_id']=$res['o_id'];
         } else {
             return $res->getError();

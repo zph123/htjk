@@ -24,7 +24,7 @@ class Order extends Model
     }
 
     //生成订单，并返回自增ID
-    public static function create_o_id($type,$amount){
+    public static function create_o_id($type){
         $out_trade_no=self::createuniquenumber();
         $addtime=date("YmdHis",time());
         $u_id=session::get('uid');
@@ -33,7 +33,6 @@ class Order extends Model
             'out_trade_no'=>$out_trade_no,
             'addtime'=>$addtime,
             'u_id'=>$u_id,
-            'amount'=>$amount
         ];
         if ($result = self::create($data)) {
             $o_id=$result->o_id;
