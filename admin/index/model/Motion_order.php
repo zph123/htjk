@@ -29,6 +29,7 @@ class Motion_order extends Model
             ->where('type', 2)
             ->where($where)
             ->limit($start, $paging)
+            ->order('addtime DESC')
             ->select();
     }
 
