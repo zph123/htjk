@@ -119,6 +119,12 @@ class Diet extends Common
     public function create()
     {
         $data = input('post.');
+        $res = Db::table('nutrition_way')->where('o_id',$data['o_id'])->find();
+        if($res)
+        {
+          $this->error('此订单已经生成报告','diet/dietdetails?id='.$o_id,3);
+        }
+
         $res = Db::table('nutrition_way')->insert($data);
         if($res)
         {
@@ -136,7 +142,16 @@ class Diet extends Common
 
     public function dietshow()
     {
+        
+
        $o_id=Request::instance()->param('o_id','','strip_tags,strtolower');
+
+       $res = Db::table('nutrition_way')->where('o_id',$o_id)->find();
+        if(!$res)
+        {
+          $this->error('该订单没有报告！','diet/dietdetails?id='.$o_id,3);
+        }
+        
        $data = Db::table('order')
         ->alias('o')
         ->field('out_trade_no,addtime,is_pay,status,name,sex,year,u_id,n.*')
