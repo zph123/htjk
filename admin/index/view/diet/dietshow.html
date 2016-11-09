@@ -6,7 +6,6 @@
     .xwtable td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
 </style>
 
-<form action="{:url('diet/create')}" method="post">
 	<table class="xwtable">
         <div style="padding:3px 2px;border-bottom:1px solid #ccc">运动处方</div>    <br/>
 		<tdead>
@@ -61,24 +60,24 @@
 			</tr>
 				
             <tr >
-				<td><input type="text" name="mifan_mrpj"></td>
-				<td><input type="text" name="mantou_mrpj"></td>
-				<td><input type="text" name="laobing_mrpj"></td>
-				<td><input type="text" name="miantiao_mrpj"></td>
-				<td><input type="text" name="zaliang_mrpj"></td>
-				<td><input type="text" name="nai_mrpj"></td>
-				<td><input type="text" name="danlei_mrpj"></td>
-				<td><input type="text" name="yinshui_mrpj"></td>
-				<td><input type="text" name="shucai_mrpj"></td>
-				<td><input type="text" name="shuiguo_mrpj"></td>
-				<td><input type="text" name="rouliang_mrpj"></td>
-				<td><input type="text" name="shuichan_mrpj"></td>
-				<td><input type="text" name="douzhi_mrpj"></td>
-				<td><input type="text" name="culiang_mrpj"></td>
-				<td><input type="text" name="feirou_mrpj"></td>
-				<td><input type="text" name="lingshi_mrpj"></td>
-				<td><input type="text" name="youzha_mrpj"></td>
-				<td><input type="text" name="jiagong_mrpj"></td>
+				<td><input type="text" name="mifan_mrpj" value="{$data[0]['mifan_mrpj']}" disabled></td>
+				<td><input type="text" name="mantou_mrpj" value="{$data[0]['mantou_mrpj']}" disabled></td>
+				<td><input type="text" name="laobing_mrpj" value="{$data[0]['laobing_mrpj']}" disabled></td>
+				<td><input type="text" name="miantiao_mrpj" value="{$data[0]['miantiao_mrpj']}" disabled></td>
+				<td><input type="text" name="zaliang_mrpj" value="{$data[0]['zaliang_mrpj']}" disabled></td>
+				<td><input type="text" name="nai_mrpj" value="{$data[0]['nai_mrpj']}" disabled></td>
+				<td><input type="text" name="danlei_mrpj" value="{$data[0]['danlei_mrpj']}" disabled></td>
+				<td><input type="text" name="yinshui_mrpj" value="{$data[0]['yinshui_mrpj']}" disabled></td>
+				<td><input type="text" name="shucai_mrpj" value="{$data[0]['shucai_mrpj']}" disabled></td>
+				<td><input type="text" name="shuiguo_mrpj" value="{$data[0]['shuiguo_mrpj']}" disabled></td>
+				<td><input type="text" name="rouliang_mrpj" value="{$data[0]['rouliang_mrpj']}" disabled></td>
+				<td><input type="text" name="shuichan_mrpj" value="{$data[0]['shuichan_mrpj']}" disabled></td>
+				<td><input type="text" name="douzhi_mrpj" value="{$data[0]['douzhi_mrpj']}" disabled></td>
+				<td><input type="text" name="culiang_mrpj" value="{$data[0]['culiang_mrpj']}" disabled></td>
+				<td><input type="text" name="feirou_mrpj" value="{$data[0]['feirou_mrpj']}" disabled></td>
+				<td><input type="text" name="lingshi_mrpj" value="{$data[0]['lingshi_mrpj']}" disabled></td>
+				<td><input type="text" name="youzha_mrpj" value="{$data[0]['youzha_mrpj']}" disabled></td>
+				<td><input type="text" name="jiagong_mrpj" value="{$data[0]['jiagong_mrpj']}" disabled></td>
 			</tr>
 		</tdead>
     </table>
@@ -97,14 +96,14 @@
 				<td>其他类(烧烤、腌腊卤制品、罐头、方便食品)</td>
 			</tr>
             <tr >
-				<td><textarea name="zhushi_mzpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="shucai_mzpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="rouliang_mzpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="shuichan_mzpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="douzhi_mzpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="guoping_mzpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="yingyang_mzpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="qita_mzpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="zhushi_mzpj" id="" cols="20" rows="5" disabled>{$data[0]['zhushi_mzpj']}</textarea></td>
+				<td><textarea name="shucai_mzpj" id="" cols="20" rows="5" disabled>{$data[0]['shucai_mzpj']}</textarea></td>
+				<td><textarea name="rouliang_mzpj" id="" cols="20" rows="5" disabled>{$data[0]['rouliang_mzpj']}</textarea></td>
+				<td><textarea name="shuichan_mzpj" id="" cols="20" rows="5" disabled>{$data[0]['shuichan_mzpj']}</textarea></td>
+				<td><textarea name="douzhi_mzpj" id="" cols="20" rows="5" disabled>{$data[0]['douzhi_mzpj']}</textarea></td>
+				<td><textarea name="guoping_mzpj" id="" cols="20" rows="5" disabled>{$data[0]['guoping_mzpj']}</textarea></td>
+				<td><textarea name="yingyang_mzpj" id="" cols="20" rows="5" disabled>{$data[0]['yingyang_mzpj']}</textarea></td>
+				<td><textarea name="qita_mzpj" id="" cols="20" rows="5" disabled>{$data[0]['qita_mzpj']}</textarea></td>
 			</tr>
 		</tdead>
     </table>
@@ -127,18 +126,18 @@
 				<td>每天的饮水总量有多少？</td>
 			</tr>
             <tr >
-				<td><textarea name="tansuan_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="tiandian_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="xican_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="nai_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="zaocan_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="jianfei_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="yexiao_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="shiyu_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="zuocai_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="chifan_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="kouwei_xgpj" id="" cols="20" rows="5"></textarea></td>
-				<td><textarea name="yinshui_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="tansuan_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['tansuan_xgpj']}</textarea></td>
+				<td><textarea name="tiandian_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['tiandian_xgpj']}</textarea></td>
+				<td><textarea name="xican_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['xican_xgpj']}</textarea></td>
+				<td><textarea name="nai_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['nai_xgpj']}</textarea></td>
+				<td><textarea name="zaocan_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['zaocan_xgpj']}</textarea></td>
+				<td><textarea name="jianfei_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['jianfei_xgpj']}</textarea></td>
+				<td><textarea name="yexiao_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['yexiao_xgpj']}</textarea></td>
+				<td><textarea name="shiyu_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['shiyu_xgpj']}</textarea></td>
+				<td><textarea name="zuocai_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['zuocai_xgpj']}</textarea></td>
+				<td><textarea name="chifan_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['chifan_xgpj']}</textarea></td>
+				<td><textarea name="kouwei_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['kouwei_xgpj']}</textarea></td>
+				<td><textarea name="yinshui_xgpj" id="" cols="20" rows="5" disabled>{$data[0]['yinshui_xgpj']}</textarea></td>
 			</tr>
 		</tdead>
     </table>
@@ -148,35 +147,35 @@
 		<tdead>
 			<tr>
 				<td>营养均衡状况评价</td>
-				<td style="width:100%"><textarea name="yingyang_pj" id="" cols="50" rows="5"></textarea></td>
+				<td style="width:100%"><textarea name="yingyang_pj" id="" cols="50" rows="5" disabled>{$data[0]['yingyang_pj']}</textarea></td>
 			</tr>
 			<tr>
 				<td>主食类增减建议</td>
-				<td style="width:100%"><textarea name="zhushi_jy" id="" cols="50" rows="5"></textarea></td>
+				<td style="width:100%"><textarea name="zhushi_jy" id="" cols="50" rows="5" disabled>{$data[0]['zhushi_jy']}</textarea></td>
 			</tr>
 			<tr>
 				<td>优质蛋白质摄入建议</td>
-				<td style="width:100%"><textarea name="danbaizhi_jy" id="" cols="50" rows="5"></textarea></td>
+				<td style="width:100%"><textarea name="danbaizhi_jy" id="" cols="50" rows="5" disabled>{$data[0]['danbaizhi_jy']}</textarea></td>
 			</tr>
 			<tr>
 				<td>脂类摄入建议</td>
-				<td style="width:100%"><textarea name="zhilei_jy" id="" cols="50" rows="5"></textarea></td>
+				<td style="width:100%"><textarea name="zhilei_jy" id="" cols="50" rows="5" disabled>{$data[0]['zhilei_jy']}</textarea></td>
 			</tr>
 			<tr>
 				<td>蔬果摄入建议</td>
-				<td style="width:100%"><textarea name="shuguo_jy" id="" cols="50" rows="5"></textarea></td>
+				<td style="width:100%"><textarea name="shuguo_jy" id="" cols="50" rows="5" disabled>{$data[0]['shuguo_jy']}</textarea></td>
 			</tr>
 			<tr>
 				<td>其他食物摄入建议</td>
-				<td style="width:100%"><textarea name="qita_jy" id="" cols="50" rows="5"></textarea></td>
+				<td style="width:100%"><textarea name="qita_jy" id="" cols="50" rows="5" disabled>{$data[0]['qita_jy']}</textarea></td>
 			</tr>
 			<tr>
 				<td>饮食习惯改进建议</td>
-				<td style="width:100%"><textarea name="yinshi_jy" id="" cols="50" rows="5"></textarea></td>
+				<td style="width:100%"><textarea name="yinshi_jy" id="" cols="50" rows="5" disabled>{$data[0]['yinshi_jy']}</textarea></td>
 			</tr>
 			<tr>
 				<td>特殊建议</td>
-				<td style="width:100%"><textarea name="teshu_jy" id="" cols="50" rows="5"></textarea></td>
+				<td style="width:100%"><textarea name="teshu_jy" id="" cols="50" rows="5" disabled>{$data[0]['teshu_jy']}</textarea></td>
 			</tr>
 		</tdead>
     </table>
@@ -200,5 +199,4 @@
 		</tdead>
 	</table> -->
     <br>
-    <input type="submit" value="保存"/><input type="button" name="button1"  value="返回" onclick="history.go(-1)">
-	</form>
+    <input type="button" name="button1"  value="返回" onclick="history.go(-1)">

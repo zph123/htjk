@@ -81,7 +81,14 @@
 		{/foreach}
 		</table>
 	{/foreach}
-	
+	<br><br><br>
+	{if condition="$data['is_pay'] == 0"}
+		该订单尚未支付，不能生成报告。
+	{elseif condition="$data['is_pay'] == 1 && $data['status'] == 1"}
+		该订单已经生成报告。<a href="{:url('diet/dietshow')}?o_id={$data['o_id']}">点击查看报告</a>
+	{else}
+	<a href="{:url('diet/userdiet')}?o_id={$data['o_id']}">生成报告</a>
+	{/if}
 </body>
 </html>
 <script>
@@ -105,6 +112,3 @@
 		//alert($(".desc").eq(index).html())
 	})
 </script>
-
-
-<button>回复</button>
