@@ -16,15 +16,15 @@
         {/if}
         <span>支付状态:</span>
         <select style="height:29px" name="is_pay">
-            <option value="">请选择</option>
-            <option value="0" selected = "selected">未支付</option>
-            <option value="1">已支付</option>
+            <option value="" {if condition="empty($page.is_pay)" } selected {/if}>请选择</option>
+            <option value="0" {if condition="$page.is_pay == 0 && $page.is_pay!==''" } selected {/if}>未支付</option>
+            <option value="1" {if condition="$page.is_pay == 1" } selected {/if}>已支付</option>
         </select>
         <span>处方状态:</span>
         <select style="height:29px" name="status">
-            <option value="">请选择</option>
-            <option value="0" selected = "selected">未生成</option>
-            <option value="1">已生成</option>
+            <option value="" {if condition="empty($page.status)" } selected {/if}>请选择</option>
+            <option value="0" {if condition="$page.status == 0 && $page.status!==''" } selected {/if}>未生成</option>
+            <option value="1" {if condition="$page.status == 1" } selected {/if}>已生成</option>
         </select>
         <input style="line-height:26px;border:1px solid #ccc" type="submit" value="搜索">
     </form>
