@@ -120,13 +120,13 @@ class Motion extends Common
         $add['timeofmovement']=Request::instance()->param('timeofmovement','','strip_tags,strtolower');
         $add['weeklyexercisetime']=Request::instance()->param('weeklyexercisetime','','strip_tags,strtolower');
         $add['expertsignature']=Request::instance()->param('expertsignature','','strip_tags,strtolower');
-        $add['year']=Request::instance()->param('year','','strip_tags,strtolower').'年';
+        $add['yearw']=Request::instance()->param('year','','strip_tags,strtolower').'年';
         $month=Request::instance()->param('month','','strip_tags,strtolower');
         $day=Request::instance()->param('day','','strip_tags,strtolower');
         if(!empty($month)){
-            $add['year'].=$month.'月';
+            $add['yearw'].=$month.'月';
             if(!empty($day)){
-                $add['year'].=$day.'日';
+                $add['yearw'].=$day.'日';
             }
         }
         $model=new Motion_order();
