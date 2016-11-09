@@ -83,6 +83,29 @@ class User extends Common
         }        
     }
     /**
+     * 去支付
+     */
+    function pay(Request $request){
+        $uid=session::get('uid');
+        $arr=$request->param();
+        $id=empty($arr['r'])?"":$arr['r'];
+        $data=Db::table('order')
+        ->where('u_id',$uid)
+        ->where('o_id',$id)
+        ->find();
+        if($data){
+            if($data['is_pay']==0){
+                $data=file_get_contents("http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php?out_trade_no=$data[out_trade_no]");
+                var_dump($data);
+            }else{
+                  echo 'is_pay  1'; 
+            }            
+        }else{
+            echo 'error';
+        }
+        
+    }
+    /**
      * 退出登录
      */
     function quit(){
