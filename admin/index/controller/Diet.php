@@ -112,7 +112,20 @@ class Diet extends Common
         ->field('o.o_id,o.out_trade_no,o.status,o.addtime,g.phone,o.is_pay,n.desc,g.name')
         ->find();
         $data['desc'] = json_decode($data['desc'],true);
-
+        $week = array();
+        foreach ($data['desc'] as $key => $value) {
+          if(date('w',strtotime($key))==0)
+          {
+            $week[$key] = $value;
+          }
+          else
+          {
+            $day[$key] = $value;
+          }
+        }
+        // print_r($week);
+        $this->assign("week",$week);
+        $this->assign("day",$day);
         $this->assign("data",$data);
         return view('dietdetails');
    //  	//获取答卷ID
