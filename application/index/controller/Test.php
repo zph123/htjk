@@ -133,8 +133,7 @@ class Test extends Controller
                 'out_trade_no'=>$res['out_trade_no'],
                 'total_fee'=>$infos['price']
             ]);
-            $pay_url="http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php";
-            return redirect($pay_url);
+            return redirect('index/user/see',['r'=>$infos['o_id']]);
         } else {
             return $result->getError();
         }
@@ -254,7 +253,7 @@ class Test extends Controller
         $res = $test -> add_one($data);
         if($res){
             //添加成功跳转到支付页面
-            $this->redirect('http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php');
+            return redirect('index/user/see',['r'=>$o_id]);
         }else{
             echo "This is error.";
         }
