@@ -56,12 +56,12 @@ class Motion extends Common
         if(isset($is_pay) && $is_pay!=="" ){
             $parameter['is_pay']=$is_pay;
         }else{
-            $parameter['is_pay']='';
+            $parameter['is_pay']='0';
         }
         if(isset($status) && $status!==""){
             $parameter['status']=$status;
         }else{
-            $parameter['status']='';
+            $parameter['status']='0';
         }
 
         $this->assign('page',$parameter);
