@@ -58,12 +58,11 @@
             {if condition="$vl.status == 0"}
             <span style="color:red">未生成</span>
             {elseif condition="$vl.status == 1"/}
-            <span style="color:green"><a href="{:url('look')}?order_id={$vl.order_id}">查看报告</a></span>
+            <span style="color:green"><a href="{:url('Motion/look')}?order_id={$vl.order_id}">查看报告</a></span>
             {/if}
         </td>
         <td>
-            <a href="{:url('motiondetails')}?u_id={$vl.u_id}&begin_time={$vl.begin_time}&end_time={$vl.end_time}&order_id={$vl.order_id}" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
-            <a href="javascript:;" class="easyui-linkbutton"  iconCls="icon-cancel">删除</a><input type="hidden" value="">
+            <a href="{:url('Motion/motiondetails')}?u_id={$vl.u_id}&begin_time={$vl.begin_time}&end_time={$vl.end_time}&order_id={$vl.order_id}" class="easyui-linkbutton">查看详情</a><input type="hidden" value="">
         </td>
     </tr>
     {/foreach}

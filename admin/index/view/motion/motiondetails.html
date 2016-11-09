@@ -61,7 +61,7 @@
 {if condition="$one[0]['status'] == 1"}
 <p>已生成报告</p><input type="button" name="button1" value="返回" onclick="history.go(-1)">
 {elseif condition="$one[0]['status'] == 0"/}
-<p><a href="{:url('motion')}?o_id={$one[0]['o_id']}">生成处方</a></p><input type="button" name="button1"value="返回" onclick="history.go(-1)">
+<p><a href="{:url('Motion/motion')}?o_id={$one[0]['o_id']}">生成处方</a></p><input type="button" name="button1"value="返回" onclick="history.go(-1)">
 {/if}
 {/if} <br>
 
