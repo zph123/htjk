@@ -12,6 +12,7 @@ use think\Db;
 use think\Config;
 use think\Request;
 use think\Session;
+use think\Cookie;
 use app\index\model\Gl_test;
 use app\index\model\onlinetest as onlinetestModel;
 use app\index\model\Order as orderModel;
@@ -27,7 +28,10 @@ class Test extends Controller
         //从数据库获取 测试费用
         $price_id=1;
         $price=price_classModel::get($price_id);
-
+        $controller = "Test";
+        $action = "onlinetest";
+        Cookie::set('controller', $controller);
+        Cookie::set('action', $action);
         return view('onlineTest',
             [
                 'price'=>$price,
@@ -129,7 +133,8 @@ class Test extends Controller
                 'out_trade_no'=>$res['out_trade_no'],
                 'total_fee'=>$infos['price']
             ]);
-            return '数据已准备，等待支付接口！';
+            $pay_url="http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php";
+            return redirect($pay_url);
         } else {
             return $result->getError();
         }
@@ -163,6 +168,9 @@ class Test extends Controller
     }
 
 
+
+
+
     /*作者：刘志祥
      * 2016-11-2 09:34:16
      * 活动列表
@@ -183,6 +191,10 @@ class Test extends Controller
      */
     public function nowTest()
     {
+        $controller = "Test";
+        $action = "nowTest";
+        Cookie::set('controller', $controller);
+        Cookie::set('action', $action);
         //获取登录人id
         $id = Session::get('uid');
         header('content-type:text/html;charset=utf-8');
@@ -234,7 +246,7 @@ class Test extends Controller
         $id = Session::get('uid');
         $data['uid'] = $id;
         //实例化Model层——》Order
-        $test = new Order();
+        $test = new orderModel();
         $o_id = $test -> nowTest($id);
         $data['o_id'] = $o_id;
         //实例化Model层——》Gl_test
@@ -242,7 +254,7 @@ class Test extends Controller
         $res = $test -> add_one($data);
         if($res){
             //添加成功跳转到支付页面
-            $this->redirect('index/test/nowTest');
+            $this->redirect('http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php');
         }else{
             echo "This is error.";
         }
