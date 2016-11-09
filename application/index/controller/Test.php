@@ -101,7 +101,7 @@ class Test extends Controller
         if(!is_dir($file_path)) {
             mkdir($file_path, 0777, true);
         }
-        // 移动到框架应用根目录/public/customer_uploads/ 目录下
+        //将图片转移到 框架应用根目录/public/customer_uploads/ 目录下
         $file_info = $file->move($file_path);
         if ($file_info) {
             $infos['hands_photo_path']=$file_info->getSaveName();
@@ -138,35 +138,6 @@ class Test extends Controller
             return $result->getError();
         }
     }
-
-    /**作者：李斌
-     * 为用户展示消费项（包括免费项）
-     */
-    public function spent_list(){
-        /**主体信息包括
-         * 测试人姓名、消费项名称、消费项金额、消费项生成时间、付费方式、
-         * 要求在点击简略信息后，展示详细信息
-         */
-        $uid=session::get('uid');
-        //查询 现场测试 的消费记录
-        //查询 在线测试 的消费记录
-        //查询 预测身高 的消费记录
-        //查询 运动处方 的消费记录
-        //查询 营养处方 的消费记录
-        $price=onlinetestModel::get($uid);
-    }
-
-    /**作者：李斌
-     * 为用户的消费项，展示单项内的详细信息
-     */
-    public function details_spent(){
-        /**
-         * 测试人姓名、测试项名称、图片、价格、消费时间
-         */
-
-    }
-
-
 
 
 
