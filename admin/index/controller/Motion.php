@@ -94,12 +94,61 @@ class Motion extends Common
     //生成运动处方
     public function create()
     {
-        echo '生成运动处方';
+        Request::instance()->param('name','','strip_tags,strtolower');
+        $add['o_id']=Request::instance()->param('o_id','','strip_tags,strtolower');
+        $add['u_id']=Request::instance()->param('u_id','','strip_tags,strtolower');
+        $add['sex']=Request::instance()->param('sex','','strip_tags,strtolower');
+        $add['number']=Request::instance()->param('number','','strip_tags,strtolower');
+        $add['week']=Request::instance()->param('week','','strip_tags,strtolower');
+        $add['birth']=Request::instance()->param('birth','','strip_tags,strtolower');
+        $add['age']=Request::instance()->param('age','','strip_tags,strtolower');
+        $add['boneage']=Request::instance()->param('boneage','','strip_tags,strtolower');
+        $add['grow']=Request::instance()->param('grow','','strip_tags,strtolower');
+        $add['height']=Request::instance()->param('height','','strip_tags,strtolower');
+        $add['weight']=Request::instance()->param('weight','','strip_tags,strtolower');
+        $add['heartrate']=Request::instance()->param('heartrate','','strip_tags,strtolower');
+        $add['blank']=Request::instance()->param('blank','','strip_tags,strtolower');
+        $add['pressure']=Request::instance()->param('pressure','','strip_tags,strtolower');
+        $add['lowlimit']=Request::instance()->param('lowlimit','','strip_tags,strtolower');
+        $add['highlimit']=Request::instance()->param('highlimit','','strip_tags,strtolower');
+        $add['objective']=Request::instance()->param('objective','','strip_tags,strtolower');
+        $add['project']=Request::instance()->param('project','','strip_tags,strtolower');
+        $add['exerciseintensity']=Request::instance()->param('exerciseintensity','','strip_tags,strtolower');
+        $add['readytoexercise']=Request::instance()->param('readytoexercise','','strip_tags,strtolower');
+        $add['basicmovement']=Request::instance()->param('basicmovement','','strip_tags,strtolower');
+        $add['finishingmovement']=Request::instance()->param('finishingmovement','','strip_tags,strtolower');
+        $add['timeofmovement']=Request::instance()->param('timeofmovement','','strip_tags,strtolower');
+        $add['weeklyexercisetime']=Request::instance()->param('weeklyexercisetime','','strip_tags,strtolower');
+        $add['expertsignature']=Request::instance()->param('expertsignature','','strip_tags,strtolower');
+        $add['year']=Request::instance()->param('year','','strip_tags,strtolower').'年';
+        $month=Request::instance()->param('month','','strip_tags,strtolower');
+        $day=Request::instance()->param('day','','strip_tags,strtolower');
+        if(!empty($month)){
+            $add['year'].=$month.'月';
+            if(!empty($day)){
+                $add['year'].=$day.'日';
+            }
+        }
+        $model=new Motion_order();
+        $str=$model->addWay($add);
+        if($str==1){
+            $save=$model->saveOrder($add['o_id']);
+            if($save>0){
+                $this->success('处方已生成','Motion/index',3);
+            }else{
+                $this->success('修改失败','Motion/index',3);
+            }
+        }else{
+            $this->success('添加失败','Motion/index',3);
+        }
     }
     //查看处方
     public function look()
     {
-
+        $o_id=Request::instance()->param('order_id','','strip_tags,strtolower');
+        $model=new Motion_order();
+        $data=$model->allWay($o_id);
+        $this->assign('data',$data);
         return view('look');
     }
 
