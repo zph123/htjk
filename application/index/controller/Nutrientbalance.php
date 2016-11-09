@@ -40,11 +40,7 @@ class Nutrientbalance extends Controller
 		}
 
     	$week = date('w', strtotime($date));
-    	$firstday = date("Y-m-01", strtotime($date));
- 		$lastday = date("Y-m-d", strtotime("$firstday 1 month -1 day"));
- 		if($lastday == $date) {
- 			$num = 3;
- 		}elseif($week == 0) {
+ 		if($week == 0) {
  			$num = 2;
  		}else{
 			$num = 1;
@@ -203,6 +199,9 @@ class Nutrientbalance extends Controller
 		$u_id = Session::get('uid');
 
 		$data = $request->post();
+		if(!isset($data['anwser'])){
+			$this->redirect('index/nutrientbalance');
+		}
 		if( !is_array($data['anwser']) ) {
 			$this->redirect('index/nutrientbalance');
 		}
@@ -245,11 +244,7 @@ class Nutrientbalance extends Controller
 		}
 
 		$week = date('w', strtotime($data['date']));
-		$firstday = date("Y-m-01", strtotime($data['date']));
-		$lastday = date("Y-m-d", strtotime("$firstday 1 month -1 day"));
-		if($lastday == $data['date']) {
-			$num = 3;
-		}elseif($week == 0) {
+		if($week == 0) {
 			$num = 2;
 		}else{
 			$num = 1;
@@ -458,7 +453,7 @@ class Nutrientbalance extends Controller
 		$mysql_date['desc'] = json_encode($detail);
 		$mysql_date['o_id'] = $num;
 		if(Db::name('nutrition_order')->insert($mysql_date)){
-			echo 1;
+			echo $num;
 		}else{
 			echo 0;
 		}

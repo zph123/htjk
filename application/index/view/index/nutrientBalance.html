@@ -258,9 +258,12 @@ a{
                 if(s_time!='' && e_time !=''){
                   $.post("{:url('index/nutrientbalance/generateorder')}",{s_time:s_time,e_time:e_time},function (data) {
                      if(data==0){
-                         alert(0)
+                         alert("生成失败")
                      }else{
-                         alert(1)
+                         $("#myPopup").popup('close');
+                         if(confirm("是否立即支付")){
+                             window.location.href = "{:url('index/user/see')}"+'?r='+data;
+                         }
                      }
                   })
                 }
