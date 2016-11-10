@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\console\Command;
 use think\Controller;
+use think\Config;
 use think\Db;
 use think\Request;
 use app\index\model\Onlinetest;
@@ -24,9 +25,13 @@ class Online extends Common
         }
         if(isset($is_pay) && $is_pay!=="" ){
             $where['is_pay']=$is_pay;
+        }else{
+            $is_pay="";
         }
         if(isset($status) && $status!==""){
             $where['status']=$status;
+        }else{
+            $status="";
         }
         if(!empty($name)){
             $where['gl_users.name']=$name;
@@ -69,11 +74,26 @@ class Online extends Common
     *生成在线测试报告
     *$arr 接受数据 
     */
-    public function create()
+    public function create(Request $request)
     {
         $model = new Online_report();
         $update = new Onlinetest();
         $arr=Request::instance()->post();
+        $img=$request->file('hands_photo');
+        if(!empty($img)){
+            $Catalog_path=ROOT_PATH."public".DS."testimg";
+            is_dir($Catalog_path)or mkdir($Catalog_path,0777,true);
+            //将图片转移到 框架应用根目录/public/testimg/ 目录下
+            $file_info = $img->move($Catalog_path);
+            if ($file_info) {
+                $imgname=$file_info->getSaveName();
+            } else {
+                // 上传失败获取错误信息，并显示
+                $this->error($img->getError());
+            }
+        }else{
+            $imgname="";
+        }        
         $arr['height']   = json_encode($arr['height']);
         $arr['weight']   = json_encode($arr['weight']);
         $arr['chest']    = json_encode($arr['chest']);
@@ -83,6 +103,7 @@ class Online extends Common
         $arr['tw3c']     = json_encode($arr['tw3c']);
         $arr['tw3r']     = json_encode($arr['tw3r']);
         $arr['add_time'] = date('Y-m-d H:i:s',time());
+        $arr['test_path']= $imgname;
         $res=$model->report_add($arr);
         if($res)
         {
@@ -115,5 +136,21 @@ class Online extends Common
         $arr[0]['tw3r']     = json_decode($arr[0]['tw3r'],true);
         $this->assign('data',$arr[0]);
         return $this->fetch('test_show');
+    }
+
+    public function Picture_download()
+    {
+        //获取图片的路径
+        $img_path=$_GET['img_path'];
+        $img=ROOT_PATH."public".DS."customer_uploads".DS.$img_path;
+        //echo $tu;die;
+        //获取图片的详细信息是一个数组
+        $lie=getimagesize($img);
+        //在数组中获取图片的类型
+        $type=$lie['mime'];
+        header('content-type:'.$type);
+        //激活下载窗口
+        header("Content-Disposition:attachment;filename=".$img);
+        readfile($img);        
     }
 }
