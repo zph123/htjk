@@ -235,8 +235,8 @@ a{
         {php} }{/php}
 
 
-            <p style="color: red;">注：开始时间与结束时间之间填过的问卷必须要在30份以内</p>
-            开始时间：<input type="date" name="" id="s_time">
+            <p style="color: red;" id="zhushi">注：开始时间为28天之前 建议将测试全部填完再生成报告</p>
+            开始时间：<input type="date" readonly  name="" id="s_time">
             结束时间：<input type="date" name="" id="e_time">
             <p id="desc"></p>
             <input type="button" id="start" value="生成">
@@ -248,6 +248,13 @@ a{
 <script type="text/javascript">
 
         $(document).ready(function(e) {
+            var now = new Date();
+            var date = new Date(now.getTime() - 28 * 24 * 3600 * 1000);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var days = year + '-' + month + '-' + day;
+            $("#s_time").val(days)
             $.get("{:url('index/nutrientbalance/getprice')}",function (date) {
                 $("#price").html(date)
             });
@@ -280,8 +287,16 @@ a{
                             $("#desc").html("<font color='red'>您选择的日期里没有问卷<font>")
                             $("#start").attr({"disabled":"disabled"});
                         }else{
-                            $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
-                            $("#start").removeAttr("disabled");
+                            $.get("{:url('index/nutrientbalance/getagetest')}",{},function (dats) {
+                                if(dats==0){
+                                    $("#desc").html("<font color='red'>您骨龄测试报告已失效<font>")
+                                    $("#start").attr({"disabled":"disabled"});
+                                }else{
+                                    $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
+                                    $("#start").removeAttr("disabled");
+                                }
+                            })
+
                         }
 
                     })
@@ -299,8 +314,15 @@ a{
                             $("#desc").html("<font color='red'>您选择的日期里没有问卷<font>")
                             $("#start").attr({"disabled":"disabled"});
                         }else{
-                            $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
-                            $("#start").removeAttr("disabled");
+                            $.get("{:url('index/nutrientbalance/getagetest')}",{},function (dats) {
+                                if(dats==0){
+                                    $("#desc").html("<font color='red'>您骨龄测试报告已失效<font>")
+                                    $("#start").attr({"disabled":"disabled"});
+                                }else{
+                                    $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
+                                    $("#start").removeAttr("disabled");
+                                }
+                            })
                         }
                     })
                 }

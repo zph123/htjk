@@ -462,6 +462,23 @@ class Nutrientbalance extends Controller
 			echo 0;die;
 		}
 
+		$r = Db::table('order')
+			->alias('a')
+			->field('a.o_id')
+			->join('online_report o','a.o_id = o.or_id')
+			->where('a.status','1')
+			->where('a.u_id',$u_id)
+			->whereTime('o.effective_time', '>=', date("Y-m-d H:i:s",time()))
+			->where('a.type','in',[3,4])
+			->order('o.add_time DESC')
+			->limit(1)
+			->find();
+		if(isset($r['o_id'])){
+			$mysql_date['p_id'] = $r['o_id'];
+		}else{
+			echo 0;die;
+		}
+
 		$res = Db::table('user_answer')
 			->field('u_date,u_answer,u_desc,type')
 			->where('u_date', 'between', [$s_time,$e_time])
@@ -582,6 +599,10 @@ class Nutrientbalance extends Controller
 			->order('o.add_time DESC')
 			->limit(1)
 			->find();
-		echo $res['o_id'];
+		if(isset($res['o_id'])){
+			echo 1;
+		}else{
+			echo 0;
+		}
 	}
 }
