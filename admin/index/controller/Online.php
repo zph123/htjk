@@ -104,6 +104,7 @@ class Online extends Common
         $arr['tw3r']     = json_encode($arr['tw3r']);
         $arr['add_time'] = date('Y-m-d H:i:s',time());
         $arr['test_path']= $imgname;
+        $arr['effective_time'] = date('Y-m-d H:i:s',time()+3600*24*$arr['effective_time']);
         $res=$model->report_add($arr);
         if($res)
         {
