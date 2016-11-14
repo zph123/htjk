@@ -1,10 +1,7 @@
 </head>
 <body>
-    <div data-role="header">
-        <h1>内容详情</h1>
-    </div>
 <div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
-	<p style="line-height: 2em;font-size: 18px;">
+  <p style="line-height: 2em;font-size: 18px;">
         <span style="float: left;"><a href="javascript:void" onClick="javascript:history.go(-1);" data-role="button">返回</a></span>
     </p> 
     <div style="clear: both;"></div>  
@@ -26,13 +23,19 @@
         </tr>
       </tbody>
     </table>
+  {if condition="($is_pay == 1)"}
+    {if condition="($way != '')"}
+      
+    {/if} 
+  {else /}
     <p style="line-height: 2em;font-size: 18px;">
         <span style="float: left;">
-          <a href="javascript:void" data-role="button">取消订单</a>
+          <a href="{:url('index/user/user_delete')}?r={$list.o_id}" data-role="button" data-ajax="false">取消订单</a>
         </span>
         <span style="float: right;">
            <a href="{:url('index/user/pay')}?r={$list.o_id}" data-role="button" data-ajax="false">去支付</a>
         </span>
     </p> 
-    <div style="clear: both;"></div>  
+  {/if} 
+  
 </div>
