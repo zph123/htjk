@@ -1,32 +1,68 @@
-   <link rel="stylesheet" href="__PUBLIC__/static/css/index.css">
+   <link rel="stylesheet" href="__PUBLIC__/static/css/stylea.css">
+   <link rel="stylesheet" href="__PUBLIC__/static/css/jquery.min.js">
+   <link rel="stylesheet" href="__PUBLIC__/static/js/jquery-1.7.2.min.js">
 </head>
 <body>
-<!--     <div data-role="header" class="header-img">
-        <h1>发育水平</h1>
-    </div> -->
-
-    <div data-role="content" style="margin-bottom:10%">
-        <div id="Container">
-            <a data-ajax="false" href="{:url('/index/index/whatBone')}">
-              <div id="Content-Left"><font color="#A6A6A6">什么是骨龄测试</font></div>
-            </a>
-             <a data-ajax="false" href="{:url('/index/index/whatAge')}">
-              <div id="Content-Main">
-                <div class="shuli"><font color="#A6A6A6">什么年龄做骨龄测试</font></div>
-              </div>
-             </a>           
-            <a data-ajax="false" href="{:url('/index/index/whyBone')}">
-             <div id="Content-Right">
-             <div class="shuli"><font color="#A6A6A6">为什么做骨龄测试</font></div></div> 
-            </a>         
-            <a data-ajax="false" href="{:url('/index/index/howBone')}">
-             <div id="Content-Main-right"><font color="#A6A6A6">怎么做骨龄测试</font></div>  
-            </a>          
-                       
-         </div>
-    </div>
-
-  
-
-
-	
+<br>
+    <div id="header"><!--幻灯片 开始-->
+<script type="text/javascript" src="__PUBLIC__/static/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript">          
+$(document).ready(function(){
+                $('.flexslider').flexslider({
+                        controlNav: true, 
+                        directionNav: false,
+                        animation: "slide",
+                        //manualControls: ".myflexslider .slidenav"
+                    });
+          });
+        </script>
+        <div id="banner" class="flexslider" >
+        <ul class="slides">
+        <li> 
+        <img src="__PUBLIC__/static/img/02.jpg" />
+        </li>
+        <li>
+        <img src="__PUBLIC__/static/img/01.png" />
+        </li>
+        </ul>
+        </div>
+        <!--幻灯片 结束-->
+        </div>
+        <div id="content">
+        <!--导航开始-->
+        <ul class="channellist">
+	<li>
+		  <a href="{:url('/index/index/whatBone')}">
+			  <div class="ChannelIcon">
+			  	<img src="__PUBLIC__/static/img/15.jpg" />
+			  </div>
+			  	<div class="ChannelName">什么是骨龄测试</div>
+		  </a>
+	</li>
+	<li>
+			<a  href="{:url('/index/index/whatAge')}">
+				<div class="ChannelIcon">
+					<img src="__PUBLIC__/static/img/20.jpg"  />
+				</div>
+				<div class="ChannelName">什么年龄做骨龄测试</div>
+			</a>
+	</li>
+	<li>
+			<a  href="{:url('/index/index/whyBone')}">
+				<div class="ChannelIcon">
+					<img src="__PUBLIC__/static/img/23.jpg"  />
+				</div>
+				<div class="ChannelName">为什么做骨龄测试</div>
+			</a>
+	</li>
+	<li>
+			<a  href="{:url('/index/index/howBone')}">
+				<div class="ChannelIcon">
+					<img src="__PUBLIC__/static/img/30.jpg"  />
+				</div>
+				<div class="ChannelName">怎么做骨龄测试</div>
+			</a>
+	</li>
+		<!--导航结束-->
+		<div class="clear"></div>
+	</div>
