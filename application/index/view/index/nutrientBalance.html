@@ -307,13 +307,23 @@ a{
             })
         });
         function fun(date){
-            var   d=new   Date(Date.parse(date.replace(/-/g,"/")));
-            var   curDate=new   Date();
+            var   d=new Date(Date.parse(date.replace(/-/g,"/")));
+            var   curDate=new Date();
             if(d > curDate){
                 $("#alertcontent").text("未来还没来哦~")
                 $("#alert").click();
             }else{
-                window.location.href="{:url('index/nutrientbalance/question')}"+'?date='+date
+                $.get("{:url('index/nutrientbalance/getweek')}",{date:date},function (data) {
+                   if(data==1){
+                       $("#alertcontent").text("上周周日还没填呢~");
+                       $("#alert").click();
+                   }else if(data==2){
+                       window.location.href="{:url('index/login/index')}"
+                   }else if(data==0){
+                       window.location.href="{:url('index/nutrientbalance/question')}"+'?date='+date
+                   }
+                })
+
             }
         }
         var CalendarHandler = {

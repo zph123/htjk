@@ -5,6 +5,7 @@ use think\Db;
 use think\Request;
 use think\Session;
 use app\index\model\Order;
+use think\Cookie;
 
 class Nutrientbalance extends Controller
 {
@@ -18,7 +19,7 @@ class Nutrientbalance extends Controller
 	 * @param int $data string Y-m-d格式的日期
 	 * @return \think\response\View 视图 答题视图
 	 */
-    public function question( $date = 0 ) {
+    public function question( $date = 0, $num = 1) {
 
 		if( !Session::has('uid') ) {
 			$this->redirect("login/index");
@@ -38,55 +39,82 @@ class Nutrientbalance extends Controller
 		if($time > time() ) {
 			$this->error('未来还没到哦~');
 		}
+		//查询上一周周日填完没
+		$week = date('w',strtotime($date));
+		$lastsunday = '';
+		switch ($week){
+			case 0:
+				$lastsunday = date('Y-m-d',strtotime("$date -7 day"));
+				break;
+			case 1:
+				$lastsunday = date('Y-m-d',strtotime("$date -1 day"));
+				break;
+			case 2:
+				$lastsunday = date('Y-m-d',strtotime("$date -2 day"));
+				break;
+			case 3:
+				$lastsunday = date('Y-m-d',strtotime("$date -3 day"));
+				break;
+			case 4:
+				$lastsunday = date('Y-m-d',strtotime("$date -4 day"));
+				break;
+			case 5:
+				$lastsunday = date('Y-m-d',strtotime("$date -5 day"));
+				break;
+			case 6:
+				$lastsunday = date('Y-m-d',strtotime("$date -6 day"));
+				break;
+		}
+		$count = Db::table("user_answer")->where(['u_id'=>$u_id,'u_date'=>$lastsunday])->count();
+		$lastmonday = date('Y-m-d',strtotime("$lastsunday -6 day"));
+		$zong = Db::table("user_answer")->where('u_id',$u_id)->where('u_date','between',[$lastmonday,$lastsunday])->count();
+		if($zong!=0 && $count<3){
+			$this->error('请填写上周周报');
+		}
 
-    	$week = date('w', strtotime($date));
- 		if($week == 0) {
- 			$num = 2;
- 		}else{
-			$num = 1;
- 		}
 
 		//查询用户填过的数据
 		$info = Db::table('user_answer')
 			->where([
 				'u_id'=>$u_id,
-				'u_date'=>$date
+				'u_date'=>$date,
+				'type'=>$num
 			])
 			->find();
 		$anwser = json_decode($info['u_answer'], true);
 		$text = json_decode($info['u_desc'], true);
-
-		//用户已经选完 返回不可选择的页面
-		if($info['status'] == 1) {
-
-			$map = array();
-			foreach ($anwser as $k => $v) {
-				if ( is_array( $v ) ) {
-					foreach ($v as $key => $val) {
-						$map[] = $val;
-					}
-				} else {
-					$map[] = $v;
-				}
-			}
-
-			$user = Db::table('question_answer')
-				->alias('qa')
-				->field('a_content,q_content,q.q_id')
-				->join('answer a', 'a.a_id = qa.a_id')
-				->join('question q', 'qa.q_id = q.q_id')
-				->where('qa.qa_id', 'in', $map)
-				->select();
-
-			$tmp = array();
-			foreach ($user as $key => $value) {
-				$tmp[$value['q_id']]['question'] = $value['q_content'];
-				$tmp[$value['q_id']]['anwser'][] = $value['a_content'];
-			}
-
-			//模板赋值 data 用户问题和答案 date 查询时间 text 用户注明文字
-			return view("answer",[ 'data' => $tmp, 'date' => $date, 'text' => $text, 'username' => $username['name'] ]);
-		}
+//		var_dump($info);die;
+//		//用户已经选完 返回不可选择的页面
+//		if($info['status'] == 1) {
+//
+//			$map = array();
+//			foreach ($anwser as $k => $v) {
+//				if ( is_array( $v ) ) {
+//					foreach ($v as $key => $val) {
+//						$map[] = $val;
+//					}
+//				} else {
+//					$map[] = $v;
+//				}
+//			}
+//
+//			$user = Db::table('question_answer')
+//				->alias('qa')
+//				->field('a_content,q_content,q.q_id')
+//				->join('answer a', 'a.a_id = qa.a_id')
+//				->join('question q', 'qa.q_id = q.q_id')
+//				->where('qa.qa_id', 'in', $map)
+//				->select();
+//
+//			$tmp = array();
+//			foreach ($user as $key => $value) {
+//				$tmp[$value['q_id']]['question'] = $value['q_content'];
+//				$tmp[$value['q_id']]['anwser'][] = $value['a_content'];
+//			}
+//
+//			//模板赋值 data 用户问题和答案 date 查询时间 text 用户注明文字
+//			return view("answer",[ 'data' => $tmp, 'date' => $date, 'text' => $text, 'username' => $username['name'] ]);
+//		}
 
     	$res = Db::table('answer')
 			->alias('a')
@@ -126,8 +154,9 @@ class Nutrientbalance extends Controller
 			}
 		}
 
+
 		//模板赋值 data 问题 date 时间日期 anwser 用户选项 text 用户注明文字 status 答题状态：1已完成 0未完成
-    	return view('question', [ 'data' => $arr, 'date' => $date, 'anwser' => $anwser, 'text' => $text, 'status' => $info['status'], 'username' => $username['name'] ]);
+    	return view('question', [ 'data' => $arr, 'date' => $date, 'anwser' => $anwser, 'text' => $text, 'status' => $info['status'], 'username' => $username['name'], 'type'=>$num ]);
     }
 
 	/**
@@ -155,6 +184,54 @@ class Nutrientbalance extends Controller
 
 		return $newarr;
     }
+
+	/**
+	 * @param int $date 日期 date
+	 */
+	public function getweek($date = 0)
+	{
+		if (!Request::instance()->isAjax()) {
+			echo 4;die;
+		}
+		if( !Session::has('uid') ) {
+			echo 2;die;
+		}
+		$u_id = Session::get('uid');
+		//查询上一周周日填完没
+		$week = date('w',strtotime($date));
+		$lastsunday = '';
+		switch ($week){
+			case 0:
+				$lastsunday = date('Y-m-d',strtotime("$date -7 day"));
+				break;
+			case 1:
+				$lastsunday = date('Y-m-d',strtotime("$date -1 day"));
+				break;
+			case 2:
+				$lastsunday = date('Y-m-d',strtotime("$date -2 day"));
+				break;
+			case 3:
+				$lastsunday = date('Y-m-d',strtotime("$date -3 day"));
+				break;
+			case 4:
+				$lastsunday = date('Y-m-d',strtotime("$date -4 day"));
+				break;
+			case 5:
+				$lastsunday = date('Y-m-d',strtotime("$date -5 day"));
+				break;
+			case 6:
+				$lastsunday = date('Y-m-d',strtotime("$date -6 day"));
+				break;
+		}
+		$count = Db::table("user_answer")->where(['u_id'=>$u_id,'u_date'=>$lastsunday])->count();
+		$lastmonday = date('Y-m-d',strtotime("$lastsunday -6 day"));
+		$zong = Db::table("user_answer")->where('u_id',$u_id)->where('u_date','between',[$lastmonday,$lastsunday])->count();
+		if($zong!=0 && $count<3){
+			echo 1;
+		}else{
+			echo 0;
+		}
+	}
 
 	/**
 	 * 接口 请求返回p_id数组
@@ -243,12 +320,9 @@ class Nutrientbalance extends Controller
 			}
 		}
 
-		$week = date('w', strtotime($data['date']));
-		if($week == 0) {
-			$num = 2;
-		}else{
-			$num = 1;
-		}
+		$num =$data['type'];
+
+
 		$number = count($data['anwser']);
 		$count = Db::table('question')->where('q_type',$num)->count();
 		if($num == 2) {
@@ -263,10 +337,12 @@ class Nutrientbalance extends Controller
 		$mysql_data['u_answer'] = json_encode($data['anwser']);
 		$mysql_data['u_id'] = $u_id;
 		$mysql_data['u_date'] = $data['date'];
+		$mysql_data['type'] = $num;
 
 		//查询用户是否有数据 有 执行修改操作 无执行添加操作
 		$map['u_id'] = $u_id;
 		$map['u_date'] = $data['date'];
+		$map['type'] = $num;
 		$info = Db::table('user_answer')->where($map)->find();
 		if($info) {
 			$res = Db::table('user_answer')->where($map)->update($mysql_data);
@@ -277,7 +353,17 @@ class Nutrientbalance extends Controller
 			$res = Db::table('user_answer')->insert($mysql_data);
 		}
 		if($res) {
-			$this->redirect('index/nutrientbalance');
+			$week = date('w', strtotime($data['date']));
+			if($week == 0) {
+				$num++;
+				if($num<=3){
+					$this->redirect('nutrientbalance/question', ['date'=>$data['date'],'num'=>$num]);
+				}else{
+					$this->redirect('index/nutrientbalance');
+				}
+			}else{
+				$this->redirect('index/nutrientbalance');
+			}
 		} else {
 			$this->error('失败');
 		}
@@ -313,7 +399,13 @@ class Nutrientbalance extends Controller
 
 		$arr  = array();
 		foreach ($res as $k => $v) {
-			$arr[date('j',strtotime($v['u_date']))] = $v['status'];
+			if(!isset($arr[date('j',strtotime($v['u_date']))])){
+				$arr[date('j',strtotime($v['u_date']))] = $v['status'];
+			}else{
+				if($arr[date('j',strtotime($v['u_date']))]!=0){
+					$arr[date('j',strtotime($v['u_date']))] = $v['status'];
+				}
+			}
 		}
 		echo json_encode($arr);
 	}
@@ -344,7 +436,6 @@ class Nutrientbalance extends Controller
 		$res = Db::table('user_answer')
 			->where('u_date', 'between', [$s_time,$e_time])
 			->where('u_id', $u_id)
-			->where('status', 1)
 			->count();
 
 		echo $res;
@@ -372,10 +463,9 @@ class Nutrientbalance extends Controller
 		}
 
 		$res = Db::table('user_answer')
-			->field('u_date,u_answer,u_desc')
+			->field('u_date,u_answer,u_desc,type')
 			->where('u_date', 'between', [$s_time,$e_time])
 			->where('u_id', $u_id)
-			->where('status', 1)
 			->select();
 
 		foreach ($res as $ke => $value) {
@@ -392,7 +482,7 @@ class Nutrientbalance extends Controller
 
 			}
 			$str = rtrim($str, ',');
-			$details[$value['u_date']] = Db::field('q.q_id,q.q_content,a.a_content,GROUP_CONCAT(a.a_content) as a_content')
+			$details[$value['type']][$value['u_date']] = Db::field('q.q_id,q.q_content,a.a_content,GROUP_CONCAT(a.a_content) as a_content')
 				->table('question_answer')
 				->alias('qa')
 				->join('question q','qa.q_id = q.q_id')
@@ -400,6 +490,7 @@ class Nutrientbalance extends Controller
 				->where('qa.qa_id','in',"$str")
 				->group('q.q_id')
 				->select();
+
 
 			//问答题
 			if($value['u_desc'] != "") {
@@ -416,7 +507,7 @@ class Nutrientbalance extends Controller
 				foreach ($desc_question as $key => $val) {
 					$desc_question[$key]['a_content'] = $desc[$val['q_id']];
 				}
-				$descs[$value['u_date']] = $desc_question;
+				$descs[$value['type']][$value['u_date']] = $desc_question;
 			}
 		}
 
@@ -426,22 +517,26 @@ class Nutrientbalance extends Controller
 		}
 		foreach ($details as $key => $value) {
 			foreach ($value as $k => $v) {
-				$detail[$key][$v['q_id']] = array(
-					'question' 	=> $v['q_content'],
-					'answer' 	=> $v['a_content'],
-				);
+				foreach ($v as $ke =>$val){
+					$detail[$key][$k][$val['q_id']] = array(
+						'question' 	=> $val['q_content'],
+						'answer' 	=> $val['a_content'],
+					);
+				}
+
 			}
 		}
 		if (isset($descs)) {
 			foreach ($descs as $key => $value) {
 				foreach ($value as $k => $v) {
-					if ($v['a_content'] != '') {
-						$detail[$key][$v['q_id']]['desc'] = $v['a_content'];
+					foreach ($v as $ke=>$val){
+						if ($val['a_content'] != '') {
+							$detail[$key][$k][$val['q_id']]['desc'] = $v['a_content'];
+						}
 					}
 				}
 			}
 		}
-
 
 		//营养TYPE 1
 		$order_data['type'] = 1;
@@ -468,5 +563,25 @@ class Nutrientbalance extends Controller
 			$price = Db::table("price_class")->field("p_price")->where('p_id', 5)->find();
 			echo $price['p_price'];
 		}
+	}
+
+	public function getagetest()
+	{
+		if( !Session::has('uid') ) {
+			echo 0;die;
+		}
+		$u_id = Session::get('uid');
+		$res = Db::table('order')
+			->alias('a')
+			->field('a.o_id')
+			->join('online_report o','a.o_id = o.or_id')
+			->where('a.status','1')
+			->where('a.u_id',$u_id)
+			->whereTime('o.effective_time', '>=', date("Y-m-d H:i:s",time()))
+			->where('a.type','in',[3,4])
+			->order('o.add_time DESC')
+			->limit(1)
+			->find();
+		echo $res['o_id'];
 	}
 }

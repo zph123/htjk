@@ -6,13 +6,17 @@
 
     <div data-role="content" style="margin-bottom: 15%">
         <p style="line-height: 2em;font-size: 18px;">
-           <span style="float: left;">{$date}营养调查题</span><span style="float: right;">欢迎您：{present name="$username"}{$username}{/present}</span>
+           <span style="float: left;">{$date}{if condition="$type eq 1"}每日进食量调查
+               {elseif condition="$type eq 2"/}  饮食习惯
+               {else /}进食次数调查
+               {/if}</span><span style="float: right;">欢迎您：{present name="$username"}{$username}{/present}</span>
         </p>
         <div style="clear: both;"></div>
         <div>
             <!-- <p>网页内容为运动处方需填写的数据要求</p> -->
 <form action='{:url("index/nutrientbalance/add_do")}' method="post" data-ajax="false">
     <input type="hidden" name="date" value="{$date}">
+    <input type="hidden" name="type" value="{$type}">
 {foreach name="data" item="val" key="ke" }
     <fieldset data-role="controlgroup" data-type="horizontal"
     {present name="val['dis']"} style="display: none" {/present}
@@ -65,8 +69,6 @@
         <hr>
         {if condition="$status heq 0"}
         <a href="javascript:void(0)" data-role="button" id="btn2" data-corners="false" style="width: 100px;margin: 0 auto;"  >修改</a>
-        {elseif condition="$status eq 1"/}
-        <a href="javascript:void(0)" data-role="button" data-rel="back" data-corners="false" style="width: 100px;margin: 0 auto;"  >返回</a>
         {else /}
         <a href="javascript:void(0)" data-role="button" id="btn" data-corners="false" style="width: 100px;margin: 0 auto;"  >提交</a>
         {/if}
