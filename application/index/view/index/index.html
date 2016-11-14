@@ -1,5 +1,5 @@
    <link rel="stylesheet" href="__PUBLIC__/static/css/stylea.css">
-   <link rel="stylesheet" href="__PUBLIC__/static/css/jquery.min.js">
+   <link rel="stylesheet" href="__PUBLIC__/static/js/jquery.min.js">
    <link rel="stylesheet" href="__PUBLIC__/static/js/jquery-1.7.2.min.js">
 </head>
 <body>
@@ -32,37 +32,70 @@ $(document).ready(function(){
         <!--导航开始-->
         <ul class="channellist">
 	<li>
-		  <a href="{:url('/index/index/whatBone')}">
-			  <div class="ChannelIcon">
+			  <div class="ChannelIcon one1">
 			  	<img src="__PUBLIC__/static/img/15.jpg" />
 			  </div>
 			  	<div class="ChannelName">什么是骨龄测试</div>
-		  </a>
+		  
 	</li>
 	<li>
-			<a  href="{:url('/index/index/whatAge')}">
-				<div class="ChannelIcon">
+			
+				<div class="ChannelIcon one2">
 					<img src="__PUBLIC__/static/img/20.jpg"  />
 				</div>
 				<div class="ChannelName">什么年龄做骨龄测试</div>
-			</a>
+		
 	</li>
 	<li>
-			<a  href="{:url('/index/index/whyBone')}">
-				<div class="ChannelIcon">
+			
+				<div class="ChannelIcon one3">
 					<img src="__PUBLIC__/static/img/23.jpg"  />
 				</div>
 				<div class="ChannelName">为什么做骨龄测试</div>
-			</a>
+		
 	</li>
 	<li>
-			<a  href="{:url('/index/index/howBone')}">
-				<div class="ChannelIcon">
+			
+				<div class="ChannelIcon one4">
 					<img src="__PUBLIC__/static/img/30.jpg"  />
 				</div>
 				<div class="ChannelName">怎么做骨龄测试</div>
-			</a>
+			
 	</li>
+	</ul>
+	</div>
 		<!--导航结束-->
 		<div class="clear"></div>
 	</div>
+<script>
+    $(function(){
+        $(document).on("click",".one4",function(){
+            //alert(1);
+            window.location.href="{:url('/index/index/howBone')}";
+        })
+    })
+</script>
+<script>
+    $(function(){
+        $(document).on("click",".one2",function(){
+            //alert(1);
+            window.location.href="{:url('/index/index/whatAge')}";
+        })
+    })
+</script>
+<script>
+    $(function(){
+        $(document).on("click",".one1",function(){
+            //alert(1);
+            window.location.href="{:url('/index/index/whatBone')}";
+        })
+    })
+</script>
+<script>
+    $(function(){
+        $(document).on("click",".one3",function(){
+            //alert(1);
+            window.location.href="{:url('/index/index/whyBone')}";
+        })
+    })
+</script>
