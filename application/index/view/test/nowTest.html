@@ -10,9 +10,9 @@
     <script src="__PUBLIC__/static/css/data/data.js" type="text/javascript"></script>
 </head>
 <body>
-    <div data-role="header">
-        <h1>现场测试</h1>
-    </div>
+    <!--<div data-role="header">-->
+        <!--<h1>现场测试</h1>-->
+    <!--</div>-->
 
     <div data-role="content" style="margin-bottom:10%">
         {if condition="$below_list"}
@@ -47,7 +47,7 @@
             <input type="hidden" value="{$below_list['l_id']}" name="l_id" id="l_id">
             <div class="ui-field-contain">
                 <label for="predict_height">预测身高:</label>
-                <select name="predict_height" id="predict_height" data-role="flipswitch" onchange="height()" class="forms">
+                <select name="predict_height" id="predict_height" data-role="flipswitch" onchange="height()">
                     <option value="0">不要</option>
                     <option value="1">要</option>
                 </select>
@@ -95,7 +95,7 @@
                     <label for="age" class="select"><font color="red">• </font>年龄:</label>
                     <select name="age" id="age" data-native-menu="false" class="forms">
                         <optgroup label="年龄">
-                            {for start="1" end="90"  }
+                            {for start="4" end="18"  }
                             <option value="1">{$i}岁</option>
                             {/for}
                         </optgroup>
@@ -190,17 +190,11 @@
             //获取当前时间的时间戳
             var time = Date.parse(new Date());
             if(id==""){
-                if(confirm("您还没有登录，请先登录")){
-                    location.href="{:url('index/Login/index')}";
-                    return
-                }else{
                     $("#button").hide()
                     return
-                }
             }
 
             if(time<l_stime || time>l_etime || !l_stime){
-                alert('没有在活动时间内，暂时不能提交表单');
                 $("#button").hide()
                 return
             }

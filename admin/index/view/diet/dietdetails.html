@@ -7,7 +7,11 @@
 		.red{
 			background-color: red;
 		}
-		.desc{
+		.day_desc{
+			float: left;
+			display: none;
+		}
+		.week_desc{
 			float: left;
 			display: none;
 		}
@@ -33,16 +37,23 @@
 				 <span style="color:red">未生成</span>
 				{elseif condition="$data['status'] == 1"/}
 				 <span style="color:green">已生成</span>
-				{/if} <br>
+				{/if} <br><br><br><br>
+	日报：
 	<ul style="list-style:none">
-	{foreach name="$data['desc']" item="val" key="key" }
-		<li style="float:left;margin-right:10px" class="date"><a href="javascript:void(0)">{$key}</a></li>
+	{foreach name="$day" item="val" key="key" }
+		<li style="float:left;margin-right:10px" class="day"><a href="javascript:void(0)">{$key}</a></li>
 	{/foreach}
 	</ul>
 	<br>
-	
-	{foreach name="$data['desc']" item="val" key="key" }
-		<table class="desc" border="1">
+	周报：
+	<ul style="list-style:none">
+	{foreach name="$week" item="val" key="key" }
+		<li style="float:left;margin-right:10px" class="week"><a href="javascript:void(0)">{$key}</a></li>
+	{/foreach}
+	</ul>
+	<br>
+	{foreach name="$day" item="val" key="key" }
+		<table class="day_desc" border="1">
 		<tr>
 			<td>问题</td>
 			<td>答案	</td>
@@ -55,19 +66,49 @@
 		{/foreach}
 		</table>
 	{/foreach}
-	
+
+	{foreach name="$week" item="val" key="key" }
+		<table class="week_desc" border="1">
+		<tr>
+			<td>问题</td>
+			<td>答案	</td>
+		</tr>
+		{foreach name="$val" item="v" key="k" }
+			<tr>
+				<td>{$v.question}</td>
+				<td>{$v.answer} </td>
+			</tr>
+		{/foreach}
+		</table>
+	{/foreach}
+	<br><br><br>
+	{if condition="$data['is_pay'] == 0"}
+		该订单尚未支付，不能生成报告。
+	{elseif condition="$data['is_pay'] == 1 && $data['status'] == 1"}
+		该订单已经生成报告。<a href="{:url('diet/dietshow')}?o_id={$data['o_id']}">点击查看报告</a>
+	{else}
+	<a href="{:url('diet/userdiet')}?o_id={$data['o_id']}">生成报告</a>
+	{/if}
 </body>
 </html>
 <script>
-	$(".date").click(function(){
+	$(".day").click(function(){
 		$(this).addClass('red').siblings().removeClass('red');
 		var index = $(this).index();
 		// alert(index)
-		$(".desc").eq(index).addClass('show').siblings().removeClass('show');;
+		$(".day_desc").eq(index).addClass('show').siblings().removeClass('show');
+		$(".week").removeClass('red');
+		//$(".desc not:"+index).addClass('hide');
+		//alert($(".desc").eq(index).html())
+	})
+
+	$(".week").click(function(){
+		$(this).addClass('red').siblings().removeClass('red');
+		var index = $(this).index();
+		// alert(index)
+		$(".week_desc").eq(index).addClass('show').siblings().removeClass('show');
+		$(".day").removeClass('red');
 		//$(".desc not:"+index).addClass('hide');
 		//alert($(".desc").eq(index).html())
 	})
 </script>
-
-
-<button>回复</button>

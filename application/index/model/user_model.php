@@ -22,6 +22,7 @@ class user_model extends Model
 		$data = Db::table('order')
 		->where('u_id',$id)
 		->where('type',$type)
+		->order('addtime DESC')
 		->column($field);
 		return $data;
 	}

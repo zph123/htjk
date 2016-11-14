@@ -94,7 +94,7 @@
 
     </table>
 </div>
-<form action="{:url('Locale/create')}" method="post">
+<form action="{:url('Locale/create')}" enctype="multipart/form-data" method="post">
     <table class="xwtable">
         <thead>
         <tr>
@@ -126,8 +126,12 @@
             <td>骨龄片号</td>
             <td colspan="2"><input type="text" name="glnumber"></td>
         </tr>
+        <tr>
+            <td>测试报告有效时间</td>
+            <td colspan="5"><input type="text" name="effective_time" value="170">天</td>
+        </tr>         
         </thead>
-        <tbody>
+        <tbody>       
         <tr>
             <td colspan="6"></td>
         </tr>
@@ -228,6 +232,7 @@
             <td>CM</td>
         </tr>
         <tr><td colspan="6"></td></tr>
+        <tr><td colspan="3"></td><td colspan="3"><input type="file" name="hands_photo" id="hands_photo"></td></tr>        
         <tr><td colspan="4">专家综合评测身高</td><td><input type="text" name="evaluating"></td><td>+-2CM</td></tr>
         <tr><td colspan="6"><input type="submit" value="保存"><a href="{:url('Locale/index')}">返回</a></td></tr>
         </tbody>

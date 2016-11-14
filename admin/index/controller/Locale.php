@@ -26,9 +26,13 @@ class Locale extends Common
         }        
         if(isset($is_pay) && $is_pay!=="" ){
             $where['is_pay']=$is_pay;
+        }else{
+            $is_pay="";
         }
         if(isset($status) && $status!==""){
             $where['status']=$status;
+        }else{
+            $status="";
         }
         $online = new Localetest();
         $arr = $online->count_order($where);
@@ -69,10 +73,25 @@ class Locale extends Common
     *测试报告数据入库
     *$arr 接受数据 
     */
-    public function create()
+    public function create(Request $request)
     {
         $model = new  Localetest();
         $arr=Request::instance()->post();
+        $img=$request->file('hands_photo');
+        if(!empty($img)){
+            $Catalog_path=ROOT_PATH."public".DS."testimg";
+            is_dir($Catalog_path)or mkdir($Catalog_path,0777,true);
+            //将图片转移到 框架应用根目录/public/testimg/ 目录下
+            $file_info = $img->move($Catalog_path);
+            if ($file_info) {
+                $imgname=$file_info->getSaveName();
+            } else {
+                // 上传失败获取错误信息，并显示
+                $this->error($img->getError());
+            }
+        }else{
+            $imgname="";
+        }                
         $arr['height']   = json_encode($arr['height']);
         $arr['weight']   = json_encode($arr['weight']);
         $arr['chest']    = json_encode($arr['chest']);
@@ -82,6 +101,8 @@ class Locale extends Common
         $arr['tw3c']     = json_encode($arr['tw3c']);
         $arr['tw3r']     = json_encode($arr['tw3r']);
         $arr['add_time'] = date('Y-m-d H:i:s',time());
+        $arr['test_path']= $imgname;
+        $arr['effective_time'] = date('Y-m-d H:i:s',time()+3600*24*$arr['effective_time']);
         $Online_report = new Online_report();
         $res=$Online_report->report_add($arr);
         if($res)

@@ -10,20 +10,33 @@ use app\index\model\Order;
 
 class Sportaction extends Common
 {
-	/**
-	 * 加载运动处方首页
-	 */
-	function index(){
+    /**
+     * 加载运动处方首页
+     */
+    function index(){
+        $id=Session::get('uid');
+        $order=Db::table('order')
+        ->where('u_id',$id)
+        ->where('type','in','3,4')
+        ->where('status','1')
+        ->order('addtime DESC')
+        ->find();
+        $addtime=strtotime($order['addtime']);
+        //三个月的时间戳
+        $three=60*60*24*30*3;
+        if((time()-$addtime)>$three){
+            return view('test');
+        }
         //查询单次价格
         $price=Db::table('price_class')->where('p_id','4')->find();
         $this->assign('price',$price['p_price']);
-		return view('index/sportAction');
-	}
-	/**
+        return view('index/sportAction');
+    }
+    /**
      * 获取用户运动处方数据
      */
     function getcolor(Request $request){
-    	$data=$request->param();
+        $data=$request->param();
         $date=empty($data['data'])?"":$data['data'];
         $id=Session::get('uid');
         $field='id,time';
@@ -36,9 +49,9 @@ class Sportaction extends Common
      * 处理用户重复数据
      */
     function words($data){
-    	$da=array();
+        $da=array();
         $arr=array();
-    	foreach ($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $i=1;
             foreach ($data as $k => $v) {
                 if($k!=$key){
@@ -238,43 +251,43 @@ class Sportaction extends Common
      * 查询用户是否填写过运动处方
      */
     function user_write($date){
-    	$id=Session::get('uid');
-    	$data = Db::table("user_motion")
-		->where('uid',$id)
-		->order('time desc')
-		->column('id,time');
-		// 用户还未提交过数据直接返回
-		if(count($data)<=0){
-			return 'true';
-		}
-		//去除同一天的提交量
-		foreach ($data as $key => $value) {
-			$datat[$value]=$value;
-		}
-		//将数据位置固定
-		foreach ($datat as $key => $value) {
-			$datatime[]=$value;
-		}
-		//获取最近提交一次的周日
-		$near=$this->getMonday($datatime[0]);
-		//当前时间是属于那一周
-		$nowclass=$this->getMonday($date);
-		$nowend=$this->getSunday($date);
-		$numnow=strtotime($nowclass);
-		$numend=strtotime($nowend);
-		// 
-		$nuntime=strtotime($datatime[0]);
-		//判断提交过之后是否是本周的
-		// var_dump($nuntime);die;
-		if($nuntime>=$numnow&&$nuntime<=$numend){
-			return 'true';
-		}else if(count($data)<=1){//不是本周的如果只有一条请补齐
-			return 'false';
-		}else if(strtotime($near)>strtotime($datatime[1])){//不是本周的如果有两条是否是同一周的
-			return 'false';
-		}else{
-			return 'true';
-		}
+        $id=Session::get('uid');
+        $data = Db::table("user_motion")
+        ->where('uid',$id)
+        ->order('time desc')
+        ->column('id,time');
+        // 用户还未提交过数据直接返回
+        if(count($data)<=0){
+            return 'true';
+        }
+        //去除同一天的提交量
+        foreach ($data as $key => $value) {
+            $datat[$value]=$value;
+        }
+        //将数据位置固定
+        foreach ($datat as $key => $value) {
+            $datatime[]=$value;
+        }
+        //获取最近提交一次的周日
+        $near=$this->getMonday($datatime[0]);
+        //当前时间是属于那一周
+        $nowclass=$this->getMonday($date);
+        $nowend=$this->getSunday($date);
+        $numnow=strtotime($nowclass);
+        $numend=strtotime($nowend);
+        // 
+        $nuntime=strtotime($datatime[0]);
+        //判断提交过之后是否是本周的
+        // var_dump($nuntime);die;
+        if($nuntime>=$numnow&&$nuntime<=$numend){
+            return 'true';
+        }else if(count($data)<=1){//不是本周的如果只有一条请补齐
+            return 'false';
+        }else if(strtotime($near)>strtotime($datatime[1])){//不是本周的如果有两条是否是同一周的
+            return 'false';
+        }else{
+            return 'true';
+        }
     }
     /**
      * 获取下一个周一
@@ -286,21 +299,21 @@ class Sportaction extends Common
      * 获取上个一周一
      */
     function getMonday($d){
-	    if (date('D',strtotime($d))=='Mon'){
-	        return date('Y-m-d',strtotime($d));
-	    }else {
-	        return date('Y-m-d' , strtotime('last monday' , strtotime($d)));
-	    }
-	}
+        if (date('D',strtotime($d))=='Mon'){
+            return date('Y-m-d',strtotime($d));
+        }else {
+            return date('Y-m-d' , strtotime('last monday' , strtotime($d)));
+        }
+    }
     /**
      * 获取下个一周日
      */
     function getSunday($d){
-	    if (date('D',strtotime($d))=='Sun'){
-	        return date('Y-m-d',strtotime($d));
-	    }else {
-	        return date('Y-m-d' , strtotime('next sunday' , strtotime($d)));
-	    }
-	}
+        if (date('D',strtotime($d))=='Sun'){
+            return date('Y-m-d',strtotime($d));
+        }else {
+            return date('Y-m-d' , strtotime('next sunday' , strtotime($d)));
+        }
+    }
 
 }

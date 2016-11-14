@@ -89,16 +89,80 @@ class Diet extends Common
         return view('index');
     }
 
-    public function getuserdiet()
+    public function userdiet()
     {
-    	//获取用户ID
-    	$user_id = Request::instance()->param('id','','strip_tags,strtolower');
-    	//查询用户的记录
-    	$data = Db::field('an_id,u_date')->table('user_answer')->where('u_id',$user_id)->order('u_date desc')->select();
-    	$this->assign("data",$data);
-    	return view('userdiet');
+    	// //获取用户ID
+    	// $user_id = Request::instance()->param('id','','strip_tags,strtolower');
+    	// //查询用户的记录
+    	// $data = Db::field('an_id,u_date')->table('user_answer')->where('u_id',$user_id)->order('u_date desc')->select();
+    	// $this->assign("data",$data);
+    	// return view('userdiet');
+
+        $o_id=Request::instance()->param('o_id','','strip_tags,strtolower');
+        $res = Db::table('nutrition_way')->where('o_id',$o_id)->find();
+        if($res)
+        {
+          $this->error('此订单已经生成报告','diet/dietdetails?id='.$o_id,3);
+        }
+        $data = Db::table('order')
+        ->alias('o')
+        ->field('out_trade_no,addtime,is_pay,status,o_id,name,sex,year,u_id')
+        ->join('gl_users g ', 'o.u_id = g.id ')
+        ->where('type', 1)
+        ->where('o_id', $o_id)
+        ->select();
+        // print_r($week)
+        $this->assign('data',$data);
+        return view('userdiet');
     }
 
+    public function create()
+    {
+        $data = input('post.');
+        $res = Db::table('nutrition_way')->where('o_id',$data['o_id'])->find();
+        if($res)
+        {
+          $this->error('此订单已经生成报告','diet/dietdetails?id='.$o_id,3);
+        }
+
+        $res = Db::table('nutrition_way')->insert($data);
+        if($res)
+        {
+          $re =  Db::table('order')->where('o_id',$data['o_id'])->setField('status', '1');
+          if($re)
+          {
+            $this->success('报告生成成功','diet/dietdetails?id='.$data['o_id'],3);
+          }
+          else
+          {
+            $this->error('报告生成失败','diet/dietdetails?id='.$data['o_id'],3);
+          }
+        }
+    }
+
+    public function dietshow()
+    {
+        
+
+       $o_id=Request::instance()->param('o_id','','strip_tags,strtolower');
+
+       $res = Db::table('nutrition_way')->where('o_id',$o_id)->find();
+        if(!$res)
+        {
+          $this->error('该订单没有报告！','diet/dietdetails?id='.$o_id,3);
+        }
+        
+       $data = Db::table('order')
+        ->alias('o')
+        ->field('out_trade_no,addtime,is_pay,status,name,sex,year,u_id,n.*')
+        ->join('gl_users g ', 'o.u_id = g.id ')
+        ->join('nutrition_way n ', 'n.o_id = o.o_id ')
+        ->where('type', 1)
+        ->where('o.o_id', $o_id)
+        ->select();
+        $this->assign('data',$data);
+        return view('dietshow');
+    }
     public function dietdetails()
     {
 
@@ -112,7 +176,20 @@ class Diet extends Common
         ->field('o.o_id,o.out_trade_no,o.status,o.addtime,g.phone,o.is_pay,n.desc,g.name')
         ->find();
         $data['desc'] = json_decode($data['desc'],true);
-
+        $week = array();
+        foreach ($data['desc'] as $key => $value) {
+          if(date('w',strtotime($key))==0)
+          {
+            $week[$key] = $value;
+          }
+          else
+          {
+            $day[$key] = $value;
+          }
+        }
+        // print_r($week);
+        $this->assign("week",$week);
+        $this->assign("day",$day);
         $this->assign("data",$data);
         return view('dietdetails');
    //  	//获取答卷ID
