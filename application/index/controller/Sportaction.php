@@ -15,23 +15,43 @@ class Sportaction extends Common
      */
     function index(){
         $id=Session::get('uid');
-        
+        $survey=Db::table('motion_survey')->where('uid',$id)->find();
+        if(!$survey){
+            return view('survey');
+        }
         $order=Db::table('order')
         ->where('u_id',$id)
         ->where('type','in','3,4')
         ->where('status','1')
         ->order('addtime DESC')
         ->find();
-        $addtime=strtotime($order['addtime']);
-        //三个月的时间戳
-        $three=60*60*24*30*3;
-        // if((time()-$addtime)>$three){
-        //     return view('test');
-        // }
+        $online_report=Db::table('online_report')
+        ->where('or_id',$order['o_id'])
+        ->find();
+        $addtime=strtotime($online_report['effective_time']);
+        if(time()>$addtime){
+            $this->assign('test','true');
+        }
         //查询单次价格
         $price=Db::table('price_class')->where('p_id','4')->find();
         $this->assign('price',$price['p_price']);
         return view('index/sportAction');
+    }
+    /**
+     * 添加运动处方答题数据
+     */
+    function survey(Request $request){
+        $data=$request->param();
+        if(count($data)==7){
+            $data['uid']=Session::get('uid');
+            $model=new user_model();
+            $re=$model->add_motion('motion_survey',$data);
+            if($re){
+                $this->redirect('sportaction/index');
+            }else{
+                return view('survey');
+            }
+        }
     }
     /**
      * 获取用户运动处方数据
