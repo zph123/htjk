@@ -15,6 +15,7 @@ class Sportaction extends Common
      */
     function index(){
         $id=Session::get('uid');
+        
         $order=Db::table('order')
         ->where('u_id',$id)
         ->where('type','in','3,4')
@@ -24,9 +25,9 @@ class Sportaction extends Common
         $addtime=strtotime($order['addtime']);
         //三个月的时间戳
         $three=60*60*24*30*3;
-        if((time()-$addtime)>$three){
-            return view('test');
-        }
+        // if((time()-$addtime)>$three){
+        //     return view('test');
+        // }
         //查询单次价格
         $price=Db::table('price_class')->where('p_id','4')->find();
         $this->assign('price',$price['p_price']);
