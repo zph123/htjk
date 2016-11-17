@@ -34,12 +34,16 @@ $(document).on('blur', 'input', function () {
     var th = $(this);
     var p_price = $(this).val();
     var id = $(this).next().val();
-    if(!/^[1-9][0-9]+$/.test(p_price)){
-        $('.text').text('请输入纯数字,且首位不能为零');
+    if(/^[0][0-9]+$/.test(p_price)){
+        $('.text').text('请规范数字');
         return false;
     }
-    if(p_price.length>5){
-        $('.text').text('请输入5位以内数字');
+    if(!/^[0-9]+$/.test(p_price)){
+        $('.text').text('请规范数字');
+        return false;
+     }
+    if(p_price.length==0){
+        $('.text').text('金额不能为空');
         return false;
     }
     $.post('save',{p_price:p_price,p_id:id},function(msg){
