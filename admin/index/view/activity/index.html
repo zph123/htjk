@@ -1,0 +1,85 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">活动列表</div>    <br/>
+<a href="{:url('index/activity/activity_add')}">添加活动</a>
+<table id="tt" class="easyui-datagrid" data-options="nowrap:false"style="width:100%;height:auto;">
+    <thead>
+
+    <tr>
+        <th field="name1" width="6%">活动ID</th>
+        <th field="name2" width="10%">活动地点</th>
+        <th field="name3" width="9%">已报名人数</th>
+        <th field="name4" width="16%">活动公告</th>
+        <th field="name5" width="10%">开始时间</th>
+        <th field="name6" width="10%">结束时间</th>
+        <th field="name7" width="9%">报名截止人数</th>
+        <th field="name8" width="9%">前台展示人数</th>
+        <th field="name9" width="7%">活动状态</th>
+        <th field="name10" width="16%">操作</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {foreach $arr as $v}
+    <tr id="tr_{$v.l_id}">
+        <td>{$v.l_id}</td>
+        <td>{$v.l_place}</td>
+        <td>100</td>
+        <td>{$v.l_notice}</td>
+        <td>{$v.l_stime}</td>
+        <td>{$v.l_etime}</td>
+        <td>{$v.l_astrict}</td>
+        <td>{$v.list_astrict}</td>
+        {if($v.l_status==0)}
+        <td>未发布</td>
+        <td><a href="javascript:;" class="easyui-linkbutton del"  iconCls="icon-cancel">删除</a><input type="hidden" value="{$v.l_id}">
+            <input type="hidden" value="{$v.l_id}">
+            <a href="{:url('Activity/activity_dispose')}?l_id={$v.l_id}&&dispose=1" class="easyui-linkbutton"  iconCls="icon-add">发布</a>
+        </td>
+        {elseif($v.l_status==1)}
+        <td>已发布</td>
+        <td><a href="javascript:;" class="easyui-linkbutton del"  iconCls="icon-cancel">删除</a><input type="hidden" value="{$v.l_id}">
+            <input type="hidden" value="{$v.l_id}">
+    </td>
+        {elseif($v.l_status==2)}
+        <td>报名中</td>
+        {elseif($v.l_status==3)}
+        <td>已截止</td>
+        <td><a href="javascript:;" class="easyui-linkbutton del"  iconCls="icon-cancel">强制删除</a>
+            <input type="hidden" value="{$v.l_id}">
+        </td>
+        {/if}
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+
+<script>
+    $(function(){
+        $('.del').click(function(){
+            //alert(1);
+            var obj=$(this);
+            var l_id=$(this).next("input[type='hidden']").val();
+
+                var confirm_ = confirm('是否删除此数据？');
+
+            if(confirm_){
+
+                $.ajax({
+
+                    type:"POST",
+                    url:'activity_delete',
+                    data:{'l_id':l_id},
+                    success:function(msg){
+                        if(msg==1){
+                            $(obj).parent().parent().parent().remove();
+                        }else{
+
+                            alert("删除失败");
+                            location.href='index';
+                        }
+                    }
+                });
+
+            }
+        });
+    });
+</script>
