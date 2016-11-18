@@ -1,0 +1,143 @@
+<style type="text/css">
+    .xwtable {width: 100%;border-collapse: collapse;border: 1px solid #ccc;}
+    .xwtable thead td {font-size: 12px;color: #333333;text-align: center;border: 1px solid #ccc; font-weight:bold;}
+    .xwtable tbody tr {background: #fff;font-size: 12px;color: #666666;}
+    .xwtable tbody tr.alt-row {background: #f2f7fc;}
+    .xwtable td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
+    .style1 {color: #FF0000}
+</style>
+</head>
+
+<body>
+<table class="xwtable">
+
+    <div style="padding:3px 2px;border-bottom:1px solid #ccc"><a href="#" onclick="history.go(-1)">返回</a></div>
+    <div style="padding:3px 2px;">运动处方查看</div>    <br/>
+    <thead>
+    <tr>
+        <th colspan="6" style="background-color: #B0E0E6;">基本信息</th>
+    </tr>
+    <tr>
+        <td width="15%;">姓名</td>
+        <td width="20%">{$data[0]['name']}</td>
+        <td width="15%;">性别</td>
+        <td width="20%">
+            {if condition="$data[0]['sex'] == 0"}
+            女
+            {elseif condition="$data[0]['sex'] == 1"/}
+            男
+            {/if}
+        </td>
+        <td width="15%;">编号</td>
+        <td width="20%">{$data[0]['number']}</td>
+    </tr>
+    <tr>
+        <td>周数</td>
+        <td>{$data[0]['week']}</td>
+        <td>生长发育类型</td>
+        <td>{$data[0]['grow']}</td>
+    </tr>
+    <tr>
+        <td>出生年月</td>
+        <td>{$data[0]['birth']}</td>
+        <td>日历年龄</td>
+        <td>{$data[0]['age']}</td>
+        <td>骨龄</td>
+        <td>{$data[0]['boneage']}</td>
+    </tr>
+    <tr>
+        <td>身高</td>
+        <td>{$data[0]['height']}</td>
+        <td>体重</td>
+        <td>{$data[0]['weight']}</td>
+    </tr>
+    </thead>
+    <tr>
+        <th colspan="6" style="background-color: #B0E0E6;">运动负荷试验结果</th>
+    </tr>
+    <tr>
+        <td>试验中达到最高心率（次/min）</td>
+        <td>{$data[0]['heartrate']}</td>
+        <td>靶心率（次/min）</td>
+        <td>{$data[0]['blank']}</td>
+        <td>血压</td>
+        <td>{$data[0]['pressure']}</td>
+    </tr>
+    <tbody>
+    <tr>
+        <th colspan="6" style="background-color: #B0E0E6;">心率监护:活动时每5~10min由桡动脉和劲动脉测定一次脉搏，及时调整负荷强度，使其维持在低限和高限之间</th>
+    </tr>
+    <tr>
+        <td>低限（次/10s）</td>
+        <td colspan="2">{$data[0]['lowlimit']}</td>
+        <td>高限（次/10s）</td>
+        <td colspan="2">{$data[0]['highlimit']}</td>
+    </tr>
+    <tr>
+        <th colspan="6" style="background-color: #B0E0E6;">运动数据</th>
+    </tr>
+    <tr>
+        <td>运动目的：</td>
+        <td colspan="5">{$data[0]['objective']}</td>
+    </tr>
+    <tr>
+        <td>运动项目：</td>
+        <td colspan="5">{$data[0]['project']}</td>
+    </tr>
+    <tr>
+        <td>运动强度：</td>
+        <td colspan="5">{$data[0]['exerciseintensity']}</td>
+    </tr>
+    <tr>
+        <th colspan="6" style="background-color: #B0E0E6;">运动内容</th>
+    </tr>
+    <tr>
+        <td>准备运动：</td>
+        <td colspan="5">{$data[0]['readytoexercise']}</td>
+    </tr>
+    <tr>
+        <td>基本运动：</td>
+        <td colspan="5">{$data[0]['basicmovement']}</td>
+    </tr>
+    <tr>
+        <td>整理运动：</td>
+        <td colspan="5">{$data[0]['finishingmovement']}</td>
+    </tr>
+    <tr>
+        <th colspan="6" style="background-color: #B0E0E6;">运动时间和频率</th>
+    </tr>
+    <tr>
+        <td>每次运动时间：</td>
+        <td colspan="2">{$data[0]['timeofmovement']}</td>
+        <td>每周运动时间：</td>
+        <td colspan="2">{$data[0]['weeklyexercisetime']}</td>
+    </tr>
+    <tr>
+        <th colspan="6" style="background-color: #B0E0E6;">注意事项</th>
+    </tr>
+    <tr>
+        <td>一：</td>
+        <td colspan="5">锻炼时感觉轻松或过于吃力时可稍微调节内容和次数</td>
+    </tr>
+    <tr>
+        <td>二：</td>
+        <td colspan="5">以锻炼后第二天不感到疲劳为宜，可每周适当调节运动量</td>
+    </tr>
+    <tr>
+        <td>三：</td>
+        <td colspan="5">严寒、酷暑或身体不适是停止锻炼，不可蛮干</td>
+    </tr>
+    <tr>
+        <th colspan="6" style="background-color: #B0E0E6;">签字</th>
+    </tr>
+    <tr>
+        <td>专家签字</td>
+        <td>{$data[0]['expertsignature']}</td>
+        <td>签字时间</td>
+        <td colspan="3">{$data[0]['yearw']}</td>
+    </tr>
+    <tr><td colspan="6"><a href="{:url('Motion/index')}">返回</a></td></tr>
+    </tbody>
+</table>
+</body>
+</html>
