@@ -56,22 +56,30 @@ class Activity extends Common
     function activity_delete()
     {
         $l_id = Request::instance()->post('l_id');
+
         $user = new Below_list();
-            $arr=$user->activity_del($l_id);
-        if($arr){
-            echo 1;
-        } else{
 
-            echo 2;
+        $arr=$user->activity_get($l_id);
+        if($arr[0]['l_apply']>'0'&&$arr[0]['l_status']=='1'){
+            echo 0;
+        }else{
+            $str=$user->activity_del($l_id);
+            if($str){
+                echo 1;
+            } else{
+
+                echo 2;
+            }
         }
-
     }
     function activity_dispose()
     {
         $l_id = Request::instance()->get('l_id');
         $dispose = Request::instance()->get('dispose');
+        $user = new Below_list();
         if($dispose=='1'){
-            $user = new Below_list();
+            $str=$user->activity_save($l_id,$dispose);
+        }elseif($dispose=='2'){
             $str=$user->activity_save($l_id,$dispose);
         }
 
