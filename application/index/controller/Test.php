@@ -114,14 +114,30 @@ class Test extends Controller
 //        if(isset()){
 //        }else{
 //        }
+        $id = Session::get('uid');
+        $info = Db::table("user_infos")->where('u_id',$id)->find();
+        $phone = Db::table('gl_users')->field('phone')->where('id',$id)->find();
+        $info['appDate'] = $info['birthday'];
+        unset($info['birthday']);
+        list($year,$month,$day) = explode("-",$info['appDate']);
+        $year_diff = date("Y") - $year;
+        $month_diff = date("m") - $month;
+        $day_diff  = date("d") - $day;
+        if ($day_diff < 0 || $month_diff < 0)
+            $year_diff--;
+        $info['age'] = $year_diff;
+        unset($info['u_id']);
+        $data = array_merge($info,$infos);
+        $data['contact_phone'] = $phone['phone'];
+
         //先在总订单表进行注册，并获取注册ID
         if($res=orderModel::create_o_id(3)){
-            $infos['o_id']=$res['o_id'];
+            $data['o_id']=$res['o_id'];
         } else {
             return $res->getError();
         }
 
-        if ($result = onlinetestModel::create($infos)) {
+        if ($result = onlinetestModel::create($data)) {
 
             /**生成订单信息 向 支付接口发送订单信息 并附送订单信息
              * body(商品名或订单描述),
@@ -133,7 +149,7 @@ class Test extends Controller
                 'out_trade_no'=>$res['out_trade_no'],
                 'total_fee'=>$infos['price']
             ]);
-            return redirect('index/user/see',['r'=>$infos['o_id']]);
+            return redirect('index/user/see',['r'=>$data['o_id']]);
         } else {
             return $result->getError();
         }
