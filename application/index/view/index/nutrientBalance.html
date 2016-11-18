@@ -235,7 +235,7 @@ a{
         {php} }{/php}
 
 
-            <p style="color: red;" id="zhushi">注：开始时间为28天之前 建议将测试全部填完再生成报告</p>
+            <p style="color: red;" id="zhushi">注：开始时间为结束时间28天之前 建议将测试全部填完再生成报告</p>
             开始时间：<input type="date" readonly  name="" id="s_time">
             结束时间：<input type="date" name="" id="e_time">
             <p id="desc"></p>
@@ -305,6 +305,13 @@ a{
             $("#e_time").on('change',function () {
                 var s_time = $("#s_time").val();
                 var e_time = $("#e_time").val();
+                var now = new Date(e_time);
+                var date = new Date(now.getTime() - 28 * 24 * 3600 * 1000);
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var day = date.getDate();
+                var days = year + '-' + month + '-' + day;
+                $("#s_time").val(days)
                 if(s_time!='' && e_time !=''){
                     $.get("{:url('index/nutrientbalance/getdays')}",{s_time:s_time,e_time:e_time},function (data) {
                         if(parseInt(data)>30){
