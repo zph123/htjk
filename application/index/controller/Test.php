@@ -262,6 +262,9 @@ class Test extends Controller
 
         $res =  Db::table('nowtest')->insert($dat);
         if($res){
+            Db::table('below_list')
+                ->where('l_id', $dat['l_id'])
+                ->setInc('l_apply');
            echo  $dat['o_id'];
         }else{
             echo -1;
