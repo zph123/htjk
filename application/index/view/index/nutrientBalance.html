@@ -305,7 +305,15 @@ a{
             $("#e_time").on('change',function () {
                 var s_time = $("#s_time").val();
                 var e_time = $("#e_time").val();
+                var now_time = new Date();
                 var now = new Date(e_time);
+                if(now_time<now){
+                    var nian = now_time.getFullYear()
+                    var yue = now_time.getMonth() +1;
+                    var ri  = now_time.getDate()
+                    $("#e_time").val(nian + '-' + yue + '-' + ri);
+                    now = now_time;
+                }
                 var date = new Date(now.getTime() - 28 * 24 * 3600 * 1000);
                 var year = date.getFullYear();
                 var month = date.getMonth() + 1;
