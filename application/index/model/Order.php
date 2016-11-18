@@ -50,8 +50,11 @@ class Order extends Model
      * 作者：刘志祥
      * 板块：现场测试
      */
-    public function nowTest($id){
+    public function nowTest($id ,$price){
         $indent = self :: createuniquenumber();
+        if($price == 0){
+            $data['is_pay'] =1;
+        }
         $data['type'] = 4;
         $data['out_trade_no'] = $indent;
         $data['addtime'] = date("Y-m-d H:i:s");

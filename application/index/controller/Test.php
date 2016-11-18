@@ -147,14 +147,12 @@ class Test extends Controller
      */
     public function nowList()
     {
-        header('content-type:text/html;charset=utf-8');
         $time=date("Y-m-d H:i:s");
-//        echo $time;die;
         $below_list = Db::table('below_list')->where('l_stime','>',$time)->order('l_stime','asc')->select();
-//        print_r($below_list);die;
         $price = Db::table('price_class')->where('p_id','in','2,3')->select();
         return view('nowList',['below_list'=>$below_list,'price'=>$price]);
     }
+
     /*作者：刘志祥
      * 2016-11-1 10:50:12
      * 现场测试
@@ -167,66 +165,137 @@ class Test extends Controller
         Cookie::set('action', $action);
         //获取登录人id
         $id = Session::get('uid');
-        header('content-type:text/html;charset=utf-8');
-        $below_list = Db::table('below_list')->where('l_etime','>',date("Y-m-d H:i:s"))->order('l_stime','asc')->find();
-        $price = Db::table('price_class')->where('p_id','in','2,3')->select();
-        return view('nowTest',['below_list'=>$below_list,'id'=>$id,'price'=>$price]);
+        if($id){
+            $log = 1;
+            $info = Db::table('user_infos')->where('u_id',$id)->find();
+        }else{
+            $log = 0;
+            $info = null;
+        }
+        $below_list = Db::table('below_list')->where('l_etime','>',date("Y-m-d H:i:s"))->where('l_status','neq','0')->order('l_stime','asc')->find();
+        $price = Db::table('price_class')->where('p_id',2)->find();
+        return view('nowTest',['log'=>$log,'below_list'=>$below_list,'id'=>$id,'price'=>$price,'info'=>$info]);
     }
     /*
      * @作者：刘志祥
      */
-    public function nowTest_pro(){
-        header('content-type:text/html;charset=utf-8');
-        $data = $_POST;
+    public function nowTest_pro(Request $request){
+        $data = $request->post();
         //后台验证  如果没有活动 而点击报名 。。则会提示“没有活动，暂时不能报名”
         if(empty($data['l_id'])){
             $this->redirect('index/test/nowTest');die;
         }
-        //后台验证  验证是否在当前时间
-        $l_time = Db::table('below_list')->where('l_id','=',$data['l_id'])->find();
-        $time1=date("Y-m-d H:i:s");
-        if($time1<$l_time['l_stime'] || $time1>$l_time['l_etime']){
-            $this->redirect('index/test/nowTest');die;
-        }
+        $id = Session::get('uid');
+        $info = Db::table('user_infos')->where('u_id',$id)->find();
+
         //后台验证  先验证唯一
         $time=date("Y-m-d");
         $data['n_time']=$time;
-        $id_number = Db::table('nowtest')->where('n_idd','=',$data['id_number'])->where('n_time','=',$time)->find();
+        $id_number = Db::table('nowtest')->where('n_idd','=',$info['id_number'])->where('l_id',$data['l_id'])->find();
         if($id_number){
-            $this->redirect('index/test/nowTest');die;
+           echo 0;die;
         }
         // 需要 根据$data['l_id'] 联查 活动表 联查价格表   便于后期查询总价
-        $prices = Db::table('price_class')->where('p_id','in','2,3')->select();
-        foreach($prices as $val){
-            if($val['p_id']==2){
-                $data['l_price'] = $val['p_price'];
-            }elseif($val['p_id']==3){
-                $data['l_height'] = $val['p_price'];
-            }
-        };
-        //统计 总价
+        $prices = Db::table('price_class')->where('p_id','in',[2,3])->select();
         if($data['predict_height']==1){
-            $data['l_price'] = $data['l_price']+$data['l_height'];
-        };
-        //判断男女
-        if($data['gender']==1){
-            $data['spermatorrhea'] = $data['menarche'];
+            $data['l_price'] = $prices[0]['p_price']+$prices[1]['p_price'];
+        }else{
+            $data['l_price'] = $prices[0]['p_price'];
         }
-        //获取用户id
-        $id = Session::get('uid');
+        $data['l_price'] = $prices['p_price'];
+        $usermsg = Db::table('gl_users')->field('name,phone')->where("id",$id)->find();
         $data['uid'] = $id;
         //实例化Model层——》Order
         $test = new orderModel();
-        $o_id = $test -> nowTest($id);
+        $o_id = $test -> nowTest($id,$data['l_price']);
         $data['o_id'] = $o_id;
-        //实例化Model层——》Gl_test
-        $test = new Gl_test();
-        $res = $test -> add_one($data);
+
+
+        list($year,$month,$day) = explode("-",$info['birthday']);
+        $year_diff = date("Y") - $year;
+        $month_diff = date("m") - $month;
+        $day_diff  = date("d") - $day;
+        if ($day_diff < 0 || $month_diff < 0)
+            $year_diff--;
+
+
+
+        $dat['l_id'] = $data['l_id'];//关联活动列表id
+        $dat['uid'] = $data['uid'];//登录人id
+        $dat['n_price'] = $data['l_price'];//总价钱（初始价钱+预测身高的价钱）
+        $dat['n_sex'] = $info['gender'];//测试人性别
+        $dat['n_name'] = $usermsg['name'];//测试人名字
+        $dat['n_date'] = $info['birthday'];//测试人出生日期
+        $dat['n_idd'] = $info['id_number'];//测试人身份证号
+        $dat['n_age'] = $year_diff;//测试人年龄
+        $dat['n_stature'] = $info['birth_height'];//测试人身高
+        $dat['n_weight'] = $info['birth_weight'];//体重
+        $dat['n_eutocia'] = $info['birth_smoothly'];//是否顺产出生
+        $dat['n_gonacratia'] = ($info['gender']==1)?$info['spermatorrhea']:$info['menarche'];//是否已遗精 or 初潮
+        $dat['n_phone'] = $usermsg['phone'];//手机号
+        $dat['n_email'] = $info['email'];//邮箱
+        $dat['n_address'] = $info['contact_address'];//联系地址
+        $dat['n_fstature'] = $info['father_height'];//父亲身高
+        $dat['n_mstature'] = $info['mother_height'];//母亲身高
+        $dat['n_paper'] = $data['need_report'];//纸质报告
+        $dat['n_school'] = $info['school'];//测试人学校
+        $dat['n_time'] = $data['n_time'];//测试时间
+        $dat['n_height'] = $data['predict_height'];//预测身高状态
+        $dat['o_id'] = $data['o_id'];//
+
+
+        $res =  Db::table('nowtest')->insert($dat);
         if($res){
-            //添加成功跳转到支付页面
-            return redirect('index/user/see',['r'=>$o_id]);
+           echo  $dat['o_id'];
         }else{
-            echo "This is error.";
+            echo -1;
         }
+    }
+
+    /**
+     * @author lzy
+     */
+    public function ajaxcheck($l_id)
+    {
+        $l_info =  Db::table('below_list')->where('l_id',$l_id)->find();
+        if(!$l_info){
+            echo 1;die;
+        }elseif ($l_info['l_status']==2){
+            echo 2;die;
+        }elseif(time()>strtotime($l_info['l_stime'])){
+            echo 3;die;
+        }elseif($l_info['l_apply']>=$l_info['l_astrict']){
+            echo 4;die;
+        }else{
+            echo 5;die;
+        }
+    }
+
+    public function nolog(Request $request)
+    {
+        $tell = $request->post('tell');
+        $l_id = $request->post('l_id');
+        $re = Db::table("activity")->where(['tell'=>$tell,'l_id'=>$l_id])->find();
+        if($re){
+            echo 0;
+        }else{
+            $data = $request->post();
+            $res = Db::table('activity')->insert($data);
+            if($res){
+                echo 1;
+            }else{
+                echo 2;
+            }
+        }
+    }
+
+    public function ajax_prices(){
+        $status=input('predict_height');
+        if($status==1)
+            $price_id=7;
+        elseif($status==0)
+            $price_id=2;
+        $price=price_classModel::get($price_id);
+        echo json_encode($price);
     }
 }

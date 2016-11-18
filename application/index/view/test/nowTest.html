@@ -1,13 +1,3 @@
-    <link href="__PUBLIC__/static/css/data/animate.css" type="text/css" rel="stylesheet"><!--动画库---css-->
-    <script src="__PUBLIC__/static/css/data/mobiscroll_002.js" type="text/javascript"></script>
-    <script src="__PUBLIC__/static/css/data/mobiscroll_004.js" type="text/javascript"></script>
-    <link href="__PUBLIC__/static/css/data/mobiscroll_002.css" rel="stylesheet" type="text/css">
-    <link href="__PUBLIC__/static/css/data/mobiscroll.css" rel="stylesheet" type="text/css">
-    <script src="__PUBLIC__/static/css/data/mobiscroll.js" type="text/javascript"></script>
-    <script src="__PUBLIC__/static/css/data/mobiscroll_003.js" type="text/javascript"></script>
-    <script src="__PUBLIC__/static/css/data/mobiscroll_005.js" type="text/javascript"></script>
-    <link href="__PUBLIC__/static/css/data/mobiscroll_003.css" rel="stylesheet" type="text/css">
-    <script src="__PUBLIC__/static/css/data/data.js" type="text/javascript"></script>
 </head>
 <body>
     <!--<div data-role="header">-->
@@ -15,247 +5,162 @@
     <!--</div>-->
 
     <div data-role="content" style="margin-bottom:10%">
-        {if condition="$below_list"}
-        <h4>活动报名</h4>
-        <p>地点： {$below_list['l_place']}</p>
-        <p>开始时间： {$below_list['l_stime']}</p>
-        <p>结束时间： {$below_list['l_etime']}</p>
-        <p>费用： 每人每次
-            {foreach($price as $val)}
-            {if condition="($val['p_id']==2)"}
-            {$val['p_price']}
-            {/if}
-            {/foreach}
-            <span style="color: red;display: none" class="hh">+
-            {foreach($price as $val)}
-            {if condition="($val['p_id']==3)"}
-            {$val['p_price']}
-            {/if}
-            {/foreach}
-            </span>元</p>
-        <p>未来几天活动详情：<a data-ajax="false" href="{:url('index/Test/nowList')}">查看</a></p>
+            <h3 align="center">活动报名</h3>
+            <p>地点： <font color="" id="place">{$below_list['l_place']}</font></p>
+            <p>开始时间： <font color="" id="stime">{$below_list['l_stime']}</font></p>
+            <p>结束时间： <font color="" id="etime">{$below_list['l_etime']}</font></p>
+            <p>报名总人数上限： <font color="" id="astrict">{$below_list['list_astrict']}</font>人</p>
+        {if condition="$below_list['l_status'] eq 1"/}
+        <p><font color="" id="status">活动正在报名中</font></p>
         {else /}
-        <span style="color: green;">近期未发现任何活动痕迹</span>
+        <p><font color="" id="statu">活动已经截止</font></p>
         {/if}
-
-        <input type="hidden" value="{$below_list['l_stime']}" name="l_stime" id="l_stime">
-        <input type="hidden" value="{$below_list['l_etime']}" name="l_etime" id="l_etime">
-
-        <input type="hidden" value="{$id}" name="id" id="id">
-
-        <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/test/nowTest_pro')}">
-            <input type="hidden" value="{$below_list['l_id']}" name="l_id" id="l_id">
-            <div class="ui-field-contain">
-                <label for="predict_height">预测身高:</label>
-                <select name="predict_height" id="predict_height" data-role="flipswitch" onchange="height()">
-                    <option value="0">不要</option>
-                    <option value="1">要</option>
-                </select>
-                <span style="color: red;display: none" class="hh">预测身高需要
-                    {foreach($price as $val)}
-            {if condition="($val['p_id']==3)"}
-            {$val['p_price']}
-            {/if}
-            {/foreach}
-                    元</span>
-            </div>
-
-            <div class="ui-field-contain" id="opt-navbars">
-                <ul data-role="listview" data-inset="true">
-                    <li data-role="list-divider">
-                        请先选择性别 <font color="red">• 必填</font>
-                    </li>
-                </ul>
-
-                <fieldset data-role="controlgroup" data-type="horizontal">
-                    <legend></legend>
-                    <label for="show">♂ 男</label>
-                    <input type="radio" name="gender" id="show" value="0" checked class="forms">
-                    <label for="hide">♀ 女</label>
-                    <input type="radio" name="gender" id="hide" value="1" class="forms">
-                </fieldset>
-            </div>
-            <ul data-role="listview" data-inset="true">
-                <li data-role="list-divider">
-                    请录入测试人信息 <font color="red">• 必填</font>
-                </li>
-            </ul>
-            <div class="ui-field-contain">
-                <fieldset data-role="fieldcontain" id="fieldcontain">
-
-                    <label for="customer"><font color="red">• </font>测试人姓名:&nbsp;&nbsp;<span style="color:gray">姓名不能为空</span></label>
-                    <input type="text" name="customer" id="customer" value="" data-clear-btn="true" class="forms">
-
-                    <label for="appDate"><font color="red">• </font>出生日期:</label>
-                    <input name="appDate" id="appDate" value="2016-10-31" readonly="readonly" type="text">
-
-                    <label for="id_number"><font color="red">• </font>身份证号:&nbsp;&nbsp;<span style="color:gray">身份证号不能为空</span></label>
-                    <input type="text" name="id_number" id="id_number" value="" data-clear-btn="true" class="forms">
-
-                    <label for="age" class="select"><font color="red">• </font>年龄:</label>
-                    <select name="age" id="age" data-native-menu="false" class="forms">
-                        <optgroup label="年龄">
-                            {for start="4" end="18"  }
-                            <option value="1">{$i}岁</option>
-                            {/for}
-                        </optgroup>
-                    </select>
-
-                    <label for="birth_height"><font color="red">• </font>出生时身高:&nbsp;&nbsp;<span style="color:gray">身高要在0到100之间</span></label>
-                    <input type="text" name="birth_height" id="birth_height" value="" data-clear-btn="true" placeholder="单位：/cm" class="forms">
-
-                    <label for="birth_weight"><font color="red">• </font>出生时体重:&nbsp;&nbsp;<span style="color:gray">体重在0到20之间</span></label>
-                    <input type="text" name="birth_weight" id="birth_weight" value="" data-clear-btn="true" placeholder="单位：/kg" class="forms">
-                    <label for="birht_smoothly"><font color="red">• </font>测试人是否为顺产出生:</label>
-                    <select name="birht_smoothly" id="birht_smoothly" data-role="flipswitch" class="forms">
-                        <option value="1">是</option>
-                        <option value="0">否</option>
-                    </select>
-
-                </fieldset>
-            </div>
-            <div class="ui-field-contain" id="spermatorrhea_div">
-                <label for="spermatorrhea"><font color="red">• </font>测试人是否已遗精:</label>
-                <select name="spermatorrhea" id="spermatorrhea" data-role="flipswitch" class="forms">
-                    <option value="0">否</option>
-                    <option value="1">是</option>
-                </select>
-            </div>
-
-            <div class="ui-field-contain" id="menarche_div">
-                <label for="menarche"><font color="red">• </font>测试人是否已初潮:</label>
-                <select name="menarche" id="menarche" data-role="flipswitch" class="forms">
-                    <option value="0">否</option>
-                    <option value="1">是</option>
-                </select>
-            </div>
-            <ul data-role="listview" data-inset="true">
-                <li data-role="list-divider">
-                    其他信息 <font color="red">• 必填</font>
-                </li>
-            </ul>
-            <div class="ui-field-contain">
-                <label for="contact_phone"><font color="red">• </font>手机:&nbsp;&nbsp;<span style="color:gray">请按照正规的手机号格式</span></label>
-                <input type="text" name="contact_phone" id="contact_phone" value="" data-clear-btn="true" class="forms">
-                <label for="email"><font color="red">• </font>邮箱:&nbsp;&nbsp;<span style="color:gray">请按照正规的邮箱格式填写</span></label>
-                <input type="text" name="email" id="email" value="" data-clear-btn="true" class="forms">
-                <label for="contact_address"><font color="red">• </font>联系地址:&nbsp;&nbsp;<span style="color:gray">地址务必详细</span></label>
-                <input type="text" name="contact_address" id="contact_address" value="" data-clear-btn="true" class="forms">
-                <label for="father_height"><font color="red">• </font>父亲身高:&nbsp;&nbsp;<span style="color:gray">请输入0-249</span></label>
-                <input type="text" name="father_height" id="father_height" value="" data-clear-btn="true" class="forms">
-                <label for="mother_height"><font color="red">• </font>母亲身高:&nbsp;&nbsp;<span style="color:gray">请输入0-249</span></label>
-                <input type="text" name="mother_height" id="mother_height" value="" data-clear-btn="true" class="forms">
-            </div>
+        <p><font color="red" id="">{$below_list['l_notice']}</font>
+        {if condition="$price['p_price'] eq 0"/}
+        <p><font name="premium" color="red">本次活动免费</font></p>
+        {else /}
+        <p>费用： <font name="premium" color="" id="">{$price['p_price']}</font>/人次</p>
+        {/if}
+            <p><a data-ajax="false" href="{:url('index/Test/nowList')}">点击查看更多活动情况</a></p>
+        <input type="hidden" name="l_id" id="l_id" value="{$below_list['l_id']}">
+            <!--<span style="color: green;">近期未发现任何活动痕迹</span>-->
+        {if condition="$below_list['l_status'] eq 1"/}
+        {if condition="$log eq 0"/}
+        <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/test/nolog')}">
 
             <div class="ui-field-contain">
-                <label for="need_report"><font color="red">• </font>纸质报告:</label>
-                <select name="need_report" id="need_report" data-role="flipswitch" class="forms">
-                    <option value="0">不要</option>
-                    <option value="1">要</option>
-                </select>
+                    <ul data-role="listview" data-inset="true">
+                        <li data-role="list-divider">
+                            请填写报名信息 <font color="red">• 必填</font>
+                        </li>
+                    </ul>
+                    <label for="username"><font color="red">• </font>姓名:</label>
+                    <input type="text" name="username" id="username" value="" data-clear-btn="true" class="forms">
+
+                    <label for="tell"><font color="red">• </font>手机:</label>
+                    <input type="text" name="tell" id="tell" value="" data-clear-btn="true" class="forms">
             </div>
 
-            <ul data-role="listview" data-inset="true">
-                <li data-role="list-divider">
-                    学校
-                </li>
-            </ul>
-            <div class="ui-field-contain">
-                <label for="school"><font color="red">• </font>测试人所属学校:&nbsp;&nbsp;<span style="color:gray">学校不能为空</span></label>
-                <input type="text" name="school" id="school" value="" data-clear-btn="true" class="forms">
-            </div>
             <div data-role="navbar" class="ui-content" id="button">
                 <ul>
                     <li></li>
-                    <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:document.form_onlinetest.reset()" data-rel="dialog">取消</a></li>
+                    <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:void (0)" data-rel="dialog" id="form_submit">报名</a></li>
                     <li></li>
-                    <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:void (0)" data-rel="dialog" id="form_submit">确认</a></li>
+                </ul>
+            </div>
+
+        </form>
+        {else/}
+        <form action="{:url('index/test/nowTest_pro')}">
+            <input type="hidden" name="l_id" value="{$below_list['l_id']}">
+            {if condition="$info neq null"}
+            <br>
+            <div class="ui-field-contain">
+                <label for="predict_height">预测身高:</label>
+                <select name="predict_height" id="predict_height" data-role="flipswitch">
+                    <option value="0">不要</option>
+                    <option value="1">要</option>
+                </select>
+            </div>
+            <br>
+            <p>性别： <font color="" id="">
+                {if condition="$info['gender'] eq 1"/}男
+                {else/}女
+                {/if}
+            </font></p>
+            <p>出生日期： <font>{$info['birthday']}</font></p>
+            <p>身份证号： <font>{$info['id_number']}</font></p>
+            <p>出生时身高： <font>{$info['birth_height']}cm</font></p>
+            <p>出生时体重： <font>{$info['birth_weight']}kg</font></p>
+            <p>是否顺产： <font>
+                {if condition="$info['birth_smoothly'] eq 1"/}是
+                {else/}否
+                {/if}
+            </font></p>
+            {if condition="$info['gender'] eq 1"/}
+            <p>是否遗精: <font>
+                {if condition="$info['spermatorrhea'] eq 1"/}是
+                {else/}否
+                {/if}
+            </font></p>
+            {else/}
+            <p>是否初潮: <font>
+                {if condition="$info['menarche'] eq 1"/}是
+                {else/}否
+                {/if}
+            </font></p>
+            {/if}
+            <p>父亲身高： <font>{$info['father_height']}cm</font></p>
+            <p>母亲身高： <font>{$info['mother_height']}cm</font></p>
+            <p>地址： <font>{$info['contact_address']}</font></p>
+            <p>邮件： <font>{$info['email']}</font></p>
+            <p>学校： <font>{$info['school']}</font></p>
+            <div class="ui-field-contain">
+                <label for="need_report">纸质报告:</label>
+                <select name="need_report" id="need_report" data-role="flipswitch">
+                    <option value="1">要</option>
+                    <option value="0">不要</option>
+                </select>
+            </div>
+            {else/}
+            <br>
+            <br>
+            <p>请去完善信息</p>
+            {/if}
+            <div data-role="navbar" class="ui-content" id="buttom">
+                <ul>
+                    <li></li>
+                    <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:void (0)" data-rel="dialog" id="form_submits">报名</a></li>
                     <li></li>
                 </ul>
             </div>
         </form>
+        {/if}
+        {/if}
     </div>
-
-    <script>
-        window.onload=function(){
-            var id = $("#id").val()
-            //获取活动开始时间的时间戳
-            var l_stime = $("#l_stime").val()
-            var date = new Date(l_stime);
-            var l_stime = Date.parse(date)
-            //获取结束时间的时间戳
-            var l_etime = $("#l_etime").val()
-            var date1 = new Date(l_etime);
-            var l_etime = Date.parse(date1)
-            //获取当前时间的时间戳
-            var time = Date.parse(new Date());
-            if(id==""){
-                    $("#button").hide()
-                    return
-            }
-
-            if(time<l_stime || time>l_etime || !l_stime){
-                $("#button").hide()
-                return
-            }
-        }
-        function height(){
-            var predict_height = document.getElementsByName('predict_height')[0].value
-            if(predict_height == 1){
-                $(".hh").show()
-            }else{
-                $(".hh").hide()
-            }
-        }
-        //判断用户是否登录
-        $(function(){
-            $(".forms").click(function(){
-                var id = $("#id").val()
-                if(id==""){
-                    if(confirm("您还没有登录，请先登录")){
-                        location.href="{:url('index/Login/index')}";
-                        return
-                    }else{
-                        $("#button").hide()
-                        return
-                    }
-                };
-                var l_etime = $("#l_etime").val()
-                var l_stime = $("#l_stime").val()
-                //获取活动开始时间的时间戳
-                var date = new Date(l_stime);
-                var l_stime = Date.parse(date)
-                //获取结束时间的时间戳
-                var date1 = new Date(l_etime);
-                var l_etime = Date.parse(date1)
-                //获取当前时间的时间戳
-                var time = Date.parse(new Date());
-                if(time<l_stime || time>l_etime || !l_stime){
-                    alert('没有在活动时间内，暂时不能提交表单');
-                    return
-                }
-            })
-        })
-    </script>
     <script>
         $(function () {
-            //根据性别变化表单
-            $( "#spermatorrhea_div" ).show();
-            $( "#menarche_div" ).hide();
-            $( "#opt-navbars input" ).on( "change", function( event ) {
-                if ( $( "#show" ).prop( "checked" ) ) {
-                    $( "#spermatorrhea_div" ).show();
-                    $( "#menarche_div" ).hide().prop('disabled');
-                } else if ( $( "#hide" ).prop( "checked" ) ) {
-                    $( "#spermatorrhea_div" ).hide().prop('disabled');
-                    $( "#menarche_div" ).show();
-                }
-            });
-            //提交
+            var price = "{$price['p_price']}";
             $('#form_submit').click(function () {
-                autosubmit();
+                if(price!=0){
+                    $.get("{:url('index/test/ajax_login_status')}",function (date) {
+                        if(date==0){
+                            window.location.href="{:url('index/login/index')}"
+                        }
+                    })
+                }else{
+                    autosubmit()
+                }
+            })
+            $("#form_submits").click(function () {
+                $.get("{:url('index/test/ajaxcheck')}",{l_id:"{$below_list['l_id']}"},function (date) {
+                    if(date==1) {
+                        alert("活动不存在");
+                    }else if(date==2) {
+                        alert("报名已截止");
+                    }else if(date==3) {
+                        alert("活动开始了不能报名");
+                    }else if(date==4){
+                        alert("报名人数已达上限");
+                    }else if(date==5) {
+                        var l_id = $("#l_id").val();
+                        var need_report = $("#need_report").val();
+                        var predict_height=$('#predict_height').val();
+                        $.post("{:url('index/test/nowTest_pro')}",{l_id:l_id,need_report:need_report,predict_height:predict_height},function (data) {
+                            if (data == 0) {
+                                alert("该账号本次活动已经报名了")
+                            } else if (data == -1) {
+                               alert("报名失败")
+                            } else  {
+//                                alert("报名成功")
+//                                window.location.href = "{:url('index/user/see')}"+'?r='+data;
+                            }
+                        })
+                    }
+                })
             })
         });
+
 
         /**
          * 检测数据和提交
@@ -264,92 +169,73 @@
             var status=1;
 
             //姓名
-            if(!$('#customer').val()){
+            if(!$('#username').val()){
                 status=0;
                 alert('姓名不能为空。');
                 return
             }
-            //身份证号
-            var reg_ident=/^\d{18}|\d{17}x$/i;
-            if(!reg_ident.test($('#id_number').val())){
-                status=0;
-                alert('身份证号有误！');
-                return
-            }
-            //身高
-            var birth_height=$('#birth_height').val();
-            if(
-                    isNaN(Number(birth_height))
-                    ||birth_height<=0
-                    ||birth_height>100
-            ){
-                status=0;
-                alert('出生身高错误！');
-                return
-            }
-            //体重
-            var birth_weight=$('#birth_weight').val();
-            if(
-                    isNaN(Number(birth_weight))
-                    ||birth_weight<=0
-                    ||birth_weight>20
-            ){
-                status=0;
-                alert('出生体重错误！');
-                return
-            }
             //手机号
             var reg_phone=/^1[3,5,8]\d{9}$/;
-            if(!reg_phone.test($('#contact_phone').val())){
+            if(!reg_phone.test($('#tell').val())){
                 status=0;
                 alert('手机号错误。');
                 return
             }
-            //邮箱
-            var reg_emaile=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-            if(!reg_emaile.test($('#email').val())){
-                status=0;
-                alert('邮箱错误。');
-                return
-            }
-            //联系地址
-            if(!$('#contact_address').val()){
-                status=0;
-                alert('联系地址不能为空。');
-                return
-            }
-            //父亲身高
-            var father_height=$('#father_height').val();
-            if(
-                    isNaN(Number(father_height))
-                    ||father_height<=0
-                    ||father_height>249
-            ){
-                status=0;
-                alert('父亲身高错误！');
-                return
-            }
-            //母亲身高
-            var mother_height=$('#mother_height').val();
-            if(
-                    isNaN(Number(mother_height))
-                    ||mother_height<=0
-                    ||mother_height>249
-            ){
-                status=0;
-                alert('母亲身高错误！');
-                return
-            }
-            //所在学校
-            if(!$('#school').val()){
-                status=0;
-                alert('请填写测试人所在学校。');
-                return
-            }
 
             if(status){
-                var form=$('#form_onlinetest');
-                form.submit();
+                $.get("{:url('index/test/ajaxcheck')}",{l_id:"{$below_list['l_id']}"},function (date) {
+                    if(date==1) {
+                        alert("活动不存在");
+                    }else if(date==2) {
+                        alert("报名已截止");
+                    }else if(date==3) {
+                        alert("活动开始了不能报名");
+                    }else if(date==4){
+                        alert("报名人数已达上限");
+                    }else if(date==5) {
+                       var username = $("#username").val();
+                       var tell = $("#tell").val();
+                       var l_id = $("#l_id").val();
+                        $.post("{:url('index/test/nolog')}",{username:username,tell:tell,l_id:l_id},function (data) {
+                        if(data==0){
+                            alert("该手机号已经报名了")
+                        }else if(data==1){
+                            alert("报名成功")
+                        }else if(data==2){
+                            alert("失败了")
+                        }
+                        })
+                    }
+                })
             }
         }
+
+        //根据 “预测身高” 变化
+        $('#predict_height').on('change',function() {
+            //获取select的值
+            var predict_height=$('#predict_height').val();
+            //筛选出 premium对象（加价）
+            var premium=$("font[name='premium']");
+
+            $.ajax({
+                url:"{:url('index/test/ajax_prices')}",
+                data:{predict_height:predict_height},
+                type:"get",
+                dataType:'json',
+                success:function (price_arr) {
+                    if(price_arr.p_price==0 && predict_height==0){
+                        premium.html("本次活动免费")
+                    }else if(price_arr.p_price==0 && predict_height==1){
+                        premium.html(price_arr.p_name+"免费")
+                    }else if(price_arr.p_price!=0 && predict_height==0){
+                        premium.html(price_arr.p_name+"："+price_arr.p_price+"元")
+                    }else if(price_arr.p_price!=0 && predict_height==1){
+                        premium.html(price_arr.p_name+"："+price_arr.p_price+"元")
+                    }
+                },
+                error:function () {
+                    alert('异常，连接失败！')
+                }
+            });
+        });
     </script>
