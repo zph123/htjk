@@ -80,6 +80,9 @@ class Motion extends Common
         $this->assign('data',$data);
         $one=$model->getOne($u_id,$order_id);
         $this->assign('one',$one);
+        $date=$model->getUser($order_id);
+        $this->assign('date',$date);
+
         return view('motiondetails');
     }
     //运动处方表单
