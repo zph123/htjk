@@ -47,6 +47,19 @@
         var l_astrict=$('#l_astrict').val();
         var list_astrict=$('#list_astrict').val();
         var l_continue=$('#l_continue').val();
+        var l_stime=$('#_easyui_textbox_input5').val();
+        var l_etime=$('#_easyui_textbox_input7').val();
+        var date=new Date();
+        l_stime=new Date(l_stime);
+        l_etime=new Date(l_etime);
+        if(l_stime>=l_etime){
+            alert('结束时间不能小于或等于开始时间');
+            return false;
+        }
+        if(date>l_stime){
+            alert('开始时间不能小于当前时间');
+            return false;
+        }
         if(input==''){
             return false;
         }
@@ -62,8 +75,6 @@
             alert('限制人数必须大于展示人数');
             return false;
         }
-        var l_stime=$('#_easyui_textbox_input5').val();
-        var l_etime=$('#_easyui_textbox_input7').val();
         $.post('activity_insert',{l_notice:l_notice,l_astrict:l_astrict,l_place:l_place,list_astrict:list_astrict,l_stime:l_stime,l_etime:l_etime},function(msg){
             if(msg==1){
 

@@ -66,9 +66,11 @@
             var obj=$(this);
             var l_id=$(this).next("input[type='hidden']").val();
 
-                var confirm_ = confirm('是否删除此数据？');
+                var confirm_ = prompt('是否删除此数据？','输入"确认"后点击确定执行删除');
 
-            if(confirm_){
+
+
+            if(confirm_=='确定'){
 
                 $.ajax({
 
