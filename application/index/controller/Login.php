@@ -17,7 +17,7 @@ class Login extends Controller
        $today=strtotime(date("Y-m-d 23:59:59"));
        $u_name = Request::instance()->post('u_name');
        $checkbox_mini = Request::instance()->post('checkbox_mini');
-       $password = Request::instance()->post('password1');
+       $password = Request::instance()->post('password');
 
        $arr = Db::table('gl_users')
            ->where('phone', $u_name)
