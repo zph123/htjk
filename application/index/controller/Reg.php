@@ -70,10 +70,11 @@ class Reg extends Controller
         $pattern_address="/^[\x{4e00}-\x{9fa5}a-zA-Z][\x{4e00}-\x{9fa5}a-zA-Z0-9]+$/u";
         if(!preg_match($pattern_address,$infos['contact_address']))$state=0;
         //邮箱
-        if(!empty($infos['email'])){
+//        if(!empty($infos['email'])){
             $pattern_email="/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/";
             if (!preg_match($pattern_email,$infos['email']))$state=0;
-        }
+//        }
+        if(empty($infos['school']))$state=0;
 
 
         if(!$state)return "非法数据提交！";
