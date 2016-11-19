@@ -374,12 +374,13 @@
         var email=$('#email');
         var email_val=email.val();
         alert(email_val)
-        if(email_val!=""){
+//        if(email_val!=""){
             if(! reg_email.test(email_val)){
                 state=0;
                 email.css("border","1px red dashed");
             }
-        }
+//        }
+        if($('#school').val()=="")state=0;
 
 
 
