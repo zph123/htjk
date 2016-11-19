@@ -35,6 +35,8 @@
         </ul>
 
         <div class="ui-field-contain">
+            <p>上传示例：</p>
+            <img src="__PUBLIC__/images/demo.png" alt="">
             <label for="hands_photo"><font color="red">• </font>手部X光片上传:</label>
             <input id="hands_photo" name="hands_photo" class="file" type="file" multiple data-min-file-count="1" value="">
         </div>
@@ -130,7 +132,7 @@
         var status=1;
 
         //通过文件后缀判断是否是图片
-        var reg_img=/\.jpg$|\.jpeg$|\.img$|\.gif$/i;
+        var reg_img=/\.jpg$|\.jpeg$|\.png$|\.img$|\.gif$/i;
         if(!reg_img.test($('#hands_photo').val())){
             status=0;
             alert('手部图片只能上传jpg jpeg img gif格式的！');

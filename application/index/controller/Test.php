@@ -116,7 +116,7 @@ class Test extends Controller
 //        }
         $id = Session::get('uid');
         $info = Db::table("user_infos")->where('u_id',$id)->find();
-        $phone = Db::table('gl_users')->field('phone')->where('id',$id)->find();
+        $phone = Db::table('gl_users')->field('phone,name')->where('id',$id)->find();
         $info['appDate'] = $info['birthday'];
         unset($info['birthday']);
         list($year,$month,$day) = explode("-",$info['appDate']);
@@ -129,7 +129,7 @@ class Test extends Controller
         unset($info['u_id']);
         $data = array_merge($info,$infos);
         $data['contact_phone'] = $phone['phone'];
-
+        $data['customer'] = $phone['name'];
         //先在总订单表进行注册，并获取注册ID
         if($res=orderModel::create_o_id(3)){
             $data['o_id']=$res['o_id'];
