@@ -1,0 +1,392 @@
+</head>
+<body>
+
+<!--<div data-role="header">-->
+    <!--<h1>注册</h1>-->
+<!--</div>-->
+
+<div data-role="content" style="margin-bottom:10%">
+    <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" action="{:url('index/reg/add_filter')}">
+
+
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                注册信息 <font color="red">• 必填</font>
+            </li>
+        </ul>
+        <tr>
+            <td><font color="red">• </font>用户名： <span style="color:gray">只允许汉字、字母、中划线、下划线，首字符不能为数字或线</span></td>
+            <td>
+                <input type="text" name="customer" id="customer" class="input_border_false" placeholder="2~8位字符">
+                <input type="hidden" id="customer_state">
+            </td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>手机号：</td>
+            <td>
+                <input placeholder="(11位数字)" id="contact_phone" type="text" name="contact_phone">
+                <input type="hidden" id="contact_phone_state">
+            </td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>密码：</td>
+            <td><input placeholder="(6~12位字母或数字)" type="password" onblur="check_password()" id="password" name="password"></td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>确认密码：</td>
+            <td><input  placeholder="(6~12位字母或数字)" type="password" onblur="check_pass()" id="comfirm_password" name="comfirm_password"></td>
+        </tr>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                个人信息 <font color="red">• 必填</font>
+            </li>
+        </ul>
+        <tr>
+            <td><font color="red">• </font>姓名</td>
+            <td>
+                <input type="text" name="name" id="name" placeholder="2~8位汉字">
+                <input type="hidden" id="name_state">
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;&nbsp;性别：</td>
+            <td>
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                <legend></legend>
+                <label for="show">♂ 男</label>
+                <input type="radio" name="gender" id="show" value="1" checked>
+                <label for="hide">♀ 女</label>
+                <input type="radio" name="gender" id="hide" value="0">
+                </fieldset>
+            </td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>出生日期：</td>
+            <td><input name="appDate" id="appDate" value="2016-10-31" readonly="readonly" type="text"></td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>身份证号：</td>
+            <td>
+                <input type="text" name="id_number" id="id_number" placeholder="请输入第二代身份证号">
+                <input type="hidden" id="id_number_state">
+                <input type="hidden" id="birth_idcard_state">
+            </td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>出生时身高：</td>
+            <td><input type="text" name="birth_height" id="birth_height" placeholder="单位：/cm"></td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>出生时体重：</td>
+            <td><input type="text" name="birth_weight" id="birth_weight" placeholder="单位：/kg"></td>
+        </tr>
+        <tr>
+            <td>
+                <label for="birth_smoothly"><font color="red">• </font>是否为顺产出生：</label>
+            </td>
+            <td>
+                <select name="birth_smoothly" id="birth_smoothly" data-role="flipswitch">
+                    <option value="1">是</option>
+                    <option value="0">否</option>
+                </select>
+            </td>
+        </tr>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                其他信息 <font color="red">• 必填</font>
+            </li>
+        </ul>
+        <tr>
+            <td><font color="red">• </font>父亲身高：</td>
+            <td><input type="text" name="father_height" id="father_height" placeholder="单位：/cm"></td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>母亲身高：</td>
+            <td><input type="text" name="mother_height" id="mother_height" placeholder="单位：/cm"></td>
+        </tr>
+        <tr>
+            <td><font color="red">• </font>联系地址：</td>
+            <td><input type="text" name="contact_address" id="contact_address"></td>
+        </tr>
+        <tr>
+            <td><label for="email">&nbsp;&nbsp;邮箱:</label></td>
+            <td><input type="text" name="email" id="email" ></td>
+        </tr>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">
+                所在学校
+            </li>
+        </ul>
+        <tr>
+            <td><input type="text" name="school" id="school" data-clear-btn="true"></td>
+        </tr>
+
+    </form>
+
+
+    <div data-role="navbar" class="ui-content" id="content_bottom">
+        <ul>
+            <li></li>
+            <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:document.form_onlinetest.reset()" data-rel="dialog">清空</a></li>
+            <li></li>
+            <li><a class="ui-btn ui-btn-inline ui-shadow ui-corner-all" href="javascript:void (0)" data-rel="dialog" id="form_submit">注册</a></li>
+            <li></li>
+        </ul>
+    </div>
+        <a href="{:url('login/index')}" data-ajax="false">去登陆</a>
+
+</div>
+<div data-role="content" style="margin-bottom:10%"></div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".ui-field-contain div").removeClass('ui-flipswitch-active');
+
+        //用户名检测
+        $("#customer_state").val(0);
+        $("#customer").blur(function () {
+            if($(this).val().length>0)
+                check_state('customer','customer_state','name');
+            else $(this).css("border","1px red dashed");
+        });
+        //手机号检测
+        $('#contact_phone_state').val(0);
+        $("#contact_phone").blur(function () {
+            if($(this).val().length>0)
+                check_state('contact_phone','contact_phone_state','phone');
+            else $(this).css("border","1px red dashed");
+        });
+        //生日检测
+        $('#appDate').on("change",function () {
+            if($("#id_number").val()!="")
+                check_birth_idcard()
+        });
+        //身份证检测
+        $('#id_number_state').val(0);
+        $("#id_number").blur(function () {
+            if($(this).val().length>0){
+                check_state('id_number','id_number_state','id_number');
+                check_birth_idcard()
+            }
+            else $(this).css("border","1px red dashed");
+        });
+        //如果有变化，去掉提示
+        $("input").on("change",function (event) {
+            $(this).css("border","1px #FFFFFF dashed");
+        });
+        //提交
+        $('#form_submit').click(function () {
+            if(autosubmit());
+            else alert("有数据错误，请检查！");
+        });
+    });
+
+    //ajax验证函数：参数包括（主元素ID，保存结果的元素 的ID，要请URL地址）
+    function check_state(main_ele_id,state_ele_id,data_name) {
+        var obj=$("#"+main_ele_id);
+        var obj_val=obj.val();
+        var obj_2=$("#"+state_ele_id);
+        var url="{:url('index/reg/ajax_check')}";
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {sign:obj_val,data_name:data_name},
+            success: function(msg){
+                if(msg=='0'){
+                    obj.css("border","1px red dashed");
+                    obj_2.val(0)
+                }else if(msg=='1'){
+                    alert("已存在！");
+                    obj.css("border","1px red dashed");
+                    obj_2.val(0)
+                }else if(msg=='2') {
+                    obj.css("border", "1px #FFFFFF dashed");
+                    obj_2.val(1)
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("网络异常！");
+            }
+        });
+    }
+    //验证密码非空
+    function check_password(){
+        var password = $('#password');
+        if(password.val()==""){
+            password.css("border","1px red dashed");
+            return false;
+        }else{
+            //判断密码长度
+            if(password.val().length<6 || password.val().length>11 ){
+                password.css("border","1px red dashed");
+                return false;
+            }else{
+                password.css("border","1px #FFFFFF dashed");
+                return true;
+            }
+        }
+    }
+
+    //验证确认密码 && 验证两次密码
+    function check_pass(){
+        var comfirm_password =$('#comfirm_password');
+        if(comfirm_password.val()==""){
+            comfirm_password.css("border","1px red dashed");
+            return false;
+        }
+        var password = $('#password');
+        if(comfirm_password.val()!=password.val()){
+            comfirm_password.css("border","1px red dashed");
+            return false;
+        }else{
+            comfirm_password.removeClass("input_border_false");
+            return true;
+        }
+    }
+    //ajax验证生日和身份证差值是否大于3个平年
+    function check_birth_idcard() {
+        $('#birth_idcard_state').val(0);
+        var birthday=$('#appDate');
+        var date_birthday=birthday.val();
+        var id_card=$('#id_number');
+        var data_id_card=id_card.val();
+        var url="{:url('index/reg/ajax_check_birth_idcard')}";
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {birth:date_birthday,idcard:data_id_card},
+            success: function(msg){
+                if(msg=='0'){
+                    alert("生日与身份证差异过大！");
+                    birthday.css("border","1px red dashed");
+                    id_card.css("border","1px red dashed");
+                }else if(msg=='1'){
+                    $("#birth_idcard_state").val(1);
+                    birthday.css("border","1px #FFFFFF dashed");
+                    id_card.css("border","1px #FFFFFF dashed");
+                }
+            },
+            error:function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("网络异常！");
+            }
+        });
+    }
+    /**
+     * 检测数据和提交
+     */
+    function autosubmit() {
+        var state=1;
+
+        //用户名
+        var name_state=$("#customer_state").val();
+        if(name_state==0){
+            $("#customer").css("border","1px red dashed");
+            state=0;
+        }
+        //手机号
+        var phone_state=$("#contact_phone_state").val();
+        if(phone_state==0){
+            $("#contact_phone").css("border","1px red dashed");
+            state=0;
+        }
+        //密码
+        if(check_password()&check_pass());
+            else state=0;
+        //姓名
+        var reg_name=/^[\u4e00-\u9fa5a-zA-Z0-9]{2,8}$/;
+        var name=$('#name');
+        var name_val=name.val();
+        if(!reg_name.test(name_val)){
+            state=0;
+            name.css("border","1px red dashed");
+        }
+        //身份证号
+        var id_number_state=$('#id_number_state').val();
+        if(id_number_state==0){
+            $('#id_number').css("border","1px red dashed");
+            state=0;
+        }
+        var birth_idcard_state=$('#birth_idcard_state').val();
+        if(birth_idcard_state==0){
+            $('#appDate').css("border","1px red dashed");
+            $('#id_number').css("border","1px red dashed");
+            state=0;
+        }
+        //出生身高
+        var birth_height=$('#birth_height');
+        var birth_height_val=birth_height.val();
+        if(
+                isNaN(Number(birth_height_val))
+                ||birth_height_val<=0
+                ||birth_height_val>100
+        ){
+            state=0;
+            birth_height.css("border","1px red dashed");
+        }
+        //出生体重
+        var birth_weight=$('#birth_weight');
+        var birth_weight_val=birth_weight.val();
+        if(
+                isNaN(Number(birth_weight_val))
+                ||birth_weight_val<=0
+                ||birth_weight_val>15
+        ){
+            state=0;
+            birth_weight.css("border","1px red dashed");
+        }
+        //父亲身高
+        var father_height=$('#father_height');
+        var father_height_val=father_height.val();
+        if(
+                isNaN(Number(father_height_val))
+                ||father_height_val<=0
+                ||father_height_val>300
+        ){
+            state=0;
+            father_height.css("border","1px red dashed");
+        }
+        //母亲身高
+        var mother_height=$('#mother_height');
+        var mother_height_val=mother_height.val();
+        if(
+                isNaN(Number(mother_height_val))
+                ||mother_height_val<=0
+                ||mother_height_val>300
+        ){
+            state=0;
+            mother_height.css("border","1px red dashed");
+        }
+        //联系地址
+        var contact_address=$("#contact_address");
+        var contact_address_val=contact_address.val();
+        if(contact_address_val.length>0){
+            var reg_address=/^[\u4e00-\u9fa5a-zA-Z][\u4e00-\u9fa5a-zA-Z0-9]+$/;
+            if(!reg_address.test(contact_address_val)){
+                state=0;
+                contact_address.css("border","1px red dashed");
+            }
+        }else{
+            contact_address.css("border","1px red dashed");
+            state=0;
+        }
+        //邮箱
+        var reg_email=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/;
+        var email=$('#email');
+        var email_val=email.val();
+        alert(email_val)
+        if(email_val!=""){
+            if(! reg_email.test(email_val)){
+                state=0;
+                email.css("border","1px red dashed");
+            }
+        }
+
+
+
+        if(state){
+            var form=$('#form_onlinetest');
+            form.submit();
+            return true;
+        }else return false;
+    }
+</script>

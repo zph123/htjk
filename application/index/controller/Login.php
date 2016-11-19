@@ -31,9 +31,9 @@ class Login extends Controller
                Session::set('uid', $arr['id']);
          }
               echo 1;
-           } else {
-              echo 2;
-           }
+       } else {
+          echo 2;
+       }
     }
     //登录后跳转页面
     public function add(){

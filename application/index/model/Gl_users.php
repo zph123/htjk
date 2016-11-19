@@ -9,7 +9,7 @@ class Gl_users extends Model
 	{
 		$data['password'] = md5($data['password']);
 		$data['signuptime'] = date('Y-m-d H:i:s');
-		$id = Db::table('gl_users')->insert($data);
+		$id = Db::table('gl_users')->insertGetId($data);
 		return $id;
 	}
 	//验证唯一

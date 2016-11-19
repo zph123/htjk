@@ -135,7 +135,7 @@ class Reg extends Controller
     }
 	//用户名检查
 	protected function check_name($info){
-        $pattern_name="/^[\x{4e00}-\x{9fa5}A-Za-z][\x{4e00}-\x{9fa5}A-Za-z0-9_-]{2,8}$/u";
+        $pattern_name="/^[\x{4e00}-\x{9fa5}A-Za-z][\x{4e00}-\x{9fa5}A-Za-z0-9_-]{1,8}$/u";
 //        var_dump($name);die;
         if(preg_match($pattern_name,$info)){
             $user = new Gl_users();
