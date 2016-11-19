@@ -12,6 +12,12 @@
         {else}
         <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="out_trade_no">        
         {/if}
+        <span>证件号:</span>
+        {if condition="isset($id_number)" }
+        <input  style="line-height:26px;border:1px solid #ccc" type="text" value="{$id_number}" name="id_number">
+        {else}
+        <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="id_number">        
+        {/if}        
         <span>是否支付:</span>
             <select name="is_pay" id="">
                 <option value="" {if condition="empty($is_pay)" } selected {/if}>请选择</option>
@@ -30,11 +36,12 @@
 <table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
     <thead>
     <tr>
-        <th field="name1" width="20%">订单编号</th>
-        <th field="name6" width="20%">申请人</th>
-        <th field="name2" width="20%">支付状态</th>
-        <th field="name3" width="20%">报告生成状态</th>
-        <th field="name4" width="20%">操作</th>
+        <th field="name1" width="22%">订单编号</th>
+        <th field="name6" width="15%">申请人</th>
+        <th field="name5" width="20%">证件号</th>
+        <th field="name2" width="15%">支付状态</th>
+        <th field="name3" width="15%">报告生成状态</th>
+        <th field="name4" width="15%">操作</th>
     </tr>
     </thead>
     {if condition="!empty($data)" }
@@ -43,6 +50,7 @@
     <tr>
         <td>{$val.out_trade_no}</td>
         <td>{$val.name}</td>
+        <td>{$val.id_number}</td>
         <td>
             {if $val.is_pay == 1}
             <span style="color:green">已支付</span>
@@ -74,8 +82,8 @@
         <td><span>一共{$page.leaf}--页</span></td>
         <td><span>当前第{$page.page}--页</span></td>
         <td>
-        <a href="{:url('Online/index')}?page={$page.lastpage}&&is_pay={$is_pay}&&status={$status}&&name={$name}&&out_trade_no={$order}">上一页</a></td>
-        <td><a href="{:url('Online/index')}?page={$page.nextpage}&&is_pay={$is_pay}&&status={$status}&&name={$name}&&out_trade_no={$order}">下一页</a></td>
+        <a href="{:url('Online/index')}?page={$page.lastpage}&&is_pay={$is_pay}&&status={$status}&&name={$name}&&out_trade_no={$order}&&id_number={$id_number}">上一页</a></td>
+        <td><a href="{:url('Online/index')}?page={$page.nextpage}&&is_pay={$is_pay}&&status={$status}&&name={$name}&&out_trade_no={$order}&&id_number={$id_number}">下一页</a></td>
     </tr>
     </tbody>
     {/if}
