@@ -218,7 +218,6 @@ class Test extends Controller
         }else{
             $data['l_price'] = $prices[0]['p_price'];
         }
-        $data['l_price'] = $prices['p_price'];
         $usermsg = Db::table('gl_users')->field('name,phone')->where("id",$id)->find();
         $data['uid'] = $id;
         //实例化Model层——》Order
