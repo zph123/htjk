@@ -2,26 +2,29 @@
 {if empty($_COOKIE['uid'])}
 </head>
 <body>
-<div data-role="header">
-    <h1>登录</h1>
+
+<!--<div data-role="header">-->
+    <!--<h1>登录</h1>-->
+<!--</div>-->
+
+<div data-role="content" style="margin-bottom:10%">
+    <tr>
+        <td>手机号：</td>
+        <td><input type="text" value="" name="u_name"></td>
+    </tr>
+    <tr>
+        <td>密码：</td>
+        <td><input type="password" value="" name="password"></td>
+    </tr>
+
+    <input type="checkbox" name="checkbox_mini" id="checkbox-mini-0" data-mini="true" value="1">
+    <label for="checkbox-mini-0">记住我的密码</label>
+<p id="bug"></p>
+    <div data-role="navbar" class="ui-content">
+        <ul><li><input data-inline="true"  type="button" id="but" value="登录"></li></ul>
+    </div>
+    <a href="{:url('reg/index')}" data-ajax="false">去注册</a>
 </div>
-        <div data-role="content" style="margin-bottom:10%">
-				<tr>
-					<td>手机号：</td>
-					<td><input type="text" value="" name="u_name"></td>
-				</tr>
-				<tr>
-					<td>密码：</td>
-					<td><input type="password" value="" name="password"></td>
-				</tr>
-            <input type="checkbox" name="checkbox_mini" id="checkbox-mini-0" data-mini="true" value="1">
-            <label for="checkbox-mini-0">记住我的密码</label>
-        <p id="bug"></p>
-            <div data-role="navbar" class="ui-content">
-                <ul><li><input data-inline="true"  type="button" id="but" value="登录"></li></ul>
-            </div>
-            <a href="{:url('reg/index')}" data-ajax="false">去注册</a>
-	</div>
 <script type="text/javascript">
     //弹出垂直菜单
     $(".menu").click(function() {

@@ -113,6 +113,7 @@ class Reg extends Controller
         $info_table=new user_infos();
         $info_table->add_one($infos_2);
 
+
         $this->redirect('Login/index');
     }
 
@@ -177,14 +178,18 @@ class Reg extends Controller
      * @param string $id_card 身份证号码
      * @return bool 如果相差大于3个平年返回false，否则返回true
      */
-    public function check_idcard_birthday($birthday,$id_card){
+    protected function check_idcard_birthday($birthday,$id_card){
+
         if(empty($birthday)||empty($id_card))return false;
         //生日
         $year1=substr($birthday,0,4);
         $month1=ltrim(substr($birthday,5,2),'0');
         $day1=ltrim(substr($birthday,8),'0');
+        if(!checkdate($month1,$day1,$year1))return false;
         $date_birth=$year1.'-'.$month1.'-'.$day1;
         //获取身份证号年月日期
+        $check_res=checkIdCard($id_card);
+        if(!$check_res['state'])return false;
         $the_date=substr($id_card,6,8);
         $year2=substr($the_date,0,4);
         $month2=ltrim(substr($the_date,4,2),'0');

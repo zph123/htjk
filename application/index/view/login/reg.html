@@ -168,9 +168,13 @@
                 check_state('contact_phone','contact_phone_state','phone');
             else $(this).css("border","1px red dashed");
         });
+        //生日检测
+        $('#appDate').on("change",function () {
+            if($("#id_number").val()!="")
+                check_birth_idcard()
+        });
         //身份证检测
         $('#id_number_state').val(0);
-        $('#birth_idcard_state').val(0);
         $("#id_number").blur(function () {
             if($(this).val().length>0){
                 check_state('id_number','id_number_state','id_number');
@@ -253,6 +257,7 @@
     }
     //ajax验证生日和身份证差值是否大于3个平年
     function check_birth_idcard() {
+        $('#birth_idcard_state').val(0);
         var birthday=$('#appDate');
         var date_birthday=birthday.val();
         var id_card=$('#id_number');
@@ -380,10 +385,13 @@
         var reg_email=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/;
         var email=$('#email');
         var email_val=email.val();
-        if(! reg_email.test(email_val)){
-            state=0;
-            email.css("border","1px red dashed");
+        if(email_val!=""){
+            if(! reg_email.test(email_val)){
+                state=0;
+                email.css("border","1px red dashed");
+            }
         }
+
 
 
         if(state){

@@ -15,7 +15,7 @@
  *!建议之后进行进一步连接至公安部身份证数据库进行验证
  *!该方法只支持 18 位身份证
  * @string $id_card 身份证号
- * @return array ['state'=>boolean,'msg'=>string] 数组：状态+提示
+ * @return array ['state'=>boolean,'msg'=>string] 数组：状态(false:假,true:真)+提示
  */
 function checkIdCard($id_card)
 {
