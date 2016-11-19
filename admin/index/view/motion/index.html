@@ -14,6 +14,12 @@
         {else}
         <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="name">
         {/if}
+        <span>证件号:</span>
+        {if condition="isset($page.id_number)" }
+        <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="id_number" value="{$page.id_number}">
+        {else}
+        <input  style="line-height:26px;border:1px solid #ccc" type="text"  name="id_number">
+        {/if}
         <span>支付状态:</span>
         <select style="height:29px" name="is_pay">
             <option value="" {if condition="empty($page.is_pay)" } selected {/if}>请选择</option>
@@ -32,11 +38,12 @@
 <table id="tt" class="easyui-datagrid"  style="width:100%;height:auto;">
     <thead>
     <tr>
-        <th field="name1" width="24%">订单号</th>
-        <th field="name2" width="15%">申请人</th>
-        <th field="name3" width="15%">申请时间</th>
-        <th field="name5" width="14%">是否支付</th>
-        <th field="name4" width="14%">是否生成处方</th>
+        <th field="name1" width="23%">订单号</th>
+        <th field="name2" width="9%">申请人</th>
+        <th field="name7" width="18%">证件号</th>
+        <th field="name3" width="12%">申请时间</th>
+        <th field="name5" width="8%">是否支付</th>
+        <th field="name4" width="12%">是否生成处方</th>
         <th field="name6" width="20%">操作</th>
     </tr>
     </thead>
@@ -46,6 +53,7 @@
     <tr id="tr_{$vl.u_id}">
         <td>{$vl.out_trade_no}</td>
         <td>{$vl.name}</td>
+        <td>{$vl.id_number}</td>
         <td>{$vl.add_time}</td>
         <td>
             {if condition="$vl.is_pay == 0"}
@@ -69,8 +77,8 @@
 
     <td><span>一共{$page.leaf}--页</span></td>
     <td><span>当前第{$page.page}--页</span></td>
-    <td><a href="{:url('Motion/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}" >上一页</a></td>
-    <td><a href="{:url('Motion/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}" >下一页</a></td>
+    <td><a href="{:url('Motion/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}&&id_number={$page.id_number}" >上一页</a></td>
+    <td><a href="{:url('Motion/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}&&id_number={$page.id_number}" >下一页</a></td>
     </tbody>
     {/if}
 </table>
