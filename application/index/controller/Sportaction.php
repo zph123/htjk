@@ -31,6 +31,8 @@ class Sportaction extends Common
         $addtime=strtotime($online_report['effective_time']);
         if(time()>$addtime){
             $this->assign('test','true');
+        }else{
+            $this->assign('test','false');
         }
         //查询单次价格
         $price=Db::table('price_class')->where('p_id','4')->find();
