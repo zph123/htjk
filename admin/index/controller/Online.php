@@ -18,11 +18,15 @@ class Online extends Common
         $status=Request::instance()->get('status');
         $name=Request::instance()->get('name');
         $page=Request::instance()->get('page');
+        $id_number=Request::instance()->get('id_number');
         $parameter=array();
         $where=array();
+        if(!empty($id_number)){
+            $where['us.id_number']=$id_number;
+        }
         if(!empty($out_trade_no)){
             $where['out_trade_no']=$out_trade_no;
-        }
+        }        
         if(isset($is_pay) && $is_pay!=="" ){
             $where['is_pay']=$is_pay;
         }else{
@@ -55,6 +59,7 @@ class Online extends Common
         $this->assign('is_pay',$is_pay);
         $this->assign('status',$status);
         $this->assign('order',$out_trade_no);
+        $this->assign('id_number',$id_number);
         $this->assign('page',$parameter);
         $this->assign('data',$data);
         return $this->fetch('index');
@@ -67,9 +72,25 @@ class Online extends Common
         $id = Request::instance()->get('o_id');
         $user = new Onlinetest();
         $data = $user->one_select($id);
+        $data['age']=$this->birthday($data['appDate']);
         $this->assign('data',$data);
         return $this->fetch('show');
     }
+
+    //根据出生日期计算年龄
+    function birthday($birthday){ 
+     $age = strtotime($birthday); 
+     if($age === false){ 
+      return false; 
+     } 
+     list($y1,$m1,$d1) = explode("-",date("Y-m-d",$age)); 
+     $now = strtotime("now"); 
+     list($y2,$m2,$d2) = explode("-",date("Y-m-d",$now)); 
+     $age = $y2 - $y1; 
+     if((int)($m2.$d2) < (int)($m1.$d1)) 
+      $age -= 1; 
+     return $age; 
+    }     
     /*
     *生成在线测试报告
     *$arr 接受数据 
@@ -127,6 +148,7 @@ class Online extends Common
         $where = "onlinetest.register_id=".$res['register_id'];
         $model = new Online_report();
         $arr=$model->report_show($where);
+        $arr[0]['age']=$this->birthday($arr[0]['appDate']);
         $arr[0]['height']   = json_decode($arr[0]['height'],true);
         $arr[0]['weight']   = json_decode($arr[0]['weight'],true);
         $arr[0]['chest']    = json_decode($arr[0]['chest'],true);

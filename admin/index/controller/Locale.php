@@ -16,8 +16,12 @@ class Locale extends Common
         $status=Request::instance()->get('status');
         $page=Request::instance()->get('page');
         $name=Request::instance()->get('name');
+        $id_number=Request::instance()->get('id_number');
         $parameter=array();
         $where=array();
+        if(!empty($id_number)){
+            $where['us.id_number']=$id_number;
+        }        
         if(!empty($out_trade_no)){
             $where['out_trade_no']=$out_trade_no;
         }
@@ -52,6 +56,7 @@ class Locale extends Common
         $this->assign('name',$name);
         $this->assign('is_pay',$is_pay);
         $this->assign('status',$status);
+        $this->assign('id_number',$id_number);
         $this->assign('order',$out_trade_no);
         $this->assign('page',$parameter);
         $this->assign('data',$data);
@@ -65,10 +70,25 @@ class Locale extends Common
         $id = Request::instance()->get('o_id');
         $user = new Localetest();
         $data = $user->one_select($id);
+        $data['n_age'] = $this->birthday($data['n_date']);
         $this->assign('data',$data);
         return $this->fetch('local_show');
     }
 
+    //根据出生日期计算年龄
+    function birthday($birthday){ 
+     $age = strtotime($birthday); 
+     if($age === false){ 
+      return false; 
+     } 
+     list($y1,$m1,$d1) = explode("-",date("Y-m-d",$age)); 
+     $now = strtotime("now"); 
+     list($y2,$m2,$d2) = explode("-",date("Y-m-d",$now)); 
+     $age = $y2 - $y1; 
+     if((int)($m2.$d2) < (int)($m1.$d1)) 
+      $age -= 1; 
+     return $age; 
+    } 
     /*
     *测试报告数据入库
     *$arr 接受数据 
@@ -123,6 +143,7 @@ class Locale extends Common
         $where = "online_report.or_id=".$n_id;
         $model = new Online_report();
         $arr=$model->now_show($where);
+        $arr[0]['n_age']=$this->birthday($arr[0]['n_date']);
         $arr[0]['height']   = json_decode($arr[0]['height'],true);
         $arr[0]['weight']   = json_decode($arr[0]['weight'],true);
         $arr[0]['chest']    = json_decode($arr[0]['chest'],true);

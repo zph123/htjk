@@ -1,3 +1,4 @@
+<!--startprint-->
 <style type="text/css">
     .xwtable {width: 100%;border-collapse: collapse;border: 1px solid #ccc;}
     .xwtable thead td {font-size: 12px;color: #333333;text-align: center;border: 1px solid #ccc; font-weight:bold;}
@@ -142,9 +143,27 @@
         </tr>
         <tr><td colspan="6"></td></tr>
         <tr><td colspan="4">专家综合评测身高</td><td>{$data.evaluating}</td><td>+-2CM</td></tr>
-        <tr><td colspan="6"><a href="{:url('Online/index')}">返回</a></td></tr>
+<!--endprint-->        
+        <tr>
+        <td colspan="6">
+        <a href="{:url('Online/index')}">返回</a>
+        {if $data.need_report==1}<button type="button" onclick="doPrint()">打印</button>{/if}
+        
+        </td>
+        </tr>
         </tbody>
     </table>
 </form>
 </body>
 </html>
+<script type="text/javascript"> 
+    function doPrint() {    
+        bdhtml=window.document.body.innerHTML;    
+        sprnstr="<!--startprint-->"; //标记开始打印地方    
+        eprnstr="<!--endprint-->";   //标记打印结束的地方
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);    
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));    
+        window.document.body.innerHTML=prnhtml; 
+        window.print();    
+    }
+</script>
