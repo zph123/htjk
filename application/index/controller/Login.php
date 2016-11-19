@@ -18,7 +18,11 @@ class Login extends Controller
        $u_name = Request::instance()->post('u_name');
        $checkbox_mini = Request::instance()->post('checkbox_mini');
        $password = Request::instance()->post('password');
-       $arr = Db::table('gl_users')->where('name', $u_name)->where('password', $password)->find();
+
+       $arr = Db::table('gl_users')
+           ->where('phone', $u_name)
+           ->where('password', $password)
+           ->find();
        if (!empty($arr)) {
            if (!empty($checkbox_mini)) {
                Cookie::set('uid', md5($arr['id']), $today-time());
