@@ -14,7 +14,9 @@ class Activity extends Common
     {
         $user = new Below_list();
         $arr=$user->activity_select();
-        return view('index',['arr'=>$arr]);
+        $date= strtotime(date('Y-m-d H:i:s'));
+
+        return view('index',['arr'=>$arr,'date'=>$date]);
     }
 
     //活动添加页面
@@ -25,47 +27,66 @@ class Activity extends Common
     //活动添加方法
     public function activity_insert()
     {
-        $l_place = Request::instance()->post('l_place');
+        $data['l_place']= Request::instance()->post('l_place');
         $l_stime = Request::instance()->post('l_stime');
         $l_etime = Request::instance()->post('l_etime');
-
-        $l_stime=$this->time($l_stime);
-        $l_etime=$this->time($l_etime);
-
-        $data=array(
-
-            'l_place'=>$l_place,
-            'l_stime'=>$l_stime,
-            'l_etime'=>$l_etime
-        );
+        $data['l_notice'] = Request::instance()->post('l_notice');
+        $data['l_astrict'] = Request::instance()->post('l_astrict');
+        $data['list_astrict'] = Request::instance()->post('list_astrict');
+        $data['l_continue'] = Request::instance()->post('l_continue');
+        $data['l_stime']=$this->time($l_stime);
+        $data['l_etime']=$this->time($l_etime);
+        $data['l_status']=0;
         $user = new Below_list();
         $arr=$user->activity_add($data);
         if($arr){
-            echo 1;
+            echo '1';
         }else{
-            echo 2;
+            echo '0';
         }
 
     }
-    function time($time){
-
+    function time($time)
+    {
         $time=explode(' ',$time);
         $time1=explode('/',$time[0]);
         return $time1[2].'-'.$time1[0].'-'.$time1[1].' '.$time[1].':00';
-
     }
     //活动删除
-    function activity_delete(){
-
+    function activity_delete()
+    {
         $l_id = Request::instance()->post('l_id');
-        $user = new Below_list();
-        $arr=$user->activity_del($l_id);
-        if($arr){
-            echo 1;
-        } else{
 
-            echo 2;
+        $user = new Below_list();
+
+        $arr=$user->activity_get($l_id);
+        if($arr[0]['l_apply']>'0'&&$arr[0]['l_status']=='1'){
+            echo 0;
+        }else{
+            $str=$user->activity_del($l_id);
+            if($str){
+                echo 1;
+            } else{
+
+                echo 2;
+            }
         }
     }
+    function activity_dispose()
+    {
+        $l_id = Request::instance()->get('l_id');
+        $dispose = Request::instance()->get('dispose');
+        $user = new Below_list();
+        if($dispose=='1'){
+            $str=$user->activity_save($l_id,$dispose);
+        }elseif($dispose=='2'){
+            $str=$user->activity_save($l_id,$dispose);
+        }
 
+        if($str){
+            $this->redirect('Activity/index');
+        }else{
+            $this->redirect('Activity/index');
+        }
+    }
 }

@@ -232,16 +232,20 @@ a{
             <p style="color: red;" id="alertcontent"></p>
         </div>
         <div data-role="popup" id="myPopup" class="ui-content" data-overlay-theme="b">
-            {php}if(!think\Session::has('uid')){{/php}
-            <p align="center" style="color: red;">您还未登陆</p>
-            {php} }{/php}
-
-
+            {if condition="$test eq 'true'"}
+                <p style="color: red;">注：由于您的骨龄报告已经失效，暂不能生成运动处方</p>
+                <a href="{:url('index/test/onlinetest')}" data-role="button" data-ajax="false">去测试</a>
+            {else /} 
+                {php}if(!think\Session::has('uid')){{/php}
+                    <p align="center" style="color: red;">您还未登陆</p>
+                {php} }{/php}
                 <p style="color: red;">注：时间必须满十二周，每周最少有两天是运动的</p>
                 开始时间：<input type="date" name="" id="s_time">
                 结束时间：<input type="date" name="" id="e_time">
                 <p id="desc"></p>
                 <input type="button" id="start" value="确定">
+            {/if}
+            
         </div>
 <script type="text/javascript">
         $(document).ready(function(e) {

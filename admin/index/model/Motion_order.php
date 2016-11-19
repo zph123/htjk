@@ -26,6 +26,7 @@ class Motion_order extends Model
             ->alias('o')
             ->join('motion_order m ', 'o.o_id = m.order_id ')
             ->join('gl_users g ', 'o.u_id = g.id ')
+            ->join('user_infos u ', 'o.u_id = u.u_id ')
             ->where('type', 2)
             ->where($where)
             ->limit($start, $paging)

@@ -11,6 +11,7 @@ class Motion extends Common
     {
         $name = Request::instance()->get('name');
         $out_trade_no = Request::instance()->get('out_trade_no');
+        $id_number=Request::instance()->get('id_number');
         $is_pay=Request::instance()->get('is_pay');
         $status=Request::instance()->get('status');
         $page=Request::instance()->get('page');
@@ -53,6 +54,11 @@ class Motion extends Common
         }else{
             $parameter['name']='';
         }
+        if(!empty($id_number)){
+            $parameter['id_number']=$id_number;
+        }else{
+            $parameter['id_number']='';
+        }
         if(isset($is_pay) && $is_pay!=="" ){
             $parameter['is_pay']=$is_pay;
         }else{
@@ -80,6 +86,9 @@ class Motion extends Common
         $this->assign('data',$data);
         $one=$model->getOne($u_id,$order_id);
         $this->assign('one',$one);
+        $date=$model->getUser($order_id);
+        $this->assign('date',$date);
+
         return view('motiondetails');
     }
     //运动处方表单

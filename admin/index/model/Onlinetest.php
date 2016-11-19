@@ -15,6 +15,7 @@ class Onlinetest extends Model
                ->join('gl_users u ','order.u_id = u.id ')
                ->where('type',3)
                ->where($where)
+               ->order("order.addtime desc")
                ->limit($start,5)
                ->select();
     }

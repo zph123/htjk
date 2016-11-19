@@ -1,0 +1,72 @@
+</head>
+<body>
+<div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
+    <fieldset data-role="controlgroup" data-type="horizontal">
+    <form action="{:url('index/sportaction/survey')}" method="post" data-ajax="false" id="formid">
+        <legend style="font-weight: bold">1.医生是否曾经告诉过你患有心脏病并且只能参加医生推荐的体力活动？</legend>
+        <input type="radio" name="heart"id="heart1" value="1" class="heart" ><label for="heart1">是</label>   
+        <input type="radio" name="heart"id="heart2" value="0" class="heart" ><label for="heart2">否</label>
+        <div style="clear: both;"></div>  
+        <legend style="font-weight: bold">2.当你参加体力活动时，是否感觉胸痛？</legend>
+        <input type="radio" name="thorax"id="thorax1" value="1" class="click" ><label for="thorax1">是</label>   
+        <input type="radio" name="thorax"id="thorax2" value="0" class="click" ><label for="thorax2">否</label>
+        <div style="clear: both;"></div>  
+        <legend style="font-weight: bold">3.自上个月以来，你是否在没有参加体力活动时发生过胸痛？</legend>
+        <input type="radio" name="last_month"id="last1" value="1" class="click" ><label for="last1">是</label>   
+        <input type="radio" name="last_month"id="last2" value="0" class="click" ><label for="last2">否</label>
+        <div style="clear: both;"></div>  
+        <legend style="font-weight: bold">4.你是否曾因头晕跌倒或曾失去知觉？</legend>
+        <input type="radio" name="head"id="head1" value="1" class="click" ><label for="head1">是</label>   
+        <input type="radio" name="head"id="head2" value="0" class="click" ><label for="head2">否</label>
+        <div style="clear: both;"></div>
+        <legend style="font-weight: bold">5.你是否有因体力活动变化而加重的骨或关节疾病（如腰背部、膝关节或髋部）？</legend>
+        <input type="radio" name="joint"id="joint1" value="1" class="click" ><label for="joint1">是</label>   
+        <input type="radio" name="joint"id="joint2" value="0" class="click" ><label for="joint2">否</label>
+        <div style="clear: both;"></div>
+        <legend style="font-weight: bold">6.最近医生是否因为你的血压或心脏问题给你开药（如水剂或片剂）？</legend>
+        <input type="radio" name="drug"id="drug1" value="1" class="click" ><label for="drug1">是</label>   
+        <input type="radio" name="drug"id="drug2" value="0" class="click" ><label for="drug2">否</label>
+        <div style="clear: both;"></div>
+        <legend style="font-weight: bold">7.你是否知道一些你不能进行体力活动的其他原因？</legend>
+        <input type="radio" name="cause"id="cause1" value="1" class="click" ><label for="cause1">是</label>   
+        <input type="radio" name="cause"id="cause2" value="0" class="click" ><label for="cause2">否</label>
+        <div style="clear: both;"></div>
+    </form>
+    </fieldset>
+    <p align="center" style="color:red" id="hint"></p>
+    <p style="line-height: 2em;font-size: 18px;">
+        <a href="javascript:void(0)" data-role="button" id="btn" data-corners="false" style="width: 100px;margin: 0 auto;"  >提交</a>
+    </p> 
+    <div style="clear: both;"></div> 
+</div>
+<script>
+    $(function(){
+        $('#btn').click(function(){
+            var heart=$('input:radio[name="heart"]:checked').val()
+            var thorax=$('input:radio[name="thorax"]:checked').val()
+            var last_month=$('input:radio[name="last_month"]:checked').val()
+            var head=$('input:radio[name="head"]:checked').val()
+            var joint=$('input:radio[name="joint"]:checked').val()
+            var drug=$('input:radio[name="drug"]:checked').val()
+            var cause=$('input:radio[name="cause"]:checked').val()
+            if(heart==undefined){
+                $('#hint').html('第1题不能为空');
+            }else if(thorax==undefined){
+                $('#hint').html('第2题不能为空');
+            }else if(last_month==undefined){
+                $('#hint').html('第3题不能为空');
+            }else if(head==undefined){
+                $('#hint').html('第4题不能为空');
+            }else if(joint==undefined){
+                $('#hint').html('第5题不能为空');
+            }else if(drug==undefined){
+                $('#hint').html('第6题不能为空');
+            }else if(cause==undefined){
+                $('#hint').html('第7题不能为空');
+            }else{
+                $('#hint').html(' ');
+                $('form').submit();
+            }
+        });
+    })
+</script>

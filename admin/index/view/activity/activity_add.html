@@ -1,9 +1,20 @@
 <div style="padding:3px 2px;border-bottom:1px solid #ccc">活动添加</div>
 <br>
 <div class="easyui-panel" title="填写信息" style="width:100%;max-width:60%;padding:30px 60px;">
-    <form id="ff" class="easyui-form" method="post" data-options="novalidate:true">
+    <form  id="ff"  method="post"  class="easyui-form" data-options="novalidate:true">
         <div style="margin-bottom:20px">
-            <input class="easyui-textbox" id="l_place" name="l_place" style="width:70%" data-options="label:'活动地点填写:',required:true">
+            <input class="easyui-textbox" required="required" id="l_place" name="l_place" style="width:70%" data-options="label:'活动地点填写:'">
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" required="required" id="l_astrict" name="l_astrict"  style="width:70%" data-options="label:'活动人数限制:'">
+            <span class="_easyui_textbox_input2"></span>
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" required="required" id="list_astrict" name="list_astrict"   style="width:70%" data-options="label:'前台展示人数:'">
+            <span class="_easyui_textbox_input3"></span>
+        </div>
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" required="required" id="l_notice" name="l_notice"  style="width:300px;height:100px" data-options="multiline:true,label:'活动公告:'">
         </div>
         <div style="margin-bottom:20px">
             <span>活动开始时间：</span>
@@ -16,10 +27,12 @@
             <input class="easyui-datetimebox" name="l_etime" id="l_etime"
                    data-options="required:true,showSeconds:false"  value="{{$data}}" style="width:150px">
         </div>
-    </form>
     <div style="text-align:center;padding:5px 0">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">提交</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="history.go(-1)" style="width:80px">返回</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton"
+           onclick="submitForm()" style="width:80px">提交</a>
     </div>
+    </form>
 </div>
 <script>
     function submitForm(){
@@ -28,12 +41,41 @@
                 return $(this).form('enableValidation').form('validate');
             }
         });
-
+        var input=$('input').val();
         var l_place=$('#l_place').val();
-        var l_stime=$('#_easyui_textbox_input2').val();
-        var l_etime=$('#_easyui_textbox_input4').val();
-        $.post('activity_insert',{l_place:l_place,l_stime:l_stime,l_etime:l_etime},function(msg){
-
+        var l_notice=$('#l_notice').val();
+        var l_astrict=$('#l_astrict').val();
+        var list_astrict=$('#list_astrict').val();
+        var l_continue=$('#l_continue').val();
+        var l_stime=$('#_easyui_textbox_input5').val();
+        var l_etime=$('#_easyui_textbox_input7').val();
+        var date=new Date();
+        l_stime=new Date(l_stime);
+        l_etime=new Date(l_etime);
+        if(l_stime>=l_etime){
+            alert('结束时间不能小于或等于开始时间');
+            return false;
+        }
+        if(date>l_stime){
+            alert('开始时间不能小于当前时间');
+            return false;
+        }
+        if(input==''){
+            return false;
+        }
+        if(!/^[0-9]+$/.test(l_astrict)){
+            $('._easyui_textbox_input2').html('请规范数字');
+            return false;
+        }
+        if(!/^[0-9]+$/.test(list_astrict)){
+            $('._easyui_textbox_input3').html('请规范数字');
+            return false;
+        }
+        if(l_astrict<list_astrict){
+            alert('限制人数必须大于展示人数');
+            return false;
+        }
+        $.post('activity_insert',{l_notice:l_notice,l_astrict:l_astrict,l_place:l_place,list_astrict:list_astrict,l_stime:l_stime,l_etime:l_etime},function(msg){
             if(msg==1){
 
                 alert('活动添加成功');location.href='index';
@@ -43,8 +85,30 @@
                 alert('活动添加失败');location.href='activity_add';
             }
         });
-
-
     }
-
+</script>
+<script>
+    $(function(){
+        $(document).on('blur', 'input', function (){
+            var th = $(this);
+            var name=th.attr('id');
+            var p_price = $(this).val();
+            if(/^[0][0-9]+$/.test(p_price)){
+                $('.'+name).text('请规范数字');
+                return false;
+            }
+            if(!/^[0-9]+$/.test(p_price)){
+                $('.'+name).text('请输入纯数字');
+                return false;
+            }
+            if(/^[1-9][0-9]+$/.test(p_price)){
+                $('.'+name).text(' ');
+                return true;
+            }
+            if(/^[0-9]+$/.test(p_price)){
+                $('.'+name).text(' ');
+                return true;
+            }
+        });
+    });
 </script>

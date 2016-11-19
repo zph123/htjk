@@ -1,5 +1,19 @@
+<script>
+    $(function(){
+        $('a').click(function(){
+            var _this=$(this);
+            var text=_this.html();
+            var url=_this.attr('href');
+            var one=$('input[name="one"]').val();
+            var two=$('input[name="two"]').val();
+            $('#content').panel({title:one+'->'+two+'->'+'<a target="tt" href="'+url+'">'+text+'</a>'});
+        });
+    });
+</script>
 <div region="west" split="true" title="菜单" style="width:20%;">
 <div class="easyui-panel" style="padding:5px;">
+    <input type="hidden" name="one" value="骨龄后台管理">
+    <input type="hidden" name="two" value="测试数据展示">
     <ul class="easyui-tree">
         <li>
             <span>骨龄后台管理</span>
@@ -22,7 +36,7 @@
                     </ul>
                     </li>
                 <li>
-                    <span>变动数据</span>
+                    <span id="two2">变动数据</span>
                     <ul>
                         <li>
                             <span><a href="{:url('index/activity/index')}" target="tt">现场数据</a></span>
@@ -33,7 +47,7 @@
                     </ul>
                 </li>
                 <li>
-                    <span>个人设置</span>
+                    <span id="two3">个人设置</span>
                     <ul>
                         <li>
                             <span><a href="{:url('index/personal/password')}" target="tt">密码设置</a></span>

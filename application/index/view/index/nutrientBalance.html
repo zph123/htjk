@@ -235,8 +235,8 @@ a{
         {php} }{/php}
 
 
-            <p style="color: red;">注：开始时间与结束时间之间填过的问卷必须要在30份以内</p>
-            开始时间：<input type="date" name="" id="s_time">
+            <p style="color: red;" id="zhushi">注：开始时间为结束时间28天之前 建议将测试全部填完再生成报告</p>
+            开始时间：<input type="date" readonly  name="" id="s_time">
             结束时间：<input type="date" name="" id="e_time">
             <p id="desc"></p>
             <input type="button" id="start" value="生成">
@@ -248,6 +248,13 @@ a{
 <script type="text/javascript">
 
         $(document).ready(function(e) {
+            var now = new Date();
+            var date = new Date(now.getTime() - 28 * 24 * 3600 * 1000);
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var days = year + '-' + month + '-' + day;
+            $("#s_time").val(days)
             $.get("{:url('index/nutrientbalance/getprice')}",function (date) {
                 $("#price").html(date)
             });
@@ -280,8 +287,16 @@ a{
                             $("#desc").html("<font color='red'>您选择的日期里没有问卷<font>")
                             $("#start").attr({"disabled":"disabled"});
                         }else{
-                            $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
-                            $("#start").removeAttr("disabled");
+                            $.get("{:url('index/nutrientbalance/getagetest')}",{},function (dats) {
+                                if(dats==0){
+                                    $("#desc").html("<font color='red'>您骨龄测试报告已失效<font>")
+                                    $("#start").attr({"disabled":"disabled"});
+                                }else{
+                                    $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
+                                    $("#start").removeAttr("disabled");
+                                }
+                            })
+
                         }
 
                     })
@@ -290,6 +305,21 @@ a{
             $("#e_time").on('change',function () {
                 var s_time = $("#s_time").val();
                 var e_time = $("#e_time").val();
+                var now_time = new Date();
+                var now = new Date(e_time);
+                if(now_time<now){
+                    var nian = now_time.getFullYear()
+                    var yue = now_time.getMonth() +1;
+                    var ri  = now_time.getDate()
+                    $("#e_time").val(nian + '-' + yue + '-' + ri);
+                    now = now_time;
+                }
+                var date = new Date(now.getTime() - 28 * 24 * 3600 * 1000);
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var day = date.getDate();
+                var days = year + '-' + month + '-' + day;
+                $("#s_time").val(days)
                 if(s_time!='' && e_time !=''){
                     $.get("{:url('index/nutrientbalance/getdays')}",{s_time:s_time,e_time:e_time},function (data) {
                         if(parseInt(data)>30){
@@ -299,21 +329,38 @@ a{
                             $("#desc").html("<font color='red'>您选择的日期里没有问卷<font>")
                             $("#start").attr({"disabled":"disabled"});
                         }else{
-                            $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
-                            $("#start").removeAttr("disabled");
+                            $.get("{:url('index/nutrientbalance/getagetest')}",{},function (dats) {
+                                if(dats==0){
+                                    $("#desc").html("<font color='red'>您骨龄测试报告已失效<font>")
+                                    $("#start").attr({"disabled":"disabled"});
+                                }else{
+                                    $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
+                                    $("#start").removeAttr("disabled");
+                                }
+                            })
                         }
                     })
                 }
             })
         });
         function fun(date){
-            var   d=new   Date(Date.parse(date.replace(/-/g,"/")));
-            var   curDate=new   Date();
+            var   d=new Date(Date.parse(date.replace(/-/g,"/")));
+            var   curDate=new Date();
             if(d > curDate){
                 $("#alertcontent").text("未来还没来哦~")
                 $("#alert").click();
             }else{
-                window.location.href="{:url('index/nutrientbalance/question')}"+'?date='+date
+                $.get("{:url('index/nutrientbalance/getweek')}",{date:date},function (data) {
+                   if(data==1){
+                       $("#alertcontent").text("上周周日还没填呢~");
+                       $("#alert").click();
+                   }else if(data==2){
+                       window.location.href="{:url('index/login/index')}"
+                   }else if(data==0){
+                       window.location.href="{:url('index/nutrientbalance/question')}"+'?date='+date
+                   }
+                })
+
             }
         }
         var CalendarHandler = {
