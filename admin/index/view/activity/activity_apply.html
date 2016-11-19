@@ -1,0 +1,33 @@
+
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">活动报名表</div>    <br/>
+<div id="tt">
+    <table class="easyui-datagrid"  style="width:100%;height:auto;">
+        <thead>
+        <tr>
+            <th field="name1" width="15%">ID</th>
+            <th field="name2" width="25%">昵称</th>
+            <th field="name3" width="35%">手机号</th>
+            <th field="name4" width="26%">帐号状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $data as $vl}
+        <tr>
+            <td>{$vl.a_id}</td>
+            <td>{$vl.username}</td>
+            <td>{$vl.tell}</td>
+            {if condition="isset($vl.uid)"}
+            <td>已注册</td>
+            {else}
+            <td><span style="color: red" >未注册</span></td>
+            {/if}
+        </tr>
+        {/foreach}
+        <td><span>一共{$page.leaf}--页</span></td>
+        <td><span>当前第{$page.page}--页</span></td>
+        <td><a href="{:url('activity/activity_apply')}?page={$page.lastpage}&&l_id={$page.l_id}" >上一页</a></td>
+        <td><a href="{:url('activity/activity_apply')}?page={$page.nextpage}&&l_id={$page.l_id}" >下一页</a></td>
+        </tbody>
+        </tbody>
+    </table>
+</div>
