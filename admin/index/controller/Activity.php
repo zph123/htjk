@@ -96,6 +96,8 @@ class Activity extends Common
         $user = new Below_list();
         $data1=$user->activity_activity($l_id);
         $data2=$user->activity_nowtest($l_id);
+        $num['one']=count($data1);
+        $num['two']=count($data2);
         $data=array_merge($data1,$data2);
         $number=count($data);
         $paging=5;
@@ -121,6 +123,7 @@ class Activity extends Common
 
         $this->assign('page',$parameter);
         $this->assign('data',$arr);
+        $this->assign('num',$num);
         return view('activity_apply');
     }
 }
