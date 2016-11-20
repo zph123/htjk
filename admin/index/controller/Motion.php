@@ -55,9 +55,9 @@ class Motion extends Common
             $parameter['name']='';
         }
         if(!empty($id_number)){
-            $parameter['id_number']=$id_number;
+            $parameter['$id_number']=$id_number;
         }else{
-            $parameter['id_number']='';
+            $parameter['name']='';
         }
         if(isset($is_pay) && $is_pay!=="" ){
             $parameter['is_pay']=$is_pay;
@@ -81,14 +81,27 @@ class Motion extends Common
         $order_id=Request::instance()->param('order_id','','strip_tags,strtolower');
         $begin_time=Request::instance()->param('begin_time','','strip_tags,strtolower');
         $end_time=Request::instance()->param('end_time','','strip_tags,strtolower');
+
+
+
+
+
+
+
+
+        
         $model=new Motion_order();
         $data=$model->details($u_id,$begin_time,$end_time);
         $this->assign('data',$data);
         $one=$model->getOne($u_id,$order_id);
         $this->assign('one',$one);
-        $date=$model->getUser($order_id);
-        $this->assign('date',$date);
 
+        $date=$model->getUser($u_id);
+        //var_dump($date);exit;
+        $date['weight']=json_decode($date['weight'],true);
+        $date['height']=json_decode($date['height'],true);
+        $date['gpbone']=json_decode($date['gpbone'],true);
+        $this->assign('date',$date);
         return view('motiondetails');
     }
     //运动处方表单

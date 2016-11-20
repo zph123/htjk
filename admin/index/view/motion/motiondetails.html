@@ -78,22 +78,22 @@
             <tr>
                 <td>姓名</td>
                 <td>
-                    <input type="hidden" name="o_id"  value="{$date[0]['o_id']}"/>
-                    <input type="hidden" name="u_id"  value="{$date[0]['u_id']}"/>
-                    <input type="text" name="name"  value="{$date[0]['name']}"/>
+                    <input type="hidden" name="o_id"  value="{$one[0]['o_id']}"/>
+                    <input type="hidden" name="u_id"  value="{$date['u_id']}"/>
+                    <input type="text" name="name"  value="{$date['name']}"/>
                 </td>
                 <td>性别</td>
                 <td>
-                    <input type="hidden" name="sex" value="{$date[0]['sex']}">
-                    {if condition="$date[0]['sex'] == 1"}
+                    <input type="hidden" name="sex" value="{$date['sex']}">
+                    {if condition="$date['sex'] == 1"}
                     <input type="text" value="男">
-                    {elseif condition="$date[0]['sex'] == 0"/}
+                    {elseif condition="$date['sex'] == 0"/}
                     <input type="text" value="女">
                     {/if}
                 </td>
-                <td>编号</td>
+                <td>骨龄片号</td>
                 <td>
-                    <input type="text" name="number"/>
+                    <input type="text" name="number" value="{$date['glnumber']}"/>
                 </td>
                 <td>周数</td>
                 <td>
@@ -103,29 +103,29 @@
             <tr>
                 <td>出生年月日</td>
                 <td>
-                    <input type="text" name="birth" value="{$date[0]['year']}"/>
+                    <input type="text" name="birth" value="{$date['year']}"/>
                 </td>
                 <td>日历年龄</td>
                 <td>
                     <input type="text" name="age"/>
                 </td>
-                <td><span style="color: red">*</span>骨龄</td>
+                <td><span style="color: red">*</span>GP骨龄</td>
                 <td>
-                    <input type="text" name="boneage" required="required"/>
+                    <input type="text" name="boneage" value="{$date['gpbone'][0]['gpbone']}"/>
                 </td>
                 <td><span style="color: red">*</span>生长发育类型</td>
                 <td>
-                    <input type="text" name="grow" required="required"/>
+                    <input type="text" name="grow" value="{$date['gpbone'][0]['development']}"/>
                 </td>
             </tr>
             <tr>
                 <td>身高</td>
                 <td>
-                    <input type="text" name="height"/>
+                    <input type="text" name="height" value="{$date['height'][0]['height']}"/>
                 </td>
                 <td>体重</td>
                 <td>
-                    <input type="text" name="weight"/>
+                    <input type="text" name="weight" value="{$date['weight'][0]['weight']}"/>
                 </td>
                 <td></td>
                 <td>

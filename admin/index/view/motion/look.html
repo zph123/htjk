@@ -1,3 +1,4 @@
+<!--startprint-->
 <style type="text/css">
     .xwtable {width: 100%;border-collapse: collapse;border: 1px solid #ccc;}
     .xwtable thead td {font-size: 12px;color: #333333;text-align: center;border: 1px solid #ccc; font-weight:bold;}
@@ -6,9 +7,6 @@
     .xwtable td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
     .style1 {color: #FF0000}
 </style>
-</head>
-
-<body>
 <table class="xwtable">
 
     <div style="padding:3px 2px;border-bottom:1px solid #ccc"><a href="#" onclick="history.go(-1)">返回</a></div>
@@ -136,8 +134,23 @@
         <td>签字时间</td>
         <td colspan="3">{$data[0]['yearw']}</td>
     </tr>
-    <tr><td colspan="6"><a href="{:url('Motion/index')}">返回</a></td></tr>
     </tbody>
+</table>
+<!--endprint-->
+<table>
+    <tr><td colspan="6"><a href="{:url('Motion/index')}">返回</a>
+        <button type="button" onclick="doPrint()">打印</button></td></tr>
 </table>
 </body>
 </html>
+<script type="text/javascript">
+    function doPrint() {
+        bdhtml=window.document.body.innerHTML;
+        sprnstr="<!--startprint-->"; //标记开始打印地方
+        eprnstr="<!--endprint-->";   //标记打印结束的地方
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML=prnhtml;
+        window.print();
+    }
+</script>

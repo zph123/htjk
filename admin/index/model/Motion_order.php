@@ -59,16 +59,20 @@ class Motion_order extends Model
         return $data;
     }
 
-    //查看处方身份
-    public function getUser($o_id)
+    //查看骨龄测试
+    public function getUser($u_id)
     {
         $data = Db::table('order')
             ->alias('o')
-            ->field('out_trade_no,addtime,is_pay,status,o_id,name,sex,year,u_id')
+            ->field('sex,u_id,name,glnumber,weight,height,gpbone,year')
             ->join('gl_users g ', 'o.u_id = g.id ')
-            ->where('type', 2)
-            ->where('o_id', $o_id)
-            ->select();
+            ->join('online_report r','o.o_id = r.or_id')
+            ->whereTime('r.effective_time', '>=', date("Y-m-d H:i:s",time()))
+            ->where('o.type','in',[3,4])
+            ->where('o.u_id',$u_id)
+            ->order('r.add_time DESC')
+            ->limit(1)
+            ->find();
         return $data;
     }
 
