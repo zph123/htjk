@@ -186,18 +186,26 @@ class Diet extends Common
         ->field('o.o_id,o.out_trade_no,o.status,o.addtime,g.phone,o.is_pay,n.desc,g.name')
         ->find();
         $data['desc'] = json_decode($data['desc'],true);
-        $week = array();
-        foreach ($data['desc'] as $key => $value) {
-          if(date('w',strtotime($key))==0)
-          {
-            $week[$key] = $value;
-          }
-          else
-          {
+        $week = array();   //饮食习惯评价
+        $weeks = array(); //每周进食次数评价
+       // print_r($data);die;
+        foreach ($data['desc'][1] as $key=>$value) {
             $day[$key] = $value;
-          }
         }
-        // print_r($week);
+        if(isset($data['desc'][2]))
+        {
+          foreach ($data['desc'][2] as $key=>$value) {
+              $week[$key] = $value;
+          } 
+        }  
+        if(isset($data['desc'][3]))
+        {
+          foreach ($data['desc'][3] as $key=>$value) {
+              $weeks[$key] = $value;
+          } 
+        }
+        //print_r($weeks);die;           
+        $this->assign("weeks",$weeks);
         $this->assign("week",$week);
         $this->assign("day",$day);
         $this->assign("data",$data);

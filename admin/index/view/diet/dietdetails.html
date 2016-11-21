@@ -15,6 +15,10 @@
 			float: left;
 			display: none;
 		}
+		.week_descs{
+			float: left;
+			display: none;
+		}		
 		.show{
 			display: block;
 		}
@@ -45,12 +49,19 @@
 	{/foreach}
 	</ul>
 	<br>
-	周报：
+	周饮食习惯评价:
 	<ul style="list-style:none">
 	{foreach name="$week" item="val" key="key" }
 		<li style="float:left;margin-right:10px" class="week"><a href="javascript:void(0)">{$key}</a></li>
 	{/foreach}
 	</ul>
+	<br>
+	每周进食次数评价:
+	<ul style="list-style:none">
+	{foreach name="$weeks" item="val" key="key" }
+		<li style="float:left;margin-right:10px" class="weeks"><a href="javascript:void(0)">{$key}</a></li>
+	{/foreach}
+	</ul>	
 	<br>
 	{foreach name="$day" item="val" key="key" }
 		<table class="day_desc" border="1">
@@ -81,6 +92,21 @@
 		{/foreach}
 		</table>
 	{/foreach}
+
+	{foreach name="$weeks" item="val" key="key" }
+		<table class="week_descs" border="1">
+		<tr>
+			<td>问题</td>
+			<td>答案	</td>
+		</tr>
+		{foreach name="$val" item="v" key="k" }
+			<tr>
+				<td>{$v.question}</td>
+				<td>{$v.answer} </td>
+			</tr>
+		{/foreach}
+		</table>
+	{/foreach}	
 	<br><br><br>
 	{if condition="$data['is_pay'] == 0"}
 		该订单尚未支付，不能生成报告。
@@ -98,6 +124,7 @@
 		// alert(index)
 		$(".day_desc").eq(index).addClass('show').siblings().removeClass('show');
 		$(".week").removeClass('red');
+		$(".weeks").removeClass('red');
 		//$(".desc not:"+index).addClass('hide');
 		//alert($(".desc").eq(index).html())
 	})
@@ -108,7 +135,18 @@
 		// alert(index)
 		$(".week_desc").eq(index).addClass('show').siblings().removeClass('show');
 		$(".day").removeClass('red');
+		$(".weeks").removeClass('red');
 		//$(".desc not:"+index).addClass('hide');
 		//alert($(".desc").eq(index).html())
 	})
+	$(".weeks").click(function(){
+		$(this).addClass('red').siblings().removeClass('red');
+		var index = $(this).index();
+		// alert(index)
+		$(".week_descs").eq(index).addClass('show').siblings().removeClass('show');
+		$(".day").removeClass('red');
+		$(".week").removeClass('red');
+		//$(".desc not:"+index).addClass('hide');
+		//alert($(".desc").eq(index).html())
+	})	
 </script>
