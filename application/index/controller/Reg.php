@@ -71,7 +71,7 @@ class Reg extends Controller
         if(empty($infos['school']))$state=0;
 
 
-        if(!$state)return "非法数据提交！";123
+        if(!$state)return "非法数据提交！";
 
 
         //因为数据库的冗余设计，进行数据复制及分割
