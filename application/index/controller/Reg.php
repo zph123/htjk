@@ -44,18 +44,12 @@ class Reg extends Controller
         if(!preg_match($pattern_fullname,$infos['fullname']))$state=0;
         //性别
         if($infos['gender']==0||$infos['gender']==1);else $state=0;
-        //生日
-        $year=substr($infos['birthday'],0,4);
-        $month=ltrim(substr($infos['birthday'],5,2),'0');
-        $day=ltrim(substr($infos['birthday'],8),'0');
-        if(!checkdate($month,$day,$year))$state=0;
-        //身份证
-        if($this->check_id_card($infos['id_number'])!=2)$state=0;
         //检测身份证与生日差值
-        if(!$this->check_idcard_birthday(
+        $check_res=$this->check_idcard_birthday(
             $infos['birthday'],
             $infos['id_number']
-        ))$state=0;
+        );
+        if(!$check_res['state'])$state=0;
         //出生身高
         if($infos['birth_height']<=0||$infos['birth_height']>100)$state=0;
         //出生体重
@@ -74,7 +68,6 @@ class Reg extends Controller
             $pattern_email="/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/";
             if (!preg_match($pattern_email,$infos['email']))$state=0;
 //        }
-
         if(empty($infos['school']))$state=0;
 
 
@@ -86,7 +79,7 @@ class Reg extends Controller
         $infos_1['password']=$infos['password'];
         $infos_1['fullname']=$infos['fullname'];
         $infos_1['sex']=$infos['gender'];
-        $infos_1['year']=$year.'-'.$month.'-'.$day;
+        $infos_1['year']=$infos['birthday'];
         $infos_1['school']=$infos['school'];
         $infos_1['phone']=$infos['contact_phone'];
 
@@ -119,7 +112,7 @@ class Reg extends Controller
         $this->redirect('Login/index');
     }
 
-    //ajax验证转接口
+    //ajax转接口---验证(用户名/手机号)
 	public function ajax_check(){
         $data = input('sign');
         $data_name = input('data_name');
@@ -127,13 +120,12 @@ class Reg extends Controller
         elseif($data_name=='phone')echo $this->check_phone($data);
         elseif($data_name=='id_number')echo $this->check_id_card($data);
     }
-    //ajax验证身份证与生日差值
+    //ajax转接口---验证身份证与生日差值
     public function ajax_check_birth_idcard(){
         $birth=input('birth');
         $idcard=input('idcard');
-        if($this->check_idcard_birthday($birth,$idcard))
-            echo 1;
-        else echo 0;
+        $check_res=$this->check_idcard_birthday($birth,$idcard);
+        echo json_encode($check_res);
     }
 	//用户名检查
 	protected function check_name($info){
@@ -169,29 +161,45 @@ class Reg extends Controller
             $user = new user_infos();
             $stauts = $user->check_one(['id_number'=>$info]);
             if($stauts){
-                return 1;
+                return array(
+                    'state'=>false,
+                    'msg'=>'已存在'
+                );
             }else{
-                return 2;
+                return array(
+                    'state'=>true,
+                    'msg'=>'可用'
+                );
             }
-        }else return 0;
+        }else return $check_res;
     }
     /**检测身份证生日与输入的生日的差值：
-     * @param string $birthday 生日
-     * @param string $id_card 身份证号码
-     * @return bool 如果相差大于3个平年返回false，否则返回true
+     * @param $birthday 生日
+     * @param $id_card 身份证号码
+     * @return array ('state'=>boolean,'msg'=>error_report)
      */
     protected function check_idcard_birthday($birthday,$id_card){
 
-        if(empty($birthday)||empty($id_card))return false;
+        if(empty($birthday)||empty($id_card)){
+            return array(
+                'state'=>false,
+                'msg'=>'身份证不能为空'
+            );
+        }
         //生日
         $year1=substr($birthday,0,4);
         $month1=ltrim(substr($birthday,5,2),'0');
         $day1=ltrim(substr($birthday,8),'0');
-        if(!checkdate($month1,$day1,$year1))return false;
+        if(!checkdate($month1,$day1,$year1))
+            return array(
+                'state'=>false,
+                'msg'=>'非法数据提交'
+            );
         $date_birth=$year1.'-'.$month1.'-'.$day1;
         //获取身份证号年月日期
-        $check_res=checkIdCard($id_card);
-        if(!$check_res['state'])return false;
+        $check_res=$this->check_id_card($id_card);
+        if(!$check_res['state'])return $check_res;
+
         $the_date=substr($id_card,6,8);
         $year2=substr($the_date,0,4);
         $month2=ltrim(substr($the_date,4,2),'0');
@@ -203,9 +211,18 @@ class Reg extends Controller
 
         $date_diff=$date_1->diff($date_2);
         $days_diff=abs($date_diff->format("%R%a"));
-//        var_dump($days_diff);die;
 
-        if($days_diff>365*3)return false;
-        else return true;
+        if($days_diff>365*3){
+            return array(
+                'state'=>false,
+                'msg'=>'身份证与生日差值过大'
+            );
+        }
+        else{
+            return array(
+                'state'=>true,
+                'msg'=>'身份证与生日差值在允许范围之内'
+            );
+        }
     }
 }
