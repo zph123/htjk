@@ -61,7 +61,7 @@ class Reg extends Controller
         //出生体重
         if($infos['birth_weight']<=0||$infos['birth_weight']>20)$state=0;
         //是否顺产
-        if($infos['birth_smoothly']||$infos['birth_smoothly']);else $state=0;
+        if($infos['birth_smoothly']==0||$infos['birth_smoothly']==1);else $state=0;
         //父亲身高
         if($infos['father_height']<=0||$infos['father_height']>300)$state=0;
         //母亲身高
@@ -74,6 +74,7 @@ class Reg extends Controller
             $pattern_email="/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/";
             if (!preg_match($pattern_email,$infos['email']))$state=0;
 //        }
+
         if(empty($infos['school']))$state=0;
 
 
@@ -136,7 +137,7 @@ class Reg extends Controller
     }
 	//用户名检查
 	protected function check_name($info){
-        $pattern_name="/^[\x{4e00}-\x{9fa5}A-Za-z][\x{4e00}-\x{9fa5}A-Za-z0-9_-]{1,8}$/u";
+        $pattern_name="/^[\x{4e00}-\x{9fa5}A-Za-z][\x{4e00}-\x{9fa5}A-Za-z0-9_-]{1,7}$/u";
 //        var_dump($name);die;
         if(preg_match($pattern_name,$info)){
             $user = new Gl_users();
@@ -202,6 +203,8 @@ class Reg extends Controller
 
         $date_diff=$date_1->diff($date_2);
         $days_diff=abs($date_diff->format("%R%a"));
+//        var_dump($days_diff);die;
+
         if($days_diff>365*3)return false;
         else return true;
     }
