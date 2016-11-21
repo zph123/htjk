@@ -38,10 +38,14 @@ class Diet extends Common
         $is_pay=Request::instance()->get('is_pay');
         $status=Request::instance()->get('status');
         $page=Request::instance()->get('page');
+        $id_number=Request::instance()->get('id_number');
         $where=array();
         if(!empty($out_trade_no)){
             $where['out_trade_no']=$out_trade_no;
         }
+        if(!empty($id_number)){
+            $where['u.id_number']=$id_number;
+        }        
         if(isset($is_pay) && $is_pay!=="" ){
             $where['is_pay']=$is_pay;
         }
@@ -49,7 +53,11 @@ class Diet extends Common
             $where['status']=$status;
         }
         $where['type']=1;
-        $count = Db::table('order')->where($where)->count();
+        $count = Db::table('order')
+                ->alias('o')
+                ->join('gl_users g ','o.u_id = g.id ')
+                ->join('user_infos u ','u.u_id = g.id ')
+                ->where($where)->count();
         $paging=10;
         $leaf=ceil($count/$paging);
         $page=isset($_GET['page'])?$_GET['page']:1;
@@ -61,30 +69,32 @@ class Diet extends Common
         $parameter['lastpage']=$lastpage;
         $parameter['leaf']    = $leaf;
 
-
         $name= Request::instance()->get('name');
         $n_number = Request::instance()->get('n_number');
         $is_pay= Request::instance()->get('is_pay');
         $status = Request::instance()->get('status');
-        $order = Db::table('nutrition_order')
-        ->alias('n')
-        ->join('order o','o.o_id = n.o_id')
+        $order = Db::table('order')
+        ->alias('o')
         ->join('gl_users g ','o.u_id = g.id ')
-        ->where('o.type ','1')
+        ->join('user_infos u ','u.u_id = g.id ')
+        ->where('type','1')
         ->where('o.out_trade_no','like',"%$n_number%")
         ->where('g.name','like',"%$name%")
         ->where('o.status','like',"%$status%")
         ->where('o.is_pay','like',"%$is_pay%")
+        ->where('u.id_number','like',"%$id_number%")
         ->order("o.addtime desc")
-        ->field('o.o_id,o.out_trade_no,o.status,o.addtime,o.is_pay,g.name')
+        ->field('u.id_number,o.o_id,o.out_trade_no,o.status,o.addtime,o.is_pay,g.name')
         ->limit("$start,10")
         ->select();
-        // echo DB::getlastsql();die;
+
+        //echo DB::getlastsql();die;
         $this->assign('page',$parameter);
         $this->assign('name',$name);
         $this->assign('n_number',$n_number);
         $this->assign('is_pay',$is_pay);
         $this->assign('status',$status);
+        $this->assign('id_number',$id_number);
         $this->assign('order',$order);
         return view('index');
     }

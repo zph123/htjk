@@ -45,6 +45,7 @@
         <td>正在报名</td>
         <td><a href="{:url('Activity/activity_dispose')}?l_id={$v.l_id}&&dispose=2" class="easyui-linkbutton"  iconCls="icon-remove">截止</a>
             <input type="hidden" value="{$v.l_id}">
+            <a href="{:url('Activity/activity_apply')}?l_id={$v.l_id}" class="easyui-linkbutton"  iconCls="icon-help">报名情况</a>
         </td>
         {/if}
         {elseif($v.l_status==2)}
@@ -52,6 +53,7 @@
         <td><a href="javascript:;" class="easyui-linkbutton del"  iconCls="icon-cancel">强制删除</a>
             <input type="hidden" value="{$v.l_id}">
             <a href="{:url('Activity/activity_dispose')}?l_id={$v.l_id}&&dispose=1" class="easyui-linkbutton"  iconCls="icon-save">重新发布</a>
+            <a href="{:url('Activity/activity_apply')}?l_id={$v.l_id}" class="easyui-linkbutton"  iconCls="icon-help">报名情况</a>
         </td>
         {/if}
     </tr>

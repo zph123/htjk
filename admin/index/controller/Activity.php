@@ -6,7 +6,7 @@ use think\Db;
 use think\Session;
 use think\Cookie;
 use app\index\model\Below_list;
-
+header('content-type:text/html;charset=utf-8');
 class Activity extends Common
 {
     //首页
@@ -33,7 +33,6 @@ class Activity extends Common
         $data['l_notice'] = Request::instance()->post('l_notice');
         $data['l_astrict'] = Request::instance()->post('l_astrict');
         $data['list_astrict'] = Request::instance()->post('list_astrict');
-        $data['l_continue'] = Request::instance()->post('l_continue');
         $data['l_stime']=$this->time($l_stime);
         $data['l_etime']=$this->time($l_etime);
         $data['l_status']=0;
@@ -44,7 +43,6 @@ class Activity extends Common
         }else{
             echo '0';
         }
-
     }
     function time($time)
     {
@@ -88,5 +86,44 @@ class Activity extends Common
         }else{
             $this->redirect('Activity/index');
         }
+    }
+    function activity_apply()
+    {
+
+
+        $page=Request::instance()->get('page');
+        $l_id = Request::instance()->get('l_id');
+        $user = new Below_list();
+        $data1=$user->activity_activity($l_id);
+        $data2=$user->activity_nowtest($l_id);
+        $num['one']=count($data1);
+        $num['two']=count($data2);
+        $data=array_merge($data1,$data2);
+        $number=count($data);
+        $paging=5;
+        $leaf=ceil($number/$paging);
+        $page=isset($_GET['page'])?$_GET['page']:1;
+        $start=($page-1)*$paging;
+        $lastpage=$page-1<1?1:$page-1;
+        $nextpage=$page+1>$leaf?$leaf:$page+1;
+        //print_r($data);die;
+        $arr=array();
+        for($i=0;$i<$paging;$i++){
+            if(!isset($data[$i+$start])){
+
+            }else{
+                $arr[]=$data[$i+$start];
+            }
+        }
+        $parameter['l_id']    =$l_id;
+        $parameter['page']    =$page;
+        $parameter['nextpage']=$nextpage;
+        $parameter['lastpage']=$lastpage;
+        $parameter['leaf']    = $leaf;
+
+        $this->assign('page',$parameter);
+        $this->assign('data',$arr);
+        $this->assign('num',$num);
+        return view('activity_apply');
     }
 }

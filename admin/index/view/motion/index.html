@@ -77,8 +77,8 @@
 
     <td><span>一共{$page.leaf}--页</span></td>
     <td><span>当前第{$page.page}--页</span></td>
-    <td><a href="{:url('Motion/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}&&id_number={$page.id_number}" >上一页</a></td>
-    <td><a href="{:url('Motion/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}&&id_number={$page.id_number}" >下一页</a></td>
+    <td><a href="{:url('Motion/index')}?page={$page.lastpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}&&id_number={}" >上一页</a></td>
+    <td><a href="{:url('Motion/index')}?page={$page.nextpage}&&is_pay={$page.is_pay}&&status={$page.status}&&name={$page.name}&&id_number" >下一页</a></td>
     </tbody>
     {/if}
 </table>
