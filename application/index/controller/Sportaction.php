@@ -218,7 +218,7 @@ class Sportaction extends Common
             $i=strtotime($ssday);
         }
         $count=count($array)/2;
-        if($count<1){
+        if($count<12){
             $error['error']='0';
             $error['content']='提交的时间少于12周';
             exit(json_encode($error));

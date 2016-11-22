@@ -1,0 +1,16 @@
+<table data-role="table" class="ui-responsive">
+      <thead>
+        <tr>
+        {foreach name='way' item='value' key='key'}
+          <th>{$key}：</th>
+        {/foreach}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+        {foreach name='way' item='value'}
+          <td>{$value}</td>
+        {/foreach}
+        </tr>
+      </tbody>
+    </table>
