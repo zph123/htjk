@@ -44,19 +44,19 @@
         var input=$('input').val();
         var l_place=$('#l_place').val();
         var l_notice=$('#l_notice').val();
-        var l_astrict=$('#l_astrict').val();
-        var list_astrict=$('#list_astrict').val();
+        var l_astrict=parseInt($('#l_astrict').val());
+        var list_astrict=parseInt($('#list_astrict').val());
         var l_continue=$('#l_continue').val();
         var l_stime=$('#_easyui_textbox_input5').val();
         var l_etime=$('#_easyui_textbox_input7').val();
         var date=new Date();
-        l_stime=new Date(l_stime);
-        l_etime=new Date(l_etime);
-        if(l_stime>=l_etime){
+        var l_stime1=new Date(l_stime);
+        var l_etime1=new Date(l_etime);
+        if(l_stime1>=l_etime1){
             alert('结束时间不能小于或等于开始时间');
             return false;
         }
-        if(date>l_stime){
+        if(date>l_stime1){
             alert('开始时间不能小于当前时间');
             return false;
         }
