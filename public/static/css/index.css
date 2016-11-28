@@ -7,14 +7,15 @@
 #Content{
     height:100%;
     /*此处对容器设置了高度，一般不建议对容器设置高度，一般使用overflow:auto;属性设置容器根据内容自适应高度，如果不指定高度或不设置自适应高度，容器将默认为1个字符高度，容器下方的布局元素（footer）设置margin-top:属性将无效*/
-    margin-top:20px;/*此处讲解margin的用法，设置content与上面header元素之间的距离*/    
+    margin-top:20px;/*此处讲解margin的用法，设置content与上面header元素之间的距离*/
+
 }
 #Content-Left{
-    box-shadow: 1px 1px 5px 5px #CCCCCC;
+    box-shadow: 1px 1px 0px 1px #d5efa6;
     height:230px;
     width:55%;
     float:left;/*设置浮动，实现多列效果，div+Css布局中很重要的*/
-    
+    background-image:url(../img/index.gif); 
     line-height:230px;
     text-align:center;
     font-size: 20px;
@@ -22,7 +23,7 @@
 
 }
 #Content-Main{
-    box-shadow: 1px 1px 5px 5px #CCCCCC;
+    box-shadow: 1px 1px 0px 1px #d5efa6;
     height:330px;
     width:45%;
     float:right;/*设置浮动，实现多列效果，div+Css布局中很重要的*/
@@ -30,20 +31,20 @@
     color:black;
 }
 #Content-Right{
-    box-shadow: 1px 1px 5px 5px #CCCCCC;
+    box-shadow: 1px 1px 0px 1px #d5efa6;
     height:330px;
     width:45%;
     float: left; 
-    
+   
     color:black;
 
 }
 #Content-Main-right{
-    box-shadow: 1px 1px 5px 5px #CCCCCC;
+    box-shadow: 1px 1px 0px 1px #d5efa6;
     height:230px;
     width:55%;
     float:left;/*设置浮动，实现多列效果，div+Css布局中很重要的*/
-   
+    background-image:url(../img/index.gif); 
     line-height:230px;
     text-align:center;
     font-size: 20px;
