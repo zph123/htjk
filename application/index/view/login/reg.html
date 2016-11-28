@@ -130,7 +130,7 @@
             </li>
         </ul>
         <tr>
-            <td><input type="text" name="school" id="school" data-clear-btn="true"></td>
+            <td><input type="text" name="school" id="school"></td>
         </tr>
 
     </form>
@@ -387,8 +387,12 @@
                 email.css("border","1px red dashed");
             }
         }
-        //
-        if($('#school')=="")state=0;
+        //学校
+        var school=$('#school');
+        if(school.val()==""){
+            state=0;
+            school.css("border","1px red dashed");
+        }
 
 
         if(state){
