@@ -33,8 +33,8 @@ class Activity extends Common
         $data['l_notice'] = Request::instance()->post('l_notice');
         $data['l_astrict'] = Request::instance()->post('l_astrict');
         $data['list_astrict'] = Request::instance()->post('list_astrict');
-        $data['l_stime']=$this->time($l_stime);
-        $data['l_etime']=$this->time($l_etime);
+        $data['l_stime']=date("Y-m-d H:i:s",time($l_stime));
+        $data['l_etime']=date("Y-m-d H:i:s",time($l_etime));
         $data['l_status']=0;
         $user = new Below_list();
         $arr=$user->activity_add($data);
