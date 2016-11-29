@@ -26,45 +26,71 @@
 			display: none;
 		}
     </style>
+    <style type="text/css">
+    .day_desc td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
+
+    .week_desc td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
+
+    .week_descs td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}  
+    .heads td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}       
+</style>
 </head>
 <body>
-订单号：{$data['out_trade_no']} <br>
-申请人：{$data['name']} <br>
-申请时间：{$data['addtime']} <br>
-联系方式：{$data['phone']} <br>
-是否支付：{if condition="$data['is_pay'] == 0"}
+<table class="heads"> 
+<tr>
+<td>订单号：{$data['out_trade_no']} </td>
+<td>申请人：{$data['name']} </td>
+<td>申请时间：{$data['addtime']} </td>
+<td>联系方式：{$data['phone']} </td>
+<td>是否支付：{if condition="$data['is_pay'] == 0"}
 				 <span style="color:red">未支付</span>
 				{elseif condition="$data['is_pay'] == 1"/}
 				 <span style="color:green">已支付</span>
-				{/if} <br>
-是否生成报告：{if condition="$data['status'] == 0"}
+				{/if} </td>
+<td>是否生成报告：{if condition="$data['status'] == 0"}
 				 <span style="color:red">未生成</span>
 				{elseif condition="$data['status'] == 1"/}
 				 <span style="color:green">已生成</span>
-				{/if} <br><br><br><br>
+				{/if} </td>
+</tr>
+</table>
+<div style="width:400px;height:420px; border:1px solid #ccc; float:left;">
+	<div style="width:400px;height:180px;">		
 	日报：
 	<ul style="list-style:none">
 	{foreach name="$day" item="val" key="key" }
-		<li style="float:left;margin-right:10px" class="day"><a href="javascript:void(0)">{$key}</a></li>
+		<li style="float:left;margin-right:5px" class="day"><a href="javascript:void(0)">{$key}</a></li>
 	{/foreach}
 	</ul>
-	<br>
+	</div>	
+	<div style="width:400px;height:100px;">		
 	周饮食习惯评价:
 	<ul style="list-style:none">
 	{foreach name="$week" item="val" key="key" }
-		<li style="float:left;margin-right:10px" class="week"><a href="javascript:void(0)">{$key}</a></li>
+		<li style="float:left;margin-right:5px" class="week"><a href="javascript:void(0)">{$key}</a></li>
 	{/foreach}
 	</ul>
-	<br>
+	</div>
+	<div style="width:400px;height:100px;">	
 	每周进食次数评价:
 	<ul style="list-style:none">
 	{foreach name="$weeks" item="val" key="key" }
-		<li style="float:left;margin-right:10px" class="weeks"><a href="javascript:void(0)">{$key}</a></li>
+		<li style="float:left;margin-right:5px" class="weeks"><a href="javascript:void(0)">{$key}</a></li>
 	{/foreach}
 	</ul>	
-	<br>
+	</div>
+	<div style="width:400px;height:100px;">
+		{if condition="$data['is_pay'] == 0"}
+		该订单尚未支付，不能生成报告。
+	{elseif condition="$data['is_pay'] == 1 && $data['status'] == 1"}
+		该订单已经生成报告。<a href="{:url('diet/dietshow')}?o_id={$data['o_id']}">点击查看报告</a>
+	{else}
+	<a href="{:url('diet/userdiet')}?o_id={$data['o_id']}">生成报告</a>
+	{/if}
+	</div>
+</div>	
 	{foreach name="$day" item="val" key="key" }
-		<table class="day_desc" border="1">
+		<table class="day_desc" style="float:left">
 		<tr>
 			<td>问题</td>
 			<td>答案	</td>
@@ -79,7 +105,7 @@
 	{/foreach}
 
 	{foreach name="$week" item="val" key="key" }
-		<table class="week_desc" border="1">
+		<table class="week_desc" style="float:left">
 		<tr>
 			<td>问题</td>
 			<td>答案	</td>
@@ -94,7 +120,7 @@
 	{/foreach}
 
 	{foreach name="$weeks" item="val" key="key" }
-		<table class="week_descs" border="1">
+		<table class="week_descs" style="float:left">
 		<tr>
 			<td>问题</td>
 			<td>答案	</td>
@@ -107,14 +133,7 @@
 		{/foreach}
 		</table>
 	{/foreach}	
-	<br><br><br>
-	{if condition="$data['is_pay'] == 0"}
-		该订单尚未支付，不能生成报告。
-	{elseif condition="$data['is_pay'] == 1 && $data['status'] == 1"}
-		该订单已经生成报告。<a href="{:url('diet/dietshow')}?o_id={$data['o_id']}">点击查看报告</a>
-	{else}
-	<a href="{:url('diet/userdiet')}?o_id={$data['o_id']}">生成报告</a>
-	{/if}
+
 </body>
 </html>
 <script>
