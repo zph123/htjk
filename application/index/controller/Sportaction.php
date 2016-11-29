@@ -338,5 +338,11 @@ class Sportaction extends Common
             return date('Y-m-d' , strtotime('next sunday' , strtotime($d)));
         }
     }
+    /**
+     * 跳转到免责声明页面
+     */
+    function disclaimer(){
+        return view();
+    }
 
 }

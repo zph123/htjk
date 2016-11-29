@@ -31,8 +31,14 @@
         <input type="radio" name="cause"id="cause1" value="1" class="click" ><label for="cause1">是</label>   
         <input type="radio" name="cause"id="cause2" value="0" class="click" ><label for="cause2">否</label>
         <div style="clear: both;"></div>
+        </fieldset>
+        <label>
+            <input type="checkbox" name="inform">是否同意告知书
+        </label>
+        <a href="{:url('index/sportaction/disclaimer')}" data-ajax="false">查看告知书内容</a>
+        <div style="clear: both;"></div>
     </form>
-    </fieldset>
+    <hr>
     <p align="center" style="color:red" id="hint"></p>
     <p style="line-height: 2em;font-size: 18px;">
         <a href="javascript:void(0)" data-role="button" id="btn" data-corners="false" style="width: 100px;margin: 0 auto;"  >提交</a>
