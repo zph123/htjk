@@ -31,13 +31,15 @@
         <input type="radio" name="cause"id="cause1" value="1" class="click" ><label for="cause1">是</label>   
         <input type="radio" name="cause"id="cause2" value="0" class="click" ><label for="cause2">否</label>
         <div style="clear: both;"></div>
+        <input type="hidden" name='infrom' value='' id="inform">
         </fieldset>
         <label>
-            <input type="checkbox" name="inform">是否同意告知书
+            <input type="checkbox" name="infrom1" value='1' class="click">是否同意告知书
         </label>
-        <a href="{:url('index/sportaction/disclaimer')}" data-ajax="false">查看告知书内容</a>
         <div style="clear: both;"></div>
     </form>
+    
+    <a href="{:url('index/sportaction/disclaimer')}" data-ajax="false">查看告知书内容</a>
     <hr>
     <p align="center" style="color:red" id="hint"></p>
     <p style="line-height: 2em;font-size: 18px;">
@@ -55,6 +57,7 @@
             var joint=$('input:radio[name="joint"]:checked').val()
             var drug=$('input:radio[name="drug"]:checked').val()
             var cause=$('input:radio[name="cause"]:checked').val()
+            var inform=$('input:checkbox[name="infrom1"]:checked').val()
             if(heart==undefined){
                 $('#hint').html('第1题不能为空');
             }else if(thorax==undefined){
@@ -69,8 +72,11 @@
                 $('#hint').html('第6题不能为空');
             }else if(cause==undefined){
                 $('#hint').html('第7题不能为空');
+            }else if(inform==undefined){
+                $('#hint').html('请先同意告知书');
             }else{
                 $('#hint').html(' ');
+                $('#inform').val('1')
                 $('form').submit();
             }
         });

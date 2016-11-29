@@ -44,14 +44,16 @@ class Sportaction extends Common
      */
     function survey(Request $request){
         $data=$request->param();
-        if(count($data)==7){
-            $data['uid']=Session::get('uid');
-            $model=new user_model();
-            $re=$model->add_motion('motion_survey',$data);
-            if($re){
-                $this->redirect('sportaction/index');
-            }else{
-                return view('survey');
+        if($data['infrom']=='1'){
+            if(count($data)==8){
+                $data['uid']=Session::get('uid');
+                $model=new user_model();
+                $re=$model->add_motion('motion_survey',$data);
+                if($re){
+                    $this->redirect('sportaction/index');
+                }else{
+                    return view('survey');
+                }
             }
         }
     }
