@@ -20,7 +20,7 @@ class Login extends Controller
        $password = Request::instance()->post('password');
 
        $arr = Db::table('gl_users')
-           ->where('phone', $u_name)
+           ->where('name', $u_name)
            ->where('password', $password)
            ->find();
        if (!empty($arr)) {
