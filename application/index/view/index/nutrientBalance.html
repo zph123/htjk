@@ -310,18 +310,18 @@ a{
                 if(now_time<now){
                     var nian = now_time.getFullYear()
                     var yue = now_time.getMonth() +1;
-                    var ri  = now_time.getDate()
+                    var ri  = now_time.getDate()<10?'0'+now_time.getDate():now_time.getDate();
                     $("#e_time").val(nian + '-' + yue + '-' + ri);
                     now = now_time;
                 }
                 var date = new Date(now.getTime() - 28 * 24 * 3600 * 1000);
                 var year = date.getFullYear();
                 var month = date.getMonth() + 1;
-                var day = date.getDate();
+                var day = date.getDate()<10?'0'+date.getDate():date.getDate();
                 var days = year + '-' + month + '-' + day;
                 $("#s_time").val(days)
-                if(s_time!='' && e_time !=''){
-                    $.get("{:url('index/nutrientbalance/getdays')}",{s_time:s_time,e_time:e_time},function (data) {
+                if(days!='' && e_time !=''){
+                    $.get("{:url('index/nutrientbalance/getdays')}",{s_time:days,e_time:e_time},function (data) {
                         if(parseInt(data)>30){
                             $("#desc").html("<font color='red'>太多了！您选择的日期里面有"+data+"份问卷<font>")
                             $("#start").attr({"disabled":"disabled"});
