@@ -290,8 +290,6 @@ class Test extends Controller
             echo 2;die;
         }elseif(time()>strtotime($l_info['l_stime'])){
             echo 3;die;
-        }elseif($l_info['l_apply']>=$l_info['l_astrict']){
-            echo 4;die;
         }else{
             echo 5;die;
         }
