@@ -23,25 +23,26 @@
 
 }
 #div1{
-    /*background:#dddddd;*/
-    background-image:url(../img/index/test_1.png); 
+    background:#FC7BA0;
+  /*  background-image:url(../img/index/test_1.png); 
     background-repeat:no-repeat;
-    background-size: 100% 100%;
+    background-size: 100% 100%;*/
     height:33.3%;
     width:100%;
 }
 #div2{
-    /*background:#dddfff;*/
-    background-image:url(../img/index/test_2.png); 
+    background:#6FE8F9;
+  /*  background-image:url(../img/index/test_2.png); 
     background-repeat:no-repeat;
-    background-size: 100% 100%;
+    background-size: 100% 100%;*/
     height:33.3%;
     width:100%; 
 }
 #div3{
-    background-image:url(../img/index/test_3.png); 
+     background:#A68FF9;
+   /* background-image:url(../img/index/test_3.png); 
     background-repeat:no-repeat;
-    background-size: 100% 100%;
+    background-size: 100% 100%;*/
     height:33.3%;
     width:100%;
 }
