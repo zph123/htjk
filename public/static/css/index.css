@@ -37,3 +37,8 @@
     height:33.3%;
     width:100%; 
 }
+.xwtable {width: 960px;border-collapse: collapse;border: 1px solid #ccc;}
+.xwtable thead td {font-size: 12px;color: #333333;text-align: center;border: 1px solid #ccc; font-weight:bold;}
+.xwtable tbody tr {background: #fff;font-size: 12px;color: #666666;}
+.xwtable tbody tr.alt-row {background: #f2f7fc;}
+.xwtable td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
