@@ -40,12 +40,52 @@
             <label for="hands_photo"><font color="red">• </font>手部X光片上传:</label>
             <input id="hands_photo" name="hands_photo" class="file" type="file" multiple data-min-file-count="1" value="">
         </div>
-
+        {if condition="$info neq null"}
+            <br>
+            <p>性别： <font color="" id="">
+                {if condition="$info['gender'] eq 1"/}男
+                {else/}女
+                {/if}
+            </font></p>
+            <p>出生日期： <font>{$info['birthday']}</font></p>
+            <p>身份证号： <font>{$info['id_number']}</font></p>
+            <p>出生时身高： <font>{$info['birth_height']}cm</font></p>
+            <p>出生时体重： <font>{$info['birth_weight']}kg</font></p>
+            <p>是否顺产： <font>
+                {if condition="$info['birth_smoothly'] eq 1"/}是
+                {else/}否
+                {/if}
+            </font></p>
+            <p>父亲身高： <font>{$info['father_height']}cm</font></p>
+            <p>母亲身高： <font>{$info['mother_height']}cm</font></p>
+            <p>地址： <font>{$info['contact_address']}</font></p>
+            <p>邮件： <font>{$info['email']}</font></p>
+            <p>学校： <font>{$info['school']}</font></p>
+            {if condition="$info['gender'] eq 1"/}
+                <div class="ui-field-contain">
+                <label for="menarche">是否遗精:</label>
+                <select name="spermatorrhea" id="menarche" data-role="flipswitch">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+            {else/}
+                <div class="ui-field-contain">
+                <label for="menarche">是否初潮:</label>
+                <select name="menarche" id="menarche" data-role="flipswitch">
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+            {/if}
+        {else/}
+         
+        {/if}
         <div class="ui-field-contain">
             <label for="need_report">纸质报告:</label>
             <select name="need_report" id="need_report" data-role="flipswitch">
-                <option value="1">要</option>
                 <option value="0">不要</option>
+                <option value="1">要</option>
             </select>
         </div>
 

@@ -32,9 +32,19 @@ class Test extends Controller
         $action = "onlinetest";
         Cookie::set('controller', $controller);
         Cookie::set('action', $action);
+        $id = Session::get('uid');
+        if($id){
+            $log = 1;
+            $info = Db::table('user_infos')->where('u_id',$id)->find();
+        }else{
+            $log = 0;
+            $info = null;
+        }
         return view('onlineTest',
             [
                 'price'=>$price,
+                'log'  =>$log,
+                'info' =>$info
             ]
         );
     }
@@ -166,7 +176,7 @@ class Test extends Controller
     {
         $time=date("Y-m-d H:i:s");
         $below_list = Db::table('below_list')->where('l_stime','>',$time)->order('l_stime','asc')->select();
-        $price = Db::table('price_class')->where('p_id','in','2,3')->select();
+        $price = Db::table('price_class')->where('p_id','in','2')->select();
         return view('nowList',['below_list'=>$below_list,'price'=>$price]);
     }
 
@@ -213,9 +223,9 @@ class Test extends Controller
            echo 0;die;
         }
         // 需要 根据$data['l_id'] 联查 活动表 联查价格表   便于后期查询总价
-        $prices = Db::table('price_class')->where('p_id','in',[2,3])->select();
+        $prices = Db::table('price_class')->where('p_id','in',[2,7])->select();
         if($data['predict_height']==1){
-            $data['l_price'] = $prices[0]['p_price']+$prices[1]['p_price'];
+            $data['l_price'] = $prices[1]['p_price'];
         }else{
             $data['l_price'] = $prices[0]['p_price'];
         }
@@ -247,7 +257,7 @@ class Test extends Controller
         $dat['n_stature'] = $info['birth_height'];//测试人身高
         $dat['n_weight'] = $info['birth_weight'];//体重
         $dat['n_eutocia'] = $info['birth_smoothly'];//是否顺产出生
-        $dat['n_gonacratia'] = ($info['gender']==1)?$info['spermatorrhea']:$info['menarche'];//是否已遗精 or 初潮
+        $dat['n_gonacratia'] = $data['menarche'];//是否已遗精 or 初潮
         $dat['n_phone'] = $usermsg['phone'];//手机号
         $dat['n_email'] = $info['email'];//邮箱
         $dat['n_address'] = $info['contact_address'];//联系地址
@@ -262,7 +272,7 @@ class Test extends Controller
 
         $res =  Db::table('nowtest')->insert($dat);
         if($res){
-           echo  $dat['o_id'];
+            echo $dat['o_id'];
         }else{
             echo -1;
         }
