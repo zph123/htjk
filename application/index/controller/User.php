@@ -300,7 +300,7 @@ class User extends Common
         if($data){
             if($data['is_pay']==0){
                 Cookie::set('out_trade_no', $data['out_trade_no']);
-                Cookie::set('price', $data['']);
+                Cookie::set('price', $data['amount']);
                 $this->redirect("http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php");
                 //$this->redirect("http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php?trade=$data[out_trade_no]");
                 // var_dump($data);

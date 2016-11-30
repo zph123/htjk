@@ -240,6 +240,8 @@ class Sportaction extends Common
                 exit(json_encode($error));
             }
         }
+        //获取订单当前价格
+        $price=Db::table('price_class')->where('p_id','4')->find();
         //生成订单
         $number=Order::createuniquenumber();
         $num_order=array(
@@ -247,6 +249,7 @@ class Sportaction extends Common
                 'out_trade_no'=>$number,
                 'addtime'=>date('Y-m-d H:i:s'),
                 'type'=>'2',
+                'amount'=>$price['p_price'],
             );
         $order_id= Db::name('order')->insertGetId($num_order);
         if($order_id){

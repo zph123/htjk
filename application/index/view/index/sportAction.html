@@ -13,7 +13,7 @@ a{
 #title {
     width: 100%;
     height:30px;height:auto;min-height:40px;
-    background-color: #b9121b;
+    background-color: #cccccc;
 }
 .selectBtn {
     font-weight: 900;
@@ -24,7 +24,7 @@ a{
     padding: 7px 10px 6px 10px;
 }
 .selectBtn:hover {
-    background-color: #1d953f;
+    background-color: #666;
 }
 .selectYear {
     float: left;
@@ -86,7 +86,7 @@ a{
     color: #b9121b;
 }
 .currentItem>a {
-    background-color: #b9121b;
+    background-color: #817c86;
     width: 25px;
     line-height: 25px;
     float: left;
@@ -96,7 +96,7 @@ a{
     color: #fff !important;
 }
 .selectok>a {
-    background-color: green;
+    background-color: #49a6eb;
     width: 25px;
     line-height: 25px;
     float: left;
@@ -106,7 +106,7 @@ a{
     color: #fff !important;
 }
 .selectnot>a {
-    background-color: yellow;
+    background-color: #ff7900;
     width: 25px;
     line-height: 25px;
     float: left;
@@ -187,10 +187,10 @@ a{
         <h1>运动处方</h1>
     </div> -->
     <div data-role="content" style="padding-top: 10%;margin-bottom: 15%">
-        <p style="text-indent: 2em;line-height: 2em;font-size: 18px;">
+        <p style="text-indent: 2em;">
            根据测试报告中的运动建议运动后，将以下运动数据进行反馈，生成运动处方，建议每三个月更新一次
         </p>
-        <p style="text-indent: 2em;line-height: 2em;font-size: 18px; margin-bottom: 5%">费用：每人每次<font color="red">{$price}</font>元</p>
+        <p style="text-indent: 2em; margin-bottom: 5%">费用：每人每次<font color="red">{$price}</font>元</p>
         <hr>
         <div>
            <div id="Demo">
@@ -222,9 +222,9 @@ a{
         </div>
         <hr>
         <a  href="#myPopup" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="width: 200px;margin: 0 auto;"  >提交</a>
-        <p>注： 红色表示今天<br>
-                绿色表示已经答过两次及以上<br>
-                黄色表示只答过一次</p>
+        <p>注： 灰色表示今天<br>
+                蓝色表示已经答过两次及以上<br>
+                橙色表示只答过一次</p>
     </div>
         </div>
         <a  href="#myalert" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="display: none;" id="alert" ></a>
