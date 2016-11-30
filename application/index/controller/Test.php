@@ -142,7 +142,7 @@ class Test extends Controller
         $data['customer'] = $phone['name'];
         $data['addtime'] = date('Y-m-d H:i:s',time());
         //先在总订单表进行注册，并获取注册ID
-        if($res=orderModel::create_o_id(3)){
+        if($res=orderModel::create_o_id(3,$infos['price'])){
             $data['o_id']=$res['o_id'];
         } else {
             return $res->getError();

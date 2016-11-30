@@ -555,11 +555,14 @@ class Nutrientbalance extends Controller
 			}
 		}
 
+		$price = Db::table("price_class")->where('p_id',5)->find();
+
 		//营养TYPE 1
 		$order_data['type'] = 1;
 		$order_data['u_id'] = $u_id;
 		$order_data['out_trade_no'] = Order::createuniquenumber();
 		$order_data['addtime'] = date("Y-m-d H:i;s",time());
+		$order_data['amount'] =$price['p_price'];
 		$num = Db::name('order')->insertGetId($order_data);
 
 		$mysql_date['desc'] = json_encode($detail);
