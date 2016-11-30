@@ -34,12 +34,12 @@
         <input type="hidden" name='infrom' value='' id="inform">
         </fieldset>
         <label>
-            <input type="checkbox" name="infrom1" value='1' class="click">是否同意告知书
+            <input type="checkbox" name="infrom1" value='1' class="click">我同意知情同意书
         </label>
         <div style="clear: both;"></div>
     </form>
     
-    <a href="{:url('index/sportaction/disclaimer')}" data-ajax="false">查看告知书内容</a>
+    <a href="{:url('index/sportaction/disclaimer')}" data-ajax="false">查看知情同意书内容</a>
     <hr>
     <p align="center" style="color:red" id="hint"></p>
     <p style="line-height: 2em;font-size: 18px;">
@@ -73,7 +73,7 @@
             }else if(cause==undefined){
                 $('#hint').html('第7题不能为空');
             }else if(inform==undefined){
-                $('#hint').html('请先同意告知书');
+                $('#hint').html('请先同意知情同意书');
             }else{
                 $('#hint').html(' ');
                 $('#inform').val('1')
