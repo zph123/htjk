@@ -34,11 +34,11 @@ $(document).on('blur', 'input', function () {
     var th = $(this);
     var p_price = $(this).val();
     var id = $(this).next().val();
-    if(/^[0][0-9]+$/.test(p_price)){
+   /* if(/^[0][0-9]+$/.test(p_price)){
         $('.text').text('请规范数字');
         return false;
-    }
-    if(!/^[0-9]+$/.test(p_price)){
+    }*/
+    if(!/^[0-9]+\.[0-9]$/.test(p_price)){
         $('.text').text('请规范数字');
         return false;
      }
