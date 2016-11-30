@@ -300,6 +300,7 @@ class User extends Common
         if($data){
             if($data['is_pay']==0){
                 Cookie::set('out_trade_no', $data['out_trade_no']);
+                Cookie::set('price', $data['']);
                 $this->redirect("http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php");
                 //$this->redirect("http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php?trade=$data[out_trade_no]");
                 // var_dump($data);
@@ -333,10 +334,10 @@ class User extends Common
                     $type=Db::table('motion_order')->where('order_id',$id)->delete();
                 }else if($data['type']==3){
                     $action='report';
-                    $type=Db::table('nowtest')->where('uid',$uid)->where('o_id',$id)->delete();
+                    $type=Db::table('onlinetest')->where('o_id',$id)->delete();
                 }else if($data['type']==4){
                     $action='report';
-                    $type=Db::table('onlinetest')->where('uid',$uid)->where('o_id',$id)->delete();
+                    $type=Db::table('nowtest')->where('o_id',$id)->delete();
                 }
                 $this->redirect("$action");
             }else{
