@@ -4,14 +4,19 @@
     <p style="line-height: 2em;font-size: 18px;">
     </p> 
     <div style="clear: both;"></div>  
-     <ul data-role="listview" data-inset="true">
-     {foreach name='list' item='value'}
-      <li>
-        <a href="{:url('user/see')}?r={$value.o_id}" data-ajax="false">
-        <h2>订单：{$value.out_trade_no}</h2>
-        <p>{$value.addtime}</p>
-        </a>
-      </li>
-      {/foreach}
-    </ul>   
+    {if condition="($list == '0')"}
+      <img src="__PUBLIC__/images/empty.png" alt="">
+    {else /}
+      <ul data-role="listview" data-inset="true">
+         {foreach name='list' item='value'}
+          <li>
+            <a href="{:url('user/see')}?r={$value.o_id}" data-ajax="false">
+            <h2>订单：{$value.out_trade_no}</h2>
+            <p>{$value.addtime}</p>
+            </a>
+          </li>
+          {/foreach}
+        </ul> 
+    {/if} 
+       
 </div>

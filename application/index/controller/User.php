@@ -25,8 +25,10 @@ class User extends Common
         $field='o_id,out_trade_no,addtime';
         $model=new user_model();
         $data=$model->user_order($id,$type,$field);
+        if(empty($data)){
+            $data='0';
+        }
         $this->assign('list', $data);
-        $this->assign('name','营养均衡');
         return $this->fetch();
     }
     /**
@@ -40,8 +42,10 @@ class User extends Common
         ->where('type','in','3,4')
         ->order('addtime DESC')
         ->column($field);
+        if(empty($data)){
+            $data='0';
+        }
         $this->assign('list', $data);
-        $this->assign('name','测试报告');
         return $this->fetch('nutrition');
     }
     /**
@@ -53,8 +57,10 @@ class User extends Common
         $field='o_id,out_trade_no,addtime';
         $model=new user_model();
         $data=$model->user_order($id,$type,$field);
+        if(empty($data)){
+            $data='0';
+        }
         $this->assign('list', $data);
-        $this->assign('name','运动处方');
         return $this->fetch('nutrition');
     }
     /**
