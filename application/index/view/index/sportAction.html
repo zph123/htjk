@@ -185,12 +185,21 @@ a{
 <body>
 <!--     <div data-role="header">
         <h1>运动处方</h1>
-    </div> -->
+    </div> 
+    <div data-role="content" style="margin-bottom: 15%">
+        <p style="line-height: 2em;font-size: 18px;">
+           <span style="float: right;">
+           <a href="{:url('index/sportaction/userList')}" data-role="button" data-ajax="false">运动记录</a>
+           </span>
+        </p>
+        <div style="clear: both;"></div>
+    -->
     <div data-role="content" style="padding-top: 10%;margin-bottom: 15%">
         <p style="text-indent: 2em;">
            根据测试报告中的运动建议运动后，将以下运动数据进行反馈，生成运动处方，建议每三个月更新一次
         </p>
         <p style="text-indent: 2em; margin-bottom: 5%">费用：每人每次<font color="red">{$price}</font>元</p>
+        <a href="{:url('index/sportaction/userList')}" data-role="button" data-ajax="false">我的运动记录</a>
         <hr>
         <div>
            <div id="Demo">

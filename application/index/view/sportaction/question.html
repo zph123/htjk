@@ -1,16 +1,7 @@
 </head>
 <body>
-<div data-role="header">
-        <h1>{$time}</h1>
-    </div>
 
-    <div data-role="content" style="margin-bottom: 15%">
-        <p style="line-height: 2em;font-size: 18px;">
-           <span style="float: right;">
-           <a href="{:url('index/sportaction/userList')}" data-role="button" data-ajax="false">列表</a>
-           </span>
-        </p>
-        <div style="clear: both;"></div>
+    
 <form action="{:url('index/sportaction/motionAdd')}" method="post" data-ajax="false" id="formid">
     <input type="hidden" name="date" value="{$time}">
     <input type="hidden" name="num" value="1" id="test_num">
