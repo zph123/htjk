@@ -15,13 +15,14 @@
             <tr>
                 <td>{$vo.p_id}</td>
                 <td>{$vo.p_name}</td>
-                <td style="width: 150px;"><span>{$vo.p_price}</span><input type="hidden" name="id" value="{$vo.p_id}"></td>
+                <td style="width: 150px;"><span><?php echo floatval($vo['p_price']) ?></span><input type="hidden" name="id" value="{$vo.p_id}"></td>
             </tr>
             {/volist}
             </tbody>
         </table>
 </div>
 <script>
+
 
 $(document).on('click','span',function(){
    var old_val=$(this).text();
@@ -34,12 +35,12 @@ $(document).on('blur', 'input', function () {
     var th = $(this);
     var p_price = $(this).val();
     var id = $(this).next().val();
-   /* if(/^[0][0-9]+$/.test(p_price)){
+    if(/^[0][0-9]+$/.test(p_price) || /^[0]{2,}\.[0-9]+$/.test(p_price)){
         $('.text').text('请规范数字');
         return false;
-    }*/
-    if(!/^[0-9]+\.[0-9]$/.test(p_price)){
-        $('.text').text('请规范数字');
+    }
+    if(!/^[0-9]+\.[0-9]{1,2}$/.test(p_price) && !/^[0-9]{1,}$/.test(p_price)){
+        $('.text').text('请规范数字,只保留小数点后两位');
         return false;
      }
     if(p_price.length==0){
