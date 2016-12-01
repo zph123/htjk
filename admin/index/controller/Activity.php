@@ -89,8 +89,6 @@ class Activity extends Common
     }
     function activity_apply()
     {
-
-
         $page=Request::instance()->get('page');
         $l_id = Request::instance()->get('l_id');
         $user = new Below_list();
@@ -99,30 +97,7 @@ class Activity extends Common
         $num['one']=count($data1);
         $num['two']=count($data2);
         $data=array_merge($data1,$data2);
-        $number=count($data);
-        $paging=5;
-        $leaf=ceil($number/$paging);
-        $page=isset($_GET['page'])?$_GET['page']:1;
-        $start=($page-1)*$paging;
-        $lastpage=$page-1<1?1:$page-1;
-        $nextpage=$page+1>$leaf?$leaf:$page+1;
-        //print_r($data);die;
-        $arr=array();
-        for($i=0;$i<$paging;$i++){
-            if(!isset($data[$i+$start])){
-
-            }else{
-                $arr[]=$data[$i+$start];
-            }
-        }
-        $parameter['l_id']    =$l_id;
-        $parameter['page']    =$page;
-        $parameter['nextpage']=$nextpage;
-        $parameter['lastpage']=$lastpage;
-        $parameter['leaf']    = $leaf;
-
-        $this->assign('page',$parameter);
-        $this->assign('data',$arr);
+        $this->assign('data',$data);
         $this->assign('num',$num);
         return view('activity_apply');
     }

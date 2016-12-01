@@ -1,9 +1,8 @@
-
+<!--startprint-->
 <div style="padding:3px 2px;border-bottom:1px solid #ccc">活动报名表</div>    <br/>
-<div id="tt">
-    <h3 style="padding:3px 2px;width:500px;border-bottom:1px solid #ccc">已注册人数:{$num.two}人  未注册人数:{$num.one}人</h3>
-    <table class="easyui-datagrid"  style="width:100%;height:auto;">
-        <thead>
+    <h3 style="padding:3px 2px;width:500px;border-bottom:1px solid #ccc">已登录报名人数:{$num.two}人  未登录报名人数:{$num.one}人</h3>
+    <table class="easyui-datagrid"  style="width:88%;height:auto;">
+    <thead>
         <tr>
             <th field="name1" width="15%">ID</th>
             <th field="name2" width="25%">昵称</th>
@@ -12,9 +11,9 @@
         </tr>
         </thead>
         <tbody>
-        {foreach $data as $vl}
+        {foreach $data as $key=>$vl}
         <tr>
-            <td>{$vl.a_id}</td>
+            <td>{$key+1}</td>
             <td>{$vl.username}</td>
             <td>{$vl.tell}</td>
             {if condition="isset($vl.uid)"}
@@ -24,11 +23,21 @@
             {/if}
         </tr>
         {/foreach}
-        <td><span>一共{$page.leaf}--页</span></td>
-        <td><span>当前第{$page.page}--页</span></td>
-        <td><a href="{:url('activity/activity_apply')}?page={$page.lastpage}&&l_id={$page.l_id}" >上一页</a></td>
-        <td><a href="{:url('activity/activity_apply')}?page={$page.nextpage}&&l_id={$page.l_id}" >下一页</a></td>
-        </tbody>
         </tbody>
     </table>
-</div>
+<!--endprint-->
+<button type="button" onclick="doPrint()">打印</button>
+</body>
+</html>
+<script type="text/javascript">
+    function doPrint() {
+        bdhtml=window.document.body.innerHTML;
+        sprnstr="<!--startprint-->"; //标记开始打印地方
+        eprnstr="<!--endprint-->";   //标记打印结束的地方
+        prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+        prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));
+        window.document.body.innerHTML=prnhtml;
+        window.print();
+        window.document.body.innerHTML=bdhtml;
+    }
+</script>
