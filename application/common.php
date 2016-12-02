@@ -14,7 +14,7 @@
 /**:根据 中华人民共和国国家标准《公民身份号码》（GB11643-1999） 进行初步验证
  *!建议之后进行进一步连接至公安部身份证数据库进行验证
  *!该方法只支持 18 位身份证
- * @string $id_card 身份证号
+ * @param string $id_card 身份证号
  * @return array ['state'=>boolean,'msg'=>string] 数组：状态(false:假,true:真)+提示
  */
 function checkIdCard($id_card)
@@ -100,10 +100,9 @@ function checkIdCard($id_card)
         );
 }
 
-
-/* 冒泡算法：结果从小到大，规则类似波浪推动的沙滩，先初始阈值为 0，初始第一次波浪之后，如果发现有左值比右边的大，就改变阈值并且完成波浪推动，重新初始化阈值为0，如此往复，直到没有阈值改变的情况出现，说明沙滩平滑，阈值无需再改，无需推动波浪了。
- * @para $arr 传入进去排序的数组
- * @return $newArr 排序之后的数组
+/**冒泡算法：结果从小到大，规则类似波浪推动的沙滩，先初始阈值为 0，初始第一次波浪之后，如果发现有左值比右边的大，就改变阈值并且完成波浪推动，重新初始化阈值为0，如此往复，直到没有阈值改变的情况出现，说明沙滩平滑，阈值无需再改，无需推动波浪了。
+ * @param array $arr 传入进去排序的数组
+ * @return array 排序之后的数组
  */
 function maopao($arr)
 {
@@ -127,7 +126,7 @@ function maopao($arr)
 }
 
 /**快速排序：通过递归来实现，递归发生的子规则是：以第一个元素为基，比基数大的过滤到新生为左的数组，比基数小的过滤到新生为右的数组----递归调用该规则一直到子底层，然后开始回层合并（左数组，基数，右数组）
- * @param $arr
+ * @param array $arr
  * @return array
  */
 function quickSort($arr)
@@ -161,8 +160,8 @@ function quickSort($arr)
 }
 
 /**插入排序（蠕虫排序）：初始化以数组中第一个元素为【既定结果数组】中的一个元素，然后取【既定结果数组】之后的值在【既定结果数组】中从末尾向头部开始比较，如果该值没有尾部的值大，就模拟蠕动，使该值向【既定结果数组】头部前进再次与左邻的元素值比较，如此往复，直到碰到比该值小的存在才停止蠕动；；循环调用该规则，直到所有元素蠕动一遍完成排序。
- * @param $arr
- * @return mixed
+ * @param array $arr
+ * @return array
  */
 function insertSort($arr)
 {
@@ -186,8 +185,8 @@ function insertSort($arr)
 
 
 /**选择排序：有着枚举思想，虚拟该数组为两部分，初始第一部分数组只有一个元素（随外循环，不断增大），不停枚举第二部分数组元素（随外循环，不断减小）中的最小值与第一部分数组最后一个元素进行换位，换位结束则排序完成。
- * @param $arr
- * @return mixed
+ * @param array $arr
+ * @return array
  */
 function selectSort($arr)
 {

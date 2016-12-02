@@ -205,24 +205,33 @@ class Reg extends Controller
         $month2=ltrim(substr($the_date,4,2),'0');
         $day2=ltrim(substr($the_date,6,2),'0');
         $date_idcard=$year2.'-'.$month2.'-'.$day2;
-        //检验
+        //检验身份证生日和（客户输入）生日差值
         $date_1=new \DateTime($date_birth);
         $date_2=new \DateTime($date_idcard);
 
         $date_diff=$date_1->diff($date_2);
         $days_diff=abs($date_diff->format("%R%a"));
 
-        if($days_diff>365*3){
+        //根据身份证生日判断是否超出规定的年龄限制（不能小于4岁，不能大于17岁）
+        $time4=strtotime(date("Y-m-d",strtotime("-4year")));
+        $time17=strtotime(date("Y-m-d",strtotime("-17year")));
+        $time_user=strtotime($date_idcard);
+
+
+        if($days_diff>365*3)
             return array(
                 'state'=>false,
                 'msg'=>'身份证与生日差值过大'
             );
-        }
-        else{
+        elseif($time_user<$time17||$time4<$time_user)
+            return array(
+                'state'=>false,
+                'msg'=>'年龄超出限制'
+            );
+        else
             return array(
                 'state'=>true,
                 'msg'=>'身份证与生日差值在允许范围之内'
             );
-        }
     }
 }
