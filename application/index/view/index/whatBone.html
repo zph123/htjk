@@ -8,8 +8,12 @@
         <div class="b_main" style="width: 90%;
         height:auto;
         margin: 10px auto;text-align:justify; text-justify:inter-ideograph; word-wrap:break-word; word-break:break-all; text-indent:2em;font-family:楷体;">
-        <p>生长发育迟缓影响孩子长高，不利于孩子的心理健康成长，影响智力。</p>
-        <p>像树木有年轮一样，骨头也是有年龄的。骨龄精确地反映从出生到成熟过程中各阶段的发育水平，是判断生长发育的重要指标。</p>
-
+<!--         <p>生长发育迟缓影响孩子长高，不利于孩子的心理健康成长，影响智力。</p>
+        <p>像树木有年轮一样，骨头也是有年龄的。骨龄精确地反映从出生到成熟过程中各阶段的发育水平，是判断生长发育的重要指标。</p> -->
+        {if condition="!empty($show)"}
+        {foreach($show as $val)}
+			{$val.content}
+        {/foreach}
+        {/if}
         </div>
     </div>

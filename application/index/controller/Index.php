@@ -1,6 +1,8 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
+use think\Db;
+use think\Request;
 
 class Index extends Controller
 {
@@ -10,8 +12,17 @@ class Index extends Controller
     }
     public function index()
     {
+        $arr=Db::table('introduce')->field('id,img_path')->select();
+        $this->assign('arr',$arr);
+        return $this->fetch('index');        
+    }
 
-        return view('index');
+    public function indexshow(Request $request){
+         $id=Request::instance()->get('id');
+         $where=array("id"=>$id);
+         $show=Db::table('introduce')->where($where)->field('content')->select();
+         $this->assign('show',$show);
+         return $this->fetch('whatBone');         
     }
 
     public function nowTest()
