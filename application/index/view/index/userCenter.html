@@ -26,25 +26,25 @@
      }
 </style>
     <div data-role="content" style="margin-bottom:10%">
-        <div role="main" class="main">
+        <div role="main" class="main bt-name">
             <dl>
                 <dt><img src="__PUBLIC__/images/1.jpg"/></dt>
                 <dd>
                     姓名：{$name}
                 </dd>
             </dl>
-            <ul class="list">
-                <li style="background:#DDD;">
-                    <a data-ajax="false" href="{:url('index/user/report')}" style="line-height:.50rem">我的测试</a>
+            <ul data-role="listview" data-inset="true"  data-icon="false" >
+                <li>
+                    <a data-ajax="false"  href="{:url('index/user/report')}">我的测试</a>
                 </li>
                 <li>
-                    <a data-ajax="false" href="{:url('index/user/motion')}" style="line-height:.50rem">我的运动处方</a>                
-                </li>
-                <li style="background:#DDD">
-                    <a data-ajax="false" href="{:url('index/user/nutrition')}" style="line-height:.50rem">我的营养均衡指导</a>
+                    <a data-ajax="false" href="{:url('index/user/motion')}">我的运动处方</a>
                 </li>
                 <li>
-                    <a data-ajax="false" href="{:url('index/user/quit')}" style="line-height:.50rem">退出</a>                
+                    <a data-ajax="false" href="{:url('index/user/nutrition')}">我的营养均衡指导</a>
+                </li>
+                <li>
+                    <a data-ajax="false" href="{:url('index/user/quit')}">退出</a>
                 </li>
             </ul>
         </div>
