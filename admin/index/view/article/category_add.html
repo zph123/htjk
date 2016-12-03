@@ -1,0 +1,30 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">文章分类添加</div>
+<br>
+
+<div class="easyui-panel" title="填写信息" style="width:100%;max-width:60%;padding:30px 60px;">
+    <form  id="ff"  method="post"  class="easyui-form" data-options="novalidate:true">
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" required="required" id="c_name" name="c_name" style="width:70%" data-options="label:'文章类型:'">
+        </div>
+
+    <div style="text-align:center;padding:5px 0">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="history.go(-1)" style="width:80px">返回</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton"
+           onclick="submitForm()" style="width:80px">提交</a>
+    </div>
+    </form>
+</div>
+<script>
+    function submitForm(){
+        $('#ff').form('category_add',{
+            onSubmit:function(){
+                return $(this).form('enableValidation').form('validate');
+            }
+        });
+        var input=$('input').val();
+        if(input==''){
+            return false;
+        }
+
+    }
+</script>
