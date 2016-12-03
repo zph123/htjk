@@ -1,0 +1,63 @@
+
+<div id="tb" style="padding:3px">
+    <span class="text" style="color: red">点击类名可以直接修改</span>
+</div>
+
+<a href="{:url('index/article/category_a_add')}">添加分类</a>
+
+<table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
+    <thead>
+    <tr>
+        <th field="name1" width="100%">分类</th>
+    </tr>
+    </thead>
+
+    <tbody>
+        {foreach($data as $val)}
+        <tr>
+            <td>
+                <span name="c_name">{$val.c_name}</span>
+                <input type="hidden" name="c_id" value="{$val.c_id}">
+            </td>
+        </tr>
+        {/foreach}
+    </tbody>
+
+</table>
+</body>
+</html>
+<script>
+    $(function () {
+
+        $("span[name='c_name']").each(function () {
+            $(this).on('click',function(){
+                var old_val=$(this).text();
+                var id=$(this).next().val();
+                $(this).parent().html("<input type='text' value="+old_val+"><input type='hidden' value="+id+">");
+                $('.text').text('点击输入框外部完成修改');
+                $('input').focus();
+            });
+        });
+        $(document).on('blur', 'input', function () {
+            var th = $(this);
+            var obj_val = $(this).val();
+            var id = $(this).next().val();
+
+            if(obj_val.length==0){
+                $('.text').text('不能为空');
+                return false;
+            }
+            $.post('ajax_category_a_data',{c_name:obj_val,c_id:id},function(msg){
+                if(msg==1){
+                    th.parent().html("<span>"+obj_val+"</span><input type='hidden' value="+id+">");
+                    $('.text').text('点击类名可以直接修改');
+                }else{
+                    th.parent().html("<span>"+obj_val+"</span><input type='hidden' value="+id+">");
+                    $('.text').text('点击类名可以直接修改');
+                }
+            });
+        });
+    });
+
+</script>
+
