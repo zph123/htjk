@@ -230,7 +230,8 @@ a{
 
         </div>
         <hr>
-        <a  href="#myPopup" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="width: 200px;margin: 0 auto;"  >提交</a>
+        <a  href="#myPopup" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="width: 200px;margin: 0 auto;"  charge='0'>付费生成运动处方</a>
+        <a  href="#myPopup1" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="width: 200px;margin: 0 auto;"  charge='1'>免费生成运动处方</a>
         <p>注： 灰色表示今天<br>
                 蓝色表示已经答过两次及以上<br>
                 橙色表示只答过一次</p>
@@ -256,6 +257,22 @@ a{
             {/if}
             
         </div>
+        <div data-role="popup" id="myPopup1" class="ui-content" data-overlay-theme="b">
+            {if condition="$test eq 'true'"}
+                <p style="color: red;">注：由于您的骨龄报告已经失效，暂不能生成运动处方</p>
+                <a href="{:url('index/test/onlinetest')}" data-role="button" data-ajax="false">去测试</a>
+            {else /} 
+                {php}if(!think\Session::has('uid')){{/php}
+                    <p align="center" style="color: red;">您还未登陆</p>
+                {php} }{/php}
+                <p style="color: red;">注：时间必须满十二周，每周最少有两天是运动的</p>
+                开始时间：<input type="date" name="" id="s_time1">
+                结束时间：<input type="date" name="" id="e_time1">
+                <p id="desc"></p>
+                <input type="button" id="start1" value="确定">
+            {/if}
+            
+        </div>
 <script type="text/javascript">
         $(document).ready(function(e) {
             CalendarHandler.initialize();
@@ -268,6 +285,24 @@ a{
                         alert(data.content);
                     }else if(data.error==1){
                         $('#myPopup').popup('close');
+                        if(confirm(data.content)){
+                            window.location.href="{:url('index/user/see')}"+'?r='+data.r;
+                        }
+                    }else{
+                        alert(data.content);
+                    }
+                  },'json');
+                }
+            })
+            $("#start1").on('click',function () {
+                var s_time = $("#s_time1").val();
+                var e_time = $("#e_time1").val();
+                if(s_time!='' && e_time !=''){
+                  $.post("{:url('index/sportaction/generateorder')}",{s:s_time,e:e_time,c:'1'},function(data){
+                    if(data.error===0){
+                        alert(data.content);
+                    }else if(data.error==1){
+                        $('#myPopup1').popup('close');
                         if(confirm(data.content)){
                             window.location.href="{:url('index/user/see')}"+'?r='+data.r;
                         }
