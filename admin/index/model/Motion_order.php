@@ -14,6 +14,7 @@ class Motion_order extends Model
             ->join('motion_order m ', 'o.o_id = m.order_id ')
             ->join('gl_users g ', 'o.u_id = g.id ')
             ->where('type', 2)
+            ->where('is_charge',0)
             ->where($where)
             ->select();
         return $data;
@@ -28,6 +29,7 @@ class Motion_order extends Model
             ->join('gl_users g ', 'o.u_id = g.id ')
             ->join('user_infos u ', 'o.u_id = u.u_id ')
             ->where('type', 2)
+            ->where('is_charge',0)
             ->where($where)
             ->limit($start, $paging)
             ->order('addtime DESC')
