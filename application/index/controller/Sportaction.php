@@ -192,6 +192,7 @@ class Sportaction extends Common
         $data=$request->post();
         $s_time=isset($data['s'])?$data['s']:' ';
         $e_time=isset($data['e'])?$data['e']:' ';
+        $charge=isset($data['c'])?$data['c']:'0';
         if(strtotime($s_time)!==FALSE&&strtotime($e_time)!==FALSE){
             $patten = "/^(19|20)\d{2}-(0?\d|1[012])-(0?\d|[12]\d|3[01])$/";
             if(!preg_match($patten,$s_time)){
@@ -240,6 +241,12 @@ class Sportaction extends Common
                 exit(json_encode($error));
             }
         }
+        //判断用户提交是否为免费的运动报告
+        if($charge==0){
+            $pay=0;
+        }else{
+            $pay=1;
+        }
         //获取订单当前价格
         $price=Db::table('price_class')->where('p_id','4')->find();
         //生成订单
@@ -250,6 +257,8 @@ class Sportaction extends Common
                 'addtime'=>date('Y-m-d H:i:s'),
                 'type'=>'2',
                 'amount'=>$price['p_price'],
+                'is_charge'=>$charge,
+                'is_pay'=>$pay,
             );
         $order_id= Db::name('order')->insertGetId($num_order);
         if($order_id){
@@ -262,7 +271,11 @@ class Sportaction extends Common
             $re=Db::name('motion_order')->insert($array);
             if($re){
                 $error['error']='1';
-                $error['content']='生成订单成功是否去支付';
+                if($charge==0){
+                    $error['content']='生成订单成功是否去支付';
+                }else{
+                   $error['content']='已成功提交免费订单，去查看详情';
+                }
                 $error['r']=$order_id;
             }else{
                 Db::table('order')->where('o_id',$order_id)->delete();
