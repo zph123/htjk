@@ -1,66 +1,71 @@
 </head>
 <body>
 <style>
-.main dl {
-    display: -webkit-flex; 
-    width: 100em;
-    height: 1.2rem;
-}
-.main dl img {
-    width: 1.0rem;
-    height: 1.0rem;
-    padding: .1rem; 
-    border-radius:50%;}
-.main dl dd {
-    line-height: 1rem; 
-}
+    .main dl {
+        display: -webkit-flex;
+        width: 100em;
+        height: 1.2rem;
+    }
+    .main dl img {
+        width: 1.0rem;
+        height: 1.0rem;
+        padding: .1rem;
+        border-radius:50%;}
+    .main dl dd {
+        line-height: 1rem;
+    }
 
-.list {
-  font-size: 14px; }
-.list li {
-    width: 100%;
-    height: .50rem;
-    text-indent: 1em;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-     }
+    .list {
+        font-size: 14px; }
+    .list li {
+        width: 100%;
+        height: .50rem;
+        text-indent: 1em;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    }
+    #div{
+        background-color:#ebebeb;border-radio:10px;width:100%;height:100%;border-radius: 10px;
+    }
 </style>
-    <div data-role="content" style="margin-bottom:10%">
-        <div role="main" class="main">
+<div data-role="content" style="margin-bottom:10%">
+    <div role="main" class="main bt-name">
+        <div id="div">
             <dl>
                 <dt><img src="__PUBLIC__/images/1.jpg"/></dt>
                 <dd>
                     姓名：{$name}
                 </dd>
             </dl>
-            <ul class="list">
-                <li style="background:#DDD;">
-                    <a data-ajax="false" href="{:url('index/user/report')}" style="line-height:.50rem">我的测试</a>
-                </li>
-                <li>
-                    <a data-ajax="false" href="{:url('index/user/motion')}" style="line-height:.50rem">我的运动处方</a>                
-                </li>
-                <li style="background:#DDD">
-                    <a data-ajax="false" href="{:url('index/user/nutrition')}" style="line-height:.50rem">我的营养均衡指导</a>
-                </li>
-                <li>
-                    <a data-ajax="false" href="{:url('index/user/quit')}" style="line-height:.50rem">退出</a>                
-                </li>
-            </ul>
         </div>
+        <ul data-role="listview" data-inset="true"  data-icon="false" >
+            <li>
+                <a data-ajax="false"  href="{:url('index/user/report')}">我的测试</a>
+            </li>
+            <li>
+                <a data-ajax="false" href="{:url('index/user/motion')}">我的运动处方</a>
+            </li>
+            <li>
+                <a data-ajax="false" href="{:url('index/user/nutrition')}">我的营养均衡指导</a>
+            </li>
+            <li>
+                <a data-ajax="false" href="{:url('index/user/quit')}">退出</a>
+            </li>
+        </ul>
     </div>
+</div>
 <script>
     (function (doc, win) {
-    var docEl = doc.documentElement,
-    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-    recalc = function () {
-      var clientWidth = docEl.clientWidth;
-      if (!clientWidth) return;
-      docEl.style.fontSize = 625 * (clientWidth / 320) + '%';
-    };
- 
-  if (!doc.addEventListener) return;
-  win.addEventListener(resizeEvt, recalc, false);
-  doc.addEventListener('DOMContentLoaded', recalc, false);
-})(document, window);
+        var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    docEl.style.fontSize = 625 * (clientWidth / 320) + '%';
+                };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
 </script>
