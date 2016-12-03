@@ -455,7 +455,6 @@ class Nutrientbalance extends Controller
 			echo 0;die;
 		}
 		$u_id = Session::get('uid');
-
 		$s_time = $request->post("s_time");
 		$e_time = $request->post("e_time");
 		if(strtotime($s_time) === false ||strtotime($e_time) === false) {
@@ -563,6 +562,10 @@ class Nutrientbalance extends Controller
 		$order_data['out_trade_no'] = Order::createuniquenumber();
 		$order_data['addtime'] = date("Y-m-d H:i;s",time());
 		$order_data['amount'] =$price['p_price'];
+		if($request->has('type')){
+			$order_data['is_charge'] = 1;
+			$order_data['is_pay'] = 1;
+		}
 		$num = Db::name('order')->insertGetId($order_data);
 
 		$mysql_date['desc'] = json_encode($detail);

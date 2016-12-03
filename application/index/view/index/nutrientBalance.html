@@ -222,39 +222,48 @@ a{
 
         </div>
         <hr>
-        <a  href="#myPopup" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="width: 200px;margin: 0 auto;"  >生成本月营养均衡报告</a>
+        <a  href="#myPopup1" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="width: 220px;margin: 0 auto;"  >支付生成详细营养均衡报告</a>
+        <a  href="#myPopup2" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="width: 220px;margin: 0 auto;"  >免费生成营养均衡报告</a>
             <br>
         <p>注： 灰色表示今天<br>
                 蓝色表示已经答过问卷<br>
                 橙色表示还未打完</p>
     </div>
-        </div>
-    <div data-role="popup" id="myPopup" class="ui-content" data-overlay-theme="b">
+    </div>
+    <div data-role="popup" id="myPopup1" class="ui-content" data-overlay-theme="b">
         {php}if(!think\Session::has('uid')){{/php}
         <p align="center" style="color: red;">您还未登陆</p>
         {php} }{/php}
-
-
-            <p style="color: red;" id="zhushi">注：开始时间为结束时间28天之前 建议将测试全部填完再生成报告</p>
-            开始时间：<input type="date" readonly  name="" id="s_time">
-            结束时间：<input type="date" name="" id="e_time">
-            <p id="desc"></p>
-            <input type="button" id="start" value="生成">
+        <p style="color: red;" id="zhushi1">注：开始时间为结束时间28天之前 建议将测试全部填完再生成报告</p>
+        开始时间：<input type="date" readonly  name="" id="s_time">
+        结束时间：<input type="date" name="" id="e_time">
+        <p id="desc"></p>
+        <input type="button" id="start" value="生成">
     </div>
+    <div data-role="popup" id="myPopup2" class="ui-content" data-overlay-theme="b">
+    {php}if(!think\Session::has('uid')){{/php}
+    <p align="center" style="color: red;">您还未登陆</p>
+    {php} }{/php}
+    <p style="color: red;" id="zhushi2">注：开始时间为结束时间28天之前 建议将测试全部填完再生成报告</p>
+    开始时间：<input type="date" readonly  name="" id="s_time2">
+    结束时间：<input type="date" name="" id="e_time2">
+    <p id="desc2"></p>
+    <input type="button" id="start2" value="生成">
+</div>
     <a  href="#myalert" data-position-to="window" data-transition="fade" data-rel="popup" data-role="button" data-corners="false" style="display: none;" id="alert" ></a>
     <div data-role="popup" id="myalert" class="ui-content" data-overlay-theme="b">
         <p style="color: red;" id="alertcontent"></p>
     </div>
 <script type="text/javascript">
-
-        $(document).ready(function(e) {
+    $(document).ready(function(e) {
             var now = new Date();
             var date = new Date(now.getTime() - 28 * 24 * 3600 * 1000);
             var year = date.getFullYear();
             var month = date.getMonth() + 1;
-            var day = date.getDate();
+            var day = date.getDate()<10?'0'+date.getDate():date.getDate();
             var days = year + '-' + month + '-' + day;
             $("#s_time").val(days)
+            $("#s_time2").val(days)
             $.get("{:url('index/nutrientbalance/getprice')}",function (date) {
                 $("#price").html(date)
             });
@@ -268,38 +277,11 @@ a{
                          alert("生成失败")
                      }else{
                          $("#myPopup").popup('close');
-                         if(confirm("是否立即支付")){
+                         if(confirm("是否立即查看订单？")){
                              window.location.href = "{:url('index/user/see')}"+'?r='+data;
                          }
                      }
                   })
-                }
-            })
-            $("#s_time").on('change',function () {
-                var s_time = $("#s_time").val();
-                var e_time = $("#e_time").val();
-                if(s_time!='' && e_time !=''){
-                    $.get("{:url('index/nutrientbalance/getdays')}",{s_time:s_time,e_time:e_time},function (data) {
-                        if(parseInt(data)>30){
-                            $("#desc").html("<font color='red'>太多了！您选择的日期里面有"+data+"份问卷<font>")
-                            $("#start").attr({"disabled":"disabled"});
-                        }else if(parseInt(data)<=0){
-                            $("#desc").html("<font color='red'>您选择的日期里没有问卷<font>")
-                            $("#start").attr({"disabled":"disabled"});
-                        }else{
-                            $.get("{:url('index/nutrientbalance/getagetest')}",{},function (dats) {
-                                if(dats==0){
-                                    $("#desc").html("<font color='red'>您骨龄测试报告已失效<font>")
-                                    $("#start").attr({"disabled":"disabled"});
-                                }else{
-                                    $("#desc").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
-                                    $("#start").removeAttr("disabled");
-                                }
-                            })
-
-                        }
-
-                    })
                 }
             })
             $("#e_time").on('change',function () {
@@ -342,8 +324,64 @@ a{
                     })
                 }
             })
+            $("#start2").on('click',function () {
+                var s_time = $("#s_time2").val();
+                var e_time = $("#e_time2").val();
+                if(s_time!='' && e_time !=''){
+                    $.post("{:url('index/nutrientbalance/generateorder')}",{s_time:s_time,e_time:e_time,type:1},function (data) {
+                        if(data==0){
+                            alert("生成失败")
+                        }else{
+                            $("#myPopup2").popup('close');
+                            if(confirm("立即查看订单？")){
+                                window.location.href = "{:url('index/user/see')}"+'?r='+data;
+                            }
+                        }
+                    })
+                }
+            })
+            $("#e_time2").on('change',function () {
+                var s_time = $("#s_time2").val();
+                var e_time = $("#e_time2").val();
+                var now_time = new Date();
+                var now = new Date(e_time);
+                if(now_time<now){
+                    var nian = now_time.getFullYear()
+                    var yue = now_time.getMonth() +1;
+                    var ri  = now_time.getDate()<10?'0'+now_time.getDate():now_time.getDate();
+                    $("#e_time2").val(nian + '-' + yue + '-' + ri);
+                    now = now_time;
+                }
+                var date = new Date(now.getTime() - 28 * 24 * 3600 * 1000);
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var day = date.getDate()<10?'0'+date.getDate():date.getDate();
+                var days = year + '-' + month + '-' + day;
+                $("#s_time2").val(days)
+                if(days!='' && e_time !=''){
+                    $.get("{:url('index/nutrientbalance/getdays')}",{s_time:days,e_time:e_time},function (data) {
+                        if(parseInt(data)>30){
+                            $("#desc2").html("<font color='red'>太多了！您选择的日期里面有"+data+"份问卷<font>")
+                            $("#start2").attr({"disabled":"disabled"});
+                        }else if(parseInt(data)<=0){
+                            $("#desc2").html("<font color='red'>您选择的日期里没有问卷<font>")
+                            $("#start2").attr({"disabled":"disabled"});
+                        }else{
+                            $.get("{:url('index/nutrientbalance/getagetest')}",{},function (dats) {
+                                if(dats==0){
+                                    $("#desc2").html("<font color='red'>您骨龄测试报告已失效<font>")
+                                    $("#start2").attr({"disabled":"disabled"});
+                                }else{
+                                    $("#desc2").html("<font color='green'>您选择的日期里面有"+data+"份问卷<font>")
+                                    $("#start2").removeAttr("disabled");
+                                }
+                            })
+                        }
+                    })
+                }
+            })
         });
-        function fun(date){
+    function fun(date){
             var   d=new Date(Date.parse(date.replace(/-/g,"/")));
             var   curDate=new Date();
             if(d > curDate){
@@ -363,7 +401,7 @@ a{
 
             }
         }
-        var CalendarHandler = {
+    var CalendarHandler = {
             currentYear: 0,
             currentMonth: 0,
             isRunning: false,
@@ -661,4 +699,4 @@ a{
 
             }
         }
-        </script>
+</script>
