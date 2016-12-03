@@ -1,0 +1,204 @@
+<style type="text/css">
+    .xwtable {widtd: 100%;border-collapse: collapse;border: 1px solid #ccc;}
+    .xwtable tdead td {font-size: 12px;color: #333333;text-align: center;border: 1px solid #ccc; font-weight:bold;}
+    .xwtable tbody tr {background: #fff;font-size: 12px;color: #666666;}
+    .xwtable tbody tr.alt-row {background: #f2f7fc;}
+    .xwtable td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
+</style>
+
+<form action="{:url('free/create')}" method="post">
+	<table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">运动处方</div>    <br/>
+		<tdead>
+			<tr>
+				<td>姓名</td>
+				<td>
+                    <input type="hidden" name="o_id"  value="{$data[0]['o_id']}" />
+                    <input type="text" value="{$data[0]['name']}" disabled/>
+				</td>
+				<td>性别</td>
+                <td>
+                    <input type="hidden" value="{$data[0]['sex']}" disabled>
+                    {if condition="$data[0]['sex'] == 1"}
+                    <input type="text" value="男" disabled>
+                    {elseif condition="$data[0]['sex'] == 0"/}
+                    <input type="text" value="女" disabled>
+                    {/if}
+				</td>
+				<td>出生年月日</td>
+				<td>
+                    <input type="text" value="{$data[0]['year']}" disabled />
+				</td>
+			</tr>
+		</tdead>
+        </table>
+
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">每日进食量评价</div><br/>
+		<tdead>
+			<tr>
+				<td colspan="5">每天摄入的主食量（指加工后的食物重量）</td>
+				<td>每天摄入蛋类(个)</td>
+				<td>每天摄入奶制品数量（袋/200或250ml）</td>
+				<td>每天饮水量</td>
+				<td>每天摄入的蔬菜数量</td>
+				<td>每天摄入的水果数量</td>
+				<td>每天摄入的禽畜肉量</td>
+				<td>每天摄入的水产品量(鱼、虾类)</td>
+				<td>每天摄入的豆制品量</td>
+				<td>每天摄入的粗粮食品量</td>
+				<td>每天摄入的肥肉或油脂品量</td>
+				<td>每天摄入的零食量(包括糖果、饼干、膨化食品、干杂、话梅类等)</td>
+				<td>每天摄入的油炸、烧烤、动物内脏类食物</td>
+				<td>每天摄入的加工食品(腌酱腊制品、罐头、方便食品）</td>
+			</tr>
+			<tr>
+				<td>米饭</td>
+				<td>馒头</td>
+				<td>烙饼</td>
+				<td>面条</td>
+				<td>杂粮（土豆、玉米、红薯等）</td>
+			</tr>
+				
+            <tr >
+				<td><input type="text" name="mifan_mrpj"></td>
+				<td><input type="text" name="mantou_mrpj"></td>
+				<td><input type="text" name="laobing_mrpj"></td>
+				<td><input type="text" name="miantiao_mrpj"></td>
+				<td><input type="text" name="zaliang_mrpj"></td>
+				<td><input type="text" name="nai_mrpj"></td>
+				<td><input type="text" name="danlei_mrpj"></td>
+				<td><input type="text" name="yinshui_mrpj"></td>
+				<td><input type="text" name="shucai_mrpj"></td>
+				<td><input type="text" name="shuiguo_mrpj"></td>
+				<td><input type="text" name="rouliang_mrpj"></td>
+				<td><input type="text" name="shuichan_mrpj"></td>
+				<td><input type="text" name="douzhi_mrpj"></td>
+				<td><input type="text" name="culiang_mrpj"></td>
+				<td><input type="text" name="feirou_mrpj"></td>
+				<td><input type="text" name="lingshi_mrpj"></td>
+				<td><input type="text" name="youzha_mrpj"></td>
+				<td><input type="text" name="jiagong_mrpj"></td>
+			</tr>
+		</tdead>
+    </table>
+
+   	<table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">每周进食次数评价</div><br/>
+		<tdead>
+			<tr>
+				<td>主食类</td>
+				<td>蔬菜类</td>
+				<td>禽畜肉类</td>
+				<td>水产类</td>
+				<td>豆品类、奶类</td>
+				<td>果品类</td>
+				<td>营养补充品类(如蛋白粉、维生素等)</td>
+				<td>其他类(烧烤、腌腊卤制品、罐头、方便食品)</td>
+			</tr>
+            <tr >
+				<td><textarea name="zhushi_mzpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="shucai_mzpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="rouliang_mzpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="shuichan_mzpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="douzhi_mzpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="guoping_mzpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="yingyang_mzpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="qita_mzpj" id="" cols="20" rows="5"></textarea></td>
+			</tr>
+		</tdead>
+    </table>
+
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">饮食习惯评价</div><br/>
+		<tdead>
+			<tr>
+				<td>在过去的 7 天，平均每天喝几瓶碳酸饮料，如可乐、雪碧或芬达等？</td>
+				<td>在过去的 7 天，吃过几次甜点，如巧克力、糖果或蛋糕等？</td>
+				<td>在过去的 7 天，去过几次西式快餐店（如肯德基、麦当劳或必胜客等）？</td>
+				<td>在过去的 7 天，有几天喝过牛奶或豆浆或酸奶？</td>
+				<td>在过去的 7 天，有几天没吃早餐？</td>
+				<td>是否会为了减肥而减少摄入的食物量？</td>
+				<td>是否有吃夜宵的习惯？</td>
+				<td>食欲如何？</td>
+				<td>家里做菜以什么方法为主？</td>
+				<td>平时吃饭是什么情况？</td>
+				<td>饮食口味属于哪种？（可多选)</td>
+				<td>每天的饮水总量有多少？</td>
+			</tr>
+            <tr >
+				<td><textarea name="tansuan_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="tiandian_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="xican_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="nai_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="zaocan_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="jianfei_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="yexiao_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="shiyu_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="zuocai_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="chifan_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="kouwei_xgpj" id="" cols="20" rows="5"></textarea></td>
+				<td><textarea name="yinshui_xgpj" id="" cols="20" rows="5"></textarea></td>
+			</tr>
+		</tdead>
+    </table>
+
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">营养均衡状况评价及指导建议</div><br/>
+		<tdead>
+			<tr>
+				<td>营养均衡状况评价</td>
+				<td style="width:100%"><textarea name="yingyang_pj" id="" cols="50" rows="5"></textarea></td>
+			</tr>
+			<tr>
+				<td>主食类增减建议</td>
+				<td style="width:100%"><textarea name="zhushi_jy" id="" cols="50" rows="5"></textarea></td>
+			</tr>
+			<tr>
+				<td>优质蛋白质摄入建议</td>
+				<td style="width:100%"><textarea name="danbaizhi_jy" id="" cols="50" rows="5"></textarea></td>
+			</tr>
+			<tr>
+				<td>脂类摄入建议</td>
+				<td style="width:100%"><textarea name="zhilei_jy" id="" cols="50" rows="5"></textarea></td>
+			</tr>
+			<tr>
+				<td>蔬果摄入建议</td>
+				<td style="width:100%"><textarea name="shuguo_jy" id="" cols="50" rows="5"></textarea></td>
+			</tr>
+			<tr>
+				<td>其他食物摄入建议</td>
+				<td style="width:100%"><textarea name="qita_jy" id="" cols="50" rows="5"></textarea></td>
+			</tr>
+			<tr>
+				<td>饮食习惯改进建议</td>
+				<td style="width:100%"><textarea name="yinshi_jy" id="" cols="50" rows="5"></textarea></td>
+			</tr>
+			<tr>
+				<td>特殊建议</td>
+				<td style="width:100%"><textarea name="teshu_jy" id="" cols="50" rows="5"></textarea></td>
+			</tr>
+		</tdead>
+    </table>
+<!--     <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">签字</div><br/>
+		<tdead>
+			<tr>
+				<td>专家签字</td>
+				<td>
+                    <input type="text" name="expertsignature" required="required"/></td>
+				<td>年</td>
+				<td>
+                    <input type="text" name="year" required="required"/></td>
+				<td>月</td>
+				<td>
+                    <input type="text" name="month" required="required"/></td>
+								<td>日</td>
+				<td>
+                    <input type="text" name="day" required="required"/></td>
+			</tr>
+		</tdead>
+	</table> -->
+    <br>
+    <input type="submit" value="保存"/><input type="button" name="button1"  value="返回" onclick="history.go(-1)">
+	</form>

@@ -78,6 +78,7 @@ class Diet extends Common
         ->join('gl_users g ','o.u_id = g.id ')
         ->join('user_infos u ','u.u_id = g.id ')
         ->where('type','1')
+        ->where('o.is_charge','0')
         ->where('o.out_trade_no','like',"%$n_number%")
         ->where('g.name','like',"%$name%")
         ->where('o.status','like',"%$status%")
