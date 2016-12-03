@@ -1,0 +1,25 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">前台首页图片列表展示</div>    <br/>
+<table id="tt" class="easyui-datagrid" data-options="nowrap:false"style="width:100%;height:auto;">
+    <thead>
+
+    <tr>
+        <th field="name1" width="30%">封面</th>
+        <th field="name2" width="60%">列表内容</th>
+        <th field="name3" width="12%">操作</th>
+    </tr>
+    </thead>
+    {if condition="!empty($arrlist)"}
+        {foreach $arrlist as $val}
+            <tr id="del_{$val.id}">
+                <td><img src="__PUBLIC__/img/{$val.img_path}" alt=""></td>
+                <td>{$val.content}</td>
+                <td>
+                <a href="{:url('Indexpage/updatelist')}?id={$val.id}" class="easyui-linkbutton">修改</a>
+                <a href="{:url('Indexpage/del')}?id={$val.id}" data="{$val.id}" class="easyui-linkbutton del" >删除</a>
+                </td>
+            </tr>
+        {/foreach}
+    {/if}
+    <tbody>
+        </tbody>
+</table>

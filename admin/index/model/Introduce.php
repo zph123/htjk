@@ -9,4 +9,9 @@ class Introduce extends Model
         $id = Db::table('introduce')->insert($arr);
         return $id;
     }
+
+    public function updates($where,$arru){
+		$res=Db::table('introduce')->where($where)->update($arru);
+		return $res;   	
+    }
 }

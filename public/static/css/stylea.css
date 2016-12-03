@@ -288,7 +288,7 @@ a.btn{
 
 #top{} /*主要用于页面顶部特殊功能，宽度通常全屏*/
 
-#header, #content , #footer{ width: 98%;  margin: 0px auto; border:0px solid green;}
+
 
 /*==========@@布局  结束@@==========*/
 
@@ -582,9 +582,9 @@ a.btn{
 
 /*===FlexSlider幻灯片  开始===*/
 
-#banner{}
+#banner{margin-bottom: 5%;margin-top:-20px;}
 
-.flexslider{ position: relative; clear:both;}
+.flexslider{ position: relative; clear:both; height: 240px}
 
 /*幻灯片标题*/
 
@@ -596,7 +596,7 @@ a.btn{
 
 .flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
 
-.flexslider .slides img {width: 100%; display: block;}
+.flexslider .slides img {width: 100%; display: block;height: 240px}
 
 .flex-pauseplay span {text-transform: capitalize;}
 
@@ -1406,20 +1406,15 @@ background-color:#179F00;
 
 .channellist li{float:left;text-align: center; border:0px dashed blue; width:50%; }
 
-.channellist li a{display:block; margin:2px;  padding-top:0px;
+.channellist li a{display:block; margin:5px;  padding-top:0px;
 
 background-color:#FFFFFF;
 
-border:1px solid #CCC ;
-
-border-radius:10px;-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; 
-
--webkit-box-shadow: 0px 1px 3px rgb(150, 150, 150); -moz-box-shadow: 0px 1px 3px rgb(150, 150, 150); -o-box-shadow: 0px 1px 3px rgb(190, 190, 190); box-shadow: 0px 1px 3px rgb(190, 190, 190);
 
 }
 
 .channellist li .ChannelIcon{
-	height: 70px;
+	height: 100px;
     text-align: center;
 
 	font-weight: bold;
@@ -1430,13 +1425,10 @@ border-radius:10px;-webkit-border-radius:10px; -moz-border-radius:10px; -o-borde
 
 	padding: 0px;
 
-	color:#FFFFFF;
+	
 
 	margin:auto;
 
-	border:0px solid red;
-
-	border-radius:10px 10px 0px 0px;-webkit-border-radius:10px 10px 0px 0px; -moz-border-radius:10px 10px 0px 0px; -o-border-radius:10px 10px 0px 0px; 
 
 }
 
