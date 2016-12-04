@@ -8,16 +8,20 @@
 <table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
     <thead>
     <tr>
-        <th field="name1" width="100%">分类</th>
+        <th field="name1" width="80%">分类</th>
+        <th field="name2" width="20%">操作</th>
     </tr>
     </thead>
 
-    <tbody>
+    <tbody name="tbody">
         {foreach($data as $val)}
-        <tr>
+        <tr name="tr_{$val.c_id}">
             <td>
                 <span name="c_name">{$val.c_name}</span>
                 <input type="hidden" name="c_id" value="{$val.c_id}">
+            </td>
+            <td>
+                <a href="javascript:;" class="easyui-linkbutton"  iconCls="icon-cancel" name="c_delete">删除</a>
             </td>
         </tr>
         {/foreach}
@@ -28,7 +32,7 @@
 </html>
 <script>
     $(function () {
-
+        //即点及改
         $("span[name='c_name']").each(function () {
             $(this).on('click',function(){
                 var old_val=$(this).text();
@@ -57,7 +61,41 @@
                 }
             });
         });
+
+        //删除
+        $("a[name='c_delete']").each(function () {
+            $(this).on('click',function () {
+                var c_id=$(this).closest("tr").find("input").val();
+                var tr_id=$(this).closest("tr").attr('id');
+                $.get('ajax_articles_check_a',{c_id:c_id},function (res) {
+                    if(res==1)
+                        delete_confirm(c_id,tr_id)
+                    else if(res==2){
+                        alert('删除成功！');
+                        $("#"+tr_id).remove();
+                    }
+                    else alert('删除失败！');
+                })
+            });
+        })
     });
 
+    //确认取消
+    function delete_confirm(c_id,tr_id){
+        var r=confirm("注意：该分类下有文章存在，删除该分类会导致该分类下的所有文章也被删除！");
+        if (r==true)
+            $.get('ajax_category_delete',{c_id:c_id},function (res) {
+                if(res==1){
+                    alert('删除成功！');
+                    $("#"+tr_id).remove();
+                    return true;
+                }
+                else{
+                    alert('删除失败！');
+                    return false;
+                }
+            });
+        else return false;
+    }
 </script>
 

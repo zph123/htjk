@@ -1,0 +1,59 @@
+<a href="{:url('index/article/article_add')}">添加文章</a>
+<br>
+<form style="float:left;" action="{:url('Article/listing')}" method="get">
+<select id="{$c_id}" name="c_id" style="width:200px;" >
+    <option value="0">请选择文章分类</option>
+    {foreach($arr as $val)}
+    <option value="{$val.c_id}">{$val.c_name}</option>
+    {/foreach}
+</select>
+    <input style="line-height:26px;border:1px solid #ccc" type="submit" value="搜索">
+</form>
+<table id="tt"  class="easyui-datagrid" data-options="nowrap:false" style="width:100%;height:auto;">
+    <thead>
+    <tr>
+        <th field="name1" width="4%">ID</th>
+        <th field="name2" width="25%">标题</th>
+        <th field="name3" width="10%">分类</th>
+        <th field="name4" width="52%">URL</th>
+        <th field="name5" width="10%">其他操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {foreach($data as $val)}
+    <tr>
+        <td>{$val.article_id}</td>
+        <td>{$val.title}</td>
+        <td>{$val.c_name}</td>
+        <td><a href="{$val.url}">{$val.url}</a></td>
+        <td><a href="javascript:;" class="easyui-linkbutton del"  iconCls="icon-cancel">删除</a><input type="hidden" value="{$val.article_id}"></td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+<script>
+    $(function(){
+        var c_id=$('select').attr('id');
+        $("option[value='"+c_id+"']").attr("selected",true);
+        $('.del').click(function(){
+            var obj=$(this);
+            var article_id=$(this).next("input[type='hidden']").val();
+            var confirm_ = confirm('是否删除此数据？');
+            if(confirm_){
+                $.ajax({
+                    type:"POST",
+                    url:'article_delete',
+                    data:{'article_id':article_id},
+                    success:function(msg){
+                        if(msg==1){
+                            $(obj).parent().parent().parent().remove();
+                        }else{
+                            alert("删除失败");
+                            location.href='listing';
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
