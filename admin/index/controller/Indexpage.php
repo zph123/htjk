@@ -31,7 +31,7 @@ class Indexpage extends Common
 
             //检测图片类型是否合格
             if(in_array($type,$type_class)){
-						if($size<=1024*10){
+						if($size<=1024*1024){
 							$Introduce = new Introduce();
 				        	$Catalog_path=ROOT_PATH."public".DS."img";
 				            is_dir($Catalog_path)or mkdir($Catalog_path,0777,true);
@@ -110,7 +110,7 @@ class Indexpage extends Common
 
 	            //检测图片类型是否合格
 	            if(in_array($type,$type_class)){
-							if($size<=1024*10){
+							if($size<=1024*1024){
 								$Introduce = new Introduce();
 					        	$Catalog_path=ROOT_PATH."public".DS."img";
 					            is_dir($Catalog_path)or mkdir($Catalog_path,0777,true);

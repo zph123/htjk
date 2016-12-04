@@ -4,15 +4,15 @@
 
     <tr>
         <th field="name1" width="30%">封面</th>
-        <th field="name2" width="60%">列表内容</th>
-        <th field="name3" width="12%">操作</th>
+        <th field="name2" width="65%">列表内容</th>
+        <th field="name3" width="5%">操作</th>
     </tr>
     </thead>
     {if condition="!empty($arrlist)"}
         {foreach $arrlist as $val}
             <tr id="del_{$val.id}">
                 <td><img src="__PUBLIC__/img/{$val.img_path}" alt=""></td>
-                <td>{$val.content}</td>
+                <td><div>{$val.content}</div></td>
                 <td>
                 <a href="{:url('Indexpage/updatelist')}?id={$val.id}" class="easyui-linkbutton">修改</a>
                 <a href="{:url('Indexpage/del')}?id={$val.id}" data="{$val.id}" class="easyui-linkbutton del" >删除</a>
