@@ -1,0 +1,266 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">运动记录数据</div>    <br/>
+订单号：{$one[0]['out_trade_no']} <br>
+申请人：{$one[0]['name']} <br>
+申请时间：{$one[0]['addtime']} <br>
+是否支付：{if condition="$one[0]['is_pay'] == 0"}
+<span style="color:red">未支付</span>
+{elseif condition="$one[0]['is_pay'] == 1"/}
+<span style="color:green">已支付</span>
+{/if} <br>
+是否生成处方：{if condition="$one[0]['status'] == 0"}
+<span style="color:red">未生成</span>
+{elseif condition="$one[0]['status'] == 1"/}
+<span style="color:green">已生成</span>
+{/if} <br>
+<table id="tt" class="easyui-datagrid" data-options="nowrap:false" style="width:100%;height:auto;">
+    <thead>
+    <tr>
+        <th field="name1"   width="9%">生成时间</th>
+        <th field="name2"   width="4%">用户</th>
+        <th field="name3" width="6%">运动时间</th>
+        <th field="name4" width="6%">运动内容</th>
+        <th field="name5" width="8%">运动持续时间</th>
+        <th field="name6" width="14%">运动后主观能动性感觉</th>
+        <th field="name7" width="7%">运动情绪</th>
+        <th field="name8" width="4%">面色</th>`
+        <th field="name9" width="7%">睡眠</th>
+        <th field="name10" width="7%">食欲</th>
+        <th field="name11" width="6%">排汗量</th>
+        <th field="name12" width="6%">呼吸</th>
+        <th field="name13" width="6%">体重</th>
+        <th field="name14" width="6%">肺活量</th>
+        <th field="name15" width="6%">血压</th>
+    </tr>
+    </thead>
+    {foreach $data as $val}
+    <tbody>
+    <tr>
+        <td>{$val.time}</td>
+        <td>{$val.m_time}</td>
+        <td>{$val.m_content}</td>
+        <td>{$val.m_continued}</td>
+        <td>{$val.feel}</td>
+        <td>{$val.m_feel}</td>
+        <td>{$val.emotion}</td>
+        <td>{$val.face}</td>
+        <td>{$val.sleep}</td>
+        <td>{$val.eat}</td>
+        <td>{$val.perspiration}</td>
+        <td>{$val.breathing}</td>
+        <td>{$val.weight}</td>
+        <td>{$val.lung}</td>
+        <td>{$val.blood}</td>
+    </tr>
+    </tbody>
+    {/foreach}
+</table>
+<br>
+{if condition="$one[0]['is_pay'] == 0"}
+<p>支付后才能生成处方</p><input type="button" name="button1" value="返回" onclick="history.go(-1)">
+{elseif condition="$one[0]['is_pay'] == 1"/}
+{if condition="$one[0]['status'] == 1"}
+<p>已生成处方</p><input type="button" name="button1" value="返回" onclick="history.go(-1)">
+{elseif condition="$one[0]['status'] == 0"/}
+<input type="button" name="button1"value="返回" onclick="history.go(-1)">
+
+<br>
+<style type="text/css">
+    .xwtable {widtd: 100%;border-collapse: collapse;border: 1px solid #ccc;}
+    .xwtable tdead td {font-size: 12px;color: #333333;text-align: center;border: 1px solid #ccc; font-weight:bold;}
+    .xwtable tbody tr {background: #fff;font-size: 12px;color: #666666;}
+    .xwtable tbody tr.alt-row {background: #f2f7fc;}
+    .xwtable td{line-height:20px;text-align: left;padding:4px 10px 3px 10px;height: 18px;border: 1px solid #ccc;}
+</style>
+<form action="{:url('free/createmotion')}" metdod="post">
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">运动处方</div>    <br/>
+        <tdead>
+            <tr>
+                <td>姓名</td>
+                <td>
+                    <input type="hidden" name="o_id"  value="{$one[0]['o_id']}"/>
+                    <input type="hidden" name="u_id"  value="{$date['u_id']}"/>
+                    <input type="text" name="name"  value="{$date['name']}"/>
+                </td>
+                <td>性别</td>
+                <td>
+                    <input type="hidden" name="sex" value="{$date['sex']}">
+                    {if condition="$date['sex'] == 1"}
+                    <input type="text" value="男">
+                    {elseif condition="$date['sex'] == 0"/}
+                    <input type="text" value="女">
+                    {/if}
+                </td>
+                <td>骨龄片号</td>
+                <td>
+                    <input type="text" name="number" value="{$date['glnumber']}"/>
+                </td>
+                <td>周数</td>
+                <td>
+                    <input type="text" name="week"/>
+                </td>
+            </tr>
+            <tr>
+                <td>出生年月日</td>
+                <td>
+                    <input type="text" name="birth" value="{$date['year']}"/>
+                </td>
+                <td>日历年龄</td>
+                <td>
+                    <input type="text" name="age"/>
+                </td>
+                <td><span style="color: red">*</span>GP骨龄</td>
+                <td>
+                    <input type="text" name="boneage" value="{$date['gpbone'][0]['gpbone']}"/>
+                </td>
+                <td><span style="color: red">*</span>生长发育类型</td>
+                <td>
+                    <input type="text" name="grow" value="{$date['gpbone'][0]['development']}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>身高</td>
+                <td>
+                    <input type="text" name="height" value="{$date['height'][0]['height']}"/>
+                </td>
+                <td>体重</td>
+                <td>
+                    <input type="text" name="weight" value="{$date['weight'][0]['weight']}"/>
+                </td>
+                <td></td>
+                <td>
+                </td>
+                <td></td>
+                <td>
+                </td>
+            </tr>
+        </tdead>
+    </table>
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">运动负荷试验结果</div><br/>
+        <tdead>
+            <tr>
+                <td><span style="color: red">*</span>试验中达到最高心率（次/min）</td>
+                <td>
+                    <input type="text" name="heartrate" required="required"/>
+                </td>
+                <td><span style="color: red">*</span>靶心率（次/min）</td>
+                <td>
+                    <input type="text" name="blank" required="required"/>
+                </td>
+                <td><span style="color: red">*</span>血压</td>
+                <td>
+                    <input type="text" name="pressure" required="required"/>
+                </td>
+            </tr>
+        </tdead>
+    </table>
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">心率监护:活动时每5~10min由桡动脉和劲动脉测定一次脉搏，及时调整负荷强度，使其维持在低限和高限之间</div><br/>
+        <tdead>
+            <tr>
+                <td><span style="color: red">*</span>低限（次/10s）</td>
+                <td>
+                    <input type="text" name="lowlimit" required="required"/>
+                </td>
+                <td><span style="color: red">*</span>高限（次/10s）</td>
+                <td>
+                    <input type="text" name="highlimit" required="required"/>
+            </tr>
+        </tdead>
+    </table>
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">运动数据</div><br/>
+        <tdead>
+            <tr>
+                <td style="width:10%">运动目的：</td>
+                <td style="width:90%">
+                    <input  style="width:100%" type="text" name="objective"/></td>
+            </tr>
+            <tr>
+                <td style="width:10%">运动项目：</td>
+                <td style="width:90%">
+                    <input  style="width:100%" type="text" name="project"/></td>
+            </tr>
+            <tr>
+                <td style="width:10%">运动强度：</td>
+                <td style="width:90%">
+                    <input  style="width:100%" type="text" name="exerciseintensity" value="60%~70%HRmax，相当于50%~60%Vo2max，或心率掌握在120~135次/min"/></td>
+            </tr>
+        </tdead>
+    </table>
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">运动内容</div><br/>
+        <tdead>
+            <tr>
+                <td style="width:10%">准备运动：</td>
+                <td style="width:90%">
+                    <input style="width:100%" type="text" name="readytoexercise"/></td>
+            </tr>
+            <tr >
+                <td style="width:10%">基本运动：</td>
+                <td style="width:90%">
+                    <input style="width:100%" type="text" name="basicmovement"/></td>
+            </tr>
+            <tr>
+                <td style="width:10%">整理运动：</td>
+                <td style="width:90%">
+                    <input style="width:100%" type="text" name="finishingmovement" /></td>
+            </tr>
+        </tdead>
+    </table>
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">运动时间和频率</div><br/>
+        <tdead>
+            <tr>
+                <td >每次运动时间：</td>
+                <td >
+                    <input type="text" name="timeofmovement"/></td>
+                <td>每周运动时间：</td>
+                <td>
+                    <input type="text" name="weeklyexercisetime"/></td>
+            </tr>
+        </tdead>
+    </table>
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">注意事项</div><br/>
+        <tdead>
+            <tr>
+                <td>一、</td>
+                <td style="width:100%">锻炼时感觉轻松或过于吃力时可稍微调节内容和次数</td>
+            </tr>
+            <tr>
+                <td>二、</td>
+                <td style="width:100%">以锻炼后第二天不感到疲劳为宜，可每周适当调节运动量</td>
+            </tr>
+            <tr>
+                <td>三、</td>
+                <td style="width:100%">严寒、酷暑或身体不适是停止锻炼，不可蛮干</td>
+            </tr>
+        </tdead>
+    </table>
+    <table class="xwtable">
+        <div style="padding:3px 2px;border-bottom:1px solid #ccc">签字</div><br/>
+        <tdead>
+            <tr>
+                <td><span style="color: red">*</span>专家签字</td>
+                <td>
+                    <input type="text" name="expertsignature" required="required"/></td>
+                <td><span style="color: red">*</span>年</td>
+                <td>
+                    <input type="text" name="year" required="required"/></td>
+                <td><span style="color: red">*</span>月</td>
+                <td>
+                    <input type="text" name="month" required="required"/></td>
+                <td><span style="color: red">*</span>日</td>
+                <td>
+                    <input type="text" name="day" required="required"/></td>
+            </tr>
+        </tdead>
+    </table>
+    <br>
+    <input type="submit" onclick="return confirm('是否确定提交？提交后不可修改');" value="保存"/><input type="button" name="button1"  value="返回" onclick="history.go(-1)">
+</form>
+{/if}
+{/if}
+
