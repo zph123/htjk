@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Request;
+use think\Db;
 use app\index\model\Article as ArticleModel;
 
 class Article extends Common
