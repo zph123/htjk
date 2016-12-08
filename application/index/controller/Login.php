@@ -14,7 +14,7 @@ class Login extends Controller
     }
     //执行登录
     public function login(){
-       $today=strtotime(date("Y-m-d 23:59:59"));
+       $today=86400*7;//strtotime(date("Y-m-d 23:59:59"));
        $u_name = Request::instance()->post('u_name');
        $checkbox_mini = Request::instance()->post('checkbox_mini');
        $password = Request::instance()->post('password');
@@ -25,10 +25,8 @@ class Login extends Controller
            ->find();
        if (!empty($arr)) {
            if (!empty($checkbox_mini)) {
-               Cookie::set('uid', md5($arr['id']), $today-time());
-               Session::set('uid', $arr['id']);
+               Cookie::set('uid',$arr['id'], $today);
            } else {
-               Session::set('uid', $arr['id']);
          }
               echo 1;
        } else {

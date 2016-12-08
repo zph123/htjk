@@ -12,7 +12,7 @@ class Common extends Controller
         $action=request()->action();                    //方法
         Cookie::set('controller', $controller);
         Cookie::set('action', $action);
-	if(!Session::has('uid')){
+	if(empty(cookie::get('uid'))){
             $this->redirect("login/index");
         }
 	}
