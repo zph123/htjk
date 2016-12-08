@@ -31,7 +31,9 @@ class Index extends Controller
          $c_id=Request::instance()->get('c_id');
          $where=array("c_id"=>$c_id);
          $show=Db::table('article')->where($where)->select();
-         print_r($show);       
+         $this->assign('show',$show);
+         return $this->fetch('articlelist'); 
+         // print_r($show);       
     }
 
     public function nowTest()
