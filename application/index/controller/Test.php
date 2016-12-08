@@ -11,7 +11,6 @@ use think\Controller;
 use think\Db;
 use think\Config;
 use think\Request;
-use think\Session;
 use think\Cookie;
 use app\index\model\Gl_test;
 use app\index\model\onlinetest as onlinetestModel;
@@ -32,7 +31,7 @@ class Test extends Controller
         $action = "onlinetest";
         Cookie::set('controller', $controller);
         Cookie::set('action', $action);
-        $id = Session::get('uid');
+        $id = Cookie::get('uid');
         if($id){
             $log = 1;
             $info = Db::table('user_infos')->where('u_id',$id)->find();
@@ -52,7 +51,7 @@ class Test extends Controller
      * ajax判断用户是否已经登录
      */
     public function ajax_login_status(){
-        if (session('?uid'))
+        if (Cookie('?uid'))
             echo 1;
         else echo 0;
     }
@@ -78,9 +77,9 @@ class Test extends Controller
          * 0.直接入库
          * 方案B：
          * 0.先判断用户是否已经提交过未处理的数据
-         * 1.先将数据集存入session（设置超时时间）或MySQL
+         * 1.先将数据集存入Cookie（设置超时时间）或MySQL
          * 2.首先判断用户是否登录
-         * 3.1如果已经登录就调用支付，支付成功就将session中的数据入MySQL，并销毁该session，否则超时后提示操作超时以及某些页面询问用户是否取消操作
+         * 3.1如果已经登录就调用支付，支付成功就将Cookie中的数据入MySQL，并销毁该Cookie，否则超时后提示操作超时以及某些页面询问用户是否取消操作
          * 3.2MySQL方案：类似京东商城购物车，......
          *
          * 如果没登录就调用登录和注册，登录或注册完毕后
@@ -124,7 +123,7 @@ class Test extends Controller
 //        if(isset()){
 //        }else{
 //        }
-        $id = Session::get('uid');
+        $id = Cookie::get('uid');
         $info = Db::table("user_infos")->where('u_id',$id)->find();
         $phone = Db::table('gl_users')->field('phone,name')->where('id',$id)->find();
         $info['appDate'] = $info['birthday'];
@@ -191,7 +190,7 @@ class Test extends Controller
         Cookie::set('controller', $controller);
         Cookie::set('action', $action);
         //获取登录人id
-        $id = Session::get('uid');
+        $id = Cookie::get('uid');
         if($id){
             $log = 1;
             $info = Db::table('user_infos')->where('u_id',$id)->find();
@@ -212,7 +211,7 @@ class Test extends Controller
         if(empty($data['l_id'])){
             $this->redirect('index/test/nowTest');die;
         }
-        $id = Session::get('uid');
+        $id = Cookie::get('uid');
         $info = Db::table('user_infos')->where('u_id',$id)->find();
 
         //后台验证  先验证唯一

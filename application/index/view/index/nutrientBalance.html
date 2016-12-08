@@ -231,7 +231,7 @@ a{
     </div>
     </div>
     <div data-role="popup" id="myPopup1" class="ui-content" data-overlay-theme="b">
-        {php}if(!think\Session::has('uid')){{/php}
+        {php}if(!think\Cookie::has('uid')){{/php}
         <p align="center" style="color: red;">您还未登陆</p>
         {php} }{/php}
         <p style="color: red;" id="zhushi1">注：开始时间为结束时间28天之前 建议将测试全部填完再生成报告</p>
@@ -241,7 +241,7 @@ a{
         <input type="button" id="start" value="生成">
     </div>
     <div data-role="popup" id="myPopup2" class="ui-content" data-overlay-theme="b">
-    {php}if(!think\Session::has('uid')){{/php}
+    {php}if(!think\Cookie::has('uid')){{/php}
     <p align="center" style="color: red;">您还未登陆</p>
     {php} }{/php}
     <p style="color: red;" id="zhushi2">注：开始时间为结束时间28天之前 建议将测试全部填完再生成报告</p>
