@@ -141,6 +141,9 @@ class Sportaction extends Common
             $field="id,time,m_content,m_time";
             $model=new user_model();
             $data=$model->user_select('user_motion',$id,$field);
+            if(empty($data)){
+                $data='0';
+            }
             $this->assign('list',$data);
             return view();
         }

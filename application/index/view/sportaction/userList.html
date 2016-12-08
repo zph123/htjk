@@ -3,14 +3,19 @@
 
 <div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
         <div style="clear: both;"></div>
-    <ul data-role="listview" data-inset="true">
-    {foreach name='list' item='value'}
-      <li>
-        <a href="{:url('sportaction/userContent')}?r={$value.id}" data-ajax="false">
-        <h2>{$value.time}{$value.m_time}</h2>
-        <p>{$value.m_content}</p>
-        </a>
-      </li>
-      {/foreach}
-    </ul>
+    {if condition="($list == '0')"}
+      <img src="__PUBLIC__/images/empty.png" alt="">
+    {else /}
+      <ul data-role="listview" data-inset="true">
+        {foreach name='list' item='value'}
+          <li>
+            <a href="{:url('sportaction/userContent')}?r={$value.id}" data-ajax="false">
+            <h2>{$value.time}{$value.m_time}</h2>
+            <p>{$value.m_content}</p>
+            </a>
+          </li>
+        {/foreach}
+      </ul>
+    {/if} 
+   
 </div>
