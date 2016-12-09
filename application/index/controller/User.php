@@ -13,6 +13,7 @@ class User extends Common
         $user=Db::table('gl_users')->where('id',$id)->find();
         Cookie::set('username', $user['name']);
         $this->assign('name',$user['name']);
+        $this->assign('out','true');
         return view('index/userCenter');
     }
     /**

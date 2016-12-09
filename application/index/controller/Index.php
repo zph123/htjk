@@ -3,6 +3,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
+use think\Cookie;
 
 class Index extends Controller
 {
@@ -44,9 +45,9 @@ class Index extends Controller
     {
         return view('onlineTest');
     }
-    public function sportAction(){
-    	return view('sportAction');
-    }
+    // public function sportAction(){
+    //  return view('sportAction');
+    // }
     public function nutrientBalance(){
     	return view('nutrientBalance');
     }
@@ -55,7 +56,17 @@ class Index extends Controller
     	return view('index');
     }
     public function userCenter(){
-    	return view('userCenter');
+        $id=Cookie::get('uid');
+        if(empty($id)){
+            $this->assign('name','false');
+            $this->assign('out','false');//这里为前台是否显示退出标示
+        }else{
+            $user=Db::table('gl_users')->where('id',$id)->find();
+            Cookie::set('username', $user['name']);
+            $this->assign('name',$user['name']);
+            $this->assign('out','true');//这里为前台是否显示退出标示
+        }
+        return view('userCenter');
     }
     
 /**

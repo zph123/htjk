@@ -16,9 +16,6 @@
         <td>密码：</td>
         <td><input type="password" value="" name="password"></td>
     </tr>
-
-    <input type="checkbox" name="checkbox_mini" id="checkbox-mini-0" data-mini="true" value="1">
-    <label for="checkbox-mini-0">记住我的密码</label>
 <p id="bug"></p>
     <div data-role="navbar" class="ui-content">
         <ul><li><input data-inline="true"  type="button" id="but" value="登录"></li></ul>
@@ -42,8 +39,7 @@
         $('#but').click(function(){
             var u_name = $('input[name="u_name"]').val();
             var password = hex_md5($('input[name="password"]').val());
-            var checkbox_mini = $('input[name="checkbox_mini"]:checked').val();
-            $.post('login/login',{u_name:u_name,password:password,checkbox_mini:checkbox_mini},function(msg){
+            $.post('login/login',{u_name:u_name,password:password},function(msg){
                 if(msg==1){
                     location.href='add'
                 }else{

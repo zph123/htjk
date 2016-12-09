@@ -33,9 +33,15 @@
         <div id="div">
             <dl>
                 <dt><img src="__PUBLIC__/images/1.jpg"/></dt>
+                {if condition="$name eq 'false'"}
+                <dd>
+                    <a data-ajax="false"  href="{:url('index/user/index')}">去登陆</a>
+                </dd>
+                {else /} 
                 <dd>
                     姓名：{$name}
                 </dd>
+                {/if}
             </dl>
         </div>
         <ul data-role="listview" data-inset="true"  data-icon="false" >
@@ -48,9 +54,11 @@
             <li>
                 <a data-ajax="false" href="{:url('index/user/nutrition')}">我的营养均衡指导</a>
             </li>
+            {if condition="$out eq 'true'"}
             <li>
                 <a data-ajax="false" href="{:url('index/user/quit')}">退出</a>
             </li>
+            {/if}
         </ul>
     </div>
 </div>
