@@ -106,7 +106,7 @@ class Test extends Controller
          */
         //获取引子
         $file = $request->file('hands_photo');
-        //检测文件大小，检定是否为非法数据提交
+        //检测文件大小，检定是否为非法数据提交;
         if(!$file->checkSize(5242880))
             return "非法数据提交！";
         //读取路径配置
