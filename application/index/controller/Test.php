@@ -95,6 +95,7 @@ class Test extends Controller
             $price_id=6;
         elseif($infos['predict_height']==0)
             $price_id=1;
+        else return "非法数据提交！";
         $price=price_classModel::get($price_id);
         //付费项总价
         $infos['price']=$price['p_price'];
@@ -105,6 +106,9 @@ class Test extends Controller
          */
         //获取引子
         $file = $request->file('hands_photo');
+        //检测文件大小，检定是否为非法数据提交
+        if(!$file->checkSize(5242880))
+            return "非法数据提交！";
         //读取路径配置
         $file_path=Config::get('uploads.customer_uploads');
         //如果路径不存在，则生成

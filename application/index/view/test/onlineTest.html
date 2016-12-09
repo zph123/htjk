@@ -173,10 +173,20 @@
 
         //通过文件后缀判断是否是图片
         var reg_img=/\.jpg$|\.jpeg$|\.png$|\.img$|\.gif$/i;
-        if(!reg_img.test($('#hands_photo').val())){
+        var obj_photo=$("input[name='hands_photo']")[0];
+        var the_photo=$('#hands_photo').val();
+        if(!reg_img.test(the_photo)){
             status=0;
             alert('手部图片只能上传jpg jpeg img gif格式的！');
-            return;
+            return ;
+        }else {
+//            var image=new Image();
+//            var size=obj_photo.files[0].size;
+//            if(size>5242880){
+//                status=0;
+//                alert('图片大小超出限制！');
+//                return ;
+//            }
         }
 
         if(status){
