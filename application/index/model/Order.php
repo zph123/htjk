@@ -4,7 +4,7 @@ namespace app\index\model;
 
 use think\Model;
 use think\Db;
-use think\Session;
+use think\Cookie;
 
 class Order extends Model
 {
@@ -27,7 +27,7 @@ class Order extends Model
     public static function create_o_id($type,$amount){
         $out_trade_no=self::createuniquenumber();
         $addtime=date("YmdHis",time());
-        $u_id=session::get('uid');
+        $u_id=Cookie::get('uid');
         $data=[
             'type'=>$type,
             'out_trade_no'=>$out_trade_no,
