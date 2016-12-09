@@ -13,7 +13,9 @@ class Index extends Controller
     public function index()
     {
         $arr=Db::table('introduce')->field('id,img_path')->select();
+        $cat=Db::table('category_article')->select();
         $this->assign('arr',$arr);
+        $this->assign('cat',$cat);
         return $this->fetch('index');        
     }
 
@@ -23,6 +25,15 @@ class Index extends Controller
          $show=Db::table('introduce')->where($where)->field('content')->select();
          $this->assign('show',$show);
          return $this->fetch('whatBone');         
+    }
+
+    public function articlelist(Request $request){
+         $c_id=Request::instance()->get('c_id');
+         $where=array("c_id"=>$c_id);
+         $show=Db::table('article')->where($where)->select();
+         $this->assign('show',$show);
+         return $this->fetch('articlelist'); 
+         // print_r($show);       
     }
 
     public function nowTest()

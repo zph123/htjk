@@ -1,7 +1,6 @@
 <?php
 namespace app\index\controller;
 use think\Controller;
-use think\Session;
 use think\Cookie;
 use think\Db;
 use think\Request;
@@ -14,7 +13,7 @@ class Sportaction extends Common
      * 加载运动处方首页
      */
     function index(){
-        $id=Session::get('uid');
+        $id=Cookie::get('uid');
         $survey=Db::table('motion_survey')->where('uid',$id)->find();
         if(!$survey){
             return view('survey');
@@ -46,7 +45,7 @@ class Sportaction extends Common
         $data=$request->param();
         if($data['infrom']=='1'){
             if(count($data)==8){
-                $data['uid']=Session::get('uid');
+                $data['uid']=Cookie::get('uid');
                 $model=new user_model();
                 $re=$model->add_motion('motion_survey',$data);
                 if($re){
@@ -63,7 +62,7 @@ class Sportaction extends Common
     function getcolor(Request $request){
         $data=$request->param();
         $date=empty($data['data'])?"":$data['data'];
-        $id=Session::get('uid');
+        $id=Cookie::get('uid');
         $field='id,time';
         $model=new user_model();
         $data=$model->user_motion('user_motion',$id,$field,$date);
@@ -121,7 +120,7 @@ class Sportaction extends Common
      * 详情页
      */
     function usercontent(Request $request){
-        $uid=Session::get('uid');
+        $uid=Cookie::get('uid');
         if(isset($uid)){
             $data=$request->get();
             if(isset($data['r'])){
@@ -137,11 +136,14 @@ class Sportaction extends Common
      * 用户添加过的列表
      */
     function userlist(Request $request){
-        $id=session::get('uid');
+        $id=Cookie::get('uid');
         if(isset($id)){
             $field="id,time,m_content,m_time";
             $model=new user_model();
             $data=$model->user_select('user_motion',$id,$field);
+            if(empty($data)){
+                $data='0';
+            }
             $this->assign('list',$data);
             return view();
         }
@@ -150,7 +152,7 @@ class Sportaction extends Common
      * 添加数据进入后台
      */
     function motionAdd(Request $request){
-        $id=session::get('uid');
+        $id=Cookie::get('uid');
         if(isset($id)){
             $data=$request->post();
             if(count($data)>13){
@@ -188,7 +190,7 @@ class Sportaction extends Common
      * 用户选择要生成的时间段
      */
     function generateorder(Request $request){
-        $id=Session::get('uid');
+        $id=Cookie::get('uid');
         $data=$request->post();
         $s_time=isset($data['s'])?$data['s']:' ';
         $e_time=isset($data['e'])?$data['e']:' ';
@@ -292,7 +294,7 @@ class Sportaction extends Common
      * 查询用户是否填写过运动处方
      */
     function user_write($date){
-        $id=Session::get('uid');
+        $id=Cookie::get('uid');
         $data = Db::table("user_motion")
         ->where('uid',$id)
         ->order('time desc')

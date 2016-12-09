@@ -1,6 +1,5 @@
 <?php
 namespace app\index\controller;
-use think\Session;
 use think\Cookie;
 use think\Db;
 use think\Request;
@@ -10,9 +9,9 @@ class User extends Common
 {
     public function index()
     {
-        $id=Session::get('uid');
+        $id=Cookie::get('uid');
         $user=Db::table('gl_users')->where('id',$id)->find();
-        Session::set('username', $user['name']);
+        Cookie::set('username', $user['name']);
         $this->assign('name',$user['name']);
         return view('index/userCenter');
     }
@@ -20,7 +19,7 @@ class User extends Common
      * 加载营养均衡首页
      */
     function nutrition(){
-        $id=Session::get('uid');
+        $id=Cookie::get('uid');
         $type='1';
         $field='o_id,out_trade_no,addtime';
         $model=new user_model();
@@ -35,7 +34,7 @@ class User extends Common
      * 测试报告
      */
     function report(){
-        $id=Session::get('uid');
+        $id=Cookie::get('uid');
         $field='o_id,out_trade_no,addtime';
         $data=Db::table('order')
         ->where('u_id',$id)
@@ -52,7 +51,7 @@ class User extends Common
      *运动处方
      */
     function motion(){
-        $id=Session::get('uid');
+        $id=Cookie::get('uid');
         $type='2';
         $field='o_id,out_trade_no,addtime';
         $model=new user_model();
@@ -67,7 +66,7 @@ class User extends Common
      * 查看详情
      */
     function see(Request $request){
-        $uid=session::get('uid');
+        $uid=Cookie::get('uid');
         if(isset($uid)){
             $arr=$request->param();
             $id=empty($arr['r'])?"":$arr['r'];
@@ -136,7 +135,7 @@ class User extends Common
                         $way_tr['特殊建议']=$way['teshu_jy'];
                     }else if($data['type']==2){
                         $way=Db::table('motion_way')->where('u_id',$uid)->where('o_id',$id)->find();
-                        $way_tr['姓名']=session::get('username');
+                        $way_tr['姓名']=Cookie::get('username');
                         $way_tr['性别']=$way['sex']==1?'男':'女';
                         $way_tr['编号']=$way['number'];
                         $way_tr['周数']=$way['week'];
@@ -295,7 +294,7 @@ class User extends Common
      * 去支付
      */
     function pay(Request $request){
-        $uid=session::get('uid');
+        $uid=Cookie::get('uid');
         $arr=$request->param();
         $id=empty($arr['r'])?"":$arr['r'];
         $data=Db::table('order')
@@ -306,7 +305,7 @@ class User extends Common
             if($data['is_pay']==0){
                 Cookie::set('out_trade_no', $data['out_trade_no']);
                 Cookie::set('price', $data['amount']);
-                $this->redirect("http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php");
+                $this->redirect("http://www.htjk.org/html/WxpayAPI_php_v3/example/jsapi.php");
                 //$this->redirect("http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php?trade=$data[out_trade_no]");
                 // var_dump($data);
             }else{
@@ -321,7 +320,7 @@ class User extends Common
      *删除订单
      */
     function user_delete(Request $request){
-        $uid=session::get('uid');
+        $uid=Cookie::get('uid');
         $arr=$request->param();
         $id=empty($arr['r'])?"":$arr['r'];
         $data=Db::table('order')
@@ -357,7 +356,6 @@ class User extends Common
      */
     function quit(){
         Cookie::set('uid',null);
-        Session::set('uid',null);
         $this->redirect('index/index');
     }
 }

@@ -3,9 +3,8 @@ namespace app\index\controller;
 use think\Controller;
 use think\Db;
 use think\Request;
-use think\Session;
-use app\index\model\Order;
 use think\Cookie;
+use app\index\model\Order;
 
 class Nutrientbalance extends Controller
 {
@@ -21,11 +20,11 @@ class Nutrientbalance extends Controller
 	 */
     public function question( $date = 0, $num = 1) {
 
-		if( !Session::has('uid') ) {
+		if( !Cookie::has('uid') ) {
 			$this->redirect("login/index");
 		}
 
-		$u_id = Session::get('uid');
+		$u_id = Cookie::get('uid');
 
 		$username = Db::table('gl_users')->field('name')->where('id',$u_id)->find();
 
@@ -193,10 +192,10 @@ class Nutrientbalance extends Controller
 		if (!Request::instance()->isAjax()) {
 			echo 4;die;
 		}
-		if( !Session::has('uid') ) {
+		if( !Cookie::has('uid') ) {
 			echo 2;die;
 		}
-		$u_id = Session::get('uid');
+		$u_id = Cookie::get('uid');
 		//查询上一周周日填完没
 		$week = date('w',strtotime($date));
 		$lastsunday = '';
@@ -270,10 +269,10 @@ class Nutrientbalance extends Controller
 			$this->redirect('index/nutrientbalance');
 		}
 
-		if( !Session::has('uid') ) {
+		if( !Cookie::has('uid') ) {
 			$this->redirect("login/index");
 		}
-		$u_id = Session::get('uid');
+		$u_id = Cookie::get('uid');
 
 		$data = $request->post();
 		if(!isset($data['anwser'])){
@@ -379,10 +378,10 @@ class Nutrientbalance extends Controller
 			echo json_encode(array());die;
 		}
 
-		if( !Session::has('uid') ) {
+		if( !Cookie::has('uid') ) {
 			echo json_encode(array());die;
 		}
-		$u_id = Session::get('uid');
+		$u_id = Cookie::get('uid');
 
 		if($date == 0 || strtotime($date) === false) {
 			echo json_encode(array());die;
@@ -421,10 +420,10 @@ class Nutrientbalance extends Controller
 			echo 0;die;
 		}
 
-		if(!Session::has('uid')) {
+		if(!Cookie::has('uid')) {
 			echo 0;die;
 		}
-		$u_id = Session::get('uid');
+		$u_id = Cookie::get('uid');
 
 		if($s_time == 0 || $e_time == 0 || strtotime($s_time) === false || strtotime($e_time) === false) {
 			echo 0;die;
@@ -451,10 +450,10 @@ class Nutrientbalance extends Controller
 			echo 0;die;
 		}
 
-		if( !Session::has('uid') ) {
+		if( !Cookie::has('uid') ) {
 			echo 0;die;
 		}
-		$u_id = Session::get('uid');
+		$u_id = Cookie::get('uid');
 		$s_time = $request->post("s_time");
 		$e_time = $request->post("e_time");
 		if(strtotime($s_time) === false ||strtotime($e_time) === false) {
@@ -590,10 +589,10 @@ class Nutrientbalance extends Controller
 
 	public function getagetest()
 	{
-		if( !Session::has('uid') ) {
+		if( !Cookie::has('uid') ) {
 			echo 0;die;
 		}
-		$u_id = Session::get('uid');
+		$u_id = Cookie::get('uid');
 		$res = Db::table('order')
 			->alias('a')
 			->field('a.o_id')

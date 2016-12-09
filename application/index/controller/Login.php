@@ -14,9 +14,8 @@ class Login extends Controller
     }
     //执行登录
     public function login(){
-       $today=strtotime(date("Y-m-d 23:59:59"));
+       $today=86400*7;
        $u_name = Request::instance()->post('u_name');
-       $checkbox_mini = Request::instance()->post('checkbox_mini');
        $password = Request::instance()->post('password');
 
        $arr = Db::table('gl_users')
@@ -24,13 +23,8 @@ class Login extends Controller
            ->where('password', $password)
            ->find();
        if (!empty($arr)) {
-           if (!empty($checkbox_mini)) {
-               Cookie::set('uid', md5($arr['id']), $today-time());
-               Session::set('uid', $arr['id']);
-           } else {
-               Session::set('uid', $arr['id']);
-         }
-              echo 1;
+          Cookie::set('uid',$arr['id'],$today);
+          echo 1;
        } else {
           echo 2;
        }

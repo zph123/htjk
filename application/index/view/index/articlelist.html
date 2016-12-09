@@ -1,0 +1,20 @@
+</head>
+<body>
+
+<div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
+        <div style="clear: both;"></div>
+    {if condition="empty($show)"}
+      暂时没有文章
+    {else /}
+      <ul data-role="listview" data-inset="true">
+        {foreach name='show' item='value'}
+          <li>
+            <a href="{$value.url}" data-ajax="false">
+            <h2>{$value.title}</h2>
+            </a>
+          </li>
+        {/foreach}
+      </ul>
+    {/if} 
+   
+</div>
