@@ -1,15 +1,15 @@
 <div class="btn3 clearfix">
 
         <div class="menu">
-            <div class="bt-name"><a data-ajax="false" href="{:url('index/index/index')}">生长发育</a></div>
+            <div class="bt-name"><a data-ajax="false" {if condition="($Request.controller == 'Index') AND ($Request.action == 'index') "} style="color: #00a0e9 !important;" {/if} href="{:url('index/index/index')}">生长发育</a></div>
         </div>
         <div class="menu">
-            <div class="bt-name">骨龄测试</div>
+            <div class="bt-name" {if condition="($Request.controller == 'Test')"} style="color: #00a0e9 !important;" {/if} >骨龄测试</div>
             <div class="sanjiao"></div>
             <div class="new-sub">
                 <ul >
-                    <li><a data-ajax="false" href="{:url('index/test/nowtest')}">现场测试</a></li>
-                    <li><a data-ajax="false" href="{:url('index/test/onlinetest')}" >在线测试</a></li>
+                    <li><a data-ajax="false" {if condition="($Request.controller == 'Test') AND ($Request.action == 'nowtest') "} style="color: #00a0e9 !important;" {/if} href="{:url('index/test/nowtest')}">现场测试</a></li>
+                    <li><a data-ajax="false" {if condition="($Request.controller == 'Test') AND ($Request.action == 'onlinetest') "} style="color: #00a0e9 !important;" {/if} href="{:url('index/test/onlinetest')}" >在线测试</a></li>
                 </ul>
                 <div class="tiggle"></div>
                 <div class="innertiggle"></div>
@@ -17,13 +17,13 @@
         </div>
 
         <div class="menu" >
-            <div class="bt-name">我的</div>
+            <div class="bt-name" {if condition="(($Request.controller == 'Index') AND ($Request.action == 'nutrientbalance')) OR ($Request.controller == 'Sportaction')  OR (($Request.controller == 'Index') AND ($Request.action == 'usercenter')) OR ($Request.controller == 'User') OR ($Request.controller == 'Nutrientbalance') "} style="color: #00a0e9 !important;" {/if} >我的</div>
             <div class="sanjiao"></div>
             <div  class="new-sub">
                 <ul>
-                    <li><a data-ajax="false" href="{:url('index/sportaction/index')}">运动处方</a></li>
-                    <li><a data-ajax="false" href="{:url('index/index/nutrientBalance')}" >营养均衡指导</a></li>
-                    <li><a data-ajax="false" href="{:url('index/index/userCenter')}" >个人中心</a></li>
+                    <li><a data-ajax="false" {if condition="($Request.controller == 'Sportaction') "} style="color: #00a0e9 !important;" {/if} href="{:url('index/sportaction/index')}">运动处方</a></li>
+                    <li><a data-ajax="false"  {if condition="(($Request.controller == 'Index') AND ($Request.action == 'nutrientbalance')) OR ($Request.controller == 'Nutrientbalance') "} style="color: #00a0e9 !important;" {/if} href="{:url('index/index/nutrientBalance')}" >营养均衡指导</a></li>
+                    <li><a data-ajax="false" {if condition="(($Request.controller == 'Index') AND ($Request.action == 'usercenter'))  OR ($Request.controller == 'User') "} style="color: #00a0e9 !important;" {/if} href="{:url('index/index/userCenter')}" >个人中心</a></li>
                 </ul>
                 <div class="tiggle"></div>
                 <div class="innertiggle"></div>
@@ -32,7 +32,6 @@
 
 </div>
 </div>
-
 <script type="text/javascript">
     //弹出垂直菜单
     $(".menu").click(function() {
