@@ -14,7 +14,7 @@ class Login extends Controller
     }
     //执行登录
     public function login(){
-       $today=86400*7;
+       $today=86400*365;
        $u_name = Request::instance()->post('u_name');
        $password = Request::instance()->post('password');
 
