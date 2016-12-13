@@ -15,8 +15,10 @@ class Index extends Controller
     {
         $arr=Db::table('introduce')->field('id,img_path')->select();
         $cat=Db::table('category_article')->select();
+        $banner=Db::table('banner')->field('b_id,banner_path')->select();
         $this->assign('arr',$arr);
         $this->assign('cat',$cat);
+        $this->assign('banner',$banner);
         return $this->fetch('index');        
     }
 
@@ -35,6 +37,14 @@ class Index extends Controller
          $this->assign('show',$show);
          return $this->fetch('articlelist'); 
          // print_r($show);       
+    }
+
+    public function bannerlist(){
+         $id=Request::instance()->get('b_id');
+         $where=array("b_id"=>$id);
+         $show=Db::table('banner')->where($where)->field('contents')->select();
+         $this->assign('show',$show);
+         return $this->fetch('bannerlist');         
     }
 
     public function nowTest()

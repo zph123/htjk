@@ -7,6 +7,7 @@
 $(document).ready(function(){
                 $('.flexslider').flexslider({
                         slideshowSpeed: 3000, // 自动 效果播放时长
+                        animationSpeed: 2000, //  图片 滑动的时间
                         controlNav: true,
                         directionNav: false,
                         animation: "slide"
@@ -18,15 +19,15 @@ $(document).ready(function(){
 <div>
         <div class="flexslider">
         <ul class="slides">
+        {if condition="!empty($banner)"}
+        {foreach($banner as $v)}
         <li>
-        <img src="__PUBLIC__/static/img/02.jpg" />
+        <a data-ajax="false" href="{:url('index/bannerlist')}?b_id={$v.b_id}">
+        <img src="__PUBLIC__/banner/{$v.banner_path}" />
+        </a>
         </li>
-<!--         <li>
-        <img src="__PUBLIC__/static/img/002.jpg" />
-        </li>
-        <li>
-        <img src="__PUBLIC__/static/img/003.png" />
-        </li>  -->
+        {/foreach}
+        {/if}
         </ul>
         </div>
         <!--幻灯片 结束-->
@@ -53,7 +54,7 @@ $(document).ready(function(){
               <div style="margin-left:-1px;width:100%;height:60px;padding-left:10px">
         {if condition="!empty($cat)"}
         {foreach($cat as $v)}
-                <a data-ajax="false" style="border-radius:8px;border:0.1px #dbf0dc solid;float:left; width:21%; padding-top:0px; margin-top:3%;background-color:#29AFAA;color:#fff;" href="{:url('index/articlelist')}?c_id={$v.c_id}">
+                <a data-ajax="false" class="sa" style="border-radius:8px;border:0.1px #dbf0dc solid;float:left; width:21%; padding-top:0px; margin-top:3%;background-color:#29AFAA;color:#fff;" href="{:url('index/articlelist')}?c_id={$v.c_id}">
 <span style="font-weight:100;"> {$v.c_name}</span>
 
                 </a>

@@ -1,0 +1,29 @@
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/baidu/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/baidu/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/baidu/lang/zh-cn/zh-cn.js"></script>
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">设置轮播------- <a href="{:url('Indexpage/bannerlist')}">轮播列表</a></div>    
+<br/>
+<form action="{:url('Indexpage/banneradd')}" enctype="multipart/form-data" method="post" >
+<table>
+<tr><td style="width:100px">添加轮播图片：</td><td style="width:200px"><input type="file" name="banner_img"></td><td><font style="color:red">图片大小限制不能超过</font></td></tr>
+<tr><td>&nbsp</td></tr>
+<tr><td>添加内容</td></tr>
+<tr><td colspan="3">
+<textarea name="contents" id="content">
+              
+</textarea>
+</table>
+</td></tr>
+<tr><td colspan="2"><input type="submit" value="保存"></td></tr>
+<span style="display:none" id="error">{if condition="isset($error)" }{$error}{else}0{/if}</span>
+</form>
+<script>
+	$(function(){
+		var ue = UE.getEditor('content');
+
+		var error=$("#error").html();
+		if(error!="0"){
+			alert(error);
+		}
+	})
+</script>
