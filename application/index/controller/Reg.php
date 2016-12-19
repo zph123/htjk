@@ -79,7 +79,7 @@ class Reg extends Controller
         $infos_1['password']=$infos['password'];
         $infos_1['fullname']=$infos['fullname'];
         $infos_1['sex']=$infos['gender'];
-        $infos_1['year']=$infos['birthday'];
+        $infos_1['year']=$infos['birthday'];1
         $infos_1['school']=$infos['school'];
         $infos_1['phone']=$infos['contact_phone'];
 
