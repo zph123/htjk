@@ -297,4 +297,60 @@ class Indexpage extends Common
             return $this->fetch('bannersave');
         }
     }
+
+
+    //案例分享
+    public function share(){
+        return $this->fetch("share");
+    }
+    function shareadd(Request $request){
+        $arr=Request::instance()->post();
+        $res=Db::table('share')->insert($arr);
+        if($res)
+        {
+            $this->redirect("sharelist");
+        }
+        else{
+            echo "添加失败";
+        }
+    }
+    public function sharelist()
+    {
+        $sharelist=Db::table('share')->select();
+        $this->assign('sharelist',$sharelist);
+        return $this->fetch("sharelist");
+    }
+    public function sharedel(Request $request){
+        $id=Request::instance()->get('s_id');
+        $where=array("s_id"=>$id);
+        $res=Db::table('share')->where($where)->delete();
+        if($res)
+        {
+            $this->redirect("sharelist");
+        }
+        else{
+            echo "删除失败";
+        }
+    }
+    public function sharesave(Request $request){
+        $id=Request::instance()->get('s_id');
+        $where=array("s_id"=>$id);
+        $sharsave=Db::table('share')->where($where)->find();
+//        var_dump($sharsave);die;
+        $this->assign('sharesave',$sharsave);
+        return $this->fetch('sharesave');
+    }
+    public function sharesaveadd(Request $request){
+        $arr=Request::instance()->post();
+        $where=array("s_id"=>$arr['s_id']);
+        $res=Db::table('share')->where($where)->update($arr);
+        if($res)
+        {
+            $this->redirect("sharelist");
+        }
+        else{
+            echo "修改失败";
+        }
+    }
+
 }

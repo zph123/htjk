@@ -150,7 +150,7 @@ class Article extends Common
         $data['c_id'] = Request::instance()->post('c_id');
         $image = $_FILES['image'];
         $imgname = rand(1000,9999).time().$image['name'];
-        $pathname = ROOT_PATH . 'public' . DS . 'article\\'.$imgname;
+        $pathname = ROOT_PATH . 'public' . DS . 'article/'.$imgname;
         move_uploaded_file($image['tmp_name'],$pathname);
         $data['img'] = $imgname;
         $data['createtime'] = date('Y-m-d',time());

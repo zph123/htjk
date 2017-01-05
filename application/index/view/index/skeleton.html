@@ -3,5 +3,5 @@
 <body>
 
 <ul data-role="listview" style="height:80px">
-    {foreach name='banner' item='val'}<li ><a style="line-height: 40px" class="false" href="{:URL('details')}?id={$val.o_id}">{$val.customer}</a>{/foreach}
+    {foreach name='banner' item='val'}<li ><a style="line-height: 40px" data-ajax="false" href="{:URL('details')}?id={$val.s_id}">{$val.share}</a>{/foreach}
 </ul>

@@ -1,0 +1,25 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">前台轮播图片列表展示-------- <a href="{:url('Indexpage/share')}">添加</a></div>    <br/>
+<table id="tt" class="easyui-datagrid" data-options="nowrap:false"style="width:100%;height:auto;">
+    <thead>
+
+    <tr>
+        <th field="name1" width="30%">标题</th>
+        <th field="name2" width="65%">列表内容</th>
+        <th field="name3" width="5%">操作</th>
+    </tr>
+    </thead>
+    {if condition="!empty($sharelist)"}
+    {foreach $sharelist as $val}
+    <tr id="del_{$val.s_id}">
+        <td>{$val.share}</td>
+        <td><div>{$val.contents}</div></td>
+        <td>
+            <a href="{:url('Indexpage/sharesave')}?s_id={$val.s_id}" class="easyui-linkbutton">修改</a>
+            <a href="{:url('Indexpage/sharedel')}?s_id={$val.s_id}" data="{$val.s_id}" class="easyui-linkbutton del" >删除</a>
+        </td>
+    </tr>
+    {/foreach}
+    {/if}
+    <tbody>
+    </tbody>
+</table>
