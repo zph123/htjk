@@ -1,7 +1,7 @@
 <div style="padding:3px 2px;border-bottom:1px solid #ccc">文章添加</div>
 <br>
 <div class="easyui-panel" title="填写信息" style="width:100%;max-width:60%;padding:30px 60px;">
-    <form  id="ff"  method="post"  class="easyui-form" data-options="novalidate:true">
+    <form action="{:url('Article/article_pots')}"  method="post" enctype="multipart/form-data">
         <div style="margin-bottom:20px">
             <input class="easyui-textbox" required="required" id="title" name="title" style="width:70%" data-options="label:'文章标题:'">
         </div>
@@ -17,43 +17,13 @@
                 {/foreach}
             </select>
         </div>
+        <div style="margin-bottom:20px">
+            <span>添加图片</span>
+            <input type="file" required="required" name="image"  style="width:70%;margin-left: 25px">
+        </div>
     <div style="text-align:center;padding:5px 0">
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="history.go(-1)" style="width:80px">返回</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton"
-           onclick="submitForm()" style="width:80px">提交</a>
+        <input type="submit" class="easyui-linkbutton" style="width: 80px;height: 28px" value="提交"/>
     </div>
     </form>
 </div>
-<script>
-    $("selectId").combobox('setValue',value);
-    function submitForm(){
-        $('#ff').form('submit',{
-            onSubmit:function(){
-                return $(this).form('enableValidation').form('validate');
-            }
-        });
-        var title=$('#title').val();
-        var url=$('#url').val();
-        var c_id=$('#c_id').val();
-        if(title==''){
-            return false;
-        }
-        if(url==''){
-            return false;
-        }
-        if(c_id=='0'){
-            alert('请选择文章分类');
-            return false;
-        }
-        $.post('article_pots',{title:title,url:url,c_id:c_id},function(msg){
-            if(msg==1){
-
-                alert('文章添加成功');location.href='listing';
-
-            }else{
-
-                alert('文章添加失败');location.href='article_add';
-            }
-        });
-    }
-</script>

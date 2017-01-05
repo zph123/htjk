@@ -11,7 +11,7 @@
     {if condition="!empty($arrlist)"}
         {foreach $arrlist as $val}
             <tr id="del_{$val.id}">
-                <td><img src="__PUBLIC__/img/{$val.img_path}" alt=""></td>
+                <td><img width="200px" height="200px" src="__PUBLIC__/img/{$val.img_path}" alt=""></td>
                 <td><div>{$val.content}</div></td>
                 <td>
                 <a href="{:url('Indexpage/updatelist')}?id={$val.id}" class="easyui-linkbutton">修改</a>

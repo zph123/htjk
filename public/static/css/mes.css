@@ -1,0 +1,71 @@
+/*头部*/
+
+.header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 80px;
+	width: 100%;
+	text-align: center;
+	position: absolute;
+}
+
+.header>ul>li {
+	float: left;
+	width: 20%;
+	line-height: 80px;
+}
+
+.header>ul>li>a {
+	color: #626262;
+}
+
+.header>ul>li>a:hover {
+	color: #75aecb;
+}
+
+.main {
+	position: absolute;
+	top: 80px;
+	left: 0;
+	right: 0;
+	height: 190px;
+	width: 100%;
+}
+
+.main .main-1 {
+	width: 100px;
+	height: 100px;
+}
+.main .main-1 img{
+	width: 100px;
+	height: 100px;
+	float: left;
+}
+.main ul li {
+	height: 150px;
+	margin-top: 21px;
+}
+.main ul li div{
+	padding-right: 20px;
+}
+
+.main .main-1 {
+	float: left;
+}
+
+.main h3 {
+	padding-left:100px ;
+	margin-top: 10px;
+}
+.main ul li{
+	float: left;
+	padding-left: 20px;
+}
+.main span{
+	float: right;
+}
+.main h3 a{
+	color: #626262;
+}

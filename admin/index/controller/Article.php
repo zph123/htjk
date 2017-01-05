@@ -148,14 +148,15 @@ class Article extends Common
         $data['title'] = Request::instance()->post('title');
         $data['url'] = Request::instance()->post('url');
         $data['c_id'] = Request::instance()->post('c_id');
-
-        $str=Db::table('article')
-            ->insert($data);
-
-        if($str=='1'){
-            echo '1';
-        }else{
-            echo '0';
+        $image = $_FILES['image'];
+        $imgname = rand(1000,9999).time().$image['name'];
+        $pathname = ROOT_PATH . 'public' . DS . 'article\\'.$imgname;
+        move_uploaded_file($image['tmp_name'],$pathname);
+        $data['img'] = $imgname;
+        $data['createtime'] = date('Y-m-d',time());
+        $str=Db::table('article')->insert($data);
+        if($str){
+            $this->success('添加成功！','Article/article_add');
         }
     }
     //删除文章
