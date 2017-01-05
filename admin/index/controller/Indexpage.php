@@ -1,5 +1,6 @@
 <?php
 namespace app\index\controller;
+use app\index\model\price_class;
 use think\Controller;
 use think\Request;
 use think\Db;
@@ -149,10 +150,11 @@ class Indexpage extends Common
             }
 
         }else{
-            $updatelist=Db::table('introduce')->where($where)->find();
-            $this->assign('arrlist',$updatelist);
-            $this->assign('error',"请选择图片上传");
-            return $this->fetch('updatelist');
+            $Introduce = new Introduce();
+            unset($arr['file_img']);
+            $res=$Introduce->updates($where,$arr);
+            $this->assign('error',"修改成功");
+            $this->redirect("listshow");
         }
     }
 
