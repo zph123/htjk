@@ -1,0 +1,86 @@
+@import url(reset.css);
+html,
+body,
+.warp {
+  width: 100%;
+  height: 100%;
+  background: none;
+}
+.warp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.warp header {
+  width: 100%;
+  height: 4rem;
+  background: #000000;
+  text-align: center;
+  position: relative;
+}
+.warp header .san {
+  width: 10px;
+  height: 10px;
+  border: 2px solid white;
+  border-top: none;
+  border-right: none;
+  transform: rotateZ(45deg);
+  margin-top: 1rem;
+  margin-left: 1rem;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 8px;
+}
+.warp header h1 {
+  color: white;
+  display: inline-block;
+  line-height: 4rem;
+  font-size: 1.6rem;
+}
+.warp section {
+  -webkit-box-flex: 1;
+}
+.warp section .main1 {
+  width: 100%;
+  height: 20rem;
+  background: none;
+  text-align: center;
+}
+.warp section .main1 img {
+  width: 9rem;
+  height: 9rem;
+  background: none;
+  margin-top: 4rem;
+}
+.warp section .main1 h1 {
+  font-size: 1.8rem;
+  margin-top: 1.8rem;
+}
+.warp section .main2 {
+  width: 100%;
+  height: 27.5rem;
+  background: #f0f0f0;
+  text-align: center;
+}
+.warp section .main2 img {
+  width: 16rem;
+  height: 4rem;
+  background: none;
+  margin-top: 1rem;
+}
+.warp footer {
+  width: 100%;
+  height: 4rem;
+  background: none;
+}
+.warp footer ul {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+}
+.warp footer ul li {
+  width: 33%;
+  line-height: 4rem;
+  text-align: center;
+  font-size: 1.6rem;
+  border-right: 1px solid #f0f0f0;
+}

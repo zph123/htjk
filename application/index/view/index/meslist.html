@@ -1,5 +1,8 @@
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/style1.css" />
+<style>
+
+</style>
 	</head>
 	<body>
 	<div class="warp">
@@ -12,7 +15,17 @@
 					{else /}
 							{foreach name='cat' item='value'}
 								<li>
-									<a style="font-weight: normal" href="{:url('index/mesList')}?c_id={$value.c_id}" data-ajax="false">{$value.c_name}</a>
+									<a style="font-weight: normal;" href="{:url('index/mesList')}?c_id={$value.c_id}" data-ajax="false">
+										{if condition="($value.c_id == $c_id) "}
+										<span class="spana" style="color: #4EC9E3">
+										{$value.c_name}
+										</span>
+										{else /}
+										<span class="spana">
+										{$value.c_name}
+										</span>
+										{/if}
+									</a>
 								</li>
 							{/foreach}
 					{/if}
@@ -26,7 +39,7 @@
 					<dd>
 						<h1><a style="font-weight: normal;color: #000000" href="{$value.url}" data-ajax="false">{$value.title}</a></h1>
                         <h2><img src="__PUBLIC__/index/img/bone_13.png"/>{$value.c_name}</h2>
-                        <h3>{$value.createtime}</h3>
+
 				</dl>
 			</div>
 			{/foreach}
@@ -37,6 +50,5 @@
 	</div>
     <br/>
     <br/>
-
 	</body>
 </html>

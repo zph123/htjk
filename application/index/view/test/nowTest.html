@@ -5,10 +5,11 @@
     <!--</div>-->
 
     <div data-role="content" style="margin-bottom:10%">
-        <h3 align="center">活动报名</h3>
+
         {if condition="$below_list eq null" /}
-            <p>暂无活动信息</p>
+            <p style="text-align: center;"><img style="margin-top: 40%" width="30%" height="25%" src="__PUBLIC__/static/img/test/meiyouhuodong.png"/></p>
         {else /}
+        <h3 align="center">活动报名</h3>
             <p>地点： <font color="" id="place">{$below_list['l_place']}</font></p>
             <p>开始时间： <font color="" id="stime">{$below_list['l_stime']}</font></p>
             <p>结束时间： <font color="" id="etime">{$below_list['l_etime']}</font></p>

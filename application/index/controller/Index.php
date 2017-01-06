@@ -14,17 +14,20 @@ class Index extends Controller
     //热门列表
     public function mesList(){
         $c_id=Request::instance()->get('c_id');
-        $c_id = isset($c_id) ? $c_id + 0 : 0;
+        $c_id =isset($c_id)?$c_id:1;
         if($c_id){
             $catlist=Db::table('article')->join("category_article","category_article.c_id = article.c_id")->where(['article.c_id'=>$c_id])->limit(6)->select();
 
         }else{
-            $catlist=Db::table('article')->join("category_article","category_article.c_id = article.c_id")->limit(6)->select();
+            $catlist=Db::table('article')->join("category_article","category_article.c_id = article.c_id")
+                ->where(['article.c_id'=>"1"])->limit(6)->select();
+
         }
         //展示标题信息
         $cat=Db::table('category_article')->limit(5)->select();
         $this -> assign('cat',$cat);
         $this -> assign('catlist',$catlist);
+        $this -> assign('c_id',$c_id);
         //根据标题信息查询详细内容
         return $this->fetch('meslist');
     }

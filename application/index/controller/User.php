@@ -344,7 +344,8 @@ class User extends Common
                     $action='report';
                     $type=Db::table('nowtest')->where('o_id',$id)->delete();
                 }
-                $this->redirect("$action");
+                $this->assign('action',$action);
+                return view('user/delete');
             }else{
                 $this->error('订单删除失败');
             }
@@ -352,6 +353,7 @@ class User extends Common
             $this->error('该订单不存在');
         }
     }
+
     /**
      * 退出登录
      */

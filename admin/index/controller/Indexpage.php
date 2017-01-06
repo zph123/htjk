@@ -293,9 +293,11 @@ class Indexpage extends Common
             }
 
         }else{
+            unset($arr['banner_img']);
+            $res=Db::table('banner')->where($where)->update($arr);
             $bannersave=Db::table('banner')->where($where)->find();
             $this->assign('bannersave',$bannersave);
-            $this->assign('error',"请选择图片上传");
+            $this->assign('error',"修改成功");
             return $this->fetch('bannersave');
         }
     }
