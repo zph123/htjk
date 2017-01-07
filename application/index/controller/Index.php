@@ -21,7 +21,6 @@ class Index extends Controller
         }else{
             $catlist=Db::table('article')->join("category_article","category_article.c_id = article.c_id")
                 ->where(['article.c_id'=>"1"])->limit(6)->select();
-
         }
         //展示标题信息
         $cat=Db::table('category_article')->limit(5)->select();
@@ -62,9 +61,22 @@ class Index extends Controller
     }
     //骨龄列表展示
     public function bone(){
+        $show=Db::table('bone')->select();
+//        var_dump($show);die;
+        $this->assign('bone',$show);
         return $this->fetch("boneAge");
     }
-    //首页
+    //骨龄详情展示
+    public function bonelist(Request $request)
+    {
+        $id = $request->get("id");
+        $where = array("b_id" => $id);
+        $show = Db::table('bone')->where($where)->select();
+//        var_dump($show);die;
+        $this->assign('arr', $show[0]);
+        return $this->fetch('bonelist');
+    }
+        //首页
     public function index()
     {
         $arr=Db::table('introduce')->field('id,img_path,title')->select();
@@ -159,5 +171,4 @@ class Index extends Controller
     {
         return view('howBone');
     }
-
 }

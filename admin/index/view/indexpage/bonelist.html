@@ -1,0 +1,27 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">前台骨龄列表展示-------- <a href="{:url('Indexpage/bone')}">添加</a></div>    <br/>
+<table id="tt" class="easyui-datagrid" data-options="nowrap:false"style="width:100%;height:auto;">
+    <thead>
+
+    <tr>
+        <th field="name" width="30%">标题</th>
+        <th field="name1" width="30%">图片</th>
+        <th field="name2" width="65%">列表内容</th>
+        <th field="name3" width="5%">操作</th>
+    </tr>
+    </thead>
+    {if condition="!empty($bonelist)"}
+    {foreach $bonelist as $val}
+    <tr id="del_{$val.b_id}">
+        <td>{$val.b_title}</td>
+        <td><img src="__PUBLIC__/bone/{$val.b_img}" style="width:200px;height:100px" alt=""></td>
+        <td><div>{$val.contents}</div></td>
+        <td>
+            <a href="{:url('Indexpage/bonesave')}?b_id={$val.b_id}" class="easyui-linkbutton">修改</a>
+            <a href="{:url('Indexpage/bonedel')}?b_id={$val.b_id}" data="{$val.b_id}" class="easyui-linkbutton del" >删除</a>
+        </td>
+    </tr>
+    {/foreach}
+    {/if}
+    <tbody>
+    </tbody>
+</table>

@@ -1,46 +1,57 @@
-</head>
-<body>
-<div data-role="content" style="padding-top: 10%;margin-bottom: 10%">
-  <p style="line-height: 2em;font-size: 18px;">
-       
-    </p> 
-    <div style="clear: both;"></div>  
-    <table data-role="table" class="ui-responsive">
-      <thead>
-        <tr>
-          <th>订单号</th>
-          <th>是否生成报告</th>
-          <th>是否支付</th>
-          <th>价格</th>
-          <th>添加时间</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{$list.out_trade_no}</td>
-          <td>{$list.status}</td>
-          <td>{$list.is_pay}</td>
-          <td>{$list.amount}</td>
-          <td>{$list.addtime}</td>
-        </tr>
-      </tbody>
-    </table>
-  {if condition="($is_pay == 1)"}
-    {if condition="($way != '')"}
-    <div style="clear: both;"></div>  
-    <br>
-    {include file="user/motion" /}
-      
-    {/if} 
-  {else /}
-    <p style="line-height: 2em;font-size: 18px;">
-        <span style="float: left;">
-          <a href="{:url('index/user/user_delete')}?r={$list.o_id}" data-role="button" data-ajax="false">取消订单</a>
-        </span>
-        <span style="float: right;">
-           <a href="{:url('index/user/pay')}?r={$list.o_id}" data-role="button" data-ajax="false">去支付</a>
-        </span>
-    </p> 
-  {/if} 
-  
-</div>
+
+<link rel="stylesheet" href="__PUBLIC__/static/css/healthy.css" />
+<style media="screen">
+  .ul_a li span{
+    margin-left: 5%;
+  }
+</style>
+	<div class="wrapper">
+		<section>
+             <div class="info">
+             	<div class="all">
+             		<div class="menu">
+	             		<p>订单信息</p>
+	             	</div>
+	             	<div class="four">
+	             	<ul class="ul_a">
+	             		<li>订单号码<span>{$list.out_trade_no}</span></li>
+	             		<li>生成报告<span>{$list.status}</span></li>
+	             		<li>实付金额<span>{$list.is_pay}</span></li>
+	             		<li>下单时间<span>{$list.amount}</span></li>
+	             	</ul>
+	             	</div>
+               </div>
+             </div>
+			{if condition="($is_pay == 1)"}
+			{if condition="($way != '')"}
+			<div style="clear: both;"></div>
+			<br>
+			{include file="user/motion" /}
+
+			{/if}
+			{else /}
+             <div class="btn">
+             	<div class="bn">
+             		<div class="qx">
+             			<button class="quxiao">取消订单</button>
+             		</div>
+             		<div class="zf">
+             			<button class="zhifu">立即支付</button>
+             		</div>
+
+             	</div>
+
+             </div>
+			{/if}
+		</section>
+	</div>
+
+<script type="text/javascript">
+    $('.quxiao').click(function(){
+          if(confirm('您是否取消订单？')){
+			  location.href="{:url('index/user/user_delete')}?r={$list.o_id}";
+          }else{
+              location.href="{:url('index/user/pay')}?r={$list.o_id}";
+		  }
+    })
+</script>

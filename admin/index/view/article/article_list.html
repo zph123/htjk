@@ -15,8 +15,9 @@
         <th field="name1" width="4%">ID</th>
         <th field="name2" width="25%">标题</th>
         <th field="name3" width="10%">分类</th>
-        <th field="name4" width="52%">URL</th>
-        <th field="name5" width="10%">其他操作</th>
+        <th field="name4" width="25%">URL</th>
+        <th field="name6" width="20%">封面</th>
+        <th field="name5" width="20%">其他操作</th>
     </tr>
     </thead>
     <tbody>
@@ -26,7 +27,13 @@
         <td>{$val.title}</td>
         <td>{$val.c_name}</td>
         <td><a href="{$val.url}">{$val.url}</a></td>
-        <td><a href="javascript:;" class="easyui-linkbutton del"  iconCls="icon-cancel">删除</a><input type="hidden" value="{$val.article_id}"></td>
+        <td><img src="__PUBLIC__/article/{$val.img}" alt="" style="width: 150px;height: 80px;"/></td>
+        <td>
+            <a href="javascript:;" class="easyui-linkbutton del"  iconCls="icon-cancel">删除</a><input type="hidden" value="{$val.article_id}">
+            <a href="{:url('Article/articleup')}?article_id={$val.article_id}"  iconCls="icon-cancel">
+                <button style=" background: #f5f5f5; width: 54px;height: 25px">修改</button>
+            </a>
+        </td>
     </tr>
     {/foreach}
     </tbody>

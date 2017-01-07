@@ -356,5 +356,137 @@ class Indexpage extends Common
             echo "修改失败";
         }
     }
+//骨骼测试
+    public function bone(){
+        return $this->fetch("bone");
+    }
+    function boneadd(Request $request){
 
+        $arr=Request::instance()->post();
+        //print_r($arr);die;
+        $img=$request->file('b_img');
+        if(!empty($img)){
+            $size = $_FILES['b_img']['size'];         //获取图片大小
+            $type = $_FILES['b_img']['type'];
+            $type= substr($type, strrpos($type, "/")+1);    //获取图片类型;
+            $type_class= array('jpeg','png','gif');        //定义图片类型;
+
+            //检测图片类型是否合格
+            if(in_array($type,$type_class)){
+                if($size<=1024*1024){
+
+                    $Catalog_path=ROOT_PATH."public".DS."bone";
+                    is_dir($Catalog_path)or mkdir($Catalog_path,0777,true);
+                    //将图片转移到 框架应用根目录/public/testimg/ 目录下
+                    $file_info = $img->move($Catalog_path);
+                    if ($file_info) {
+                        $imgname=$file_info->getSaveName();
+                        $arr['b_img'] = $imgname;
+                        $res=Db::table('bone')->insert($arr);
+                        if($res){
+                            $this->redirect("bonelist");
+                        }else{
+                            $this->assign('error',"保存失败");
+                            return $this->fetch('bone');
+                        }
+                    } else {
+                        // 上传失败获取错误信息，并显示
+                        $this->error($img->getError());
+                    }
+                }else{
+                    $this->assign('error',"图片超过限制大小");
+                    return $this->fetch('bone');
+                }
+            } else {
+                $this->assign('error',"请选择正确的图片类型");
+                return $this->fetch('bone');
+            }
+
+        }else{
+            $this->assign('error',"请选择图片上传");
+            return $this->fetch('bone');
+        }
+    }
+    public function bonelist(){
+        $bonelist=Db::table('bone')->select();
+        $this->assign('bonelist',$bonelist);
+        return $this->fetch("bonelist");
+    }
+    public function bonedel(Request $request){
+        $id=Request::instance()->get('b_id');
+        $where=array("b_id"=>$id);
+        $res=Db::table('bone')->where($where)->delete();
+        if($res)
+        {
+            $this->redirect("bonelist");
+        }
+        else{
+            echo "删除失败";
+        }
+    }
+    public function  bonesave(Request $request){
+        $id=Request::instance()->get('b_id');
+        $where=array("b_id"=>$id);
+        $bonesave=Db::table('bone')->where($where)->find();
+        $this->assign('bonesave',$bonesave);
+        return $this->fetch('bonesave');
+    }
+
+    public function bonesaveadd(Request $request){
+        $arr=Request::instance()->post();
+        $where=array("b_id"=>$arr['b_id']);
+        unset($arr['b_id']);
+        //print_r($arr);die;
+        $img=$request->file('b_img');
+        if(!empty($img)){
+            $size = $_FILES['b_img']['size'];         //获取图片大小
+            $type = $_FILES['b_img']['type'];
+            $type= substr($type, strrpos($type, "/")+1);    //获取图片类型;
+            $type_class= array('jpeg','png','gif');        //定义图片类型;
+
+            //检测图片类型是否合格
+            if(in_array($type,$type_class)){
+                if($size<=1024*1024){
+                    $Introduce = new Introduce();
+                    $Catalog_path=ROOT_PATH."public".DS."bone";
+                    is_dir($Catalog_path)or mkdir($Catalog_path,0777,true);
+                    //将图片转移到 框架应用根目录/public/testimg/ 目录下
+                    $file_info = $img->move($Catalog_path);
+                    if ($file_info) {
+                        $imgname=$file_info->getSaveName();
+                        $arr['b_img'] = $imgname;
+                        $res=Db::table('bone')->where($where)->update($arr);
+                        if($res){
+                            $bannersave=Db::table('bone')->where($where)->find();
+                            $this->redirect("bonelist");
+                        }else{
+                            $bannersave=Db::table('bone')->where($where)->find();
+                            $this->assign('bonesave',$bannersave);
+                            $this->assign('error',"修改失败");
+                            return $this->fetch('bonesave');
+                        }
+                    } else {
+                        // 上传失败获取错误信息，并显示
+                        $this->error($img->getError());
+                    }
+                }else{
+                    $bannersave=Db::table('bone')->where($where)->find();
+                    $this->assign('bonesave',$bannersave);
+                    $this->assign('error',"图片超过限制大小");
+                    return $this->fetch('bonesave');
+                }
+            } else {
+                $bannersave=Db::table('bone')->where($where)->find();
+                $this->assign('bonesave',$bannersave);
+                $this->assign('error',"请选择正确的图片类型");
+                return $this->fetch('bonesave');
+            }
+
+        }else{
+            unset($arr['b_img']);
+            $res=Db::table('bone')->where($where)->update($arr);
+            $bannersave=Db::table('bone')->where($where)->find();
+            $this->redirect("bonelist");
+        }
+    }
 }

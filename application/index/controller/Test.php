@@ -25,8 +25,8 @@ class Test extends Controller
     public function onlinetest()
     {
         //从数据库获取 测试费用
-        $price_id=1;
-        $price=price_classModel::get($price_id);
+        $price1 = DB::table('price_class')->where(['p_id'=>1])->find();
+        $price2 = DB::table('price_class')->where(['p_id'=>2])->find();
         $controller = "Test";
         $action = "onlinetest";
         Cookie::set('controller', $controller);
@@ -35,13 +35,17 @@ class Test extends Controller
         if($id){
             $log = 1;
             $info = Db::table('user_infos')->where('u_id',$id)->find();
+            $user = Db::table('gl_users')->where('id',$id)->find();
         }else{
             $log = 0;
             $info = null;
+            $user = null;
         }
-        return view('onlineTest',
+        return view('online',
             [
-                'price'=>$price,
+                'price1'=>$price1,
+                'price2'=>$price2,
+                'user'=>$user,
                 'log'  =>$log,
                 'info' =>$info
             ]

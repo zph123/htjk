@@ -353,7 +353,6 @@ class User extends Common
             $this->error('该订单不存在');
         }
     }
-
     /**
      * 退出登录
      */

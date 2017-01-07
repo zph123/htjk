@@ -1,0 +1,247 @@
+ <link rel="stylesheet" href="__PUBLIC__/static/css/new_file.css" />
+ <link rel="stylesheet" href="__PUBLIC__/static/css/button.css" type="text/css" />
+ <script src="__PUBLIC__/static/js/fileinput.js" type="text/javascript"></script>
+ <script src="__PUBLIC__/static/js/fileinput_locale_zh.js" type="text/javascript"></script>
+ <script src="__PUBLIC__/static/js/jquery-1.7.2.min.js"></script>
+ <style>
+     #div3{
+         border-radius: 50px;
+         position: relative;
+     }
+     #div4{
+         border-radius: 48px;
+         position: absolute;
+         background: white;
+         box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+     }
+ </style>
+</head>
+<body>
+<form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" enctype="multipart/form-data" action="{:url('index/test/add_onlinetest')}">
+<div class="warp">
+    <section>
+        <div class="main1">
+            <div class="m_l">
+                <h1 style="margin-left: 10px;"><input type="radio" name="predict_height" value="0" style=" float: left; margin-right: 10px; margin-top: 1px"></h1><h2 style="margin-left: 20%;font-size: 20px;line-height: 60%">{$price1.p_name}</h2>
+            </div>
+            <div class="m_r">
+                <span>￥{$price1.p_price}/人次</span>
+            </div>
+        </div>
+        <div class="main2">
+            <div class="m_l">
+                <h1 style="margin-left: 10px;"><input type="radio" checked name="predict_height" value="1" style=" float: left; margin-right: 10px; margin-top: 1px"></h1><h2 style="margin-left: 20%;font-size: 20px;line-height: 60%">{$price2.p_name}</h2>
+            </div>
+            <div class="m_r">
+                <span>￥{$price2.p_price}/人次</span>
+            </div>
+        </div>
+
+        <div class="main3">
+            <h1>测试者基本信息</h1>
+        </div>
+        {if condition="$info neq null"}
+        <div class="main4">
+
+            <ul class="u_l">
+                <li>姓名</li>
+                <li>性别</li>
+                <li>出生日期</li>
+                <li>身份证号</li>
+                <li>出生时身高</li>
+                <li>出生时体重</li>
+                <li>是否顺产</li>
+                <li>父亲身高</li>
+                <li>母亲身高</li>
+                <li>地址</li>
+                <li>学校</li>
+                <li>邮箱</li>
+            </ul>
+
+            <ul class="u_r">
+                <li>{$user.name}</li>
+                <li>
+                    {if condition="$info['gender'] eq 1"/}男
+                    {else/}女
+                    {/if}
+                </li>
+                <li>{$info['birthday']}</li>
+                <li>{$info['id_number']}</li>
+                <li>{$info['birth_height']}cm</li>
+                <li>{$info['birth_weight']}kg</li>
+                <li>
+                    {if condition="$info['birth_smoothly'] eq 1"/}是
+                    {else/}否
+                    {/if}
+                </li>
+                <li>{$info['father_height']}cm</li>
+                <li>{$info['mother_height']}cm</li>
+                <li>{$info['contact_address']}</li>
+                <li>{$info['school']}</li>
+                <li>{$info['email']}</li>
+            </ul>
+        </div>
+
+        <div class="main5">
+            {if condition="$info['gender'] eq 1"/}
+            <input id="yj" type="hidden" name="spermatorrhea" value="1">
+                <h1 style=" margin-left: 1%; margin-top: 3%; font:16px 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', '宋体', \5b8b\4f53, Tahoma, Arial; font-size: 14px">是否遗精</h1>
+            <h1 style="margin-left: 65%; margin-top: 4px">
+                <div id="div1" style=" width: 55px; height: 34px" class="open1">
+                    <div id="div2" style=" width: 27px; height: 27px" class="open2"></div>
+                </div>
+            </h1>
+            {else/}
+            <input id="cc" type="hidden" name="menarche" value="1">
+            <h1 style=" margin-left: 1%; margin-top: 3%; font:16px 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', '宋体', \5b8b\4f53, Tahoma, Arial; font-size: 14px">是否初潮</h1>
+            <h1 style="margin-left: 65%; margin-top: 4px">
+                <div id="div1" style=" width: 55px; height: 34px" class="open1">
+                    <div id="div2" style=" width: 27px; height: 27px" class="open2"></div>
+                </div>
+            </h1>
+            {/if}
+        </div>
+        {else/}
+
+        {/if}
+        <div class="main6">
+            <h1>手部X光片上传</h1>
+        </div>
+
+        <div class="main7">
+            <img src="__PUBLIC__/static/img/test/img/shili.png" alt="" />
+        </div>
+
+        <div class="main8">
+            <input id="hands_photo" name="hands_photo" type="file">
+        </div>
+        <div class="main5">
+            <input id="bg" type="hidden" name="need_report" value="1">
+            <h1 style=" margin-left: 1%; margin-top: 3%; font:16px 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', '宋体', \5b8b\4f53, Tahoma, Arial; font-size: 14px">纸质报告</h1>
+            <h1 style="margin-left: 65%;margin-top: 4px">
+                <div id="div3" style=" width: 55px; height: 34px" class="open1">
+                    <div id="div4" style=" width: 27px; height: 27px" class="open2"></div>
+                </div>
+            </h1>
+        </div>
+
+        <div class="main10" id="content_bottom">
+            <a href="javascript:document.form_onlinetest.reset()" data-rel="dialog"><img src="__PUBLIC__/static/img/test/img/quxiao.png" alt="" /></a>
+            <a href="javascript:void (0)" data-rel="dialog" id="form_submit"><img src="__PUBLIC__/static/img/test/img/queren.png" alt="" /></a>
+        </div>
+    </section>
+</div>
+</form>
+<br>
+<br>
+<br>
+<script type="text/javascript">
+    window.onload=function(){
+        var div2=document.getElementById("div2");
+        var div1=document.getElementById("div1");
+        if(div2 || div1){
+            div1.onclick=function(){
+                var yj = $("#yj").val();
+                var cc = $("#cc").val();
+                if(!yj){
+                    if(cc == 1){
+                        $("#cc").attr("value",0);
+                    }else{
+                        $("#cc").attr("value",1);
+                    }
+                }else{
+                    if(yj == 1){
+                        $("#yj").attr("value",0);
+                    }else{
+                        $("#yj").attr("value",1);
+                    }
+                }
+                div1.className=(div1.className=="close1")?"open1":"close1";
+                div2.className=(div2.className=="close2")?"open2":"close2";
+
+            }
+        }
+
+        var div4=document.getElementById("div4");
+        var div3=document.getElementById("div3");
+
+        div3.onclick=function(){
+            var bg = $("#bg").val();
+            if(bg == 1){
+                $("#bg").attr("value",0);
+            }else{
+                $("#bg").attr("value",1);
+            }
+            div3.className=(div3.className=="close1")?"open1":"close1";
+            div4.className=(div4.className=="close2")?"open2":"close2";
+        }
+    }
+
+    $(function () {
+        //初始化页面状态
+        $(".ui-field-contain div").removeClass('ui-flipswitch-active');
+        //判断用户是否以及登录
+        $.ajax({
+            url:"{:url('index/test/ajax_login_status')}",
+            type:'get',
+            success:function (status) {
+                if(status==0){
+                    $('#content_bottom').hide();
+
+                    $(".ui-field-contain div").addClass("ui-state-disabled","mobile-flipswitch-disabled");
+                    $(".ui-field-contain a").attr("disabled","disabled");
+                    $(".ui-field-contain input").attr("disabled","disabled");
+                    $(".ui-field-contain select").attr("disabled","disabled");
+                    $("#content div").on("click",function () {
+                        login_confirm();
+                    });
+                }
+            },
+            error:function () {
+                alert('异常，连接失败！')
+            }
+        });
+        //提交
+        $('#form_submit').click(function () {
+            autosubmit();
+        })
+    });
+
+    //确认取消
+    function login_confirm(){
+        var r=confirm("您还没登录，请前往登录！");
+        if (r==true)
+            location.href="{:url('index/login/index')}";
+//        else location.href="{:url('index/index/index')}"
+    }
+
+    /**
+     * 检测数据和提交
+     */
+    function autosubmit() {
+        var status=1;
+
+        //通过文件后缀判断是否是图片
+        var reg_img=/\.jpg$|\.jpeg$|\.png$|\.img$|\.gif$/i;
+        var obj_photo=$("input[name='hands_photo']")[0];
+        var the_photo=$('#hands_photo').val();
+        if(!reg_img.test(the_photo)){
+            status=0;
+            alert('手部图片只能上传jpg jpeg img gif格式的！');
+            return ;
+        }else {
+            var image=new Image();
+            var size=obj_photo.files[0].size;
+            if(size>5242880){
+                status=0;
+                alert('图片大小超出限制！');
+                return ;
+            }
+        }
+
+        if(status){
+            var form=$('#form_onlinetest');
+            form.submit();
+        }
+    }
+</script>
