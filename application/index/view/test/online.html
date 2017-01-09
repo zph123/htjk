@@ -16,32 +16,32 @@
     }
 </style>
 </head>
-<body>
-<form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" enctype="multipart/form-data" action="{:url('index/test/add_onlinetest')}">
-    <div class="warp">
-        <section>
+<body style="margin-right: 5px">
+    <div class="warp" id="content">
+        <form data-ajax="false" method="post" id="form_onlinetest" name="form_onlinetest" enctype="multipart/form-data" action="{:url('index/test/add_onlinetest')}">
+    <section>
             <div class="main1">
                 <div class="m_l">
-                    <h1 style="margin-left: 10px;"><input type="radio" name="predict_height" value="0" style=" float: left; margin-right: 10px; margin-top: 1px"></h1><h2 style="margin-left: 20%;font-size: 20px;line-height: 60%">{$price1.p_name}</h2>
+                    <h1 style="margin-left: 10px;"><input type="radio" name="predict_height" value="0" style=" float: left; margin-right: 10px; margin-top: 1px;width: 16px;height: 16px"></h1><h2 style="margin-left: 20%;font-size: 16px;line-height: 60%">{$price1.p_name}</h2>
                 </div>
                 <div class="m_r">
-                    <span>￥{$price1.p_price}/人次</span>
+                    <span>￥{$price1.p_price}</span>
                 </div>
             </div>
             <div class="main2">
                 <div class="m_l">
-                    <h1 style="margin-left: 10px;"><input type="radio" checked name="predict_height" value="1" style=" float: left; margin-right: 10px; margin-top: 1px"></h1><h2 style="margin-left: 20%;font-size: 20px;line-height: 60%">{$price2.p_name}</h2>
+                    <h1 style="margin-left: 10px;"><input type="radio" checked name="predict_height" value="1" style=" float: left; margin-right: 10px; margin-top: 1px;width: 16px;height: 16px"></h1><h2 style="margin-left: 20%;font-size: 16px;line-height: 60%">{$price2.p_name}</h2>
                 </div>
                 <div class="m_r">
-                    <span>￥{$price2.p_price}/人次</span>
+                    <span>￥{$price2.p_price}</span>
                 </div>
             </div>
 
-            <div class="main3">
+            <div class="main3 ui-field-contain">
                 <h1>测试者基本信息</h1>
             </div>
             {if condition="$info neq null"}
-            <div class="main4">
+            <div class="main4 ui-field-contain">
 
                 <ul class="u_l">
                     <li>姓名</li>
@@ -82,7 +82,7 @@
                 </ul>
             </div>
 
-            <div class="main5">
+            <div class="main5 ui-field-contain">
                 {if condition="$info['gender'] eq 1"/}
                 <input id="yj" type="hidden" name="spermatorrhea" value="1">
                 <h1 style=" margin-left: 1%; margin-top: 3%; font:16px 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', '宋体', \5b8b\4f53, Tahoma, Arial; font-size: 14px">是否遗精</h1>
@@ -110,7 +110,7 @@
                 <label for="hands_photo"><font color="red">• </font>手部X光片上传:</label>
                 <input id="hands_photo" name="hands_photo" class="file" type="file" multiple data-min-file-count="1" value="">
             </div>
-            <div class="main5">
+            <div class="main5 ui-field-contain">
                 <input id="bg" type="hidden" name="need_report" value="1">
                 <h1 style=" margin-left: 1%; margin-top: 3%; font:16px 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', '宋体', \5b8b\4f53, Tahoma, Arial; font-size: 14px">纸质报告</h1>
                 <h1 style="margin-left: 65%;margin-top: 4px">
@@ -120,13 +120,13 @@
                 </h1>
             </div>
 
-            <div class="main10" id="content_bottom">
+            <div class="main10 ui-field-contain" id="content_bottom">
                 <a href="javascript:document.form_onlinetest.reset()" data-rel="dialog"><img src="__PUBLIC__/static/img/test/img/quxiao.png" alt="" /></a>
                 <a href="javascript:void (0)" data-rel="dialog" id="form_submit"><img src="__PUBLIC__/static/img/test/img/queren.png" alt="" /></a>
             </div>
         </section>
+        </form>
     </div>
-</form>
 <br>
 <br>
 <br>
@@ -187,7 +187,7 @@
                     $(".ui-field-contain a").attr("disabled","disabled");
                     $(".ui-field-contain input").attr("disabled","disabled");
                     $(".ui-field-contain select").attr("disabled","disabled");
-                    $("#content div").on("click",function () {
+                    $("#content").on("click",function () {
                         login_confirm();
                     });
                 }
