@@ -26,7 +26,7 @@ class Test extends Controller
     {
         //从数据库获取 测试费用
         $price1 = DB::table('price_class')->where(['p_id'=>1])->find();
-        $price2 = DB::table('price_class')->where(['p_id'=>2])->find();
+        $price2 = DB::table('price_class')->where(['p_id'=>6])->find();
         $controller = "Test";
         $action = "onlinetest";
         Cookie::set('controller', $controller);
