@@ -53,6 +53,38 @@ class Article extends Common
         return $this->fetch('category_article');
     }
 
+    //文章修改
+    public function articleup(){
+        $article_id = Request::instance()->get('article_id');
+        $data = Request::instance()->post();
+
+        if($data){
+            if($_FILES['image']['name']!=''){
+                $image = $_FILES['image'];
+                $imgname = rand(1000,9999).time().$image['name'];
+                $pathname = ROOT_PATH . 'public' . DS . '/article/'.$imgname;
+                move_uploaded_file($image['tmp_name'],$pathname);
+                $data['img'] = $imgname;
+            }
+            $str = Db::table('article')->where('article_id',$data['article_id'])->setField($data);
+            if($str){
+                $this->success('修改成功！','Article/listing');
+            }
+        }else{
+            $article=Db::table('article')
+                ->alias('a')
+                ->join('category_article c','a.c_id=c.c_id')
+                ->where('article_id',$article_id)
+                ->find();
+            $cat=Db::table('category_article')->select();
+            $this->assign('cat',$cat);
+            $this->assign('article',$article);
+//        print_r($article);die;
+            return view('article_up');
+        }
+    }
+
+
     //文章分类即点及改  作者：李斌
     public function ajax_category_a_data(){
         $data['c_id']=input('c_id');

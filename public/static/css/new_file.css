@@ -1,0 +1,234 @@
+@import url(reset.css);
+html,
+body,
+.warp {
+  width: 100%;
+  height: 100%;
+  background: none;
+}
+.warp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.warp header {
+  width: 100%;
+  height: 4rem;
+  background: #000000;
+}
+.warp section {
+  -webkit-box-flex: 1;
+  overflow: auto;
+}
+.warp section .main1 {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  width: 100%;
+  height: 4rem;
+  background: none;
+  border-bottom: 1px solid #eeeeee;
+}
+.warp section .main1 .m_l {
+  -webkit-box-flex: 1;
+  position: relative;
+}
+.warp section .main1 .m_l img {
+  display: inline-block;
+  position: absolute;
+  top: 1.1rem;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  margin-left: 0.5rem;
+}
+.warp section .main1 .m_l h1 {
+  display: inline-block;
+  font-size: 1.6rem;
+  line-height: 4rem;
+  margin-left: 3rem;
+}
+.warp section .main1 .m_r {
+  width: 9rem;
+  height: 100%;
+  background: none;
+  text-align: center;
+}
+.warp section .main1 .m_r span {
+  color: #f66584;
+  font-size: 1.6rem;
+  line-height: 4rem;
+}
+.warp section .main2 {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  width: 100%;
+  height: 4rem;
+  background: none;
+}
+.warp section .main2 .m_l {
+  -webkit-box-flex: 1;
+  position: relative;
+}
+.warp section .main2 .m_l img {
+  display: inline-block;
+  position: absolute;
+  top: 1.1rem;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  margin-left: 0.5rem;
+}
+.warp section .main2 .m_l h1 {
+  display: inline-block;
+  font-size: 1.6rem;
+  line-height: 4rem;
+  margin-left: 3rem;
+}
+.warp section .main2 .m_r {
+  width: 9rem;
+  height: 100%;
+  background: none;
+  text-align: center;
+}
+.warp section .main2 .m_r span {
+  color: #f66584;
+  font-size: 1.6rem;
+  line-height: 4rem;
+}
+.warp section .main3 {
+  width: 100%;
+  height: 3rem;
+  background: #f1f1f1;
+}
+.warp section .main3 h1 {
+  font-size: 1.4rem;
+  line-height: 3rem;
+  margin-left: 0.5rem;
+}
+.warp section .main4 {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+}
+.warp section .main4 .u_l {
+  width: 9rem;
+  height: 36rem;
+  background: none;
+}
+.warp section .main4 .u_l li {
+  width: 100%;
+  height: 3rem;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 3rem;
+  border-bottom: 1px solid #eeeeee;
+  margin-left: 0.5rem;
+  color: #676767;
+}
+.warp section .main4 .u_r {
+  -webkit-box-flex: 1;
+}
+.warp section .main4 .u_r li {
+  width: 100%;
+  height: 3rem;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 3rem;
+  border-bottom: 1px solid #eeeeee;
+}
+.warp section .main5 {
+  width: 100%;
+  height: 4rem;
+  background: none;
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+}
+.warp section .main5 .lll {
+  -webkit-box-flex: 1;
+}
+.warp section .main5 .lll h1 {
+  font-size: 1.5rem;
+  color: #676767;
+  line-height: 4rem;
+  margin-left: 0.5rem;
+}
+.warp section .main5 .rrr {
+  width: 5rem;
+  height: 100%;
+  background: none;
+}
+.warp section .main5 .rrr img {
+  margin-top: 1rem;
+}
+.warp section .main6 {
+  width: 100%;
+  height: 3rem;
+  background: #f1f1f1;
+}
+.warp section .main6 h1 {
+  font-size: 1.4rem;
+  line-height: 3rem;
+  margin-left: 0.5rem;
+}
+.warp section .main7 {
+  width: 100%;
+  padding: 1rem 1rem 1rem 1rem ;
+  box-sizing: border-box;
+}
+.warp section .main7 img {
+  width: 100%;
+  height: auto;
+  background: none;
+}
+.warp section .main8 {
+  width: 100%;
+  height: 3rem;
+  background: none;
+  padding: 0 1rem 1rem 1rem;
+  box-sizing: border-box;
+}
+.warp section .main8 img {
+  width: 100%;
+  height: auto;
+  background: none;
+}
+.warp section .main9 {
+  width: 100%;
+  height: 4rem;
+  background: none;
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+}
+.warp section .main9 .lll {
+  -webkit-box-flex: 1;
+}
+.warp section .main9 .lll h1 {
+  font-size: 1.5rem;
+  color: #676767;
+  line-height: 4rem;
+  margin-left: 0.5rem;
+}
+.warp section .main9 .rrr {
+  width: 5rem;
+  height: 100%;
+  background: none;
+}
+.warp section .main9 .rrr img {
+  margin-top: 1rem;
+}
+.warp section .main10 {
+  width: 100%;
+  height: 5rem;
+  background: #f1f1f1;
+}
+.warp section .main10 a img {
+  display: inline-block;
+  width: 45%;
+  height: auto;
+  background: none;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+.warp footer {
+  width: 100%;
+  height: 4rem;
+  background: #ffc0cb;
+}

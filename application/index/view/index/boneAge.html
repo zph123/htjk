@@ -34,7 +34,14 @@
             background-color: #35c6e3;
             border-radius:5px;
             padding: 5px 10px;
-        }
+       }
+
+        /*.bonea:visited {*/
+            /*text-decoration: none;*/
+        /*}*/
+        /*.bonea:hover {*/
+            /*text-decoration: underline;*/
+        /*}*/
         .bonespan{
             color:  #35c6e3;
             font-size: 14px;
@@ -51,49 +58,17 @@
 <body>
 <div class="content">
     <ul class="boneul">
+        {foreach $bone as $val}
         <li class="boneli">
         <div class="bone">
-                <img src="__PUBLIC__/img/20161229/banner.png" class="boneimg">
-                <h3 class="boneh3">发育迟缓的危害及如何判断发育迟缓</h3>
-                <a href="#" class="bonea">查看详情</a>
+                <img src="__PUBLIC__/bone/{$val.b_img}" style=" height:20%;width: 100%;" class="boneimg">
+                <h3 class="boneh3">{$val.b_title}</h3>
+                <a data-ajax="false" style="color: rgba(0, 233, 255, 0)" href="{:URL('bonelist')}?id={$val.b_id}" class="bonea">查看详情</a>
                 <span class="bonespan"></span>
                 <div class="clear"></div>
         </div>
-
-        <li class="boneli">
-            <div class="bone">
-                <img src="__PUBLIC__/img/20161229/banner.png" class="boneimg">
-                <h3 class="boneh3">发育迟缓的危害及如何判断发育迟缓</h3>
-                <a href="#" class="bonea">查看详情</a>
-                <span class="bonespan"></span>
-                <div class="clear"></div>
-            </div>
-        </li> <li class="boneli">
-        <div class="bone">
-            <img src="__PUBLIC__/img/20161229/banner.png" class="boneimg">
-            <h3 class="boneh3">发育迟缓的危害及如何判断发育迟缓</h3>
-            <a href="#" class="bonea">查看详情</a>
-            <span class="bonespan"></span>
-            <div class="clear"></div>
-        </div>
-    </li> <li class="boneli">
-        <div class="bone">
-            <img src="__PUBLIC__/img/20161229/banner.png" class="boneimg">
-            <h3 class="boneh3">发育迟缓的危害及如何判断发育迟缓</h3>
-            <a href="#" class="bonea">查看详情</a>
-            <span class="bonespan"></span>
-            <div class="clear"></div>
-        </div>
-    </li> <li class="boneli">
-        <div class="bone">
-            <img src="__PUBLIC__/img/20161229/banner.png" class="boneimg">
-            <h3 class="boneh3">发育迟缓的危害及如何判断发育迟缓</h3>
-            <a href="#" class="bonea">查看详情</a>
-            <span class="bonespan"></span>
-            <div class="clear"></div>
-        </div>
-    </li>
-
+        </li>
+        {/foreach}
     </ul>
 </div>
 <br>

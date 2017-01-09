@@ -1,0 +1,38 @@
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/baidu/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/baidu/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__PUBLIC__/admin/baidu/lang/zh-cn/zh-cn.js"></script>
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">修改操作------- <a href="{:url('Indexpage/bannerlist')}">轮播列表</a></div>
+<br/>
+<form action="{:url('Indexpage/bonesaveadd')}" enctype="multipart/form-data" method="post" >
+    <table>
+        <tr>
+            <td style="width:50px">修改骨龄测试标题：</td>
+            <td style="width:50px"><input type="text" name="b_title" value="{$bonesave.b_title}"></td>
+        </tr>
+        <tr>
+            <td style="width:50px">修改骨骼图片：</td>
+            <td style="width:50px"><img src="__PUBLIC__/bone/{$bonesave.b_img}" name="b_img" style="width:200px;height:100px" alt=""></td>
+            <td style="width:50px"><input type="file" name="b_img"></td>
+            <td style="width:50px"><font style="color:red">图片大小限制不能超过</font></td>
+        </tr>
+        <tr><td colspan="4">&nbsp <input type="hidden" value="{$bonesave.b_id}" name="b_id"></td></tr>
+        <tr><td colspan="4">修改内容</td></tr>
+        <tr><td colspan="4">
+<textarea name="contents" id="content">
+    {$bonesave.contents}
+</textarea>
+    </table>
+    </td></tr>
+    <tr><td colspan="4"><input type="submit" value="确认修改"></td></tr>
+    <span style="display:none" id="error">{if condition="isset($error)" }{$error}{else}0{/if}</span>
+</form>
+<script>
+    $(function(){
+        var ue = UE.getEditor('content');
+
+        var error=$("#error").html();
+        if(error!="0"){
+            alert(error);
+        }
+    })
+</script>

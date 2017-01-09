@@ -1,0 +1,38 @@
+<div style="padding:3px 2px;border-bottom:1px solid #ccc">文章修改</div>
+<br>
+<div class="easyui-panel" title="填写信息" style="width:100%;max-width:60%;padding:30px 60px;">
+    <form action="{:url('Article/articleup')}"  method="post" enctype="multipart/form-data">
+        <div style="margin-bottom:20px">
+            <input class="easyui-textbox" required="required" id="title" name="title" style="width:70%" data-options="label:'文章标题:'" value="{$article.title}">
+        </div>
+        <div style="margin-bottom:20px">
+            <input type="hidden" value="{$article.article_id}" name="article_id"/>
+            <input class="easyui-textbox" required="required" id="url" name="url"  style="width:70%" data-options="label:'文章地址:'" value="{$article.url}">
+        </div>
+        <div style="margin-bottom:20px">
+            <span style="margin-right: 30px;">选择分类:</span>
+            <select id="c_id" name="c_id" style="width:40%" >
+                <option value="0">请选择文章分类</option>
+                {foreach($cat as $val)}
+                <option
+                        {if condition="$article.c_id==$val.c_id"}
+                        selected
+                        {/if}
+                        value="{$val.c_id}">{$val.c_name}
+                </option>
+                {/foreach}
+            </select>
+        </div>
+        <div style="margin-bottom:20px">
+            <span style="margin-right: 60px;">原图</span>
+            <img src="__PUBLIC__/article/{$article.img}" alt="" name="image" style="width: 200px;height: 150px;"/>
+        </div>
+        <div style="margin-bottom:20px">
+            <span>添加图片</span>
+            <input type="file" name="image"  style="width:70%;margin-left: 25px">
+        <div style="text-align:center;padding:5px 0">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="history.go(-1)" style="width:80px">返回</a>
+            <input type="submit" class="easyui-linkbutton" style="width: 80px;height: 28px" value="提交"/>
+        </div>
+    </form>
+</div>
