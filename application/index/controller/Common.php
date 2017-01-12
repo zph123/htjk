@@ -17,5 +17,4 @@ class Common extends Controller
             $this->redirect("login/index");
         }
 	}
-
 }

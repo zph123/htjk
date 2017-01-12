@@ -1,0 +1,26 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/list/style.css" />
+</head>
+<body>
+<div class="warp">
+    <section>
+        <div class="content">
+            <div class="left">
+                <a data-ajax="false" href="{:url('user/nutrition')}?charge=0" style="font-weight: normal">付费营养指导</a>
+            </div>
+            <div class="right">
+                <a data-ajax="false" href="{:url('user/nutrition')}?charge=1" style="font-weight: normal"><font color="#40C4E1">免费营养处指导</font></a>
+            </div>
+        </div>
+        <div class="box1">
+            {foreach name='list' item='value'}
+            <a href="{:url('user/see')}?r={$value.o_id}" data-ajax="false">
+                <div class="box2">
+                    <h1><font color="black">{$value.addtime}生成</font></h1>
+                    <div class="box-right" style="margin-top: 6px;"></div>
+                </div>
+            </a>
+            {/foreach}
+        </div>
+    </section>
+</div>
+</body>

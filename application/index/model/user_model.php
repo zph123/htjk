@@ -18,10 +18,11 @@ class user_model extends Model
 		->column($field);
 		return $data;
 	}
-	function user_order($id,$type,$field='*'){
+	function user_order($id,$type,$field='*',$charge){
 		$data = Db::table('order')
 		->where('u_id',$id)
-		->where('type',$type)
+		->where('is_charge',$charge)
+        ->where('type',$type)
 		->order('addtime DESC')
 		->column($field);
 		return $data;
