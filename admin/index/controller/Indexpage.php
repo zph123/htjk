@@ -348,13 +348,9 @@ class Indexpage extends Common
         $arr=Request::instance()->post();
         $where=array("s_id"=>$arr['s_id']);
         $res=Db::table('share')->where($where)->update($arr);
-        if($res)
-        {
-            $this->redirect("sharelist");
-        }
-        else{
-            echo "修改失败";
-        }
+        $this->redirect("sharelist");
+
+
     }
 //骨骼测试
     public function bone(){
