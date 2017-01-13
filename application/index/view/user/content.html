@@ -36,7 +36,7 @@
              			<button class="quxiao" style="line-height: 50%">取消订单</button>
              		</div>
              		<div class="zf">
-             			<button class="zhifu" style="line-height: 50%">立即支付</button>
+             			<button class="zhifu" style="line-height: 50%"><a href="{:url('index/user/pay')}?r={$list.o_id}" data-ajax="false"><font style="color: black">立即支付</font></a></button>
              		</div>
 
              	</div>
@@ -49,9 +49,8 @@
 <script type="text/javascript">
     $('.quxiao').click(function(){
           if(confirm('您是否取消订单？')){
-			  location.href="{:url('index/user/user_delete')}?r={$list.o_id}";
-          }else{
-              location.href="{:url('index/user/pay')}?r={$list.o_id}";
-		  }
+              location.href="{:url('index/user/user_delete')}?r={$list.o_id}";
+
+          }
     })
 </script>
