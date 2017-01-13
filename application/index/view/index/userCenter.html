@@ -1,79 +1,71 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/style2.css" />
 </head>
 <body>
-<style>
-    .main dl {
-        display: -webkit-flex;
-        width: 100em;
-        height: 1.2rem;
-    }
-    .main dl img {
-        width: 1.0rem;
-        height: 1.0rem;
-        padding: .1rem;
-        border-radius:50%;}
-    .main dl dd {
-        line-height: 1rem;
-    }
-
-    .list {
-        font-size: 14px; }
-    .list li {
-        width: 100%;
-        height: .50rem;
-        text-indent: 1em;
-        border-top: 1px solid #ccc;
-        border-bottom: 1px solid #ccc;
-    }
-    #div{
-        background-color:#ebebeb;border-radio:10px;width:100%;height:100%;border-radius: 10px;
-    }
-</style>
-<div data-role="content" style="margin-bottom:10%">
-    <div role="main" class="main bt-name">
-        <div id="div">
-            <dl>
-                <dt><img src="__PUBLIC__/images/1.jpg"/></dt>
-                {if condition="$name eq 'false'"}
-                <dd>
-                    <a data-ajax="false"  href="{:url('index/user/index')}">去登陆</a>
-                </dd>
-                {else /} 
-                <dd>
-                    姓名：{$name}
-                </dd>
-                {/if}
-            </dl>
-        </div>
-        <ul data-role="listview" data-inset="true"  data-icon="false" >
-            <li>
-                <a data-ajax="false"  href="{:url('index/user/report')}">我的测试</a>
-            </li>
-            <li>
-                <a data-ajax="false" href="{:url('index/user/motion')}">我的运动处方</a>
-            </li>
-            <li>
-                <a data-ajax="false" href="{:url('index/user/nutrition')}">我的营养均衡指导</a>
-            </li>
-            {if condition="$out eq 'true'"}
-            <li>
-                <a data-ajax="false" href="{:url('index/user/quit')}">退出</a>
-            </li>
+<div class="warp">
+    <section>
+        <div class="center" style="height: 20%">
+            <h1><img src="__PUBLIC__/static/img/index/persona.png"/></h1>
+            {if condition="$name eq 'false'"}
+            <p>
+                <a data-ajax="false"  href="{:url('index/user/index')}"><img src="__PUBLIC__/static/img/index/login.png" /></a>
+                <img src="__PUBLIC__/static/img/index/register.png" />
+            </p>
+            {else /}
+            <p style=" font-weight: normal; font-size: 18px; color: #ffffff">
+                {$name}
+            </p>
             {/if}
-        </ul>
-    </div>
-</div>
-<script>
-    (function (doc, win) {
-        var docEl = doc.documentElement,
-                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-                recalc = function () {
-                    var clientWidth = docEl.clientWidth;
-                    if (!clientWidth) return;
-                    docEl.style.fontSize = 625 * (clientWidth / 320) + '%';
-                };
+        </div>
+        <div class="box1"><a style=" color: #000000;font-weight: normal" data-ajax="false"  href="{:url('index/user/report')}">
+            <div class="test">
+                <h2>我的测试报告</h2>
+                <div class="test_right">
+                </div>
+            </div></a>
+            <a style=" color: #000000;font-weight: normal" data-ajax="false" href="{:url('index/user/motion')}">
+            <div class="test">
+                <h2>我的运动指导</h2>
+                <div class="test_right">
 
-        if (!doc.addEventListener) return;
-        win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener('DOMContentLoaded', recalc, false);
-    })(document, window);
-</script>
+                </div>
+            </div>
+            </a>
+            <a style=" color: #000000;font-weight: normal" data-ajax="false" href="{:url('index/user/nutrition')}">
+            <div class="test">
+                <h2>我的营养均衡指导	</h2>
+                <div class="test_right">
+
+                </div>
+            </div>
+            </a>
+        </div>
+
+        <div class="box1">
+            <a style=" color: #000000;font-weight: normal" href="{:url('index/User/introduce')}">
+            <div class="test">
+                <h2>关于我们</h2>
+                <div class="test_right">
+                </div>
+            </div>
+            </a>
+            <a style=" color: #000000;font-weight: normal" href="">
+            <div class="test">
+                <h2>意见反馈</h2>
+                <div class="test_right">
+                </div>
+            </div>
+            </a>
+            {if condition="$out eq 'true'"}
+            <div class="test" style="margin-top: 3px">
+                <h2 style="margin-right: 4%"><a style=" color: #000000;font-weight: normal" data-ajax="false" href="{:url('index/user/quit')}"><img
+                        src="__PUBLIC__/static/img/index/tuichu.png"></a></h2>
+                <div class="test_right2">
+                </div>
+            </div>
+            {/if}
+        </div>
+        <div class="bottom"></div>
+    </section>
+</div>
+<br>
+<br>

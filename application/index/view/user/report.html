@@ -1,0 +1,48 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/list/style2.css" />
+</head>
+
+<body>
+{if condition="($list == '0')"}
+<img src="__PUBLIC__/images/empty.png" alt="">
+{else /}
+<div class="warp">
+    <section>
+        {if condition="($type == 3)"}
+        <div class="content">
+            <div class="left">
+                <a data-ajax="false" href="{:url('user/report')}?type=3" style="font-weight: normal"><font color="#40C4E1">在线测试</font></a>
+            </div>
+            <div class="right">
+                <a data-ajax="false" href="{:url('user/report')}?type=4" style="font-weight: normal"><font color="black">现场测试</font></a>
+            </div>
+        </div>
+        {else /}
+        <div class="content">
+            <div class="right">
+                <a data-ajax="false" href="{:url('user/report')}?type=3" style="font-weight: normal"><font color="black">在线测试</font></a>
+            </div>
+            <div class="left">
+                <a data-ajax="false" href="{:url('user/report')}?type=4" style="font-weight: normal"><font color="#40C4E1">现场测试</font></a>
+            </div>
+        </div>
+        {/if}
+        {foreach name='list' item='value'}
+        <div class="box1">
+            <div class="box2">
+                <h1>订单编号:<font size="1px">{$value.out_trade_no}</font></h1>
+                <h2><a data-ajax="false" style="font-weight: normal;color: black;" href="{:url('user/see')}?r={$value.o_id}">查看</a></h2><div class="box-right"> </div>
+            </div>
+            <div class="box3">
+                <h3>测试项目:线上测试+身高测试</h3>
+                <h4>测试时间:{$value.addtime}</h4>
+            </div>
+            <div class="box4">
+                <h5></h5>
+                <p>实付款:<span>¥:{$value.amount}</span></p>
+            </div>
+        </div>
+        {/foreach}
+    </section>
+</div>
+<footer style="background-color: #ffffff"></footer>
+{/if}

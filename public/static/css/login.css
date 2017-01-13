@@ -1,0 +1,112 @@
+@import url(reset.css);
+html {
+	font-size: 62.5%;
+}
+
+html,body,.warp {
+	width: 100%;
+	height: 100%;
+	background: none;
+}
+
+.warp {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+.warp header {
+	width: 100%;
+	height: 10rem;
+	background: none;
+}
+
+.warp header .header-one {
+	text-align: center;
+	line-height: 10rem;
+}
+
+.warp header .header-one h1 {
+	font-size: 2rem;
+	color: #3ac4e1;
+}
+
+.warp section {
+	width: 100%;
+	height: 18rem;
+	background: none;
+	overflow: hidden;
+	margin-top: 10px;
+	position: relative;
+}
+
+.warp section .section-login {
+	width: 85%;
+	height: 35rem;
+	vertical-align: middle;
+	margin-left: 7%;
+	outline: none;
+	border-bottom: black 1px solid;
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: none;
+	background-color: transparent;
+}
+
+.warp section .section-login .username {
+	width: 100%;
+	height: 4rem;
+	background: none;
+	text-indent: 35px;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid #f0f0f0;
+	font-size: 1.5rem;
+	background: url(../img/tou_03.gif) no-repeat left content-box border-box;
+	background-size: 20px 20px;
+}
+.warp section .section-login input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+	border: 1px solid #CCC!important;
+	border: none;
+	outline: none;
+}
+.warp section .section-login .username input[type="submit"]{
+    border:none;
+    outline:medium;
+}
+.warp section .section-login .pwd {
+	width: 100%;
+	height: 4rem;
+	background: none;
+	text-indent: 35px;
+	border: none;
+	outline: none;
+	border-bottom: 1px solid #f0f0f0;
+	font-size: 1.5rem;
+	background: url(../img/mima.png) no-repeat left content-box border-box;
+	background-size: 20px 20px;
+}
+
+.warp section .section-login .sub {
+	padding-top: 30px;
+	width: 100%;
+	background-color:#4ac67e;
+	border-radius: 5px;
+	border: none;
+	outline: none;
+	font-size: 1.8rem;
+	color: #feffff;
+}
+
+.warp section .section-login .zc {
+	float: left;
+	margin-left: 5%;
+	margin-top: -10px;
+}
+
+.warp section .section-login .mima {
+	float: right;
+	margin-right: 5%;
+	margin-top: -10px;
+
+}

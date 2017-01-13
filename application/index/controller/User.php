@@ -16,37 +16,52 @@ class User extends Common
         $this->assign('out','true');
         return view('index/userCenter');
     }
+    //公司介绍
+    public function introduce(){
+        return  view('user/introduce');
+    }
     /**
      * 加载营养均衡首页
      */
     function nutrition(){
         $id=Cookie::get('uid');
         $type='1';
-        $field='o_id,out_trade_no,addtime';
+        $field='o_id,out_trade_no,addtime,amount';
         $model=new user_model();
-        $data=$model->user_order($id,$type,$field);
+        $charge = isset($_GET['charge'])?$_GET['charge']:0;
+        $data=$model->user_order($id,$type,$field,$charge);
         if(empty($data)){
             $data='0';
         }
-        $this->assign('list', $data);
-        return $this->fetch();
+        //付费
+        if($charge==0){
+            $this->assign('list', $data);
+            return $this->fetch('nutrlist1');
+        }
+        //免费
+        if($charge==1){
+            $this->assign('list', $data);
+            return $this->fetch('nutrlist');
+        }
     }
     /**
      * 测试报告
      */
     function report(){
         $id=Cookie::get('uid');
-        $field='o_id,out_trade_no,addtime';
+        $field='o_id,out_trade_no,addtime,amount';
+        $type = isset($_GET['type'])?$_GET['type']:'3';
         $data=Db::table('order')
         ->where('u_id',$id)
-        ->where('type','in','3,4')
+        ->where('type','in',$type)
         ->order('addtime DESC')
         ->column($field);
         if(empty($data)){
             $data='0';
         }
         $this->assign('list', $data);
-        return $this->fetch('nutrition');
+        $this->assign('type', $type);
+        return $this->fetch('report');
     }
     /**
      *运动处方
@@ -54,14 +69,23 @@ class User extends Common
     function motion(){
         $id=Cookie::get('uid');
         $type='2';
-        $field='o_id,out_trade_no,addtime';
+        $field='o_id,out_trade_no,addtime,amount';
         $model=new user_model();
-        $data=$model->user_order($id,$type,$field);
+        $charge = isset($_GET['charge'])?$_GET['charge']:0;
+        $data=$model->user_order($id,$type,$field,$charge);
         if(empty($data)){
             $data='0';
         }
-        $this->assign('list', $data);
-        return $this->fetch('nutrition');
+        //付费
+        if($charge==0){
+            $this->assign('list', $data);
+            return $this->fetch('list1');
+        }
+        //免费
+        if($charge==1){
+            $this->assign('list', $data);
+            return $this->fetch('list');
+        }
     }
     /**
      * 查看详情
