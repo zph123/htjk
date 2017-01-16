@@ -18,4 +18,3 @@ html section .box4,body section .box4,.warp section .box4{display:-webkit-box;-w
 html section .box4 h5,body section .box4 h5,.warp section .box4 h5{-webkit-box-flex:1}
 html section .box4 p,body section .box4 p,.warp section .box4 p{line-height:3rem;margin-right:1rem}
 html section .box4 p span,body section .box4 p span,.warp section .box4 p span{color:#f7ab00}
-html footer,body footer,.warp footer{display:-webkit-box;-webkit-box-orient:horizontal;width:100%;height:4rem;background:#f00}

@@ -1,6 +1,4 @@
 
-
-
     <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/list/style.css" />
 </head>
 <body>
@@ -10,12 +8,22 @@
 <div class="warp">
     <section>
         <div class="content">
+            {if condition="($type == '2')"}
             <div class="left">
                 <a data-ajax="false" href="{:url('user/motion')}?charge=0" style="font-weight: normal"><font color="black">付费运动指导</font></a>
             </div>
             <div class="right">
-                <a data-ajax="false" href="{:url('user/motion')}?charge=1" style="font-weight: normal"><font color="#40C4E1">免费运动处指导</font></a>
+                <a data-ajax="false" href="{:url('user/motion')}?charge=1" style="font-weight: normal"><font color="#40C4E1">免费运动指导</font></a>
             </div>
+            {/if}
+            {if condition="($type == '1')"}
+            <div class="left">
+                <a data-ajax="false" href="{:url('user/nutrition')}?charge=0" style="font-weight: normal"><font color="black">付费营养指导</font></a>
+            </div>
+            <div class="right">
+                <a data-ajax="false" href="{:url('user/nutrition')}?charge=1" style="font-weight: normal"><font color="#40C4E1">免费营养指导</font></a>
+            </div>
+            {/if}
         </div>
         <div class="box1">
             {foreach name='list' item='value'}

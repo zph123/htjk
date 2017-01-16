@@ -36,12 +36,14 @@ class User extends Common
         //付费
         if($charge==0){
             $this->assign('list', $data);
-            return $this->fetch('nutrlist1');
+            $this->assign('type', $type);
+            return $this->fetch('list1');
         }
         //免费
         if($charge==1){
             $this->assign('list', $data);
-            return $this->fetch('nutrlist');
+            $this->assign('type', $type);
+            return $this->fetch('list');
         }
     }
     /**
@@ -79,11 +81,13 @@ class User extends Common
         //付费
         if($charge==0){
             $this->assign('list', $data);
+            $this->assign('type', $type);
             return $this->fetch('list1');
         }
         //免费
         if($charge==1){
             $this->assign('list', $data);
+            $this->assign('type', $type);
             return $this->fetch('list');
         }
     }

@@ -1,7 +1,4 @@
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/list/style.css" />
-<style>
-
-</style>
 </head>
 <body>
 {if condition="($list == '0')"}
@@ -10,12 +7,22 @@
 <div class="warp">
     <section>
         <div class="content">
+            {if condition="($type == '2')"}
             <div class="right">
                 <a data-ajax="false" href="{:url('user/motion')}?charge=0" style="font-weight: normal"><font color="#40C4E1">付费运动指导</font></a>
             </div>
             <div class="left">
                 <a data-ajax="false" href="{:url('user/motion')}?charge=1" style="font-weight: normal"><font color="black">免费运动指导</font></a>
             </div>
+            {/if}
+            {if condition="($type == '1')"}
+            <div class="right">
+                <a data-ajax="false" href="{:url('user/nutrition')}?charge=0" style="font-weight: normal"><font color="#40C4E1">付费营养指导</font></a>
+            </div>
+            <div class="left">
+                <a data-ajax="false" href="{:url('user/nutrition')}?charge=1" style="font-weight: normal"><font color="black">免费营养指导</font></a>
+            </div>
+            {/if}
         </div>
         {foreach name='list' item='value'}
         <div class="box1"style="background-color: #ffffff;">
@@ -24,7 +31,7 @@
             </p>
             <p style="height: 10%;margin-top: 3%; margin-left: 5px;">实际付款：{$value.amount}</p>
             <p style="height: 3%;margin-top: 3%;border-bottom: dashed 1px #f0f0f0"></p>
-            <p style="height: 30%;margin-top: 3%;margin-left: 5px;">订单编号：<font size="1px">{$value.out_trade_no}</font>
+            <p style="height: 30%;margin-top: 3%;margin-left: 5px;margin-bottom: 3%">订单编号：<font size="1px">{$value.out_trade_no}</font>
                 <a style="margin-left: 3%;font-weight: normal" href="{:url('user/see')}?r={$value.o_id}" data-ajax="false"><font color="black">查看
                     <img src="__PUBLIC__/static/img/chakan.png" alt="" style="height:15px;"></font></a>
             </p>
