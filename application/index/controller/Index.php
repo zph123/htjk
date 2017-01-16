@@ -14,7 +14,8 @@ class Index extends Controller
     //热门列表
     public function mesList(){
         $c_id=Request::instance()->get('c_id');
-        $c_id =isset($c_id)?$c_id:1;
+        $cid = DB::table('category_article')->find();
+        $c_id =isset($c_id)?$c_id:$cid['c_id'];
         if($c_id){
             $catlist=Db::table('article')->join("category_article","category_article.c_id = article.c_id")->where(['article.c_id'=>$c_id])->limit(6)->select();
 
