@@ -17,11 +17,11 @@ class Index extends Controller
         $cid = DB::table('category_article')->find();
         $c_id =isset($c_id)?$c_id:$cid['c_id'];
         if($c_id){
-            $catlist=Db::table('article')->join("category_article","category_article.c_id = article.c_id")->where(['article.c_id'=>$c_id])->limit(6)->select();
+            $catlist=Db::table('article')->join("category_article","category_article.c_id = article.c_id")->where(['article.c_id'=>$c_id])->order('createtime desc')->select();
 
         }else{
             $catlist=Db::table('article')->join("category_article","category_article.c_id = article.c_id")
-                ->where(['article.c_id'=>"1"])->limit(6)->select();
+                ->where(['article.c_id'=>"1"])->order('createtime desc')->select();
         }
         //展示标题信息
         $cat=Db::table('category_article')->limit(5)->select();
@@ -39,7 +39,7 @@ class Index extends Controller
     //案例列表
     public function skeleton()
     {
-        $banner = Db::table('share')->select();
+        $banner = Db::table('share')->order('s_id desc')->select();
 //         var_dump($banner);die;
         $this->assign('banner',$banner);
         return $this->fetch('skeleton');
@@ -62,7 +62,7 @@ class Index extends Controller
     }
     //骨龄列表展示
     public function bone(){
-        $show=Db::table('bone')->select();
+        $show=Db::table('bone')->order('b_id desc')->select();
 //        var_dump($show);die;
         $this->assign('bone',$show);
         return $this->fetch("boneAge");
@@ -81,7 +81,7 @@ class Index extends Controller
     public function index()
     {
         $arr=Db::table('introduce')->field('id,img_path,title')->select();
-        $cat=Db::table('article')->join("category_article","category_article.c_id = article.c_id")->order('article_id desc')->limit(10)->select();
+        $cat=Db::table('article')->join("category_article","category_article.c_id = article.c_id")->order('createtime desc')->limit(20)->select();
         $banner=Db::table('banner')->field('b_id,banner_path')->select();
         $this->assign('arr',$arr);
         $this->assign('cat',$cat);
