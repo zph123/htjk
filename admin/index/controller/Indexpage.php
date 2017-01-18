@@ -320,7 +320,7 @@ class Indexpage extends Common
     }
     public function sharelist()
     {
-        $sharelist=Db::table('share')->select();
+        $sharelist=Db::table('share') ->order('s_id desc')->select();
         $this->assign('sharelist',$sharelist);
         return $this->fetch("sharelist");
     }
@@ -404,7 +404,7 @@ class Indexpage extends Common
         }
     }
     public function bonelist(){
-        $bonelist=Db::table('bone')->select();
+        $bonelist=Db::table('bone') ->order('b_id desc')->select();
         $this->assign('bonelist',$bonelist);
         return $this->fetch("bonelist");
     }
