@@ -9,23 +9,42 @@
     <section>
         {if condition="($type == 3)"}
         <div class="content">
-            <div class="left">
+            <div class="left" style="width: 33%">
                 <a data-ajax="false" href="{:url('user/report')}?type=3" style="font-weight: normal"><font color="#40C4E1">在线测试</font></a>
             </div>
-            <div class="right">
+            <div class="right" style="width: 33%">
                 <a data-ajax="false" href="{:url('user/report')}?type=4" style="font-weight: normal"><font color="black">现场测试</font></a>
+            </div>
+            <div class="right" style="width: 33%">
+                <a data-ajax="false" href="{:url('user/report')}?type=5" style="font-weight: normal"><font color="black">团体测试</font></a>
+            </div>
+        </div>
+        {elseif condition="($type == 4)"/}
+        <div class="content">
+            <div class="right" style="width: 33%">
+                <a data-ajax="false" href="{:url('user/report')}?type=3" style="font-weight: normal"><font color="black">在线测试</font></a>
+            </div>
+            <div class="left" style="width: 33%">
+                <a data-ajax="false" href="{:url('user/report')}?type=4" style="font-weight: normal"><font color="#40C4E1">现场测试</font></a>
+            </div>
+            <div class="right" style="width: 33%">
+                <a data-ajax="false" href="{:url('user/report')}?type=5" style="font-weight: normal"><font color="black">团体测试</font></a>
             </div>
         </div>
         {else /}
         <div class="content">
-            <div class="right">
+            <div class="right" style="width: 33%">
                 <a data-ajax="false" href="{:url('user/report')}?type=3" style="font-weight: normal"><font color="black">在线测试</font></a>
             </div>
-            <div class="left">
-                <a data-ajax="false" href="{:url('user/report')}?type=4" style="font-weight: normal"><font color="#40C4E1">现场测试</font></a>
+            <div class="right" style="width: 33%">
+                <a data-ajax="false" href="{:url('user/report')}?type=4" style="font-weight: normal"><font color="black">现场测试</font></a>
+            </div>
+            <div class="left" style="width: 33%">
+                <a data-ajax="false" href="{:url('user/report')}?type=5" style="font-weight: normal"><font color="#40C4E1">团体测试</font></a>
             </div>
         </div>
         {/if}
+        {if condition="($type != 5)"/}
         {foreach name='list' item='value'}
         <div class="box1">
             <div class="box2">
@@ -42,7 +61,58 @@
             </div>
         </div>
         {/foreach}
+        {else/}
+        <div>
+                <label for="search-2" style="margin-top:10px;">姓名:</label>
+                <input type="search" name="search-2" id="name" value="">
+                <label for="search-2">学号:</label>
+                <input type="search" name="search-2" id="num" value="">
+                <button id="search">搜索</button>
+            <div style="background: white;">
+                <div id="img">
+                </div>
+            </div>
+        </div>
+        {/if}
     </section>
 </div>
 <footer style="background-color: #ffffff"></footer>
 {/if}
+<script>
+    $(function(){
+        $('#search').click(function(){
+            var name = $('#name').val();
+            var num = $('#num').val();
+            if(name==''){
+                alert("姓名不能为空");
+                return false;
+            }
+            if(num==''){
+                alert("学号不能为空");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "{:url('user/search')}",
+                data: {name:name,num:num},
+                dataType: 'json',
+                success: function(msg){
+                    if(msg == 1){
+                        alert('"系统内部错误，正在维护,请稍等..."')
+                    }else if(msg == 2 ){
+                        alert('您查找的数据不存在！');
+                    }else{
+                        var a = '<ul data-role="listview" style="line-height:30px">';
+                        $.each(msg,function(k,v){
+                            var date = new Date(parseInt(v.date) * 1000).toJSON().slice(0,10)
+                            date = date.replace(/-/g,'')
+                            a += '<li><a data-ajax="false" style="margin-left: 5%;color: black;"  href="__PUBLIC__/perm/'+date+'/'+v.name+v.num+v.date+'.pdf'+'"'+'>'+v.name+v.num+v.date+'</a><hr style="background-color: #ddd;border: none;height: 1px;"></li>';
+                        })
+                        a += '</ul>'
+                        $("#img").html(a);
+                    }
+                }
+            })
+        })
+    })
+</script>

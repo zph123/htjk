@@ -53,17 +53,72 @@ class User extends Common
         $id=Cookie::get('uid');
         $field='o_id,out_trade_no,addtime,amount';
         $type = isset($_GET['type'])?$_GET['type']:'3';
-        $data=Db::table('order')
-        ->where('u_id',$id)
-        ->where('type','in',$type)
-        ->order('addtime DESC')
-        ->column($field);
-        if(empty($data)){
-            $data='0';
+        if($type==5){
+            $data='1';
+        }else{
+            $data=Db::table('order')
+                ->where('u_id',$id)
+                ->where('type','in',$type)
+                ->order('addtime DESC')
+                ->column($field);
+            if(empty($data)){
+                $data='0';
+            }
         }
         $this->assign('list', $data);
         $this->assign('type', $type);
         return $this->fetch('report');
+    }
+
+    function Search(){
+        $name = Request::instance()->post('name');
+        $num = Request::instance()->post('num');
+        $filename = ROOT_PATH.'public/temp/'.$name.$num.'.pdf';
+        //检测文件是否存在
+        if(file_exists($filename)){
+            //移动文件
+            $time = time();
+            $date = date('Ymd',time());
+            if(is_dir(ROOT_PATH.'public/perm/'.$date) == false){
+                mkdir(ROOT_PATH.'public/perm/'.$date,0777);
+            }
+            $status = rename($filename,ROOT_PATH.'public/perm/'.$date.'/'.$name.$num.$time.'.pdf');
+            if($status == false){
+                echo 1;
+            }else{
+                $data = array(
+                    'name' => $name,
+                    'num'  => $num,
+                    'date' => $time
+                );
+                $res = DB::table('perm')->insert($data);
+                if($res){
+                    $arr = array(
+                        'name' => $name,
+                        'num'  => $num
+                    );
+                    $data = DB::table('perm')->where($arr)->select();
+                    if($data){
+                        echo json_encode($data);
+                    }else{
+                        echo 2;
+                    }
+                }else{
+                    echo 1;
+                }
+            }
+        }else{
+            $arr = array(
+                'name' => $name,
+                'num'  => $num
+            );
+            $data = DB::table('perm')->where($arr)->select();
+            if($data){
+                echo json_encode($data);
+            }else{
+                echo 2;
+            }
+        }
     }
     /**
      *运动处方
