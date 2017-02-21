@@ -73,7 +73,7 @@ class User extends Common
     function Search(){
         $name = Request::instance()->post('name');
         $num = Request::instance()->post('num');
-        $filename = ROOT_PATH.'public/temp/'.$name.$num.'.pdf';
+        $filename = ROOT_PATH.'public/temp/'.$name.'_'.$num.'.pdf';
         //检测文件是否存在
         if(file_exists($filename)){
             //移动文件
@@ -82,7 +82,7 @@ class User extends Common
             if(is_dir(ROOT_PATH.'public/perm/'.$date) == false){
                 mkdir(ROOT_PATH.'public/perm/'.$date,0777);
             }
-            $status = rename($filename,ROOT_PATH.'public/perm/'.$date.'/'.$name.$num.$time.'.pdf');
+            $status = rename($filename,ROOT_PATH.'public/perm/'.$date.'/'.$name.'_'.$num.$time.'.pdf');
             if($status == false){
                 echo 1;
             }else{
