@@ -2,9 +2,7 @@
 </head>
 
 <body>
-{if condition="($list == '0')"}
-<img src="__PUBLIC__/images/empty.png" alt="">
-{else /}
+
 <div class="warp">
     <section>
         {if condition="($type == 3)"}
@@ -44,6 +42,9 @@
             </div>
         </div>
         {/if}
+        {if condition="($list == '0')"}
+        <img src="__PUBLIC__/images/empty.png" alt="">
+        {else /}
         {if condition="($type != 5)"/}
         {foreach name='list' item='value'}
         <div class="box1">
@@ -63,9 +64,9 @@
         {/foreach}
         {else/}
         <div>
-                <label for="search-2" style="margin-top:10px;">姓名:</label>
+                <label for="search-2" style="margin-top:10px;">学号:</label>
                 <input type="search" name="search-2" id="name" value="">
-                <label for="search-2">学号:</label>
+                <label for="search-2">姓名:</label>
                 <input type="search" name="search-2" id="num" value="">
                 <button id="search">搜索</button>
             <div style="background: white;">
@@ -106,7 +107,7 @@
                         $.each(msg,function(k,v){
                             var date = new Date(parseInt(v.date) * 1000).toJSON().slice(0,10)
                             date = date.replace(/-/g,'')
-                            a += '<li><a data-ajax="false" style="margin-left: 5%;color: black;"  href="__PUBLIC__/perm/'+date+'/'+v.name+v.num+v.date+'.pdf'+'"'+'>'+v.name+v.num+v.date+'</a><hr style="background-color: #ddd;border: none;height: 1px;"></li>';
+                            a += '<li><a data-ajax="false" style="margin-left: 5%;color: black;"  href="__PUBLIC__/perm/'+date+'/'+v.name+'_'+v.num+v.date+'.pdf'+'"'+'>'+v.name+'_'+v.num+v.date+'</a><hr style="background-color: #ddd;border: none;height: 1px;"></li>';
                         })
                         a += '</ul>'
                         $("#img").html(a);
