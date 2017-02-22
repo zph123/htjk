@@ -82,23 +82,28 @@ class User extends Common
             if(is_dir(ROOT_PATH.'public/perm/'.$date) == false){
                 mkdir(ROOT_PATH.'public/perm/'.$date,0777);
             }
-            $status = rename($filename,ROOT_PATH.'public/perm/'.$date.'/'.$name.'_'.$num.$time.'.pdf');
+            $status = rename($filename,ROOT_PATH.'public/perm/'.$date.'/'.$name.'_'.base64_encode($num).$time.'.pdf');
             if($status == false){
                 echo 1;
             }else{
                 $data = array(
                     'name' => $name,
-                    'num'  => $num,
+                    'num'  => base64_encode($num),
                     'date' => $time
                 );
                 $res = DB::table('perm')->insert($data);
                 if($res){
                     $arr = array(
                         'name' => $name,
-                        'num'  => $num
+                        'num'  => base64_encode($num)
                     );
                     $data = DB::table('perm')->where($arr)->select();
                     if($data){
+                        foreach($data as $key=>$val){
+                            foreach($val as $k=>$v){
+                                $data[$key]['num1'] = base64_decode($arr['num']);
+                            }
+                        }
                         echo json_encode($data);
                     }else{
                         echo 2;
@@ -110,10 +115,15 @@ class User extends Common
         }else{
             $arr = array(
                 'name' => $name,
-                'num'  => $num
+                'num'  => base64_encode($num)
             );
             $data = DB::table('perm')->where($arr)->select();
             if($data){
+                foreach($data as $key=>$val){
+                    foreach($val as $k=>$v){
+                        $data[$key]['num1'] = base64_decode($arr['num']);
+                    }
+                }
                 echo json_encode($data);
             }else{
                 echo 2;
