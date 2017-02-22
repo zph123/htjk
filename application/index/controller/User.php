@@ -71,8 +71,8 @@ class User extends Common
     }
 
     function Search(){
-        $name = Request::instance()->post('name');
-        $num = Request::instance()->post('num');
+        $name = trim(Request::instance()->post('name'));
+        $num = trim(Request::instance()->post('num'));
         $filename = ROOT_PATH.'public/temp/'.$name.'_'.$num.'.pdf';
         //检测文件是否存在
         if(file_exists($filename)){
@@ -89,6 +89,7 @@ class User extends Common
                 $data = array(
                     'name' => $name,
                     'num'  => base64_encode($num),
+                    'title'  => $num,
                     'date' => $time
                 );
                 $res = DB::table('perm')->insert($data);
@@ -99,11 +100,6 @@ class User extends Common
                     );
                     $data = DB::table('perm')->where($arr)->select();
                     if($data){
-                        foreach($data as $key=>$val){
-                            foreach($val as $k=>$v){
-                                $data[$key]['num1'] = base64_decode($arr['num']);
-                            }
-                        }
                         echo json_encode($data);
                     }else{
                         echo 2;
@@ -119,11 +115,6 @@ class User extends Common
             );
             $data = DB::table('perm')->where($arr)->select();
             if($data){
-                foreach($data as $key=>$val){
-                    foreach($val as $k=>$v){
-                        $data[$key]['num1'] = base64_decode($arr['num']);
-                    }
-                }
                 echo json_encode($data);
             }else{
                 echo 2;
