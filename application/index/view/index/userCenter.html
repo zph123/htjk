@@ -9,11 +9,11 @@
 <div class="warp">
     <section>
         <div class="center" style="height: 300px">
-            <h1><img src="__PUBLIC__/static/img/index/persona.png"/></h1>
+            <h1 style="margin-top: 20%"><img src="__PUBLIC__/static/img/index/persona.png"/></h1>
             {if condition="$name eq 'false'"}
             <p>
-                <a data-ajax="false"  href="{:url('index/user/index')}"><img src="__PUBLIC__/static/img/index/login.png" /></a>
-                <img src="__PUBLIC__/static/img/index/register.png" />
+                <a data-ajax="false" href="{:url('index/user/index')}"><img src="__PUBLIC__/static/img/index/login.png" style="margin-top: 20px;"/></a>
+                <a data-ajax="false" href="{:url('index/reg/index')}"><img src="__PUBLIC__/static/img/index/register.png" style="margin-top: 20px;"/></a>
             </p>
             {else /}
             <p style=" font-weight: normal; font-size: 18px; color: #ffffff">
@@ -72,5 +72,4 @@
         <div class="bottom"></div>
     </section>
 </div>
-<br>
-<br>
+

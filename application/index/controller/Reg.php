@@ -19,18 +19,18 @@ class Reg extends Controller
         $infos['contact_phone']=input('contact_phone');
         $infos['password']=input('password');
         $infos['comfirm_password']=input('comfirm_password');
-        $infos['fullname']=input('name');
-        $infos['gender']=input('gender');
-        $infos['birthday']=input('appDate');
-        $infos['id_number']=input('id_number');
-        $infos['birth_height']=input('birth_height');
-        $infos['birth_weight']=input('birth_weight');
-        $infos['birth_smoothly']=input('birth_smoothly');
-        $infos['father_height']=input('father_height');
-        $infos['mother_height']=input('mother_height');
-        $infos['contact_address']=input('contact_address');
-        $infos['email']=input('email');
-        $infos['school']=input('school');
+//        $infos['fullname']=input('name');
+//        $infos['gender']=input('gender');
+//        $infos['birthday']=input('appDate');
+//        $infos['id_number']=input('id_number');
+//        $infos['birth_height']=input('birth_height');
+//        $infos['birth_weight']=input('birth_weight');
+//        $infos['birth_smoothly']=input('birth_smoothly');
+//        $infos['father_height']=input('father_height');
+//        $infos['mother_height']=input('mother_height');
+//        $infos['contact_address']=input('contact_address');
+//        $infos['email']=input('email');
+//        $infos['school']=input('school');
 
         $state=1;
         //用户名
@@ -40,73 +40,76 @@ class Reg extends Controller
         //密码
         if(strlen($infos['password'])<6||strlen($infos['password'])>12||$infos['password']!=$infos['comfirm_password'])$state=0;
         //全名
-        $pattern_fullname="/^[\x{4e00}-\x{9fa5}a-zA-Z0-9]{2,8}$/u";
-        if(!preg_match($pattern_fullname,$infos['fullname']))$state=0;
-        //性别
-        if($infos['gender']==0||$infos['gender']==1);else $state=0;
-        //检测身份证与生日差值
-        $check_res=$this->check_idcard_birthday(
-            $infos['birthday'],
-            $infos['id_number']
-        );
-        if(!$check_res['state'])$state=0;
-        //出生身高
-        if($infos['birth_height']<=0||$infos['birth_height']>100)$state=0;
-        //出生体重
-        if($infos['birth_weight']<=0||$infos['birth_weight']>20)$state=0;
-        //是否顺产
-        if($infos['birth_smoothly']==0||$infos['birth_smoothly']==1);else $state=0;
-        //父亲身高
-        if($infos['father_height']<=0||$infos['father_height']>300)$state=0;
-        //母亲身高
-        if($infos['mother_height']<=0||$infos['mother_height']>300)$state=0;
-        //联系地址
-        $pattern_address="/^[\x{4e00}-\x{9fa5}a-zA-Z][\x{4e00}-\x{9fa5}a-zA-Z0-9]+$/u";
-        if(!preg_match($pattern_address,$infos['contact_address']))$state=0;
-        //邮箱
-//        if(!empty($infos['email'])){
-            $pattern_email="/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/";
-            if (!preg_match($pattern_email,$infos['email']))$state=0;
-//        }
-        if(empty($infos['school']))$state=0;
+//        $pattern_fullname="/^[\x{4e00}-\x{9fa5}a-zA-Z0-9]{2,8}$/u";
+//        if(!preg_match($pattern_fullname,$infos['fullname']))$state=0;
+//        //性别
+//        if($infos['gender']==0||$infos['gender']==1);else $state=0;
+//        //检测身份证与生日差值
+//        $check_res=$this->check_idcard_birthday(
+//            $infos['birthday'],
+//            $infos['id_number']
+//        );
+//        if(!$check_res['state'])$state=0;
+//        //出生身高
+//        if($infos['birth_height']<=0||$infos['birth_height']>100)$state=0;
+//        //出生体重
+//        if($infos['birth_weight']<=0||$infos['birth_weight']>20)$state=0;
+//        //是否顺产
+//        if($infos['birth_smoothly']==0||$infos['birth_smoothly']==1);else $state=0;
+//        //父亲身高
+//        if($infos['father_height']<=0||$infos['father_height']>300)$state=0;
+//        //母亲身高
+//        if($infos['mother_height']<=0||$infos['mother_height']>300)$state=0;
+//        //联系地址
+//        $pattern_address="/^[\x{4e00}-\x{9fa5}a-zA-Z][\x{4e00}-\x{9fa5}a-zA-Z0-9]+$/u";
+//        if(!preg_match($pattern_address,$infos['contact_address']))$state=0;
+//        //邮箱
+////        if(!empty($infos['email'])){
+//            $pattern_email="/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/";
+//            if (!preg_match($pattern_email,$infos['email']))$state=0;
+////        }
+//        if(empty($infos['school']))$state=0;
 
 
-        if(!$state)return "非法数据提交！";
+        if(!$state){
+            return "非法数据提交！";
+        }
+
 
 
         //因为数据库的冗余设计，进行数据复制及分割
         $infos_1['name']=$infos['name'];
         $infos_1['password']=$infos['password'];
-        $infos_1['fullname']=$infos['fullname'];
-        $infos_1['sex']=$infos['gender'];
-        $infos_1['year']=$infos['birthday'];
-        $infos_1['school']=$infos['school'];
+//        $infos_1['fullname']=$infos['fullname'];
+//        $infos_1['sex']=$infos['gender'];
+//        $infos_1['year']=$infos['birthday'];
+//        $infos_1['school']=$infos['school'];
         $infos_1['phone']=$infos['contact_phone'];
+//
+//        $infos_2['gender']=$infos['gender'];
+//        $infos_2['birthday']=$infos_1['year'];
+//        $infos_2['id_number']=$infos['id_number'];
+//        $infos_2['birth_height']=$infos['birth_height'];
+//        $infos_2['birth_weight']=$infos['birth_weight'];
+//        $infos_2['birth_smoothly']=$infos['birth_smoothly'];
+//        $infos_2['father_height']=$infos['father_height'];
+//        $infos_2['mother_height']=$infos['mother_height'];
+//        $infos_2['contact_address']=$infos['contact_address'];
+//        $infos_2['email']=$infos['email'];
+//        $infos_2['school']=$infos['school'];
 
-        $infos_2['gender']=$infos['gender'];
-        $infos_2['birthday']=$infos_1['year'];
-        $infos_2['id_number']=$infos['id_number'];
-        $infos_2['birth_height']=$infos['birth_height'];
-        $infos_2['birth_weight']=$infos['birth_weight'];
-        $infos_2['birth_smoothly']=$infos['birth_smoothly'];
-        $infos_2['father_height']=$infos['father_height'];
-        $infos_2['mother_height']=$infos['mother_height'];
-        $infos_2['contact_address']=$infos['contact_address'];
-        $infos_2['email']=$infos['email'];
-        $infos_2['school']=$infos['school'];
-
-        $this->add($infos_1,$infos_2);
+        $this->add($infos_1);
 	}
 
 
-	private function add($infos_1,$infos_2){
+	private function add($infos_1){
         //添加入库
         $user = new Gl_users();
         $u_id=$user->add_one($infos_1);
 
-        $infos_2['u_id']=$u_id;
-        $info_table=new user_infos();
-        $info_table->add_one($infos_2);
+//        $infos_2['u_id']=$u_id;
+//        $info_table=new user_infos();
+//        $info_table->add_one($infos_2);
 
 
         $this->redirect('Login/index');
