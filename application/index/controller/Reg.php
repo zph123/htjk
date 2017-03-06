@@ -2,6 +2,7 @@
 namespace app\index\controller;
 use think\Controller;
 use think\Db;
+use think\Loader;
 use think\Request;
 use app\index\model\Gl_users;
 use app\index\model\user_infos;
@@ -18,6 +19,7 @@ class Reg extends Controller
         $infos['name']=input('customer');
         $infos['contact_phone']=input('contact_phone');
         $infos['password']=input('password');
+        $infos['code']=input('code');
         $infos['comfirm_password']=input('comfirm_password');
 //        $infos['fullname']=input('name');
 //        $infos['gender']=input('gender');
@@ -37,8 +39,22 @@ class Reg extends Controller
         if($this->check_name($infos['name'])!=2)$state=0;
         //手机号
         if($this->check_phone($infos['contact_phone'])!=2)$state=0;
+        //验证码
+
         //密码
         if(strlen($infos['password'])<6||strlen($infos['password'])>12||$infos['password']!=$infos['comfirm_password'])$state=0;
+
+        $arr = DB::table('verif')->where(['phone'=>$infos['contact_phone']])->field('max(date)')->find();
+        $data = DB::table('verif')->where(['phone'=>$infos['contact_phone'],'date'=>$arr['max(date)']])->find();
+        if(time()-$arr['max(date)'] > 300){
+            if($data['code']!=$infos['code']){
+
+                $this->redirect('reg/err',['num'=>2]);
+
+                }else{
+                    $this->redirect('reg/err',['num'=>1]);
+            }
+        }
         //全名
 //        $pattern_fullname="/^[\x{4e00}-\x{9fa5}a-zA-Z0-9]{2,8}$/u";
 //        if(!preg_match($pattern_fullname,$infos['fullname']))$state=0;
@@ -72,7 +88,7 @@ class Reg extends Controller
 
 
         if(!$state){
-            return "非法数据提交！";
+            $this->redirect('reg/err',['num'=>3]);
         }
 
 
@@ -80,11 +96,12 @@ class Reg extends Controller
         //因为数据库的冗余设计，进行数据复制及分割
         $infos_1['name']=$infos['name'];
         $infos_1['password']=$infos['password'];
+        $infos_1['phone']=$infos['contact_phone'];
 //        $infos_1['fullname']=$infos['fullname'];
 //        $infos_1['sex']=$infos['gender'];
 //        $infos_1['year']=$infos['birthday'];
 //        $infos_1['school']=$infos['school'];
-        $infos_1['phone']=$infos['contact_phone'];
+
 //
 //        $infos_2['gender']=$infos['gender'];
 //        $infos_2['birthday']=$infos_1['year'];
@@ -100,6 +117,12 @@ class Reg extends Controller
 
         $this->add($infos_1);
 	}
+
+    //报错
+    public function err($num){
+        $this -> assign('num',$num);
+        return $this->fetch('error');
+    }
 
 
 	private function add($infos_1){
@@ -157,6 +180,34 @@ class Reg extends Controller
             }
         }else return 0;
 	}
+
+    public function phone(){
+        $phone = input('phone');
+        $data = DB::table('gl_users')->where(['phone'=>$phone])->find();
+        if($data){
+            echo 1;
+        }else{
+            echo 2;
+        }
+    }
+
+    //短信验证码
+    public function send(){
+        $phone = input('phone');
+        $num = rand(1000,9999);
+        $data = DB::table('verif')->where(['phone'=>$phone])->field('max(date)')->find();
+        if(time()-$data['max(date)'] < 60){
+            return 2;
+        }else{
+            Loader::import('dx.Send');
+            $send = new \Send();
+            $result = $send->code($phone,$num);
+            if($result){
+                return DB::table('verif')->insert(['phone'=>$phone,'code'=>$num,'date'=>time()]);
+            }
+        }
+    }
+
     //身份证号检查
     protected function check_id_card($info){
         $check_res=checkIdCard($info);
