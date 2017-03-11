@@ -32,6 +32,11 @@ class Test extends Controller
         Cookie::set('controller', $controller);
         Cookie::set('action', $action);
         $id = Cookie::get('uid');
+        $info = Db::table('user_infos')->where('u_id',$id)->find();
+        $user = Db::table('gl_users')->where('id',$id)->find();
+        if(!$info&&$user){
+            $this->redirect('User/info');
+        }
         if($id){
             $log = 1;
             $info = Db::table('user_infos')->where('u_id',$id)->find();
@@ -199,6 +204,11 @@ class Test extends Controller
         Cookie::set('action', $action);
         //获取登录人id
         $id = Cookie::get('uid');
+        $info = Db::table('user_infos')->where('u_id',$id)->find();
+        $user = Db::table('gl_users')->where('id',$id)->find();
+        if(!$info&&$user){
+            $this->redirect('User/info');
+        }
         if($id){
             $log = 1;
             $info = Db::table('user_infos')->where('u_id',$id)->find();
