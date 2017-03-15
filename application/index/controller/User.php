@@ -16,6 +16,15 @@ class User extends Common
         $this->assign('out','true');
         return view('index/userCenter');
     }
+    //个人信息
+    public function info(){
+        $id=Cookie::get('uid');
+        $info=Db::table('gl_users')->where('id',$id)->find();
+        $infos=Db::table('user_infos')->where('u_id',$id)->find();
+        $this->assign('info',$info);
+        $this->assign('infos',$infos);
+        return  view('user/info');
+    }
     //公司介绍
     public function introduce(){
         return  view('user/introduce');

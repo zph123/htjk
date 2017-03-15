@@ -1,7 +1,9 @@
 <?php
 namespace app\index\controller;
+use app\index\model\price_class;
 use think\Controller;
 use think\Db;
+use think\Cookie;
 use think\Loader;
 use think\Request;
 use app\index\model\Gl_users;
@@ -117,7 +119,29 @@ class Reg extends Controller
 
         $this->add($infos_1);
 	}
+    public function add_info(){
+	    $id=Cookie::get('uid');
+        $info['fullname']=input('name');
+        $info['sex']=input('gender');
+        $info['year']=input('appDate');
+        $info['school']=input('school');
 
+        $infos['gender']=input('gender');
+        $infos['school']=input('school');
+        $infos['birthday']=input('appDate');
+        $infos['id_number']=input('id_number');
+        $infos['birth_height']=input('birth_height');
+        $infos['birth_weight']=input('birth_weight');
+        $infos['birth_smoothly']=input('birth_smoothly');
+        $infos['father_height']=input('father_height');
+        $infos['mother_height']=input('mother_height');
+        $infos['contact_address']=input('contact_address');
+        $infos['email']=input('email');
+        $infos['u_id']=$id;
+        DB::table('gl_users')->where(['id'=>$id])->update($info);
+        DB::table('user_infos')->insert($infos);
+        $this->redirect('User/info');
+    }
     //报错
     public function err($num){
         $this -> assign('num',$num);
