@@ -28,7 +28,7 @@ class User extends Common
         $arr['uname'] = $res['name'];
         $arr['downtime'] = date('Y-m-d H:i:s',time());
         $re = DB::table('user_pdf')->insert($arr);
-        echo $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name"; #localhost
+        $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name"; #localhost
         header("Location: $url");
     }
     /**
