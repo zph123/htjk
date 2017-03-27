@@ -1,0 +1,18 @@
+<table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
+    <thead>
+    <tr>
+        <th field="name1" width="40%">姓名</th>
+        <th field="name6" width="40%">查看时间</th>
+    </tr>
+    </thead>
+    <tbody>
+        {foreach($data as $v)}
+        <tr>
+            <td>{$v.uname}</td>
+            <td>{$v.downtime}</td>
+        </tr>
+        {/foreach}
+    </tbody>
+</table>
+</body>
+</html>
