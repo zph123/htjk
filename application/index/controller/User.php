@@ -29,7 +29,9 @@ class User extends Common
         $arr['downtime'] = date('Y-m-d H:i:s',time());
         $re = DB::table('user_pdf')->insert($arr);
         $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name"; #localhost
-        header("Location: $url");
+        header("Content-type:application/pdf");
+        header("Content-Disposition:attachment;filename='$name.pdf'");
+        readfile("$url");
     }
     /**
      * 加载营养均衡首页
