@@ -28,12 +28,13 @@ class User extends Common
     //测试报告
     public function pdf(){
         $name = Request::instance()->get('name');
+        $num = Request::instance()->get('num');
         $id=Cookie::get('uid');
         $res = DB::table('gl_users')->where(['id'=>$id])->find();
         $arr['uname'] = $res['name'];
         $arr['downtime'] = date('Y-m-d H:i:s',time());
         $re = DB::table('user_pdf')->insert($arr);
-        $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name"; #localhost
+        $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name/$num"; #localhost
         header("Location:$url");
     }
 
