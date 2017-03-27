@@ -16,11 +16,16 @@ class User extends Common
         $this->assign('out','true');
         return view('index/userCenter');
     }
-    //公司介绍
-    public function introduce(){
-        return  view('user/introduce');
+    //个人信息
+    public function info(){
+        $id=Cookie::get('uid');
+        $info=Db::table('gl_users')->where('id',$id)->find();
+        $infos=Db::table('user_infos')->where('u_id',$id)->find();
+        $this->assign('info',$info);
+        $this->assign('infos',$infos);
+        return  view('user/info');
     }
-
+    //测试报告
     public function pdf(){
         $name = Request::instance()->get('name');
         $id=Cookie::get('uid');
@@ -29,9 +34,12 @@ class User extends Common
         $arr['downtime'] = date('Y-m-d H:i:s',time());
         $re = DB::table('user_pdf')->insert($arr);
         $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name"; #localhost
-        header("Content-type:application/pdf");
-        header("Content-Disposition:attachment;filename='$name.pdf'");
-        readfile("$url");
+        header("Location:$url");
+    }
+
+    //公司介绍
+    public function introduce(){
+        return  view('user/introduce');
     }
     /**
      * 加载营养均衡首页
