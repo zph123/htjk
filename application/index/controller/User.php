@@ -34,6 +34,7 @@ class User extends Common
         $arr['uname'] = $res['name'];
         $arr['phone'] = $res['phone'];
         $arr['downtime'] = date('Y-m-d H:i:s',time());
+<<<<<<< HEAD
         $data = DB::table('user_pdf')->where(['phone'=>$arr['phone']])->find();
         if($data){
             $re = DB::table('user_pdf')->where(['phone'=>$arr['phone']])->update($arr);
@@ -43,6 +44,11 @@ class User extends Common
 
         $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name".'\/'.$num; #localhost
         header("Location:$url");
+=======
+        $re = DB::table('user_pdf')->insert($arr);
+        $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name".'/'.$num; #localhost
+        header("Location:$url");die;
+>>>>>>> e858fc2be1bb2d18cb6acc6615d6656901e4b1dc
     }
 
     //公司介绍
