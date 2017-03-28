@@ -32,9 +32,16 @@ class User extends Common
         $id=Cookie::get('uid');
         $res = DB::table('gl_users')->where(['id'=>$id])->find();
         $arr['uname'] = $res['name'];
+        $arr['phone'] = $res['phone'];
         $arr['downtime'] = date('Y-m-d H:i:s',time());
-        $re = DB::table('user_pdf')->insert($arr);
-        $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name".'/'.$num; #localhost
+        $data = DB::table('user_pdf')->where(['phone'=>$arr['phone']])->find();
+        if($data){
+            $re = DB::table('user_pdf')->where(['phone'=>$arr['phone']])->update($arr);
+        }else{
+            $re = DB::table('user_pdf')->insert($arr);
+        }
+
+        $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name".'\/'.$num; #localhost
         header("Location:$url");
     }
 
@@ -178,9 +185,9 @@ class User extends Common
             $arr=$request->param();
             $id=empty($arr['r'])?"":$arr['r'];
             $data=Db::table('order')
-                ->where('u_id',$uid)
-                ->where('o_id',$id)
-                ->find();
+            ->where('u_id',$uid)
+            ->where('o_id',$id)
+            ->find();
             $is_pay=$data['is_pay'];
             $way_tr='';
             if($data){
@@ -267,10 +274,10 @@ class User extends Common
                         $way_tr['每周运动频率']=$way['weeklyexercisetime'];
                     }else if($data['type']==3){
                         $way=Db::table('online_report')
-                            ->alias('a')
-                            ->join('onlinetest w','a.or_id = w.o_id')
-                            ->where('or_id',$id)
-                            ->find();
+                        ->alias('a')
+                        ->join('onlinetest w','a.or_id = w.o_id')
+                        ->where('or_id',$id)
+                        ->find();
                         $way_tr['单位']=$way['school'];
                         $way_tr['年龄']=$this->birthday($way['appDate']);
                         $way_tr['姓名']=$way['customer'];
@@ -321,10 +328,10 @@ class User extends Common
                         }
                     }else if($data['type']==4){
                         $way=Db::table('online_report')
-                            ->alias('a')
-                            ->join('nowtest w','a.or_id = w.o_id')
-                            ->where('or_id',$id)
-                            ->find();
+                        ->alias('a')
+                        ->join('nowtest w','a.or_id = w.o_id')
+                        ->where('or_id',$id)
+                        ->find();
                         $way_tr['单位']=$way['n_school'];
                         $way_tr['年龄']=$this->birthday($way['n_date']);
                         $way_tr['姓名']=$way['n_name'];
@@ -381,22 +388,22 @@ class User extends Common
             $this->assign('is_pay',$is_pay);
             $this->assign('list', $data);
             return $this->fetch('content');
-        }
+        }        
     }
     //根据出生日期计算年龄
-    function birthday($birthday){
-        $age = strtotime($birthday);
-        if($age === false){
-            return false;
-        }
-        list($y1,$m1,$d1) = explode("-",date("Y-m-d",$age));
-        $now = strtotime("now");
-        list($y2,$m2,$d2) = explode("-",date("Y-m-d",$now));
-        $age = $y2 - $y1;
-        if((int)($m2.$d2) < (int)($m1.$d1))
-            $age -= 1;
-        return $age;
-    }
+    function birthday($birthday){ 
+     $age = strtotime($birthday); 
+     if($age === false){ 
+      return false; 
+     } 
+     list($y1,$m1,$d1) = explode("-",date("Y-m-d",$age)); 
+     $now = strtotime("now"); 
+     list($y2,$m2,$d2) = explode("-",date("Y-m-d",$now)); 
+     $age = $y2 - $y1; 
+     if((int)($m2.$d2) < (int)($m1.$d1)) 
+      $age -= 1; 
+     return $age; 
+    } 
     /**
      * 去支付
      */
@@ -405,9 +412,9 @@ class User extends Common
         $arr=$request->param();
         $id=empty($arr['r'])?"":$arr['r'];
         $data=Db::table('order')
-            ->where('u_id',$uid)
-            ->where('o_id',$id)
-            ->find();
+        ->where('u_id',$uid)
+        ->where('o_id',$id)
+        ->find();
         if($data){
             if($data['is_pay']==0){
                 Cookie::set('out_trade_no', $data['out_trade_no']);
@@ -416,12 +423,12 @@ class User extends Common
                 //$this->redirect("http://www.zphteach.com/htjk/WxpayAPI_php_v3/example/jsapi.php?trade=$data[out_trade_no]");
                 // var_dump($data);
             }else{
-                echo 'is_pay  1';
-            }
+                  echo 'is_pay  1'; 
+            }            
         }else{
             echo 'error';
         }
-
+        
     }
     /**
      *删除订单
@@ -431,9 +438,9 @@ class User extends Common
         $arr=$request->param();
         $id=empty($arr['r'])?"":$arr['r'];
         $data=Db::table('order')
-            ->where('u_id',$uid)
-            ->where('o_id',$id)
-            ->find();
+        ->where('u_id',$uid)
+        ->where('o_id',$id)
+        ->find();
         if($data){
             $re=Db::table('order')->where('u_id',$uid)->where('o_id',$id)->delete();
             if($re){
