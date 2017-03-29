@@ -121,7 +121,7 @@ class User extends Common
         $name = trim(Request::instance()->post('name'));
         $num = trim(Request::instance()->post('num'));
         $filename = ROOT_PATH.'public/temp/'.$name.'_'.$num.'.pdf';
-        $filename=iconv('UTF-8','GB2312',$filename);
+        //$filename=iconv('UTF-8','GB2312',$filename);
         //检测文件是否存在
         if(file_exists($filename)){
             //移动文件
