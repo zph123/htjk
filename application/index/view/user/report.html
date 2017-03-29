@@ -107,7 +107,7 @@
                         $.each(msg,function(k,v){
                             var date = new Date(parseInt(v.date) * 1000).toJSON().slice(0,10)
                             date = date.replace(/-/g,'')
-                            a += '<li><a data-ajax="false" target="_blank" style="margin-left: 5%;color: black;"  href="pdf?name='+date+'&num='+v.name+'_'+v.num+v.date+'.pdf'+'"'+'>'+v.name+'_'+v.title+v.date+'</a><hr style="background-color: #ddd;border: none;height: 1px;"></li>';
+                            a += '<li><a data-ajax="false" target="_blank" style="margin-left: 5%;color: black;"  href="pdf?date='+date+'&name='+v.name+'_'+'&num='+v.num+'&date2='+v.date+'.pdf'+'"'+'>'+v.name+'_'+v.title+v.date+'</a><hr style="background-color: #ddd;border: none;height: 1px;"></li>';
                         })
                         a += '</ul>'
                         $("#img").html(a);

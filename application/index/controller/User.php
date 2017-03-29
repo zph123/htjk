@@ -28,12 +28,15 @@ class User extends Common
     //测试报告
     public function pdf(){
         $name = Request::instance()->get('name');
-        $num = Request::instance()->get('num');
+        $num = $this->base_decode(Request::instance()->get('num'));
+        $date = Request::instance()->get('date');
+        $date2 = Request::instance()->get('date2');
         $id=Cookie::get('uid');
         $res = DB::table('gl_users')->where(['id'=>$id])->find();
         $arr['uname'] = $res['name'];
         $arr['phone'] = $res['phone'];
         $arr['downtime'] = date('Y-m-d H:i:s',time());
+        $arr['name'] = base64_decode($num);
         $data = DB::table('user_pdf')->where(['phone'=>$arr['phone']])->find();
         if($data){
             $re = DB::table('user_pdf')->where(['phone'=>$arr['phone']])->update($arr);
@@ -41,8 +44,9 @@ class User extends Common
             $re = DB::table('user_pdf')->insert($arr);
         }
 
-        $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$name".'\/'.$num; #localhost
+        $url="http://".$_SERVER['HTTP_HOST']."/htjk/public/perm/$date".'/'."$name".$num.$date2; #localhost
         header("Location:$url");
+        die;
     }
 
     //公司介绍
@@ -99,10 +103,25 @@ class User extends Common
         return $this->fetch('report');
     }
 
+    public function base_encode($str) {
+        $src  = array("/","+","=");
+        $dist = array("_a","_b","_c");
+        $new  = str_replace($src,$dist,$str);
+        return $new;
+    }
+
+    public function base_decode($str) {
+        $src = array("_a","_b","_c");
+        $dist  = array("/","+","=");
+        $new  = str_replace($src,$dist,$str);
+        return $new;
+    }
+
     function Search(){
         $name = trim(Request::instance()->post('name'));
         $num = trim(Request::instance()->post('num'));
         $filename = ROOT_PATH.'public/temp/'.$name.'_'.$num.'.pdf';
+        $filename=iconv('UTF-8','GB2312',$filename);
         //检测文件是否存在
         if(file_exists($filename)){
             //移动文件
@@ -129,6 +148,9 @@ class User extends Common
                     );
                     $data = DB::table('perm')->where($arr)->select();
                     if($data){
+                        foreach($data as $k=>$v){
+                            $data[$k]['num'] = $this->base_encode($v['num']);
+                        }
                         echo json_encode($data);
                     }else{
                         echo 2;
@@ -144,6 +166,9 @@ class User extends Common
             );
             $data = DB::table('perm')->where($arr)->select();
             if($data){
+                foreach($data as $k=>$v){
+                    $data[$k]['num'] = $this->base_encode($v['num']);
+                }
                 echo json_encode($data);
             }else{
                 echo 2;

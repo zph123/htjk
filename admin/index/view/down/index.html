@@ -1,9 +1,10 @@
 <table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
     <thead>
     <tr>
-        <th field="name1" width="20%">姓名</th>
-        <th field="name2" width="20%">手机号</th>
-        <th field="name3" width="20%">查看时间</th>
+        <th field="name1" width="15%">姓名</th>
+        <th field="name2" width="15%">手机号</th>
+        <th field="name3" width="15%">查看时间</th>
+        <th field="name3" width="15%">报告姓名</th>
     </tr>
     </thead>
     <tbody>
@@ -12,6 +13,7 @@
             <td>{$v.uname}</td>
             <td>{$v.phone}</td>
             <td>{$v.downtime}</td>
+            <td>{$v.name}</td>
         </tr>
         {/foreach}
     </tbody>
