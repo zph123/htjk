@@ -1,0 +1,23 @@
+<table id="tt" class="easyui-datagrid" style="width:100%;height:auto;">
+    <thead>
+    <tr>
+        <th field="name1" width="20%">账号</th>
+        <th field="name2" width="20%">用户名</th>
+        <th field="name3" width="20%">手机</th>
+    </tr>
+    </thead>
+    已注册{$count}名用户
+    <tbody>
+    {foreach($data as $v)}
+    <tr>
+        <td>{$v.name}</td>
+        <td>{$v.fullname}</td>
+        <td>{$v.phone}</td>
+    </tr>
+    {/foreach}
+    </tbody>
+</table>
+<a href="user?page={$page-1}">上一页</a>
+<a href="user?page={$page+1}">下一页</a>
+</body>
+</html>
