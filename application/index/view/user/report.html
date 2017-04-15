@@ -41,6 +41,16 @@
                 <a data-ajax="false" href="{:url('user/report')}?type=5" style="font-weight: normal"><font color="#40C4E1">团体测试</font></a>
             </div>
         </div>
+        <!--后期 开发（张高伟）-->
+        <div class="content">
+            <div class="right" style="width: 50%">
+                <a data-ajax="false" href="javascript:void(0)" style="font-weight: normal"><font color="#40C4E1" class="c1" id="id1" >学号测试</font></a>
+            </div>
+            <div class="right" style="width: 50%">
+                <a data-ajax="false" href="javascript:void(0)" style="font-weight: normal"><font class="c1" id="id2"  color="black">日期测试</font></a>
+            </div>
+        </div>
+
         {/if}
         {if condition="($list == '0')"}
         <img src="__PUBLIC__/images/empty.png" alt="">
@@ -63,14 +73,26 @@
         </div>
         {/foreach}
         {else/}
-        <div>
-                <label for="search-2" style="margin-top:10px;">学号:</label>
-                <input type="search" name="search-2" id="name" value="">
-                <label for="search-2">姓名:</label>
-                <input type="search" name="search-2" id="num" value="">
-                <button id="search">搜索</button>
+        <div  class="id1">
+            <label for="search-2" style="margin-top:10px;">学号:</label>
+            <input type="search" name="search-2" id="name" value="">
+            <label for="search-2">姓名:</label>
+            <input type="search" name="search-2" id="num" value="">
+            <button id="search">搜索</button>
             <div style="background: white;">
                 <div id="img">
+                </div>
+            </div>
+        </div>
+        <!--后期 开发（张高伟）-->
+        <div  class="id2" style="display: none">
+            <label for="search-2" style="margin-top:10px;">出生日期:</label>
+            <input type="search" name="search-2"  value="" id="date" placeholder="1993-11-11">
+            <label for="search-2">姓名全拼:</label>
+            <input type="search" name="search-2"  value="" id="title" placeholder="zhanggaowei">
+            <button id="search1">搜索</button>
+            <div style="background: white;">
+                <div id="img_show">
                 </div>
             </div>
         </div>
@@ -116,4 +138,58 @@
             })
         })
     })
+
+
+    //点击切换测试
+    $('.c1').click(function(){
+        var check=$(this).attr('id');
+        if(check=='id1'){
+            $('#'+check).css('color','#40C4E1');
+            $('.'+check).show();
+            $('#id'+2).css('color','black');
+            $('.id'+2).hide();
+        }else{
+            $('#'+check).css('color','#40C4E1');
+            $('#id'+1).css('color','black');
+            $('.id'+1).hide();
+            $('.'+check).show();
+        }
+    })
+
+    //按姓名全拼，年月日搜索
+    $('#search1').click(function(){
+        var date = $('#date').val();
+        var title = $('#title').val();
+        if(date==''){
+            alert("日期不能为空");
+            return false;
+        }
+        if(title==''){
+            alert("姓名不能为空");
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "{:url('user/search_date')}",
+            data: {date:date,title:title},
+            dataType: 'json',
+            success: function(msg){
+                if(msg == 1){
+                    alert('"系统内部错误，正在维护,请稍等..."')
+                }else if(msg == 2 ){
+                    $("#img_show").html('');
+                    alert('您查找的数据不存在！');
+                }else{
+                    var a = '<ul data-role="listview" style="line-height:30px">';
+                    $.each(msg,function(k,v){
+                        a += '<li><a data-ajax="false" target="_blank" style="margin-left: 5%;color: black;"  href="pdf?date='+v.add_time+'&date='+v.add_time+'&title='+v.title+'&date2='+v.date+'_'+v.title+'.pdf'+'"'+'>'+v.date+'_'+v.title+'</a><hr style="background-color: #ddd;border: none;height: 1px;"></li>';
+                    })
+                    a += '</ul>'
+                    $("#img_show").html(a);
+                }
+            }
+        })
+
+    })
+
 </script>

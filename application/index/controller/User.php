@@ -175,6 +175,57 @@ class User extends Common
             }
         }
     }
+
+    /**
+     *搜索测试
+     */
+    function Search_date(){
+        $dates = strtotime(trim(Request::instance()->post('date')));
+        $title = trim(Request::instance()->post('title'));
+        $filename = ROOT_PATH.'public/temporary/'.$dates.'_'.$title.'.pdf';
+        //检测文件是否存在
+        if(file_exists($filename)){
+            //移动文件
+            $time = time();
+            $date = date('Ymd',time());
+            if(is_dir(ROOT_PATH.'public/perm/'.$date) == false){
+                mkdir(ROOT_PATH.'public/perm/'.$date,0777);
+            }
+            $status = rename($filename,ROOT_PATH.'public/perm/'.$date.'/'.$dates.'_'.$title.'.pdf');
+            if($status == false){
+                echo 1;
+            }else{
+                $data = array(
+                    'date' => $dates,
+                    'title'  => $title,
+                    'add_time'=>$date
+                );
+                $res = DB::table('temporary')->insert($data);
+                if($res){
+                    $data_all = DB::table('temporary')->where($data)->select();
+                    if($data_all){
+                        echo json_encode($data_all);
+                    }else{
+                        echo 2;
+                    }
+                }else{
+                    echo 1;
+                }
+            }
+        }else{
+            $arr = array(
+                'title' => $title,
+                'date'  => $dates
+            );
+            $data_all = DB::table('temporary')->where($arr)->select();
+            if($data_all){
+                echo json_encode($data_all);
+            }else{
+                echo 2;
+            }
+        }
+    }
+
     /**
      *运动处方
      */
