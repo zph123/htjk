@@ -180,7 +180,7 @@ class User extends Common
      *搜索测试
      */
     function Search_date(){
-        $dates = strtotime(trim(Request::instance()->post('date')));
+        $dates = trim(Request::instance()->post('date'));
         $title = trim(Request::instance()->post('title'));
         $filename = ROOT_PATH.'public/temporary/'.$dates.'_'.$title.'.pdf';
         //检测文件是否存在
