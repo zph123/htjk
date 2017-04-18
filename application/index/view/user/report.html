@@ -110,10 +110,6 @@
                 alert("姓名不能为空");
                 return false;
             }
-            if(isNaN(date)){
-                alert("不符合日期格式");
-                return false;
-            }
             if(num==''){
                 alert("学号不能为空");
                 return false;
@@ -187,8 +183,8 @@
                     var a = '<ul data-role="listview" style="line-height:30px">';
                     $.each(msg,function(k,v){
                         a += '<li><a data-ajax="false" target="_blank" style="margin-left: 5%;color: black;"  href="pdf?date='+v.add_time+'&date='+v.add_time+'&title='+v.title+'&date2='+v.date+'_'+v.title+'.pdf'+'"'+'>'+v.date+'_'+v.title+'</a><hr style="background-color: #ddd;border: none;height: 1px;"></li>';
-                    })
-                    a += '</ul>'
+                    });
+                    a += '</ul>';
                     $("#img_show").html(a);
                 }
             }
