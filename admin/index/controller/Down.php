@@ -12,9 +12,12 @@ class Down extends Common
         if($page<1){
             $page=1;
         }
-        $data = DB::table('user_pdf')->page($page,10)->select();
+        $data = DB::table('user_pdf')->page($page,50)->select();
+        $count = DB::table('user_pdf')->count();
+        $total_count=ceil($count/50);
         $this->assign('data',$data);
         $this->assign('page',$page);
+        $this->assign('total_count',$total_count);
         return view('index');
     }
     public function user(){
