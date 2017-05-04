@@ -28,7 +28,8 @@ class User extends Common
     //测试报告
     public function pdf(){
         $name = Request::instance()->get('name');
-        $num = $this->base_decode(Request::instance()->get('num'));
+//        $num = $this->base_decode(Request::instance()->get('num'));
+        $num = Request::instance()->get('num');
         $date = Request::instance()->get('date');
         $date2 = Request::instance()->get('date2');
         $id=Cookie::get('uid');
@@ -121,7 +122,7 @@ class User extends Common
         $name = trim(Request::instance()->post('name'));
         $num = trim(Request::instance()->post('num'));
         $filename = ROOT_PATH.'public/temp/'.$name.'_'.$num.'.pdf';
-        //$filename=iconv('UTF-8','GB2312',$filename);
+        $filename=iconv('UTF-8','GB2312',$filename);
         //检测文件是否存在
         if(file_exists($filename)){
             //移动文件
@@ -130,7 +131,7 @@ class User extends Common
             if(is_dir(ROOT_PATH.'public/perm/'.$date) == false){
                 mkdir(ROOT_PATH.'public/perm/'.$date,0777);
             }
-            $status = rename($filename,ROOT_PATH.'public/perm/'.$date.'/'.$name.'_'.base64_encode($num).$time.'.pdf');
+            $status = rename($filename,ROOT_PATH.'public/perm/'.$date.'/'.$name.'_'.$this->base_encode(base64_encode($num)).$time.'.pdf');
             if($status == false){
                 echo 1;
             }else{
